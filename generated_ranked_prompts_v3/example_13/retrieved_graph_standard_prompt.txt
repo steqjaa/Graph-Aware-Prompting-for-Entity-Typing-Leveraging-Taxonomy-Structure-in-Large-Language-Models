@@ -1,0 +1,76 @@
+Predict the valid entity types for the entity.
+
+Rank the types from the most specific and appropriate type to broader
+but still valid types. Do not repeat a type. Use concise entity-type labels
+only. Do not include entity names or free-form descriptions as types.
+Return only types that are supported by the entity description and the
+available evidence. Do not force the list to a fixed length and do not
+invent additional labels merely to make the list longer.
+
+The taxonomy neighborhoods below were retrieved automatically from the
+entity description using semantic similarity. They may be useful or noisy.
+The center class of each neighborhood is omitted. Use the structural clues
+only when they agree with the entity description. Do not assume that every
+retrieved neighborhood is relevant, and do not copy a parent, sibling, or
+child merely because it appears in the context.
+
+The taxonomy context contains structural clues around an omitted target
+type. It is not a list of answer options. Infer the missing type from the
+entity description together with the structural position indicated by its
+parent, sibling, and child classes. Parent classes are broader concepts,
+child classes are narrower concepts, and sibling classes are nearby
+alternatives under a shared parent. Do not copy a neighbouring class into
+the answer unless it is itself a valid type for the entity. In particular,
+do not predict a child class solely because it appears in the taxonomy
+context; predict a narrower child only when the entity description itself
+supports that narrower meaning.
+
+Return JSON only in exactly this form:
+{"types": ["type 1", "type 2", "..."]}
+
+Example:
+
+Entity: Katsuhiro Harada
+Description: Japanese video game producer
+
+Automatically retrieved taxonomy context:
+Retrieved taxonomy neighborhood 1:
+- Direct parent classes: producer
+- Sibling classes: creative producer, co-producer, line producer, radio producer, DJ producer
+- Direct child classes: None
+
+Retrieved taxonomy neighborhood 2:
+- Direct parent classes: media professional, director
+- Sibling classes: VFX producer, announcer, broadcaster, pundit, assistant director
+- Direct child classes: None
+
+Retrieved taxonomy neighborhood 3:
+- Direct parent classes: video game developer
+- Sibling classes: game programmer
+- Direct child classes: None
+
+Answer:
+{"types": ["video game producer", "producer", "media professional", "professional", "worker", "person", "person or organization", "corporate body", "object", "entity"]}
+
+Now classify:
+
+Entity: Deus Ex: Revision
+Description: video game mod
+
+Automatically retrieved taxonomy context:
+Retrieved taxonomy neighborhood 1:
+- Direct parent classes: video game
+- Sibling classes: open-source video game, blockchain game, mobile game, minigame, arcade-style video game
+- Direct child classes: total conversion mod
+
+Retrieved taxonomy neighborhood 2:
+- Direct parent classes: adaptation, video game
+- Sibling classes: open-source video game, blockchain game, mobile game, minigame, film adaptation
+- Direct child classes: None
+
+Retrieved taxonomy neighborhood 3:
+- Direct parent classes: product bundling, video game
+- Sibling classes: open-source video game, blockchain game, mobile game, minigame, arcade-style video game
+- Direct child classes: None
+
+Answer:

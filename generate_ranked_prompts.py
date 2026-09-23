@@ -1,4 +1,5 @@
 from pathlib import Path
+import argparse
 import csv
 import json
 import re
@@ -11,21 +12,22 @@ import networkx as nx
 # =========================================================
 
 DATA = Path("data")
-OUTPUT = Path("generated_ranked_prompts")
+DEFAULT_OUTPUT = Path("generated_ranked_prompts_v3")
 
 EVALUATION_FILE = DATA / "wikc_eval_1k.txt"
 TAXONOMY_FILE = DATA / "wikc.tsv"
 LABELS_FILE = DATA / "wiki_taxonomy_labels.tsv"
 
-NUMBER_OF_TEST_ENTITIES = 20
+DEFAULT_NUMBER_OF_TEST_ENTITIES = 20
 
-# Keep 0 while debugging. Set this to 20 for the next fresh evaluation
-# set, because the first 20 entities were already used to refine prompts.
-SKIP_USABLE_TEST_ENTITIES = 20
+# The first 20 usable entities were used in the initial demo and the next
+# 20 were used in the ranked-prompt development run. Because the current
+# prompt wording is being refined after inspecting those results, a clean
+# evaluation should start after the first 40 usable entities.
+DEFAULT_SKIP_USABLE_TEST_ENTITIES = 40
 
 MAX_SIBLINGS = 5
 MAX_CHILDREN = 5
-TOP_K = 10
 
 
 # =========================================================
@@ -78,7 +80,7 @@ def read_entities(file_path):
 
     result = list(entities.values())
 
-    if len(result) < NUMBER_OF_TEST_ENTITIES + 1:
+    if len(result) < 2:
         raise RuntimeError(
             "The evaluation file does not contain enough entities."
         )
@@ -328,18 +330,73 @@ def ranked_gold_types(entity, labels):
 # =========================================================
 
 COMMON_TASK = """
-Predict up to 10 valid entity types for the entity.
+Predict the valid entity types for the entity.
 
 Rank the types from the most specific and appropriate type to broader
-but still valid types. Do not repeat a type. Use concise entity-type labels only. Do not include explanations,
-descriptions, or entity names as types. If fewer than 10 valid
-types can be inferred, return fewer than 10.
+but still valid types. Do not repeat a type. Use concise entity-type labels
+only. Do not include entity names or free-form descriptions as types.
+Return only types that are supported by the entity description and the
+available evidence. Do not force the list to a fixed length and do not
+invent additional labels merely to make the list longer.
 """.strip()
 
 GRAPH_NOTE = """
 The taxonomy context contains structural clues around an omitted target
-type. It is not a list of answer options. The correct type may be absent
-from the listed parent, sibling, and child classes.
+type. It is not a list of answer options. Infer the missing type from the
+entity description together with the structural position indicated by its
+parent, sibling, and child classes. Parent classes are broader concepts,
+child classes are narrower concepts, and sibling classes are nearby
+alternatives under a shared parent. Do not copy a neighbouring class into
+the answer unless it is itself a valid type for the entity. In particular,
+do not predict a child class solely because it appears in the taxonomy
+context; predict a narrower child only when the entity description itself
+supports that narrower meaning.
+""".strip()
+
+COT_NO_GRAPH_INSTRUCTIONS = """
+Before giving the final ranking, provide a concise explanation based only
+on the entity and its description:
+1. identify the most specific type directly supported by the description;
+2. consider plausible nearby alternatives and reject alternatives that are
+   unsupported or too specific;
+3. identify broader valid types that still apply to the entity; and
+4. explain why the returned types progress from more specific to broader.
+Do not assume taxonomy information that is not present in the prompt.
+""".strip()
+
+COT_GRAPH_INSTRUCTIONS = """
+Before giving the final ranking, provide a concise taxonomy-grounded
+explanation. Explicitly use the graph structure:
+1. explain what the parent class implies about the semantic scope of the
+   omitted target type;
+2. compare the entity with the sibling classes and identify any sibling
+   that is clearly incompatible with the entity description;
+3. use child classes to check whether a narrower subtype is independently
+   supported by the entity description or would be too specific; and
+4. explain why the returned types form a progression from more specific to
+   broader valid classes.
+
+Sibling classes are contrastive alternatives, not automatically logically
+disjoint. Treat a sibling as incompatible only when the entity description
+and taxonomy context justify that conclusion. Never infer a narrower child
+class merely because it is listed in the graph context.
+""".strip()
+
+CONTRASTIVE_NO_GRAPH_INSTRUCTIONS = """
+Use contrastive reasoning based only on the entity description. Compare the
+best-supported type with plausible but incorrect alternatives. Explain why
+unsupported, overly narrow, or semantically incompatible alternatives
+should not be selected, then return the final ranking from specific to
+broad. Do not assume taxonomy information that is not present in the prompt.
+""".strip()
+
+CONTRASTIVE_GRAPH_INSTRUCTIONS = """
+Use contrastive taxonomy reasoning. Compare the inferred type against
+nearby sibling and child alternatives, but remember that siblings are not
+automatically disjoint and children are not automatically correct. Reject
+an alternative only when the entity description and the structural evidence
+justify doing so. A child class must be independently supported by the
+entity description before it can be predicted.
 """.strip()
 
 
@@ -350,58 +407,59 @@ def compact_json_types(labels):
     )
 
 
+def compact_json_reasoned(explanation, labels):
+    return json.dumps(
+        {
+            "explanation": explanation,
+            "types": labels,
+        },
+        ensure_ascii=False,
+    )
+
+
 def create_prompts(
     example_entity,
     test_entity,
     example_context,
     test_context,
+    shuffled_context,
     labels,
 ):
     example_gold = ranked_gold_types(example_entity, labels)
     test_gold = ranked_gold_types(test_entity, labels)
 
-    example_ranking = [
-        item["label"]
-        for item in example_gold[:TOP_K]
-    ]
+    example_ranking = [item["label"] for item in example_gold]
 
-    if len(example_ranking) < TOP_K:
-        raise RuntimeError(
-            "The demonstration entity does not have 10 readable "
-            "taxonomy types."
-        )
+    example_parents = readable_list(example_context["parents"], labels)
+    example_children = readable_list(example_context["children"], labels)
+    example_siblings = readable_list(example_context["siblings"], labels)
 
-    example_parents = readable_list(
-        example_context["parents"],
-        labels,
-    )
-    example_children = readable_list(
-        example_context["children"],
-        labels,
-    )
-    example_siblings = readable_list(
-        example_context["siblings"],
-        labels,
+    test_parents = readable_list(test_context["parents"], labels)
+    test_children = readable_list(test_context["children"], labels)
+    test_siblings = readable_list(test_context["siblings"], labels)
+
+    shuffled_parents = readable_list(shuffled_context["parents"], labels)
+    shuffled_children = readable_list(shuffled_context["children"], labels)
+    shuffled_siblings = readable_list(shuffled_context["siblings"], labels)
+
+    no_graph_explanation = (
+        f'The description "{example_entity["description"]}" directly supports '
+        f'{example_ranking[0]} as the most specific type. Plausible alternatives '
+        'that require details absent from the description should be rejected. '
+        'The remaining returned types are broader categories that still apply, '
+        'so the ranking moves from specific to broad.'
     )
 
-    test_parents = readable_list(
-        test_context["parents"],
-        labels,
-    )
-    test_children = readable_list(
-        test_context["children"],
-        labels,
-    )
-    test_siblings = readable_list(
-        test_context["siblings"],
-        labels,
-    )
-
-    correct_explanation = (
-        f'The description "{example_entity["description"]}" directly '
-        f"supports {example_ranking[0]} as the most specific type. "
-        "The remaining valid types are broader taxonomy classes, so "
-        "they should follow in decreasing specificity."
+    graph_explanation = (
+        f'The description "{example_entity["description"]}" supports '
+        f'{example_ranking[0]} as the most specific type. In the taxonomy, '
+        f'its direct parent is {example_parents}, which constrains the broader '
+        'semantic category. The sibling classes are nearby alternatives, but '
+        f'classes such as {example_siblings} are not as well supported by the '
+        'description. The listed child context is '
+        f'{example_children}; a child should be selected only if the description '
+        'independently supports that narrower meaning. The remaining returned '
+        'types are broader valid classes ranked in decreasing specificity.'
     )
 
     wrong_ranking = [
@@ -417,17 +475,23 @@ def create_prompts(
         "entity",
     ]
 
-    wrong_explanation = (
-        "This ranking incorrectly treats the taxonomy neighbours as "
-        "answer options, places the broader parent producer first, "
-        "and omits the more specific type video game producer."
+    wrong_no_graph_explanation = (
+        "This ranking is wrong because it promotes unsupported alternatives, "
+        "includes overly specific labels without evidence from the description, "
+        "and fails to place the description-supported type first."
+    )
+
+    wrong_graph_explanation = (
+        "This ranking is wrong because it treats taxonomy neighbours as answer "
+        "options, promotes classes that the entity description does not support, "
+        "and omits the more specific description-supported target type."
     )
 
     standard_prompt = f"""
 {COMMON_TASK}
 
 Return JSON only in exactly this form:
-{{"types": ["type 1", "type 2", "...", "type 10"]}}
+{{"types": ["type 1", "type 2", "..."]}}
 
 Example:
 
@@ -451,7 +515,7 @@ Answer:
 {GRAPH_NOTE}
 
 Return JSON only in exactly this form:
-{{"types": ["type 1", "type 2", "...", "type 10"]}}
+{{"types": ["type 1", "type 2", "..."]}}
 
 Example:
 
@@ -479,14 +543,13 @@ Taxonomy context:
 Answer:
 """.strip()
 
-    cot_prompt = f"""
+    shuffled_graph_prompt = f"""
 {COMMON_TASK}
 
 {GRAPH_NOTE}
 
-Provide a brief explanation, then return the ranked entity types as JSON
-in exactly this form:
-{{"types": ["type 1", "type 2", "...", "type 10"]}}
+Return JSON only in exactly this form:
+{{"types": ["type 1", "type 2", "..."]}}
 
 Example:
 
@@ -498,11 +561,68 @@ Taxonomy context:
 - Sibling classes: {example_siblings}
 - Direct child classes: {example_children}
 
-Explanation:
-{correct_explanation}
-
 Answer:
 {compact_json_types(example_ranking)}
+
+Now classify:
+
+Entity: {test_entity["entity_label"]}
+Description: {test_entity["description"]}
+
+Taxonomy context:
+- Direct parent classes: {shuffled_parents}
+- Sibling classes: {shuffled_siblings}
+- Direct child classes: {shuffled_children}
+
+Answer:
+""".strip()
+
+    cot_no_graph_prompt = f"""
+{COMMON_TASK}
+
+{COT_NO_GRAPH_INSTRUCTIONS}
+
+Return JSON only in exactly this form:
+{{"explanation": "description-grounded explanation", "types": ["type 1", "type 2", "..."]}}
+
+Example:
+
+Entity: {example_entity["entity_label"]}
+Description: {example_entity["description"]}
+
+Correct response:
+{compact_json_reasoned(no_graph_explanation, example_ranking)}
+
+Now classify:
+
+Entity: {test_entity["entity_label"]}
+Description: {test_entity["description"]}
+
+Answer:
+""".strip()
+
+    cot_graph_prompt = f"""
+{COMMON_TASK}
+
+{GRAPH_NOTE}
+
+{COT_GRAPH_INSTRUCTIONS}
+
+Return JSON only in exactly this form:
+{{"explanation": "taxonomy-grounded explanation", "types": ["type 1", "type 2", "..."]}}
+
+Example:
+
+Entity: {example_entity["entity_label"]}
+Description: {example_entity["description"]}
+
+Taxonomy context:
+- Direct parent classes: {example_parents}
+- Sibling classes: {example_siblings}
+- Direct child classes: {example_children}
+
+Correct response:
+{compact_json_reasoned(graph_explanation, example_ranking)}
 
 Now classify:
 
@@ -514,42 +634,71 @@ Taxonomy context:
 - Sibling classes: {test_siblings}
 - Direct child classes: {test_children}
 
-Explanation:
-
 Answer:
-
 """.strip()
 
-    contrastive_cot_prompt = f"""
+    contrastive_no_graph_prompt = f"""
 {COMMON_TASK}
 
-{GRAPH_NOTE}
+{COT_NO_GRAPH_INSTRUCTIONS}
 
-Provide a brief explanation, then return the ranked entity types as JSON
-in exactly this form:
-{{"types": ["type 1", "type 2", "...", "type 10"]}}
+{CONTRASTIVE_NO_GRAPH_INSTRUCTIONS}
+
+Return JSON only in exactly this form:
+{{"explanation": "contrastive description-grounded explanation", "types": ["type 1", "type 2", "..."]}}
 
 Example:
 
 Entity: {example_entity["entity_label"]}
 Description: {example_entity["description"]}
 
-Taxonomy context:
-- Direct parent classes: {example_parents}
-- Sibling classes: {example_siblings}
-- Direct child classes: {example_children}
-
-Correct explanation:
-{correct_explanation}
-
-Correct ranking:
-{compact_json_types(example_ranking)}
+Correct response:
+{compact_json_reasoned(no_graph_explanation, example_ranking)}
 
 Wrong ranking:
 {compact_json_types(wrong_ranking)}
 
 Why the wrong ranking is wrong:
-{wrong_explanation}
+{wrong_no_graph_explanation}
+
+Now classify:
+
+Entity: {test_entity["entity_label"]}
+Description: {test_entity["description"]}
+
+Answer:
+""".strip()
+
+    contrastive_graph_prompt = f"""
+{COMMON_TASK}
+
+{GRAPH_NOTE}
+
+{COT_GRAPH_INSTRUCTIONS}
+
+{CONTRASTIVE_GRAPH_INSTRUCTIONS}
+
+Return JSON only in exactly this form:
+{{"explanation": "contrastive taxonomy-grounded explanation", "types": ["type 1", "type 2", "..."]}}
+
+Example:
+
+Entity: {example_entity["entity_label"]}
+Description: {example_entity["description"]}
+
+Taxonomy context:
+- Direct parent classes: {example_parents}
+- Sibling classes: {example_siblings}
+- Direct child classes: {example_children}
+
+Correct response:
+{compact_json_reasoned(graph_explanation, example_ranking)}
+
+Wrong ranking:
+{compact_json_types(wrong_ranking)}
+
+Why the wrong ranking is wrong:
+{wrong_graph_explanation}
 
 Now classify:
 
@@ -561,17 +710,17 @@ Taxonomy context:
 - Sibling classes: {test_siblings}
 - Direct child classes: {test_children}
 
-Explanation:
-
 Answer:
-
 """.strip()
 
     prompts = {
         "standard": standard_prompt,
         "graph_aware_standard": graph_standard_prompt,
-        "cot": cot_prompt,
-        "contrastive_cot": contrastive_cot_prompt,
+        "shuffled_graph_standard": shuffled_graph_prompt,
+        "cot_no_graph": cot_no_graph_prompt,
+        "cot_graph": cot_graph_prompt,
+        "contrastive_cot_no_graph": contrastive_no_graph_prompt,
+        "contrastive_cot_graph": contrastive_graph_prompt,
     }
 
     metadata = {
@@ -584,11 +733,27 @@ Answer:
             test_entity["target_class"],
         ),
         "gold_types": test_gold,
+        # Keep the historical key for compatibility with existing analysis.
         "graph_context": {
             "parents": test_parents,
             "siblings": test_siblings,
             "children": test_children,
         },
+        "oracle_graph_context": {
+            "parents": test_parents,
+            "siblings": test_siblings,
+            "children": test_children,
+        },
+        "shuffled_graph_context": {
+            "parents": shuffled_parents,
+            "siblings": shuffled_siblings,
+            "children": shuffled_children,
+        },
+        "context_method": (
+            "oracle context is retrieved around the hidden gold most-specific "
+            "class; shuffled context is a deterministic negative control from "
+            "another evaluation entity"
+        ),
     }
 
     return prompts, metadata
@@ -599,6 +764,33 @@ Answer:
 # =========================================================
 
 def main():
+    parser = argparse.ArgumentParser(
+        description="Generate a versioned ranked-prompt evaluation set."
+    )
+    parser.add_argument(
+        "--count",
+        type=int,
+        default=DEFAULT_NUMBER_OF_TEST_ENTITIES,
+        help="Number of usable test entities to generate.",
+    )
+    parser.add_argument(
+        "--skip-usable",
+        type=int,
+        default=DEFAULT_SKIP_USABLE_TEST_ENTITIES,
+        help=(
+            "Number of usable entities to skip after the demonstration. "
+            "Use 40 for the next clean set after the two earlier 20-entity sets."
+        ),
+    )
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=DEFAULT_OUTPUT,
+        help="Output folder for prompts and metadata.",
+    )
+    args = parser.parse_args()
+    output = args.output
+
     for file_path in (
         EVALUATION_FILE,
         TAXONOMY_FILE,
@@ -620,8 +812,8 @@ def main():
     selected_tests, skipped = select_test_entities(
         entities,
         graph,
-        NUMBER_OF_TEST_ENTITIES,
-        SKIP_USABLE_TEST_ENTITIES,
+        args.count,
+        args.skip_usable,
     )
 
     required_ids = {
@@ -661,22 +853,30 @@ def main():
         required_ids,
     )
 
-    OUTPUT.mkdir(exist_ok=True)
+    output.mkdir(parents=True, exist_ok=True)
     manifest_rows = []
 
     for index, selected in enumerate(selected_tests, start=1):
         test_entity = selected["entity"]
         test_context = selected["context"]
 
+        # Deterministic negative control: use the next test entity's local
+        # taxonomy neighborhood, wrapping around at the end. The amount and
+        # formatting of graph information stay the same, but the neighborhood
+        # is unrelated to the current entity.
+        shuffled_selected = selected_tests[index % len(selected_tests)]
+        shuffled_context = shuffled_selected["context"]
+
         prompts, metadata = create_prompts(
             example_entity,
             test_entity,
             example_context,
             test_context,
+            shuffled_context,
             labels,
         )
 
-        example_folder = OUTPUT / f"example_{index:02d}"
+        example_folder = output / f"example_{index:02d}"
         example_folder.mkdir(exist_ok=True)
 
         metadata["example_number"] = index
@@ -713,7 +913,7 @@ def main():
                 }
             )
 
-    manifest_path = OUTPUT / "manifest.csv"
+    manifest_path = output / "manifest.csv"
 
     with open(
         manifest_path,
@@ -773,7 +973,7 @@ def main():
 
     print("\nTotal prompt files:", len(manifest_rows))
     print("Manifest:", manifest_path)
-    print("Prompt folder:", OUTPUT)
+    print("Prompt folder:", output)
 
 
 if __name__ == "__main__":
