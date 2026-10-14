@@ -1,6 +1,6 @@
 # Graph-Aware Prompting for Entity Typing
 
-This repository contains the frozen prompts, recorded model responses, and offline analysis for the final thesis study. The graph context is an oracle neighbourhood of an annotated class; this study does not evaluate autonomous taxonomy retrieval.
+This repository contains the frozen prompts, recorded model responses, and offline analysis for the final thesis study. The graph context is an oracle neighbourhood of an annotated class.
 
 ## Reproduce the final results without model calls
 
