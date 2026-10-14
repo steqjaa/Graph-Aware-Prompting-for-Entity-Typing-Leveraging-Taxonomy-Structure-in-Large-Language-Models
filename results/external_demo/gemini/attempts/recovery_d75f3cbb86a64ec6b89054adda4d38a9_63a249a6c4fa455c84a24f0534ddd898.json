@@ -1,0 +1,171 @@
+{
+  "example_number": 898,
+  "entity_id": "wd:Q120245",
+  "entity_label": "Peter Baumann",
+  "description": "psychiatrist (1935-2011)",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0898/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0898/metadata.json",
+  "input_hash": "757b982c3f57b83f092848ffeb0080cb8e5457e95001782b83c0f59d1f29b944",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Peter Baumann\nDescription: psychiatrist (1935-2011)\n\nTaxonomy context:\n- Direct parent classes: medical specialist, mental health professional\n- Sibling classes: infectious disease physician, ophthalmologist, venereologist\n- Direct child classes: neuropsychiatrist, forensic psychiatrist\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q120245",
+    "entity_label": "Peter Baumann",
+    "description": "psychiatrist (1935-2011)",
+    "reference_class_id": "wd:Q211346",
+    "reference_type": "psychiatrist",
+    "gold_types": [
+      {
+        "class_id": "wd:Q211346",
+        "label": "psychiatrist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q3332438",
+        "label": "medical specialist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q39631",
+        "label": "physician",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q6817473",
+        "label": "mental health professional",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q11974939",
+        "label": "health professional",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "medical specialist, mental health professional",
+      "siblings": "infectious disease physician, ophthalmologist, venereologist",
+      "children": "neuropsychiatrist, forensic psychiatrist"
+    },
+    "oracle_graph_context": {
+      "parents": "medical specialist, mental health professional",
+      "siblings": "infectious disease physician, ophthalmologist, venereologist",
+      "children": "neuropsychiatrist, forensic psychiatrist"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 898,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q211346"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q3332438",
+        "wd:Q6817473"
+      ],
+      "siblings": [
+        "wd:Q11494960",
+        "wd:Q12013238",
+        "wd:Q13167731"
+      ],
+      "children": [
+        "wd:Q19826744",
+        "wd:Q22298829"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "psychiatrist",
+    "medical specialist",
+    "mental health professional",
+    "physician",
+    "health professional",
+    "professional",
+    "person",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:44:09.856120+00:00",
+  "response": "{\"explanation\": \"The description \\\"psychiatrist (1935-2011)\\\" directly supports psychiatrist as the most specific type. In the taxonomy, its direct parents are medical specialist and mental health professional, which establish the professional category. Sibling classes like infectious disease physician, ophthalmologist, and venereologist represent alternative medical specialties not supported by the evidence. Direct child classes such as neuropsychiatrist and forensic psychiatrist represent narrower sub-disciplines that lack explicit evidence in the description. The returned types follow a specific-to-broad order reflecting this hierarchy.\", \"types\": [\"psychiatrist\", \"medical specialist\", \"mental health professional\", \"physician\", \"health professional\", \"professional\", \"person\", \"entity\"]}",
+  "explanation": "The description \"psychiatrist (1935-2011)\" directly supports psychiatrist as the most specific type. In the taxonomy, its direct parents are medical specialist and mental health professional, which establish the professional category. Sibling classes like infectious disease physician, ophthalmologist, and venereologist represent alternative medical specialties not supported by the evidence. Direct child classes such as neuropsychiatrist and forensic psychiatrist represent narrower sub-disciplines that lack explicit evidence in the description. The returned types follow a specific-to-broad order reflecting this hierarchy.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"psychiatrist (1935-2011)\\\" directly supports psychiatrist as the most specific type. In the taxonomy, its direct parents are medical specialist and mental health professional, which establish the professional category. Sibling classes like infectious disease physician, ophthalmologist, and venereologist represent alternative medical specialties not supported by the evidence. Direct child classes such as neuropsychiatrist and forensic psychiatrist represent narrower sub-disciplines that lack explicit evidence in the description. The returned types follow a specific-to-broad order reflecting this hierarchy.\", \"types\": [\"psychiatrist\", \"medical specialist\", \"mental health professional\", \"physician\", \"health professional\", \"professional\", \"person\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 564,
+      "candidatesTokenCount": 151,
+      "totalTokenCount": 1105,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 564
+        }
+      ],
+      "thoughtsTokenCount": 390,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "Wi3MavSVBpCExN8P9oWHuAY"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 564,
+    "candidatesTokenCount": 151,
+    "totalTokenCount": 1105,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 564
+      }
+    ],
+    "thoughtsTokenCount": 390,
+    "serviceTier": "standard"
+  }
+}

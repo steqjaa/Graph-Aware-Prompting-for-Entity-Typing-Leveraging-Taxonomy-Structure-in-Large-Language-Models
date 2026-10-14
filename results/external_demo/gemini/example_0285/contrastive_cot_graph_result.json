@@ -1,0 +1,164 @@
+{
+  "example_number": 285,
+  "entity_id": "wd:Q7999191",
+  "entity_label": "Wilmington Township",
+  "description": "township in Lawrence County, Pennsylvania",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0285/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0285/metadata.json",
+  "input_hash": "8e3b4312cf4af49656498c54b5804d89ccc30ee46c91ea7a1ae0785e16fd1000",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Wilmington Township\nDescription: township in Lawrence County, Pennsylvania\n\nTaxonomy context:\n- Direct parent classes: civil township\n- Sibling classes: township of Illinois, New England town, township of Minnesota\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q7999191",
+    "entity_label": "Wilmington Township",
+    "description": "township in Lawrence County, Pennsylvania",
+    "reference_class_id": "wd:Q9035798",
+    "reference_type": "township of Pennsylvania",
+    "gold_types": [
+      {
+        "class_id": "wd:Q9035798",
+        "label": "township of Pennsylvania",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q1394476",
+        "label": "civil township",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q486972",
+        "label": "human settlement",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q123964505",
+        "label": "populated place",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q27096235",
+        "label": "artificial geographic entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q27096213",
+        "label": "geographic entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "civil township",
+      "siblings": "township of Illinois, New England town, township of Minnesota",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "civil township",
+      "siblings": "township of Illinois, New England town, township of Minnesota",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 285,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q9035798"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q1394476"
+      ],
+      "siblings": [
+        "wd:Q17198545",
+        "wd:Q2154459",
+        "wd:Q42211429"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "township of Pennsylvania",
+    "civil township",
+    "township",
+    "minor civil division",
+    "administrative territorial entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "f67d84811a774b589c00ae3c28d53648",
+  "timestamp_utc": "2026-10-11T23:48:52.800436+00:00",
+  "response": "{\"explanation\": \"The entity is explicitly described as a township in Lawrence County, Pennsylvania, identifying it specifically as a township of Pennsylvania. In the taxonomy, its direct parent is civil township. Sibling classes such as township of Illinois, township of Minnesota, and New England town are ruled out as they designate different geographic jurisdictions. No narrower child classes are supported, so the classification proceeds from the most specific geographic subdivision to broader administrative categories.\", \"types\": [\"township of Pennsylvania\", \"civil township\", \"township\", \"minor civil division\", \"administrative territorial entity\"]}",
+  "explanation": "The entity is explicitly described as a township in Lawrence County, Pennsylvania, identifying it specifically as a township of Pennsylvania. In the taxonomy, its direct parent is civil township. Sibling classes such as township of Illinois, township of Minnesota, and New England town are ruled out as they designate different geographic jurisdictions. No narrower child classes are supported, so the classification proceeds from the most specific geographic subdivision to broader administrative categories.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The entity is explicitly described as a township in Lawrence County, Pennsylvania, identifying it specifically as a township of Pennsylvania. In the taxonomy, its direct parent is civil township. Sibling classes such as township of Illinois, township of Minnesota, and New England town are ruled out as they designate different geographic jurisdictions. No narrower child classes are supported, so the classification proceeds from the most specific geographic subdivision to broader administrative categories.\", \"types\": [\"township of Pennsylvania\", \"civil township\", \"township\", \"minor civil division\", \"administrative territorial entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 550,
+      "candidatesTokenCount": 113,
+      "totalTokenCount": 1166,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 550
+        }
+      ],
+      "thoughtsTokenCount": 503,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "ZSDMaubgAdbrvdIP3sC3oA8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 550,
+    "candidatesTokenCount": 113,
+    "totalTokenCount": 1166,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 550
+      }
+    ],
+    "thoughtsTokenCount": 503,
+    "serviceTier": "standard"
+  }
+}

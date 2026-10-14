@@ -1,0 +1,165 @@
+{
+  "example_number": 887,
+  "entity_id": "wd:Q3371333",
+  "entity_label": "Paul Gochet",
+  "description": "logician, philosopher, professor",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0887/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0887/metadata.json",
+  "input_hash": "deecdda14fcbb552efc446a411505490dfb86105de354acb785709a6fb677854",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Paul Gochet\nDescription: logician, philosopher, professor\n\nTaxonomy context:\n- Direct parent classes: humanities scholar\n- Sibling classes: philologist, palaeographer, religious studies scholar\n- Direct child classes: French moralist, philosopher of science, existentialist\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q3371333",
+    "entity_label": "Paul Gochet",
+    "description": "logician, philosopher, professor",
+    "reference_class_id": "wd:Q4964182",
+    "reference_type": "philosopher",
+    "gold_types": [
+      {
+        "class_id": "wd:Q4964182",
+        "label": "philosopher",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q16727193",
+        "label": "humanities scholar",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q20826540",
+        "label": "scholar",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "humanities scholar",
+      "siblings": "philologist, palaeographer, religious studies scholar",
+      "children": "French moralist, philosopher of science, existentialist"
+    },
+    "oracle_graph_context": {
+      "parents": "humanities scholar",
+      "siblings": "philologist, palaeographer, religious studies scholar",
+      "children": "French moralist, philosopher of science, existentialist"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 887,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q4964182"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q16727193"
+      ],
+      "siblings": [
+        "wd:Q13418253",
+        "wd:Q17132038",
+        "wd:Q19829980"
+      ],
+      "children": [
+        "wd:Q1297719",
+        "wd:Q16389557",
+        "wd:Q16897774"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "logician",
+    "philosopher",
+    "humanities scholar",
+    "academic",
+    "scholar",
+    "person",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:43:20.349373+00:00",
+  "response": "{\"explanation\": \"The description 'logician, philosopher, professor' establishes philosopher and logician as valid types. In the taxonomy context, the omitted target class has parent humanities scholar and sibling classes such as philologist, palaeographer, and religious studies scholar, identifying the target class as philosopher. Child classes such as French moralist, philosopher of science, and existentialist lack independent evidence in the description and are rejected for unwarranted specificity. Sibling classes are rejected as they represent other distinct humanities disciplines. Broader classes like humanities scholar, academic, and person follow in order of decreasing specificity.\", \"types\": [\"logician\", \"philosopher\", \"humanities scholar\", \"academic\", \"scholar\", \"person\", \"entity\"]}",
+  "explanation": "The description 'logician, philosopher, professor' establishes philosopher and logician as valid types. In the taxonomy context, the omitted target class has parent humanities scholar and sibling classes such as philologist, palaeographer, and religious studies scholar, identifying the target class as philosopher. Child classes such as French moralist, philosopher of science, and existentialist lack independent evidence in the description and are rejected for unwarranted specificity. Sibling classes are rejected as they represent other distinct humanities disciplines. Broader classes like humanities scholar, academic, and person follow in order of decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description 'logician, philosopher, professor' establishes philosopher and logician as valid types. In the taxonomy context, the omitted target class has parent humanities scholar and sibling classes such as philologist, palaeographer, and religious studies scholar, identifying the target class as philosopher. Child classes such as French moralist, philosopher of science, and existentialist lack independent evidence in the description and are rejected for unwarranted specificity. Sibling classes are rejected as they represent other distinct humanities disciplines. Broader classes like humanities scholar, academic, and person follow in order of decreasing specificity.\", \"types\": [\"logician\", \"philosopher\", \"humanities scholar\", \"academic\", \"scholar\", \"person\", \"entity\"]}",
+              "thoughtSignature": "EtwhCtkhAWkUfRO9o1vbf/8bzAMAAIeFq93V+V7tF/e4yhQlgalBauxLbHf8UtGw5th1XGd6pYUigwpkORWRBqit3iqdg0qduL2c74sTM60FYq9CvPUTsBUgS/9TdWYbNykVJFOd5JTzN7q6VrLBatwWY3qE/OlIWciAkAg6ZvGPMo98pOLxI8wBSWuquLTOsDwOIcYWaIUeWsZaQchZK5NCYnLsOTB7YTlF/sPYT2GaY8p8Xj2OrNWcCm1csNAhsZni2QX0CMHG3hOTjX+PM4zXvHdCyp/oiv6T9+yB8FJrkLZrJZScsE4aQ5QUIEWBwjS8u1f9+1iitm128vdppYfWT8qPvo1z4iId4ECsUT4sRMYlKeZ3go1a1e05MktqNwhqJQdNrPhwjfTWa8683NHjLKGwqckBDYYlIxhsi1Q4B5bLpBDx7aXZ2xtWWACdutODA4usZKAW+cN/xawaLIl6aMS1SvDtcWnZXryq75Y4114Utq4cj77jsyPxfCtJVHXyHjuHyVVHIzIzDyQyP1cGCvjwpq16wdBenoJqXkZOcax/DUCXdIlw+dpJJf1+8aeMnJ+g3m+V3v4eKthuTDvlBTPIs6FF/Abp0flNT/S7EvQFE0usQfFJHKQmsv9CtbnKUjqkKF208NkBGR1bY2HpeAkBlifR5thjAzQwI+th3Rz6iBrI8Gqdg46DKHFqV3TdalCE8vmbshuka4viWrH9LtkNb6AG9jWFr/1L+hU6gvbBaU0AZe/3RLHoIjmR5m9/7Kb2FmOQUwHQEZ92c6lDVbiS/oK0p8e6UTzo+EZyhPttn62pnxS95oFhjP/R3nIVTH93NH0170tz0bhyWcbcj0QNWim1749Zc2HTdxOjO3rDJf2kjmm2fYZe4FpZhSE9EhUTN8hZg/ErNv6PWwo3GOfn+bG6AfSUR4HujGKpzPxgsMXzuEljeckArH/B4v2zMhpbACM8VdbJRVzYxr6sR0817OBIsKXCXst6tgvO1OD3SJRCCFuq0UJvQp11U2aYUBwFehLdsw4g1Z/hfWXEO1tAQw+NYg8q5kYdWLomTLJecK8R2qA4gw/3sQxz8vf7BoraG2gANVWUmI5AFQMZEe4n3P7T5+/Eb5/45Qf5kvpEM06wG6lU45pfBfGzBsCmBmwAHvUgtCfczoMYmy6hRPpCffpQpWxynFxGMMi5IURJUWMSr+u1xVM9nnSe2nN6iAnJFZIPVIj2mypP6PIp7PrTdNA2whXQcSmFZcyR6Lp7vOW7dK+N8GqT1Y9bhyzasiEEqvTOB0E+GQ5iCEVx4gfavMDkw8rCmZ8YnQMvL3Lqa976gqEdye78OPRk9i0OC10Hi1EdaIOguxXedusGKOS+M53O7nDGrU6xjxAHVof3J4vSADYbHwLbcn5Rgx2bQjWttYI7uRmhU6KAzm3Yhi0DaQH1HikDa+u0b/q5adq6AIZIgDDZtGIKYuHVbmRpH9SDjS5FkW8oqphXhT1Pq0m5mAkzNqrgZTJ6ea12Cs4kr8i/1ELIO1hEkeD6uKwYP0sIgKahnjJI/86e6OY7g9/GimB6ayzJpUETYIQ1ZmgbfkrV+9v6juSAh/QSIaavqJSMNnU1+EXYZYM9c4IlxOmBcCvzrMmca0pukG5gOzIm4p+VfsZwaQ+mUs/J4ih7YBhivyW5DJ23ZluUNMbbcfWxmaDcGtZpViqfNRVu2wMU8DDhFhvKAsYitXU9zEBkLT+1EJdNy46/+jEQyxqeivSCWA8Vlme2zmGGsslKAoKR1QkH14Zy6ZZK+N/hgkGM6CsZ/sh4FqlLQbqqbx5wFzYoPmEtlu7uKpnA/3QBOXxBt2Dz/FDO+vzPR53FG9HXUzIxnTIcv6EGKHhL5k0T0puAJN1BJWoWRfqjosLqX8mez57mw4kYAx0ePpxew/tBW7CGawkh/seKZutgzkTk9D2y5/Ql9O1lIvN+RgcBWe9v5vnWTMmU7ClExugDA48N9XK2PEaznAUubqgERfWcV5tgTuAkgOgvj0l172hJ7GlQ3gmkvaM2Gvev9adFK/1saMiG/ozvUoQziSekm19zaI+sJ3FfAamvLc+c15Op5kPdU2/kId1TvlsaQ68ntQVjtLfZz113V7meyBMOX7CeMgkgmNfcacU5lI8RZdSPE6/HsKn4Dea+4Y5ZVXdj43CCtcM1k0HXkP38OwD39HFRStVWiK319LDrv4xarGe9WMJMQZ6Ybp2hlNqE7JmDNwo4KgQ5LIc+OVkE/lll8Abf4+y7WFth8UeLjY5vmfHUQd+dzAAXm0Q/sqxO+3EWhraM35MyKvKsweHJfcp3ptPaezUBOxoL5k7cRoGYOc9l5t2niWoA6J0emWowxarC4wFMDiJCwBerhBq1gvuAbG5SeN8xa9m7WMlElh3iZzjETl3qwhn4WQd5LOQU0nRJF+EYlrfHglGd1q3EXS5BSia8QO0I9BQgnqr4Ry9BziFmJE5hS6WmWXF00Upv4GVXLU1BEdqtMR16bpPgop7VwrANqEA1hNLkHaYQBbhPDuadT7g6EFmDnkTC1v4qZ/NDzHwRkcQcku1vsmh3rgWOv95M3STtfdBJztjGTPm58cW2VDIJxDTZxMjkS+Z1INWvM9GjRhLl8BLT7VcBl0oqnU0RB2asLuT7sfs43m7520X8h+HwQD26aBny0cUJmIDfXDNaZiW0UnLDPZoxU05WLU/JEKPgCOjIfDAwiss2NX1PmyEh/KV2RD1M8XkP66GM3HSFJNwnfBYJDpyJi04W7RDXOR8lKRYAf62TZGo4cy5ga8zPqgVEEqQHFsQVuLEhazhDKLbQG8FDerhcStMsR53GYbkW+HchAEYnaM4aRmtJ/4p7fjLkOzIKyo9S9ucAt44aPoqHY/iNWSUPjKMBHZrfhpZ0ZydHppc0r+YeSqb30xHoe8YyhH4zDoPk5ug73d0qyfgoXajg2gr8F2cwcqOjzScTHj7PskiaH8Hsmgz/3qcLvAj6gO0qKPNYW+xrIQ+dx2vIW30bSapeBgZC7PcPDShwhGjTrxRIaYpTJwGvNID/QSeAfoWLKJYov3kXKN2M+We5mQThIiuYn9Bd9GR6mEsi6kK4Gw97gTuqHCQLS9NbymUSaFEi3+FHb1ChQ87pK+C4LV+v2fBFyNniwrFCA4Rj/D0rQ/LpgqeBjISOovJV5YFj9XvRfJxK3HLWfNPsuboptd8z4khLOD9ApC219bQOH/vGKXcRunEXcTnXo/KAPFMVMQPgyffgN3Q353wh9q9I/zOC/BWutmxgd29qJ6e4WsBjWsmICpj+93JnUS4mCejV0YzgEaHfR2eiNcZoDhrZpAuUiy3AeqqgUWL8zN2oAUy7aGMeiAre2GM9EA8IFY3JsBZ1ChdnMyTahhqCeAd++kcduq7hV+2ex78wOcaJlfR1Td9PjO2UEJ2WNaUnDywODeNQpnGEkWKJdastaETV5/+lba6Wbo7tcKJjJMdXeZLt53/whHUqof6cjQNSLius6NRwf70xivncTO5BrIFvTgTrnsD3GzwMwkIcueucFktZ+jPY6Il4RA7cyD9w4QXQk7FfUZ2bLjy0NFA6f9ozeeggNvxpBpvsYtc/QXLNtXTazx2I2dWGXxx/Yr+cA8V2h6lRzo7HSNyn0EGsT2XNG+fVMd+zF3ELknCZ74ya3oDx+7bKf+cmFRB9DH6fAUxyuOrW3PrdA69jmS7iU3t5QcRuisAqlcRctwkUhYTw+7KRaYRvOog2KODmgDNaFJaXfio/P5g1pVHy5sKMXXNH4ld77El1ltZr1rkE6ATnMYAHrr1wWbem9KCR/zRNVR1eoO+eCb+O0iAIUhvuZ3q54JTbOm5spRpFD1Rt5ExVtKak9WcKGgzF5Zr0XtjyFKQM0YoilWgwyE/c/R4qn9ljqPIG3b2Tb7Jhe+13s47PkqOpOxVy7MCHvIBNcklTVMUa2VubXSE7qcwZD3GyAGz92CCUSFS/w4D2U4GPsG3QmAsvPc1xTAAIC3UKHIJ70uWKt3xM/pJa1W9ipat7pQcou9GG8YA6lbEBfKHylCDAmimopAVGytw0zHTLc7CiFDRecCY5UQwzJD0Ivtoc/jiRRj11YNhl1+UfkVwVRd0j/xxs20FC3canpQwYKqnrhL9AgsnEj35PjvkrCCQhvI4Lc6TsNjfjdqWC9hdf2Fl9jfIXp8IQAQVivliP6QSsjoE6L8RqX8x6MFzuCEJHkP7FxtUdwI0zVKdst2bAJX/gSbv1xQSuXi/32D8LYj4+4P6HKACLWdt+xlqa+5HqiFMR91drprxToGF3HJ6UgMYRJBZ8/SCo8jk3z9NZO7X2mvUMpNd+L2pE8NygBV3S+nrl9yimt5tFyK0KG49mlIss0SxBuax4t3Oif3jc6gtqM6wm0FcJXIt6NUofiOFKZcai44qeiMpeQSbMyKZe1/QKTyCwbK8kYHHf2D3ZjgFvUg/1cIIpT/vRJlHT+GKPCPB/Fo2iKxCp1O05I+QzR/i2XDpSW9kKh2VL9qHaYlvuNoq1dS+P27JXbPeKS/+NMtzZBxW5bCmunWEdmnF8n3/uT9KbmORQa3Wcxl0nuf5mpRfhfVr/loCDiOFfGllsDB9qiTzIxJ1akCLxGQvoDzvW9ABhDZUW6+f7z3BqU0lK2ftBkUEVWfwe7sn5UnYpLKEgHO2z8KGfuLQj9WlpgMpyiTAvsDQhA7/DYxMBVlSkKHzRIYfVl6fdMH+l/mkM3HSef/eWJ8I3hozOFDFxJHEPDwrRyZSr087NvI028/SSH7zok4FKrreQ/fpcoRPWM/483IRCBv8cbh6p35E/+Z6WFRRZTB1kPpkmuWl9kbhYhm5jRqL7kBrTTMp3Vnk6xAIkyXLGyxUQCG2GJrGc4JAEdBU693GfMYWIrYPR0LsikV3hVbttj9Z/cu4CzbM2E7beHcshjDk6dIw3ElC2J/SEr3F4+i1qSnWgC7emfAsaSFalrHSufjH1RCyJ8p6cMYx2QJsAil37iqB5IXXPCMXCHT4pxEI/e2zkOeGEd7KoWC3cJgofH2nfdRjN0rMqNXPEfmKLZPzl8rAOuMbxzBR6A6SJZzOOMIlKDw12qLUTiZ+5SyfHy1bBGnduJB4Z/ULBYxFCHb0oUCkyd4MsbXOF3IZsL86RRUh7JZyfVEG7oVhxrNgfAoUGNBoZqpIJ3XTtsjzZyc06MN7WSjXLf+1Q7QeQ2Lx5nBkkQcK1fgr1pO4NXN02EaDMHkwA9A65aIgX7b978OGlr2haOvmYjqZcJ505Imhe2gLeTPT5GF4qUVyU73WazEKLIN5BcfnpBJsQNmZ21RsrGKe/tgRzfUoTi9RtcmF/ZvnoWG2c7AwC4tONRFY/gTsJNVtTu5aG8JBOCnF5OaCW99ZoakAL2L9H2iksnhnNx/66mY6b/mXNLIPAdEE0Uhko4g2NPLoITw+sKJgip+kGJovd+28f/W9dzuL/GuV6NQ+dhlvh6GLqtDRoX9CHJy7Hs4IQ2rl0HEL5dUDqamPlgXgciYodb2C/1lVigf6jSdm1DDsSrwK7BdxgnadFQhDdfFXiEL/01anp/hy3eFz1kVrBXp+KjJUJNpQCAorjokvbqH/8nIaafZgJog9qz+W1+FUFQ5E3nQ6MHDp1P701R6YJUK+iJAEQM06H6YzEwZbSUMbP0sLdcEl2iwLa9tX61AEDTo6n9Jyli8acOypZQnJ0kjb4DWR2D38ZpSTFmUTzgzc77DCQSPusNGi3DjK2T8c="
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 559,
+      "candidatesTokenCount": 146,
+      "totalTokenCount": 1668,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 559
+        }
+      ],
+      "thoughtsTokenCount": 963,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "KC3MapbGJ-ec28oPwOzBsQo"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 559,
+    "candidatesTokenCount": 146,
+    "totalTokenCount": 1668,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 559
+      }
+    ],
+    "thoughtsTokenCount": 963,
+    "serviceTier": "standard"
+  }
+}

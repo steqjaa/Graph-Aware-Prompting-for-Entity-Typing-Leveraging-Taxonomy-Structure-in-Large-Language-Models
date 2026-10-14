@@ -1,0 +1,173 @@
+{
+  "example_number": 1000,
+  "entity_id": "wd:Q516051",
+  "entity_label": "Djibouti Armed Forces",
+  "description": "combined military forces of Djibouti",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_1000/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_1000/metadata.json",
+  "input_hash": "42db606be0d290b56690af02d3de1b830dea5cfa06ba688ee675373f5f10714b",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Djibouti Armed Forces\nDescription: combined military forces of Djibouti\n\nTaxonomy context:\n- Direct parent classes: government organization\n- Sibling classes: Hungarian public body, Crown entity, defunct government institution\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q516051",
+    "entity_label": "Djibouti Armed Forces",
+    "description": "combined military forces of Djibouti",
+    "reference_class_id": "wd:Q772547",
+    "reference_type": "armed forces",
+    "gold_types": [
+      {
+        "class_id": "wd:Q772547",
+        "label": "armed forces",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q2659904",
+        "label": "government organization",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q7210356",
+        "label": "political organization",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "government organization",
+      "siblings": "Hungarian public body, Crown entity, defunct government institution",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "government organization",
+      "siblings": "Hungarian public body, Crown entity, defunct government institution",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 1000,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q772547"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q2659904"
+      ],
+      "siblings": [
+        "wd:Q1125239",
+        "wd:Q1141770",
+        "wd:Q115368202"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "armed forces",
+    "military organization",
+    "government organization",
+    "organization",
+    "corporate body",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:22:18.430909+00:00",
+  "response": "{\"explanation\": \"The description 'combined military forces of Djibouti' firmly identifies the entity as armed forces or a military organization. In the taxonomy, the direct parent class government organization sets the appropriate institutional scope, as national armed forces are state entities. Sibling classes such as Hungarian public body, Crown entity, and defunct government institution are ruled out because the entity pertains to Djibouti, is not under a monarchy/Crown, and is active rather than defunct. The listed direct children context is None. The types are ordered from most specific military concepts to broader organizational and abstract categories.\", \"types\": [\"armed forces\", \"military organization\", \"government organization\", \"organization\", \"corporate body\", \"agent\", \"entity\"]}",
+  "explanation": "The description 'combined military forces of Djibouti' firmly identifies the entity as armed forces or a military organization. In the taxonomy, the direct parent class government organization sets the appropriate institutional scope, as national armed forces are state entities. Sibling classes such as Hungarian public body, Crown entity, and defunct government institution are ruled out because the entity pertains to Djibouti, is not under a monarchy/Crown, and is active rather than defunct. The listed direct children context is None. The types are ordered from most specific military concepts to broader organizational and abstract categories.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description 'combined military forces of Djibouti' firmly identifies the entity as armed forces or a military organization. In the taxonomy, the direct parent class government organization sets the appropriate institutional scope, as national armed forces are state entities. Sibling classes such as Hungarian public body, Crown entity, and defunct government institution are ruled out because the entity pertains to Djibouti, is not under a monarchy/Crown, and is active rather than defunct. The listed direct children context is None. The types are ordered from most specific military concepts to broader organizational and abstract categories.\", \"types\": [\"armed forces\", \"military organization\", \"government organization\", \"organization\", \"corporate body\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 551,
+      "candidatesTokenCount": 142,
+      "totalTokenCount": 1241,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 551
+        }
+      ],
+      "thoughtsTokenCount": 548,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "mqK1apaDLMz5xN8PlYTAUA"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 551,
+    "candidatesTokenCount": 142,
+    "totalTokenCount": 1241,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 551
+      }
+    ],
+    "thoughtsTokenCount": 548,
+    "serviceTier": "standard"
+  }
+}

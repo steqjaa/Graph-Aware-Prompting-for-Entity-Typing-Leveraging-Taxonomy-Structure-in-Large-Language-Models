@@ -1,0 +1,180 @@
+{
+  "example_number": 78,
+  "entity_id": "wd:Q5411127",
+  "entity_label": "Peter Tertzakian",
+  "description": "Canadian writer",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0078/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0078/metadata.json",
+  "input_hash": "072584e3d86b5c619d0be953e3a9ec0cf990de52f7c72a0313043a66e14a4427",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Peter Tertzakian\nDescription: Canadian writer\n\nTaxonomy context:\n- Direct parent classes: earth scientist, physicist\n- Sibling classes: acoustician, atomic physicist, geodetic scientist\n- Direct child classes: seismologist\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q5411127",
+    "entity_label": "Peter Tertzakian",
+    "description": "Canadian writer",
+    "reference_class_id": "wd:Q12094958",
+    "reference_type": "geophysicist",
+    "gold_types": [
+      {
+        "class_id": "wd:Q12094958",
+        "label": "geophysicist",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q11424604",
+        "label": "earth scientist",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q1650915",
+        "label": "researcher",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q169470",
+        "label": "physicist",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q1914017",
+        "label": "knowledge worker",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q901",
+        "label": "scientist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q20826540",
+        "label": "scholar",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q327055",
+        "label": "worker",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "earth scientist, physicist",
+      "siblings": "acoustician, atomic physicist, geodetic scientist",
+      "children": "seismologist"
+    },
+    "oracle_graph_context": {
+      "parents": "earth scientist, physicist",
+      "siblings": "acoustician, atomic physicist, geodetic scientist",
+      "children": "seismologist"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 78,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q12094958"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q11424604",
+        "wd:Q169470"
+      ],
+      "siblings": [
+        "wd:Q10404150",
+        "wd:Q105627120",
+        "wd:Q116994205"
+      ],
+      "children": [
+        "wd:Q12051314"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "status": "completed",
+  "predictions": [
+    "geophysicist",
+    "physicist",
+    "earth scientist",
+    "scientist",
+    "person",
+    "entity"
+  ],
+  "timestamp_utc": "2026-09-24T20:33:56.240923+00:00",
+  "response": "{\n  \"explanation\": \"The taxonomy context with direct parents earth scientist and physicist and child seismologist identifies geophysicist as the omitted target type. Peter Tertzakian is a geophysicist, making geophysicist the most specific valid type supported by the contextual taxonomy. Siblings such as acoustician, atomic physicist, and geodetic scientist represent different specializations within physics and earth science, while the child class seismologist is overly specific and unsupported by the available evidence. The remaining types follow in decreasing order of specificity from physical and earth sciences to broader entity categories.\",\n  \"types\": [\n    \"geophysicist\",\n    \"physicist\",\n    \"earth scientist\",\n    \"scientist\",\n    \"person\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The taxonomy context with direct parents earth scientist and physicist and child seismologist identifies geophysicist as the omitted target type. Peter Tertzakian is a geophysicist, making geophysicist the most specific valid type supported by the contextual taxonomy. Siblings such as acoustician, atomic physicist, and geodetic scientist represent different specializations within physics and earth science, while the child class seismologist is overly specific and unsupported by the available evidence. The remaining types follow in decreasing order of specificity from physical and earth sciences to broader entity categories.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The taxonomy context with direct parents earth scientist and physicist and child seismologist identifies geophysicist as the omitted target type. Peter Tertzakian is a geophysicist, making geophysicist the most specific valid type supported by the contextual taxonomy. Siblings such as acoustician, atomic physicist, and geodetic scientist represent different specializations within physics and earth science, while the child class seismologist is overly specific and unsupported by the available evidence. The remaining types follow in decreasing order of specificity from physical and earth sciences to broader entity categories.\",\n  \"types\": [\n    \"geophysicist\",\n    \"physicist\",\n    \"earth scientist\",\n    \"scientist\",\n    \"person\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 553,
+      "candidatesTokenCount": 162,
+      "totalTokenCount": 2621,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 553
+        }
+      ],
+      "thoughtsTokenCount": 1906,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "NIm1aqD_HJvQ28oP9YqZAQ"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 553,
+    "candidatesTokenCount": 162,
+    "totalTokenCount": 2621,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 553
+      }
+    ],
+    "thoughtsTokenCount": 1906,
+    "serviceTier": "standard"
+  }
+}

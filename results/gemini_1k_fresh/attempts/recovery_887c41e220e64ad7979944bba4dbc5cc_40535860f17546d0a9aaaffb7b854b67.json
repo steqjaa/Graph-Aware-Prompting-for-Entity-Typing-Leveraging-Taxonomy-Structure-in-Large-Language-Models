@@ -1,0 +1,158 @@
+{
+  "example_number": 912,
+  "entity_id": "wd:Q4924284",
+  "entity_label": "Blaise MacDonald",
+  "description": "College ice hockey coach",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0912/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0912/metadata.json",
+  "input_hash": "9b4ab9be17a989560a4765e38e7e286b5579a16bab76f492efd2802bb8041871",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Blaise MacDonald\nDescription: College ice hockey coach\n\nTaxonomy context:\n- Direct parent classes: coach\n- Sibling classes: caretaker manager, assistant coach, baseball manager\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q4924284",
+    "entity_label": "Blaise MacDonald",
+    "description": "College ice hockey coach",
+    "reference_class_id": "wd:Q5137576",
+    "reference_type": "ice hockey coach",
+    "gold_types": [
+      {
+        "class_id": "wd:Q5137576",
+        "label": "ice hockey coach",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q41583",
+        "label": "coach",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q50995749",
+        "label": "sportsperson",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "coach",
+      "siblings": "caretaker manager, assistant coach, baseball manager",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "coach",
+      "siblings": "caretaker manager, assistant coach, baseball manager",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 912,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q5137576"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q41583"
+      ],
+      "siblings": [
+        "wd:Q1050607",
+        "wd:Q11703711",
+        "wd:Q1186921"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "ice hockey coach",
+    "coach",
+    "sports professional",
+    "professional",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:15:41.935142+00:00",
+  "response": "{\"explanation\": \"The description \\\"College ice hockey coach\\\" directly supports ice hockey coach as the most specific type. In the taxonomy, coach serves as the direct parent class, defining the general scope. Sibling classes such as assistant coach, baseball manager, and caretaker manager represent different sports or specialized coaching duties not supported by the evidence. Since direct child classes are None, no narrower subtypes are warranted. Broader valid classes follow in descending order of specificity.\", \"types\": [\"ice hockey coach\", \"coach\", \"sports professional\", \"professional\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The description \"College ice hockey coach\" directly supports ice hockey coach as the most specific type. In the taxonomy, coach serves as the direct parent class, defining the general scope. Sibling classes such as assistant coach, baseball manager, and caretaker manager represent different sports or specialized coaching duties not supported by the evidence. Since direct child classes are None, no narrower subtypes are warranted. Broader valid classes follow in descending order of specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"College ice hockey coach\\\" directly supports ice hockey coach as the most specific type. In the taxonomy, coach serves as the direct parent class, defining the general scope. Sibling classes such as assistant coach, baseball manager, and caretaker manager represent different sports or specialized coaching duties not supported by the evidence. Since direct child classes are None, no narrower subtypes are warranted. Broader valid classes follow in descending order of specificity.\", \"types\": [\"ice hockey coach\", \"coach\", \"sports professional\", \"professional\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 547,
+      "candidatesTokenCount": 118,
+      "totalTokenCount": 1435,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 547
+        }
+      ],
+      "thoughtsTokenCount": 770,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "DqG1atLIDveYvdIPsaDT4QQ"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 547,
+    "candidatesTokenCount": 118,
+    "totalTokenCount": 1435,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 547
+      }
+    ],
+    "thoughtsTokenCount": 770,
+    "serviceTier": "standard"
+  }
+}

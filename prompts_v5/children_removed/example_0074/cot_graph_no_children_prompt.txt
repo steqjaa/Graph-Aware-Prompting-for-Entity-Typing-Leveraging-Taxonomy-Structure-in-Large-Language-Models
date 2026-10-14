@@ -1,0 +1,32 @@
+List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.
+
+The context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint.
+
+Briefly use parents to explain scope, compare sibling alternatives, and reject unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.
+
+Return JSON only in exactly this form:
+{"explanation": "taxonomy-grounded explanation", "types": ["type 1", "type 2", "..."]}
+
+Example:
+
+Entity: Katsuhiro Harada
+Description: Japanese video game producer
+
+Taxonomy context:
+- Direct parent classes: producer
+- Sibling classes: creative producer, co-producer, line producer
+- Direct child classes: None
+
+Correct response:
+{"explanation": "The description \"Japanese video game producer\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.", "types": ["video game producer", "producer", "media professional", "professional", "worker", "person", "person or organization", "corporate body", "object", "entity"]}
+
+Now classify:
+
+Entity: Dismas Yeko
+Description: Ugandan athlete
+
+Taxonomy context:
+- Direct parent classes: runner
+- Sibling classes: middle-distance runner, sprinter
+
+Answer:

@@ -1,0 +1,171 @@
+{
+  "example_number": 199,
+  "entity_id": "wd:Q959513",
+  "entity_label": "SPIN model checker",
+  "description": "tool for verifying the correctness of software models",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0199/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0199/metadata.json",
+  "input_hash": "aa386128f947b81214ee39c1457becc84fc928dd5e3f53dce90108856fff09ce",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: SPIN model checker\nDescription: tool for verifying the correctness of software models\n\nTaxonomy context:\n- Direct parent classes: freely redistributable software, source-available software\n- Sibling classes: free software\n- Direct child classes: open-source video game, free and open-source software\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q959513",
+    "entity_label": "SPIN model checker",
+    "description": "tool for verifying the correctness of software models",
+    "reference_class_id": "wd:Q1130645",
+    "reference_type": "open-source software",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1130645",
+        "label": "open-source software",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q17537576",
+        "label": "creative work",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q5500964",
+        "label": "freely redistributable software",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q56273712",
+        "label": "source-available software",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q386724",
+        "label": "work",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q7397",
+        "label": "software",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q2424752",
+        "label": "product",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "freely redistributable software, source-available software",
+      "siblings": "free software",
+      "children": "open-source video game, free and open-source software"
+    },
+    "oracle_graph_context": {
+      "parents": "freely redistributable software, source-available software",
+      "siblings": "free software",
+      "children": "open-source video game, free and open-source software"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 199,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1130645"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q5500964",
+        "wd:Q56273712"
+      ],
+      "siblings": [
+        "wd:Q341"
+      ],
+      "children": [
+        "wd:Q1015325",
+        "wd:Q506883"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "open-source software",
+    "freely redistributable software",
+    "source-available software",
+    "software",
+    "digital product",
+    "product",
+    "object",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:22:00.038383+00:00",
+  "response": "{\"explanation\": \"The context surrounds the omitted target type open-source software, whose scope is defined by broader parent classes freely redistributable software and source-available software. Sibling class free software represents a related but distinct licensing paradigm, while child classes like open-source video game add unsupported domain specificity since SPIN model checker is a formal verification tool, not a game. The description and taxonomy context support open-source software as the primary inferred type, followed by broader software classifications.\", \"types\": [\"open-source software\", \"freely redistributable software\", \"source-available software\", \"software\", \"digital product\", \"product\", \"object\", \"entity\"]}",
+  "explanation": "The context surrounds the omitted target type open-source software, whose scope is defined by broader parent classes freely redistributable software and source-available software. Sibling class free software represents a related but distinct licensing paradigm, while child classes like open-source video game add unsupported domain specificity since SPIN model checker is a formal verification tool, not a game. The description and taxonomy context support open-source software as the primary inferred type, followed by broader software classifications.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The context surrounds the omitted target type open-source software, whose scope is defined by broader parent classes freely redistributable software and source-available software. Sibling class free software represents a related but distinct licensing paradigm, while child classes like open-source video game add unsupported domain specificity since SPIN model checker is a formal verification tool, not a game. The description and taxonomy context support open-source software as the primary inferred type, followed by broader software classifications.\", \"types\": [\"open-source software\", \"freely redistributable software\", \"source-available software\", \"software\", \"digital product\", \"product\", \"object\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 565,
+      "candidatesTokenCount": 136,
+      "totalTokenCount": 2055,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 565
+        }
+      ],
+      "thoughtsTokenCount": 1354,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "eJS1asH3E47d7M8Pq-iZqAc"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 565,
+    "candidatesTokenCount": 136,
+    "totalTokenCount": 2055,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 565
+      }
+    ],
+    "thoughtsTokenCount": 1354,
+    "serviceTier": "standard"
+  }
+}

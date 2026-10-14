@@ -1,0 +1,163 @@
+{
+  "example_number": 733,
+  "entity_id": "wd:Q17005068",
+  "entity_label": "Francisca de Lebrija",
+  "description": "Spanish rhetorician",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0733/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0733/metadata.json",
+  "input_hash": "4998e1b0243333c541cd38a1f01d463ecf51e8620a79fbd8e5e39b7afe3bfe16",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Francisca de Lebrija\nDescription: Spanish rhetorician\n\nTaxonomy context:\n- Direct parent classes: orator, educator\n- Sibling classes: demagogue, governess, motivational speaker\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q17005068",
+    "entity_label": "Francisca de Lebrija",
+    "description": "Spanish rhetorician",
+    "reference_class_id": "wd:Q361809",
+    "reference_type": "rhetorician",
+    "gold_types": [
+      {
+        "class_id": "wd:Q361809",
+        "label": "rhetorician",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q974144",
+        "label": "educator",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q12859263",
+        "label": "orator",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q327055",
+        "label": "worker",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "orator, educator",
+      "siblings": "demagogue, governess, motivational speaker",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "orator, educator",
+      "siblings": "demagogue, governess, motivational speaker",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 733,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q361809"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q12859263",
+        "wd:Q974144"
+      ],
+      "siblings": [
+        "wd:Q10264925",
+        "wd:Q1540278",
+        "wd:Q15982858"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "rhetorician",
+    "educator",
+    "orator",
+    "intellectual",
+    "person",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:02:11.243843+00:00",
+  "response": "{\"explanation\": \"The description \\\"Spanish rhetorician\\\" directly supports rhetorician as the most specific type. In the taxonomy, its direct parents are orator and educator, which establishes the broader category of public speaking, rhetoric, and teaching. Siblings such as demagogue, governess, and motivational speaker are rejected because the evidence specifies a rhetorician rather than an instructor in a private household (governess), a political agitator (demagogue), or a modern speaker. No child classes are listed or warranted by the evidence. The remaining types reflect valid, broader classes ordered by decreasing specificity.\", \"types\": [\"rhetorician\", \"educator\", \"orator\", \"intellectual\", \"person\", \"entity\"]}",
+  "explanation": "The description \"Spanish rhetorician\" directly supports rhetorician as the most specific type. In the taxonomy, its direct parents are orator and educator, which establishes the broader category of public speaking, rhetoric, and teaching. Siblings such as demagogue, governess, and motivational speaker are rejected because the evidence specifies a rhetorician rather than an instructor in a private household (governess), a political agitator (demagogue), or a modern speaker. No child classes are listed or warranted by the evidence. The remaining types reflect valid, broader classes ordered by decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"Spanish rhetorician\\\" directly supports rhetorician as the most specific type. In the taxonomy, its direct parents are orator and educator, which establishes the broader category of public speaking, rhetoric, and teaching. Siblings such as demagogue, governess, and motivational speaker are rejected because the evidence specifies a rhetorician rather than an instructor in a private household (governess), a political agitator (demagogue), or a modern speaker. No child classes are listed or warranted by the evidence. The remaining types reflect valid, broader classes ordered by decreasing specificity.\", \"types\": [\"rhetorician\", \"educator\", \"orator\", \"intellectual\", \"person\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 552,
+      "candidatesTokenCount": 148,
+      "totalTokenCount": 1196,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 552
+        }
+      ],
+      "thoughtsTokenCount": 496,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "4521arugG7_Zxs0PvbCygA8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 552,
+    "candidatesTokenCount": 148,
+    "totalTokenCount": 1196,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 552
+      }
+    ],
+    "thoughtsTokenCount": 496,
+    "serviceTier": "standard"
+  }
+}

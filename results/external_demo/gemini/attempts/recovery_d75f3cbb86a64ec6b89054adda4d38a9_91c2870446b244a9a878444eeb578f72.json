@@ -1,0 +1,161 @@
+{
+  "example_number": 406,
+  "entity_id": "wd:Q519473",
+  "entity_label": "Ve Neill",
+  "description": "Makeup artist",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0406/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0406/metadata.json",
+  "input_hash": "a3b7c696b00641cf88067b8b37126e9d9f954d3344bf5f7aea6a911a7042f22d",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Ve Neill\nDescription: Makeup artist\n\nTaxonomy context:\n- Direct parent classes: artist\n- Sibling classes: music artist, art educator, art forger\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q519473",
+    "entity_label": "Ve Neill",
+    "description": "Makeup artist",
+    "reference_class_id": "wd:Q935666",
+    "reference_type": "make-up artist",
+    "gold_types": [
+      {
+        "class_id": "wd:Q935666",
+        "label": "make-up artist",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q483501",
+        "label": "artist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q2500638",
+        "label": "creator",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "artist",
+      "siblings": "music artist, art educator, art forger",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "artist",
+      "siblings": "music artist, art educator, art forger",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 406,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q935666"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q483501"
+      ],
+      "siblings": [
+        "wd:Q1294626",
+        "wd:Q15977927",
+        "wd:Q18511668"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "makeup artist",
+    "artist",
+    "professional",
+    "worker",
+    "person",
+    "physical entity",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:06:45.912018+00:00",
+  "response": "{\"explanation\": \"The description \\\"Makeup artist\\\" supports makeup artist as the most specific type. In the taxonomy, its direct parent is artist, which defines the broader creative and occupational category. The sibling classes such as music artist, art educator, and art forger reflect alternate domains of artistic work that are not supported by the evidence. Direct child classes are None, so no narrower subclass is warranted. The remaining types generalize from artist up through standard hierarchical levels.\", \"types\": [\"makeup artist\", \"artist\", \"professional\", \"worker\", \"person\", \"physical entity\", \"entity\"]}",
+  "explanation": "The description \"Makeup artist\" supports makeup artist as the most specific type. In the taxonomy, its direct parent is artist, which defines the broader creative and occupational category. The sibling classes such as music artist, art educator, and art forger reflect alternate domains of artistic work that are not supported by the evidence. Direct child classes are None, so no narrower subclass is warranted. The remaining types generalize from artist up through standard hierarchical levels.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"Makeup artist\\\" supports makeup artist as the most specific type. In the taxonomy, its direct parent is artist, which defines the broader creative and occupational category. The sibling classes such as music artist, art educator, and art forger reflect alternate domains of artistic work that are not supported by the evidence. Direct child classes are None, so no narrower subclass is warranted. The remaining types generalize from artist up through standard hierarchical levels.\", \"types\": [\"makeup artist\", \"artist\", \"professional\", \"worker\", \"person\", \"physical entity\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 544,
+      "candidatesTokenCount": 118,
+      "totalTokenCount": 1274,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 544
+        }
+      ],
+      "thoughtsTokenCount": 612,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "liTMavqVCIb1kdUP56CwuA0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 544,
+    "candidatesTokenCount": 118,
+    "totalTokenCount": 1274,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 544
+      }
+    ],
+    "thoughtsTokenCount": 612,
+    "serviceTier": "standard"
+  }
+}

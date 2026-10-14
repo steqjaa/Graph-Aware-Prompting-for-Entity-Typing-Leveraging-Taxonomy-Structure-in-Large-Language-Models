@@ -1,0 +1,167 @@
+{
+  "example_number": 803,
+  "entity_id": "wd:Q6388722",
+  "entity_label": "Ken Wright",
+  "description": "Auto racing mechanic",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0803/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0803/metadata.json",
+  "input_hash": "07576ce87abf090445372387241de7107a7c83a11aa517001abb52a69443634f",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Ken Wright\nDescription: Auto racing mechanic\n\nTaxonomy context:\n- Direct parent classes: laborer\n- Sibling classes: barber, assembly line worker, stevedore\n- Direct child classes: aircraft mechanic, industrial mechanic, bicycle mechanic\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q6388722",
+    "entity_label": "Ken Wright",
+    "description": "Auto racing mechanic",
+    "reference_class_id": "wd:Q327029",
+    "reference_type": "mechanic",
+    "gold_types": [
+      {
+        "class_id": "wd:Q327029",
+        "label": "mechanic",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q12713481",
+        "label": "laborer",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q703534",
+        "label": "employee",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q327055",
+        "label": "worker",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "laborer",
+      "siblings": "barber, assembly line worker, stevedore",
+      "children": "aircraft mechanic, industrial mechanic, bicycle mechanic"
+    },
+    "oracle_graph_context": {
+      "parents": "laborer",
+      "siblings": "barber, assembly line worker, stevedore",
+      "children": "aircraft mechanic, industrial mechanic, bicycle mechanic"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 803,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q327029"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q12713481"
+      ],
+      "siblings": [
+        "wd:Q107198",
+        "wd:Q11010088",
+        "wd:Q1537445"
+      ],
+      "children": [
+        "wd:Q1430683",
+        "wd:Q1662081",
+        "wd:Q233053"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "auto mechanic",
+    "mechanic",
+    "laborer",
+    "worker",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:07:26.256825+00:00",
+  "response": "{\"explanation\": \"The description \\\"Auto racing mechanic\\\" directly supports auto mechanic and mechanic as the most specific appropriate types. Within the taxonomy context, the parent class is laborer, defining the general manual/technical labor domain. Sibling classes under laborer like barber, assembly line worker, and stevedore are rejected because they do not involve vehicle or mechanical maintenance. The listed child classes of mechanic (aircraft mechanic, industrial mechanic, bicycle mechanic) are rejected because the entity specializes in auto racing rather than aviation, industrial plants, or bicycles. Broader valid classes follow in decreasing order of specificity.\", \"types\": [\"auto mechanic\", \"mechanic\", \"laborer\", \"worker\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The description \"Auto racing mechanic\" directly supports auto mechanic and mechanic as the most specific appropriate types. Within the taxonomy context, the parent class is laborer, defining the general manual/technical labor domain. Sibling classes under laborer like barber, assembly line worker, and stevedore are rejected because they do not involve vehicle or mechanical maintenance. The listed child classes of mechanic (aircraft mechanic, industrial mechanic, bicycle mechanic) are rejected because the entity specializes in auto racing rather than aviation, industrial plants, or bicycles. Broader valid classes follow in decreasing order of specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"Auto racing mechanic\\\" directly supports auto mechanic and mechanic as the most specific appropriate types. Within the taxonomy context, the parent class is laborer, defining the general manual/technical labor domain. Sibling classes under laborer like barber, assembly line worker, and stevedore are rejected because they do not involve vehicle or mechanical maintenance. The listed child classes of mechanic (aircraft mechanic, industrial mechanic, bicycle mechanic) are rejected because the entity specializes in auto racing rather than aviation, industrial plants, or bicycles. Broader valid classes follow in decreasing order of specificity.\", \"types\": [\"auto mechanic\", \"mechanic\", \"laborer\", \"worker\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 553,
+      "candidatesTokenCount": 145,
+      "totalTokenCount": 1272,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 553
+        }
+      ],
+      "thoughtsTokenCount": 574,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "Hp-1aubpHbW0xN8P7OSRqA8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 553,
+    "candidatesTokenCount": 145,
+    "totalTokenCount": 1272,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 553
+      }
+    ],
+    "thoughtsTokenCount": 574,
+    "serviceTier": "standard"
+  }
+}

@@ -1,0 +1,151 @@
+{
+  "example_number": 253,
+  "entity_id": "wd:Q5648559",
+  "entity_label": "Hankou Cultural Sports Centre",
+  "description": "Pusat Sukan Kebudayaan Hankou",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0253/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0253/metadata.json",
+  "input_hash": "a12d8ff5dbc81d0fa5dbbbcc8b2a69d758219d5b882caa3981ddd05016f6da49",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Hankou Cultural Sports Centre\nDescription: Pusat Sukan Kebudayaan Hankou\n\nTaxonomy context:\n- Direct parent classes: geographic region\n- Sibling classes: polder, land, Sprachraum\n- Direct child classes: cricket pitch, field hockey pitch, American football field\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q5648559",
+    "entity_label": "Hankou Cultural Sports Centre",
+    "description": "Pusat Sukan Kebudayaan Hankou",
+    "reference_class_id": "wd:Q2310214",
+    "reference_type": "pitch",
+    "gold_types": [
+      {
+        "class_id": "wd:Q2310214",
+        "label": "pitch",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q82794",
+        "label": "geographic region",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q26713767",
+        "label": "region of space",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "geographic region",
+      "siblings": "polder, land, Sprachraum",
+      "children": "cricket pitch, field hockey pitch, American football field"
+    },
+    "oracle_graph_context": {
+      "parents": "geographic region",
+      "siblings": "polder, land, Sprachraum",
+      "children": "cricket pitch, field hockey pitch, American football field"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 253,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q2310214"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q82794"
+      ],
+      "siblings": [
+        "wd:Q106259",
+        "wd:Q11081619",
+        "wd:Q1149061"
+      ],
+      "children": [
+        "wd:Q1210687",
+        "wd:Q17157259",
+        "wd:Q18347161"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "sports centre",
+    "sports venue",
+    "sports facility",
+    "venue",
+    "facility",
+    "geographic region"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:26:10.695299+00:00",
+  "response": "{\"explanation\": \"The description 'Pusat Sukan Kebudayaan Hankou' (Hankou Cultural Sports Centre) identifies the entity as a sports centre or sports venue. In the provided taxonomy context, the parent class is geographic region, framing the spatial/locational category. Sibling classes such as polder, land, and Sprachraum are geographic concepts that do not match a sports and cultural complex. Direct child classes like cricket pitch, field hockey pitch, and American football field are overly specific types of playing fields unsupported by the evidence. Therefore, broader types like sports centre, sports venue, and sports facility are appropriate, progressing upwards to facility and geographic region.\", \"types\": [\"sports centre\", \"sports venue\", \"sports facility\", \"venue\", \"facility\", \"geographic region\"]}",
+  "explanation": "The description 'Pusat Sukan Kebudayaan Hankou' (Hankou Cultural Sports Centre) identifies the entity as a sports centre or sports venue. In the provided taxonomy context, the parent class is geographic region, framing the spatial/locational category. Sibling classes such as polder, land, and Sprachraum are geographic concepts that do not match a sports and cultural complex. Direct child classes like cricket pitch, field hockey pitch, and American football field are overly specific types of playing fields unsupported by the evidence. Therefore, broader types like sports centre, sports venue, and sports facility are appropriate, progressing upwards to facility and geographic region.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description 'Pusat Sukan Kebudayaan Hankou' (Hankou Cultural Sports Centre) identifies the entity as a sports centre or sports venue. In the provided taxonomy context, the parent class is geographic region, framing the spatial/locational category. Sibling classes such as polder, land, and Sprachraum are geographic concepts that do not match a sports and cultural complex. Direct child classes like cricket pitch, field hockey pitch, and American football field are overly specific types of playing fields unsupported by the evidence. Therefore, broader types like sports centre, sports venue, and sports facility are appropriate, progressing upwards to facility and geographic region.\", \"types\": [\"sports centre\", \"sports venue\", \"sports facility\", \"venue\", \"facility\", \"geographic region\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 562,
+      "candidatesTokenCount": 160,
+      "totalTokenCount": 3178,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 562
+        }
+      ],
+      "thoughtsTokenCount": 2456,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "cpW1auGjO6T-vdIPv5_MuAM"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 562,
+    "candidatesTokenCount": 160,
+    "totalTokenCount": 3178,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 562
+      }
+    ],
+    "thoughtsTokenCount": 2456,
+    "serviceTier": "standard"
+  }
+}

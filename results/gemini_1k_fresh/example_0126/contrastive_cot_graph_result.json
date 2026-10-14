@@ -1,0 +1,164 @@
+{
+  "example_number": 126,
+  "entity_id": "wd:Q452580",
+  "entity_label": "Vincenzo Gonzaga",
+  "description": "Duke of Mantua and Montferrat (1562-1612)",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0126/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0126/metadata.json",
+  "input_hash": "e34692ee957257bbe5065f2f701bc80d798177d2570574d3a3c8db951cad1fda",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Vincenzo Gonzaga\nDescription: Duke of Mantua and Montferrat (1562-1612)\n\nTaxonomy context:\n- Direct parent classes: benefactor\n- Sibling classes: philanthropist, ktetor, donor\n- Direct child classes: salonnière\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q452580",
+    "entity_label": "Vincenzo Gonzaga",
+    "description": "Duke of Mantua and Montferrat (1562-1612)",
+    "reference_class_id": "wd:Q15472169",
+    "reference_type": "patron of the arts",
+    "gold_types": [
+      {
+        "class_id": "wd:Q15472169",
+        "label": "patron of the arts",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q4887411",
+        "label": "benefactor",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q8359428",
+        "label": "social activist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q15253558",
+        "label": "activist",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "benefactor",
+      "siblings": "philanthropist, ktetor, donor",
+      "children": "salonnière"
+    },
+    "oracle_graph_context": {
+      "parents": "benefactor",
+      "siblings": "philanthropist, ktetor, donor",
+      "children": "salonnière"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 126,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q15472169"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q4887411"
+      ],
+      "siblings": [
+        "wd:Q12362622",
+        "wd:Q138365",
+        "wd:Q1968442"
+      ],
+      "children": [
+        "wd:Q3068305"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "patron of the arts",
+    "benefactor",
+    "supporter",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:16:24.717842+00:00",
+  "response": "{\"explanation\": \"The taxonomy context indicates an omitted target type whose parent is benefactor, with siblings philanthropist, ktetor, and donor, and child salonnière. This identifies the target type as patron of the arts. Vincenzo Gonzaga, as Duke of Mantua, was historically renowned as a major patron of the arts (sponsoring figures such as Monteverdi and Rubens). Siblings like ktetor denote specifically church/monastery founders in Eastern Christianity, while general philanthropist or donor lack the specific cultural patronage implied. The child class salonnière is rejected as it specifically denotes female hosts of literary or artistic salons and is not supported by the evidence. Thus, patron of the arts is the most specific inferred type, followed by broader valid types.\", \"types\": [\"patron of the arts\", \"benefactor\", \"supporter\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The taxonomy context indicates an omitted target type whose parent is benefactor, with siblings philanthropist, ktetor, and donor, and child salonnière. This identifies the target type as patron of the arts. Vincenzo Gonzaga, as Duke of Mantua, was historically renowned as a major patron of the arts (sponsoring figures such as Monteverdi and Rubens). Siblings like ktetor denote specifically church/monastery founders in Eastern Christianity, while general philanthropist or donor lack the specific cultural patronage implied. The child class salonnière is rejected as it specifically denotes female hosts of literary or artistic salons and is not supported by the evidence. Thus, patron of the arts is the most specific inferred type, followed by broader valid types.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The taxonomy context indicates an omitted target type whose parent is benefactor, with siblings philanthropist, ktetor, and donor, and child salonnière. This identifies the target type as patron of the arts. Vincenzo Gonzaga, as Duke of Mantua, was historically renowned as a major patron of the arts (sponsoring figures such as Monteverdi and Rubens). Siblings like ktetor denote specifically church/monastery founders in Eastern Christianity, while general philanthropist or donor lack the specific cultural patronage implied. The child class salonnière is rejected as it specifically denotes female hosts of literary or artistic salons and is not supported by the evidence. Thus, patron of the arts is the most specific inferred type, followed by broader valid types.\", \"types\": [\"patron of the arts\", \"benefactor\", \"supporter\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 560,
+      "candidatesTokenCount": 175,
+      "totalTokenCount": 2669,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 560
+        }
+      ],
+      "thoughtsTokenCount": 1934,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "KJO1as6uO_L7xN8P9rWDyA0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 560,
+    "candidatesTokenCount": 175,
+    "totalTokenCount": 2669,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 560
+      }
+    ],
+    "thoughtsTokenCount": 1934,
+    "serviceTier": "standard"
+  }
+}

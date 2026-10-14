@@ -1,0 +1,162 @@
+{
+  "example_number": 783,
+  "entity_id": "wd:Q14874884",
+  "entity_label": "Old Fort 217",
+  "description": "Indian Reserve in Alberta, Canada",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0783/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0783/metadata.json",
+  "input_hash": "8058e1f5577ec7dc920b28e1e2ff4a0b921d607a5d9763d1f8897b587e47b64d",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Old Fort 217\nDescription: Indian Reserve in Alberta, Canada\n\nTaxonomy context:\n- Direct parent classes: human settlement\n- Sibling classes: seaside resort, rural settlement, historical settlement\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q14874884",
+    "entity_label": "Old Fort 217",
+    "description": "Indian Reserve in Alberta, Canada",
+    "reference_class_id": "wd:Q155239",
+    "reference_type": "Indian reservation of Canada",
+    "gold_types": [
+      {
+        "class_id": "wd:Q155239",
+        "label": "Indian reservation of Canada",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q486972",
+        "label": "human settlement",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q123964505",
+        "label": "populated place",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q27096235",
+        "label": "artificial geographic entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q27096213",
+        "label": "geographic entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "human settlement",
+      "siblings": "seaside resort, rural settlement, historical settlement",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "human settlement",
+      "siblings": "seaside resort, rural settlement, historical settlement",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 783,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q155239"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q486972"
+      ],
+      "siblings": [
+        "wd:Q1021711",
+        "wd:Q10354598",
+        "wd:Q106626840"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "Indian reserve",
+    "reservation",
+    "human settlement",
+    "populated place",
+    "geographic entity",
+    "location",
+    "object",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:35:20.533122+00:00",
+  "response": "{\"explanation\": \"The description specifies that Old Fort 217 is an 'Indian Reserve in Alberta, Canada', directly supporting 'Indian reserve' as the most specific type. In the taxonomy, its direct parent is 'human settlement', defining the overarching category of inhabited places. Sibling classes such as 'seaside resort', 'rural settlement', and 'historical settlement' do not reflect the specific legal and cultural status of an Indian reserve. There are no direct child classes, avoiding unwarranted over-specialization. The remaining types generalize logically up through settlements, geographic locations, and abstract entities.\", \"types\": [\"Indian reserve\", \"reservation\", \"human settlement\", \"populated place\", \"geographic entity\", \"location\", \"object\", \"entity\"]}",
+  "explanation": "The description specifies that Old Fort 217 is an 'Indian Reserve in Alberta, Canada', directly supporting 'Indian reserve' as the most specific type. In the taxonomy, its direct parent is 'human settlement', defining the overarching category of inhabited places. Sibling classes such as 'seaside resort', 'rural settlement', and 'historical settlement' do not reflect the specific legal and cultural status of an Indian reserve. There are no direct child classes, avoiding unwarranted over-specialization. The remaining types generalize logically up through settlements, geographic locations, and abstract entities.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description specifies that Old Fort 217 is an 'Indian Reserve in Alberta, Canada', directly supporting 'Indian reserve' as the most specific type. In the taxonomy, its direct parent is 'human settlement', defining the overarching category of inhabited places. Sibling classes such as 'seaside resort', 'rural settlement', and 'historical settlement' do not reflect the specific legal and cultural status of an Indian reserve. There are no direct child classes, avoiding unwarranted over-specialization. The remaining types generalize logically up through settlements, geographic locations, and abstract entities.\", \"types\": [\"Indian reserve\", \"reservation\", \"human settlement\", \"populated place\", \"geographic entity\", \"location\", \"object\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 551,
+      "candidatesTokenCount": 150,
+      "totalTokenCount": 1287,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 551
+        }
+      ],
+      "thoughtsTokenCount": 586,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "SCvMavPgMLur3boP-rm3gQs"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 551,
+    "candidatesTokenCount": 150,
+    "totalTokenCount": 1287,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 551
+      }
+    ],
+    "thoughtsTokenCount": 586,
+    "serviceTier": "standard"
+  }
+}

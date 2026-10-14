@@ -1,0 +1,166 @@
+{
+  "example_number": 178,
+  "entity_id": "wd:Q1189401",
+  "entity_label": "Dennis OKelly'",
+  "description": "Irish breeder of thoroughbred racehorses (1725–1787)",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0178/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0178/metadata.json",
+  "input_hash": "0774f2f36e347e22d368358f5e74137dd5018213059de8aec4cd7fdaa3fd5274",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Dennis OKelly'\nDescription: Irish breeder of thoroughbred racehorses (1725–1787)\n\nTaxonomy context:\n- Direct parent classes: agricultural worker\n- Sibling classes: farmer, farmworker\n- Direct child classes: horse breeder, chicken rancher\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q1189401",
+    "entity_label": "Dennis OKelly'",
+    "description": "Irish breeder of thoroughbred racehorses (1725–1787)",
+    "reference_class_id": "wd:Q1368409",
+    "reference_type": "breeder",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1368409",
+        "label": "breeder",
+        "depth": 9
+      },
+      {
+        "class_id": "wd:Q19261760",
+        "label": "agricultural worker",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q12713481",
+        "label": "laborer",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q703534",
+        "label": "employee",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q327055",
+        "label": "worker",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "agricultural worker",
+      "siblings": "farmer, farmworker",
+      "children": "horse breeder, chicken rancher"
+    },
+    "oracle_graph_context": {
+      "parents": "agricultural worker",
+      "siblings": "farmer, farmworker",
+      "children": "horse breeder, chicken rancher"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 178,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1368409"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q19261760"
+      ],
+      "siblings": [
+        "wd:Q131512",
+        "wd:Q5060555"
+      ],
+      "children": [
+        "wd:Q16000367",
+        "wd:Q66316220"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "status": "completed",
+  "predictions": [
+    "horse breeder",
+    "animal breeder",
+    "agricultural worker",
+    "worker",
+    "person",
+    "person or organization",
+    "organism",
+    "entity"
+  ],
+  "timestamp_utc": "2026-09-24T20:41:26.220717+00:00",
+  "response": "{\n  \"explanation\": \"The description \\\"Irish breeder of thoroughbred racehorses\\\" directly supports horse breeder as the most specific entity type. In the taxonomy, the context surrounds animal breeder, whose direct parent is agricultural worker. While sibling classes like farmer and farmworker represent related agricultural occupations, the description specifically indicates breeding. Among the child classes, horse breeder is explicitly substantiated by \\\"breeder of thoroughbred racehorses\\\", whereas chicken rancher is unsupported. The remaining types reflect broader valid categories in order of decreasing specificity.\",\n  \"types\": [\n    \"horse breeder\",\n    \"animal breeder\",\n    \"agricultural worker\",\n    \"worker\",\n    \"person\",\n    \"person or organization\",\n    \"organism\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The description \"Irish breeder of thoroughbred racehorses\" directly supports horse breeder as the most specific entity type. In the taxonomy, the context surrounds animal breeder, whose direct parent is agricultural worker. While sibling classes like farmer and farmworker represent related agricultural occupations, the description specifically indicates breeding. Among the child classes, horse breeder is explicitly substantiated by \"breeder of thoroughbred racehorses\", whereas chicken rancher is unsupported. The remaining types reflect broader valid categories in order of decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The description \\\"Irish breeder of thoroughbred racehorses\\\" directly supports horse breeder as the most specific entity type. In the taxonomy, the context surrounds animal breeder, whose direct parent is agricultural worker. While sibling classes like farmer and farmworker represent related agricultural occupations, the description specifically indicates breeding. Among the child classes, horse breeder is explicitly substantiated by \\\"breeder of thoroughbred racehorses\\\", whereas chicken rancher is unsupported. The remaining types reflect broader valid categories in order of decreasing specificity.\",\n  \"types\": [\n    \"horse breeder\",\n    \"animal breeder\",\n    \"agricultural worker\",\n    \"worker\",\n    \"person\",\n    \"person or organization\",\n    \"organism\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "EsUrCsIrAWkUfRPzb97VXEfmQ7OdacAKteDjfXahaIogE4s1cY2Ety8AOxJxP4GWHX8oFJuTIZq41j/gJUPWdGYcLUfNbdre0Xs8rcaMq8FDjATinNieUkjKJwg+jJ5gQscapZfPfH+3889vkA5GhGQny8rz8LGsFUQJc7a6O+u4zH4m8OLeDetqHYDciSjywk0JJoF9ZAUtiORtnjNXnQVJA8S/nwtFiEhUO1PZZdzS+jcdAQBRbw8iytsGorBtsykS8rVTkjn21qsoTTn0lN3GxeMXdyVj6yCqoQx+zRcuuqtYsfDFR7529qhDGLRSjSaloAXV+qY30raDfp+34Gzz01/hJiMHSmMxHE+yRtf+oQclplKGUXbN5XmXDxtud3DkBO3kGVZMTl0qGEH9HJN5/8IsxZ4CyP5Ulo8S0n3InAAoYZRP9xVPET7sH78ZPy/SXCg+/wwd/W+8UtinDleUUhj9sHNoJiHqUwg+CgEkkRFomxIosj1bYC10dt3Hu64+kLldFjx+heZfeRpNhrNuDu1Qcy+NuAPSYeSOSowVRzKr7t3hPlMQ62+R71A6hLZOC98Kpdn6/yCned0n2mJgyIEBhtGxUBg3tH8fAlFWHM31C0v5ZPsUQMGqcqGkp4UMS7gp9Eiuu79QnEIswW8N4GwF6QwWInNpuTV8+bSfNJMihglhe8rPihTKzaOFWzLoGjCpvqrOEcNpWicPPODT5WatNm4iBznN9rmvZooHT1i/qvq9FHCDHBVbaZ7dPZkEWE2LE4+JZc36k48uSupCe7+CSNUMMbumnw4kBT5KJ2biFwzV0V6Xnx877OVWDkLY6QDBC3BbYvIhRN0ZFC2mRknqRBnvWYxyUWna17VJXE8aoM3Yh29q7Fmp2+7h2OgQjUZ3qjvN9VCwt2RIvXWRxiKfw3MOApGpWIHst+h5RJKADQgy6dXRLFzm7/4Q2l1K0sQ81YwChb/CBTQWCXrJE4hdRRfYWdR7B4TwkXCmMd2lMbcJEOzcGrGIawRRK2oEMr5a0BiqKul8/IrWSfgI3jtyfKZQ+9nnwX/l/2etA1D68rywY5bs6m3yh0Wg+BZJp7aHMeQb8wqyBhDmQWMsDLjBcISrnHB9ExHtK9Zh2Ph4gZ/uOqImEhUKVqryA1mXDFItM+wXbznTls5cYulSQt00IrZJXTEzrryxw7GPI3Oa+oZvQODyWr1Ydzl1u2vLuGDMy/eJrW9m7n7Bl8+GPQwR1TIXobUKB0jL6AowYP9WKmWqWBIU4lzB9CApUiVkYLjKo73MrdI7C3x2tZfcUg7YCN4XV2ZlW7OYxmp+vqq84VeFilXnRBmonPQZy05E20QEc/kRqvMahIDw1ibxRNX55lgIxSEdyYOipdfP10Rcpdf7e4KXhY0v2/tKhhI5FbTS7JozjRSOrb1UphTFOYpJVIsnxKXOg3Kqqo6m6j5jIBylm7GBMZi/GBZK/H9TLKsbTsaW4TgoQpRgGagmEikjc0fpAr5jVS1T9amZmWu25DGhKi6N4qU3k1Bq7w4fnydDzQi9Oxn4FH/0mhvsAti75Y8yFVkFOROgUEUPGJUL0UPDeOpMUHA2A5ufjtGgxzvaYVT3I+12aB1Bmj/fwvjV+VbuCW16vLyFMtTrzx0lqKpMvDjPZsAtVy1IDznc60Ws3gV2ZL5WOoohRjel6yaQpSNwv1fT9BDRMbhqtirtsAbaslihEkJUOLCh7FfZcdGakEOfOgIcIMITdODCma8+z0gjm38EMERgMYMa5aH9yowBj0IhjdQdPgqqvMNSvXnULEpU83vRQfFeEaTm9wqUul/pGtQBPNDrwyGEpzfs0Wi40BFuGRly/LjMjt8SdUcEPyRwS6SRlmVUNICAh005oU/f+97mlSHm0bdMDWPIKcCDW0681n7eFNq4zAcGvv9xEhbyYxBAXKocHas3rDefG/vJjp0+j6dZrAEb1dlfNu9cvIUxlzIS30cqrYrN9xiSs92qHq06gKBOrsaeqetyq3gv9zMozIebqC00m1io+/7xeBVTF0sjfYyX+n9YgHne79CrhxVxCVxmiX5dSVwmZWQoXgA5O3Bi5cuosPY8xqhB6kgDRLIZMi3/QIQg2MncpjEJKSu/ik2gZaOgj1to3Q1NK0tMFFJ9ukHIMNMbga6yQksJfctr2dwr5KFuWDvfp1PnRZLmYWrcnOrnc7m9inQuNi/h+YHjCk7W7PwXNI+WbzER9GlFi5B6gA99kbTTwZzwtHWP+A6NumxJEw0dug8IIjCUD1NkmNxVwupFapAvE4NIVn8NTanCULFdQs3e+eiAiaZWsuIVz60Scs1aSZbXyGFvx3pOjjRNeInk9EuJWpTf61wf4dqCbyGMUrGJEeETBaJll8LJ5fxtohLr4Ky/gG02nByrJhc+qRu2OBuQmRIE++q5oR7bEL29stw2KOIHk6q+qhBW9yz0IYWngClx6bDMJxLTZvOWZCqum7kbiARTOcFyNH7jHC4RfBYPpOJOKLCTjhEtX/+bw5jWtzRRX896u5+zi9p4YyUnHYPp0Pi0oqyNi4j//jIZIDP+XZuqqYhbPxC6u2IYGHZYKPeSLgA0MfLrgfwsA5qAmTBwPcdESN8k3fJ60YLZei+gm+dmSZX7K55HEBfLKXUOpC1nuDJM6fEIeMx7UQaPUMdVMP6CCAa04+VRhcNguo8yfnIiiVE+cBQUk0Yl2m8f1onvsjcaRddHFXMuI99MKU+MyLq0uDe/OH8OVI01PgG7X0Pl1cLs2IO1VJ70eN7EJaq7tGdJV6EL1/2AdFIK/ba/LtLlx8UY/nKYxGXqq0G0wwiQUYFsdSwlXaAH/jd+oVQ2cABVmIDkPyuhrm+9MKysuC34ZARxsRcisSCPbGJoIlqSDlKoPpdWKuMBpbwkdVCxKC7uPc/Mo+1uUOhYLJrEkXi6jG2biQmnN5WRDPDfxcJHTTiCLpPvK+xOHvzWmlaYb/qAJdZEAv+ferf8o/VXAdVS3Vs0EE+Qu49f/R+xT/L17qfxzxacEXdbxvbFvxKUqXqAkgYBMcNnGP1Vplok7C9xnmd3XEj9nE3v81GexhZOVOFqYr3rB693nFuLr8a1d/ECmOpNrBrSZYIfCmq9O75aYYiRCitToys2ufkVrtispupcQMYm91M1bHb175qL/fgFLicyOK5CxTHfT8pUEEUCYjJHkV0A1gBfiedhWQaBNhXb/G+1Qxfgc/nMxp2SDNdkE1+1GKRrtOo6kWuumeC7IUDhFgG4pCDktPF9lyKzkZXdLDW4srFmwy6Go8Zsgs2USRHq465g+txM7daXLbO3c/FBHF0zjyxZoAgEq2a4iSBxl2AKytUOVIYdq/4y03RaAoEqUsmG/GHz92/qxVm5DGM2S4SufhEfNglGLvtDPYOfRuV7Y4pNo3tCIYQ6bU2TM4i3Jzr1fZ4BiUE2SOJgcsu/COeZHgHxhXnXyD3AHEEp7oAfKqMLwik3t62m8IbzOIkHZcBZeUo2MezaloMCpB8zAs4FSkZnONnmTh55lp6QiNY7w3AWc2+jtNVHUtPGG9xvbLMusI4yHh93+JFnp4F+mGUaVxi8dw3CHguPpUk4cBHOZ0cx0ctwDT2OIe19a6T4iEFLZLnZ7xTx5ziM05AZlBURP0mOO9121bVWNmniZZkFQeac4hrDN2EDFLInqelsZhtxYyHEPVeGuzVIRcOSAo2D5yQU8XXZejhdNs8Q00D60hLUHeSiT0eC25X6FWHt+6w7Gq6TyA+ZBBON3tKZBIMF43QaHBmOJF7swPETm4y+pG2iylEw5+XKXufiV4Hx9cBg4yD84CGwscM3varIxtWoSSHn5srwL+Sg5bTRvSqX49xiEFOiqgsjYvcQ4MK02QhphLU2YSWI5w8XcwIomb1Y3osgVGqIpCE/EGQEefeM90kTCayq7G7VWNhWvCwtLqFJ6heNeYZg1jLs4ESlk9dR2TEGOh0K7n0V++/oX/udIFxQZM0xXGOvxCBkeT0Ek7xqjDoWBkcXVBbW80iMNdmNHHDabsfT1D/kTKTRuw9qPetLLpNnNwJC44orQKQstlJDfiGROhslUrdwmLe2KHRbwnVcEdXiMyRsYPkCb48n7v6aSmk+XYgPFFEym9Rd9qJWjWo83ORl+uOfg9EtKa3cO4YrvwoFweQhr202Xc1jJkNsnZhDBYmR9qe590ckeEEND+K6EgXD7VKaYjQMcTaPZoT1FKIgqlulJVPsqBVXWbQgaEMFyAZ0yvSeblc9pMplKxe2lnyZKvzBhBePSf/K7NISJkV76y7senwKKvAMsJ37nFragKuLIKMIkP/96lOByjOmzPuDSxBNXupVV09lUxGVdnXXoy3WIbOnZk/b0tPFW0jqFMLZ2d0Cb3/3d7kF8ZkECs1c4Ne1nbuhelKmm2z2F3E2f9wN7tqZmQc+Sm/vxArKMUyeuTl6CK53VmWhc13UT61zy1swSECTwsGMg8oSVw6l2zYP2tRbhlFrJUHLOZubhC//ddqpcXv57CWMDpzE+uFUrsf0nxIFalezCiCGb/amziK5QR5wPZDEQzhzFqEgPUfwThVvbGzYaWa/gFNc3lt1SRDbvPfL0W0pGSYsa732+AClTTsiViNhMqgI27K1qyI9elWFkzpmTihIysOLL7Knk+Td9DNGNKM8ZLiKmastxSEr9+cSMhLHZJngLoLmkotDQQ52k0GAt8s5Qnm5IvGzgKXJQuccf2goN3wOLq9YDdXmui/gUauFY3jyDUmYcdpYFXUpSYJQdV9djxiAjNMfiSBgMmM9d8MwkJwBQgeIcwAv2dOAV+bJv99V2xQynmdznK9q88cmRG2YCTQ2jhTgBWczR1AsXQhVYSIwoVBCDMmxoVfSJ+H1tpnLU5O/tqUaHlE07q4iHIA70La4EZr9rHEpSz527PwZ6KY8q7o9aMkeqGBMpmIWJQ7cgzKBJlLJCdNeYlwG7WMbXBKKuIN1AOrF3kPTN9nvmwjfnh05oIQmN1sWTl0VHio5kmlMg2cScVpmaQiKhZksLnwbWVIPyU4XmSbzBQGSAbc4hjRq+YhEPFDHmTO2BWS1lcVsbmdDQE6A3K9PhmsxW30r14pZfQJGSutw+583IgN1gGNfCzeW0xL6jkLywtO7ojAUvFstWpKEERLgAVwJ7F4XRnNJt8GGpifOIGC7SKWg20dmy8G1jQVFm6Uq47QfMj9IJTer9oVbKOAyRYkAXToC5PwjjwoC6yWp06k/1MebABOaGgb3Vg/Qw/UA62jZKRwZ/nvGxY3UTrkCB58O7Fr5r7Y3r8mc4oVzcyLCtXny+P8djNyvimz1L09z5i8zc+ycxKGhy5uV3MVwqi/+qg8SDugM9r3tFnJekpWrHlcU1BQ7FC+1HArolPK+UtTDeXsb/tyl+kpZIfntamJWnljzL2oqb9QnTxW5d9oJg2h/59VtkERYMH/3mYbhmGvUDJqWa0xDSZTTtZP1/j4R4aKkAjlC8KsbEJmVOh6TkLwWk/J2+wzUHC7kooIkIX5ePdp2BGGcJBG1F/+0vNkAVLQrtd4YO2zaLcr9oodx9VdICiThwQfE/3nPfraOiMJC6v3io2y0soXTUsXCT/8rMnejXiyRBhRbntlZSshoN9YJGQAL9jxVuowvZFnWF20zbLbw5mmlk18AfThFhFg0z5gRwpyKWLup9tVlyriEN/ZOU184ai0CeBnlLrhFwMygF5eHV3cYSBSAn39adQwGiws6vGVgFepQwgsNWNW2Za6QkzdoKkNXJ1VPxsJj4ztPPHatDH6x+8uVjYULBUko1HoW1P9y4A1YoR1FMkrXKz+FxLUasmZvBPEsDW0iMdO2KjdZv56dTXeh11CeC1Cb99+Iqg/hRUWozS8O07ZpLawDyKdIm+cuL/VaEfAL+3drEEBCzJ2kyZcU8W39BUeizoqcd8oaXvddGPkgWSbHXCuF7WkoEJG+o/U5KyVlDeFhSUOA18oUfsYYWY/RsTKmwLrV7xrYCb/Qqso06wuse8sL4PM9ZqtXQgLiST38LJYy/HKxLP4KtG04md/0Uueunjx6jLuIg/I3zxKLyTvtl0fue7T4SEd6vyB1RV8W2tQeEBxWrrWefH/i1OpebdRRyB3abZ3wCJretrxQOKiLjq022aZHSrXpXf54oVkUhB25Ywoy03bOxZuFpdDm/gU1AJ8Du4wbNDw+QbsFqZcZyqTEAQBbqgju61oJW7KDHsSYXuBQhLVIAEcHwbTJzdOwyVOWP3Al0UkbaKzHvXXKKsYYk6TN14NByGblBFf1InikfPwGt792Z3Czl3d3tTfdOaKWIqEvp+xZmpoUELqK/GNigwXiCdSPuK7/4yKbS58H3KF0JZaMO5slMmN45pG/Ycsx8ccOZmysvtk35zh9FDGsMWfJ1O2SSa/VmM/VJwuMrbBfyCIytnK0UrnW8Hq4V5PkQtfKz9LbPD4gBOi8+ubZHIp0d84GwnOA97dG9Br/euMzf8u6EdZBVVYS1gY9OSzffI1OIcbVn5oUBBKzB9FstSwTxTy8cVTI7DoPBpxSfufIK6ZnzLgBthRI5MK7wAZKBf5GB79jWWyFcc7OhAbQNhdADvIbaUzWSlAeSu1nypfL18+trGYRQMWaAPh7JLpB8hxye1bs3JIQbKDndWurjjtJHJyfuz56jHZzeUTbrCeq8Ms4Be2utkbkyCoXlltG7gu8+E2KNTkOREmUhAwGl65B2UqA0yXA2w9CC6OZzFMFuqptxxIhl6u6NyBfJsnSYYa+pEeekexfIeivpvgSpOlN5+MIOjLDrmflHgtcYbVeOKptzRUkJ415mdlEGkFDP1H9AVz3lwhAro0CFeeazfM1Yi7xB6ORX+3a/HFbyeWjEcuG8jaeEtJEHYBfeMtNw0ZaBoMcd36HoBrfRGNhzz18XtEEmVkBjdT/gI1s1s4sjD66bcBOorf3f6ilqVsBcU1ir67n9N1omSUW8I3pj+sq83WL6dKF5nGfGeEL8T7hAppuiV3dxa6yB2qZ6taz9ikI+xB/0Q5WS79yDvBVbAZ8K+YNR6KaVlo9TMozr1Pgh+vRi1wf0kNt+PSockZu26YPuU8pdU0uFugvPHx2LrKeUi+6ArmTpcV2DARI+eQPFlvbQGu1iZkJg5fb/lUjMaIagL7WBLiy48wE2jwkIs7Eg43n7sQ2WL6VuTfA/m5dk6aQ4t5Kq/4exFMTbwH1QNKOFJN1RSm1vjoGAeOR+wOkuQMiAqMbM1cMYmctWBQa07TO0XZ6yLxmN2Yrew1bVWgmcm/HDgAm9a5l6GraS+aDjySLc8TkhljNUm2JJhsFG1Xuc75tGBN8pTkYsee6O572dVTwKyR1kSQUepHy02D3iZ4hx9O1W4Zqbex+OOdFhUbnLOTl+rJwFeW85gBlXsLynT7TcqsS77wR07DiARV8Ing="
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 564,
+      "candidatesTokenCount": 162,
+      "totalTokenCount": 2054,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 564
+        }
+      ],
+      "thoughtsTokenCount": 1328,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "9oq1arCoGqzOvdIPzbaGmQ0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 564,
+    "candidatesTokenCount": 162,
+    "totalTokenCount": 2054,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 564
+      }
+    ],
+    "thoughtsTokenCount": 1328,
+    "serviceTier": "standard"
+  }
+}

@@ -1,0 +1,170 @@
+{
+  "example_number": 778,
+  "entity_id": "wd:Q238705",
+  "entity_label": "Esperanza Spalding",
+  "description": "American jazz bassist and singer",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0778/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0778/metadata.json",
+  "input_hash": "c86254c93535d9943d4ea330dcff74f007294dee85e01d7104138cf004e1520d",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Esperanza Spalding\nDescription: American jazz bassist and singer\n\nTaxonomy context:\n- Direct parent classes: instrumentalist\n- Sibling classes: clavichordist, keyboardist, violinist\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q238705",
+    "entity_label": "Esperanza Spalding",
+    "description": "American jazz bassist and singer",
+    "reference_class_id": "wd:Q1214796",
+    "reference_type": "double-bassist",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1214796",
+        "label": "double-bassist",
+        "depth": 9
+      },
+      {
+        "class_id": "wd:Q1278335",
+        "label": "instrumentalist",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q639669",
+        "label": "musician",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q483501",
+        "label": "artist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q2500638",
+        "label": "creator",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "instrumentalist",
+      "siblings": "clavichordist, keyboardist, violinist",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "instrumentalist",
+      "siblings": "clavichordist, keyboardist, violinist",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 778,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1214796"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q1278335"
+      ],
+      "siblings": [
+        "wd:Q101579657",
+        "wd:Q1075651",
+        "wd:Q1259917"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "jazz bassist",
+    "bassist",
+    "instrumentalist",
+    "singer",
+    "musician",
+    "performer",
+    "artist",
+    "person",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:05:33.755539+00:00",
+  "response": "{\"explanation\": \"The description 'American jazz bassist and singer' establishes bassist (and jazz bassist) as the most specific type. Under the direct parent class instrumentalist, sibling classes such as clavichordist, keyboardist, and violinist denote performers of other instruments, which are ruled out by the explicit mention of bass. The entity also qualifies as a singer and musician. With no child classes specified, broader supported classifications progress upward through instrumentalist, musician, performer, and person.\", \"types\": [\"jazz bassist\", \"bassist\", \"instrumentalist\", \"singer\", \"musician\", \"performer\", \"artist\", \"person\", \"entity\"]}",
+  "explanation": "The description 'American jazz bassist and singer' establishes bassist (and jazz bassist) as the most specific type. Under the direct parent class instrumentalist, sibling classes such as clavichordist, keyboardist, and violinist denote performers of other instruments, which are ruled out by the explicit mention of bass. The entity also qualifies as a singer and musician. With no child classes specified, broader supported classifications progress upward through instrumentalist, musician, performer, and person.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description 'American jazz bassist and singer' establishes bassist (and jazz bassist) as the most specific type. Under the direct parent class instrumentalist, sibling classes such as clavichordist, keyboardist, and violinist denote performers of other instruments, which are ruled out by the explicit mention of bass. The entity also qualifies as a singer and musician. With no child classes specified, broader supported classifications progress upward through instrumentalist, musician, performer, and person.\", \"types\": [\"jazz bassist\", \"bassist\", \"instrumentalist\", \"singer\", \"musician\", \"performer\", \"artist\", \"person\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 550,
+      "candidatesTokenCount": 132,
+      "totalTokenCount": 1391,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 550
+        }
+      ],
+      "thoughtsTokenCount": 709,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "rp61aqdezZLE3w-ghKyhDg"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 550,
+    "candidatesTokenCount": 132,
+    "totalTokenCount": 1391,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 550
+      }
+    ],
+    "thoughtsTokenCount": 709,
+    "serviceTier": "standard"
+  }
+}

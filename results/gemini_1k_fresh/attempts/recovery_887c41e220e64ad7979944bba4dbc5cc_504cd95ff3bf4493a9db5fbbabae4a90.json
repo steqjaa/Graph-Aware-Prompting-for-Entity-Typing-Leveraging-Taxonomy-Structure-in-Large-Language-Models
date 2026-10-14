@@ -1,0 +1,168 @@
+{
+  "example_number": 131,
+  "entity_id": "wd:Q87746406",
+  "entity_label": "Corso Pecori Giraldi",
+  "description": "Italian admiral",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0131/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0131/metadata.json",
+  "input_hash": "c9cb5d989ad56f85a831af5fef20112afd055766a273365ad2df77e10f185ea2",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Corso Pecori Giraldi\nDescription: Italian admiral\n\nTaxonomy context:\n- Direct parent classes: position, military personnel\n- Sibling classes: business analyst, military scientist, deputy chairperson\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q87746406",
+    "entity_label": "Corso Pecori Giraldi",
+    "description": "Italian admiral",
+    "reference_class_id": "wd:Q337902",
+    "reference_type": "naval rating",
+    "gold_types": [
+      {
+        "class_id": "wd:Q47064",
+        "label": "military personnel",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q1414937",
+        "label": "combatant",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q337902",
+        "label": "naval rating",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q4164871",
+        "label": "position",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "position, military personnel",
+      "siblings": "business analyst, military scientist, deputy chairperson",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "position, military personnel",
+      "siblings": "business analyst, military scientist, deputy chairperson",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 131,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q337902"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q4164871",
+        "wd:Q47064"
+      ],
+      "siblings": [
+        "wd:Q1017553",
+        "wd:Q104176943",
+        "wd:Q1127270"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "admiral",
+    "naval officer",
+    "military officer",
+    "military personnel",
+    "person",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:16:47.217810+00:00",
+  "response": "{\"explanation\": \"The entity Corso Pecori Giraldi is described as an 'Italian admiral', which directly supports admiral as the most specific type. In the provided taxonomy, military personnel serves as an immediate broader class, while sibling classes like military scientist, business analyst, and deputy chairperson are rejected because they do not reflect naval command. Ascending from admiral, valid broader types supported by the description include naval officer, military officer, military personnel, and person.\", \"types\": [\"admiral\", \"naval officer\", \"military officer\", \"military personnel\", \"person\", \"entity\"]}",
+  "explanation": "The entity Corso Pecori Giraldi is described as an 'Italian admiral', which directly supports admiral as the most specific type. In the provided taxonomy, military personnel serves as an immediate broader class, while sibling classes like military scientist, business analyst, and deputy chairperson are rejected because they do not reflect naval command. Ascending from admiral, valid broader types supported by the description include naval officer, military officer, military personnel, and person.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The entity Corso Pecori Giraldi is described as an 'Italian admiral', which directly supports admiral as the most specific type. In the provided taxonomy, military personnel serves as an immediate broader class, while sibling classes like military scientist, business analyst, and deputy chairperson are rejected because they do not reflect naval command. Ascending from admiral, valid broader types supported by the description include naval officer, military officer, military personnel, and person.\", \"types\": [\"admiral\", \"naval officer\", \"military officer\", \"military personnel\", \"person\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 551,
+      "candidatesTokenCount": 117,
+      "totalTokenCount": 1100,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 551
+        }
+      ],
+      "thoughtsTokenCount": 432,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "P5O1apyIHfiCvdIPjtaI0Q8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 551,
+    "candidatesTokenCount": 117,
+    "totalTokenCount": 1100,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 551
+      }
+    ],
+    "thoughtsTokenCount": 432,
+    "serviceTier": "standard"
+  }
+}

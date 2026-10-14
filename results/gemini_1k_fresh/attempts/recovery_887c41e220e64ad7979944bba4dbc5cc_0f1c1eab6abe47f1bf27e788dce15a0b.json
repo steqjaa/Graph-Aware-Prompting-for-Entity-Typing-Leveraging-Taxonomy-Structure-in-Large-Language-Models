@@ -1,0 +1,160 @@
+{
+  "example_number": 558,
+  "entity_id": "wd:Q58797",
+  "entity_label": "Hattem",
+  "description": "city and municipality in Gelderland, the Netherlands",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0558/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0558/metadata.json",
+  "input_hash": "d99b6315f04007cf7ddf70ed87ddc8e8ed55487c4107c8088670f58c1cb4ea2f",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Hattem\nDescription: city and municipality in Gelderland, the Netherlands\n\nTaxonomy context:\n- Direct parent classes: human settlement\n- Sibling classes: seaside resort, rural settlement, historical settlement\n- Direct child classes: urban municipality in Germany\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q58797",
+    "entity_label": "Hattem",
+    "description": "city and municipality in Gelderland, the Netherlands",
+    "reference_class_id": "wd:Q13539802",
+    "reference_type": "place with town rights and privileges",
+    "gold_types": [
+      {
+        "class_id": "wd:Q13539802",
+        "label": "place with town rights and privileges",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q486972",
+        "label": "human settlement",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q123964505",
+        "label": "populated place",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q27096235",
+        "label": "artificial geographic entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q27096213",
+        "label": "geographic entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "human settlement",
+      "siblings": "seaside resort, rural settlement, historical settlement",
+      "children": "urban municipality in Germany"
+    },
+    "oracle_graph_context": {
+      "parents": "human settlement",
+      "siblings": "seaside resort, rural settlement, historical settlement",
+      "children": "urban municipality in Germany"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 558,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q13539802"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q486972"
+      ],
+      "siblings": [
+        "wd:Q1021711",
+        "wd:Q10354598",
+        "wd:Q106626840"
+      ],
+      "children": [
+        "wd:Q42744322"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "municipality of the Netherlands",
+    "city",
+    "municipality",
+    "human settlement",
+    "administrative territorial entity",
+    "geographic location",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:49:03.736002+00:00",
+  "response": "{\"explanation\": \"The description identifies Hattem as a \\\"city and municipality in Gelderland, the Netherlands\\\", supporting \\\"municipality of the Netherlands\\\" and \\\"city\\\" as the most specific entity types. Its taxonomy parent \\\"human settlement\\\" defines its broader spatial and demographic category. Sibling classes such as \\\"seaside resort\\\" and \\\"rural settlement\\\" are contradicted or unsupported by its status as an inland city/municipality. The child class \\\"urban municipality in Germany\\\" is excluded because Hattem is in the Netherlands, not Germany. The remaining terms trace a valid progression from specific settlement and administrative classifications to broader geographical and abstract entities.\", \"types\": [\"municipality of the Netherlands\", \"city\", \"municipality\", \"human settlement\", \"administrative territorial entity\", \"geographic location\", \"entity\"]}",
+  "explanation": "The description identifies Hattem as a \"city and municipality in Gelderland, the Netherlands\", supporting \"municipality of the Netherlands\" and \"city\" as the most specific entity types. Its taxonomy parent \"human settlement\" defines its broader spatial and demographic category. Sibling classes such as \"seaside resort\" and \"rural settlement\" are contradicted or unsupported by its status as an inland city/municipality. The child class \"urban municipality in Germany\" is excluded because Hattem is in the Netherlands, not Germany. The remaining terms trace a valid progression from specific settlement and administrative classifications to broader geographical and abstract entities.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies Hattem as a \\\"city and municipality in Gelderland, the Netherlands\\\", supporting \\\"municipality of the Netherlands\\\" and \\\"city\\\" as the most specific entity types. Its taxonomy parent \\\"human settlement\\\" defines its broader spatial and demographic category. Sibling classes such as \\\"seaside resort\\\" and \\\"rural settlement\\\" are contradicted or unsupported by its status as an inland city/municipality. The child class \\\"urban municipality in Germany\\\" is excluded because Hattem is in the Netherlands, not Germany. The remaining terms trace a valid progression from specific settlement and administrative classifications to broader geographical and abstract entities.\", \"types\": [\"municipality of the Netherlands\", \"city\", \"municipality\", \"human settlement\", \"administrative territorial entity\", \"geographic location\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 556,
+      "candidatesTokenCount": 166,
+      "totalTokenCount": 1852,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 556
+        }
+      ],
+      "thoughtsTokenCount": 1130,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "z5q1aobYOfO7vdIPtZOkCQ"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 556,
+    "candidatesTokenCount": 166,
+    "totalTokenCount": 1852,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 556
+      }
+    ],
+    "thoughtsTokenCount": 1130,
+    "serviceTier": "standard"
+  }
+}

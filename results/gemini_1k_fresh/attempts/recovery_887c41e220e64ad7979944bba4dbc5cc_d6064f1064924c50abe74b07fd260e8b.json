@@ -1,0 +1,162 @@
+{
+  "example_number": 233,
+  "entity_id": "wd:Q110863791",
+  "entity_label": "Javier Lliso",
+  "description": "Spanish freestyle skier",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0233/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0233/metadata.json",
+  "input_hash": "d172eed0891bac095616150b6bb34c2c3c0e45fd4f00330e18f15afacc155caf",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Javier Lliso\nDescription: Spanish freestyle skier\n\nTaxonomy context:\n- Direct parent classes: athlete\n- Sibling classes: competition climber, tennis player, field hockey player\n- Direct child classes: ski jumper, Nordic combined skier, cross-country skier\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q110863791",
+    "entity_label": "Javier Lliso",
+    "description": "Spanish freestyle skier",
+    "reference_class_id": "wd:Q4270517",
+    "reference_type": "skier",
+    "gold_types": [
+      {
+        "class_id": "wd:Q4270517",
+        "label": "skier",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q2066131",
+        "label": "athlete",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q50995749",
+        "label": "sportsperson",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "athlete",
+      "siblings": "competition climber, tennis player, field hockey player",
+      "children": "ski jumper, Nordic combined skier, cross-country skier"
+    },
+    "oracle_graph_context": {
+      "parents": "athlete",
+      "siblings": "competition climber, tennis player, field hockey player",
+      "children": "ski jumper, Nordic combined skier, cross-country skier"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 233,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q4270517"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q2066131"
+      ],
+      "siblings": [
+        "wd:Q107690317",
+        "wd:Q10833314",
+        "wd:Q10843263"
+      ],
+      "children": [
+        "wd:Q13382603",
+        "wd:Q13382605",
+        "wd:Q13382608"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "freestyle skier",
+    "skier",
+    "athlete",
+    "sportsperson",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:24:33.037494+00:00",
+  "response": "{\"explanation\": \"The description specifies that Javier Lliso is a 'Spanish freestyle skier', making 'freestyle skier' the most accurate and specific type. Its broader category under winter sports competitors is 'skier', which falls under the direct parent class 'athlete'. Sibling classes like competition climber, tennis player, and field hockey player describe entirely different sports and are rejected. Similarly, the listed direct child classes (ski jumper, Nordic combined skier, cross-country skier) denote specific other skiing disciplines not supported by the evidence, so they are excluded in favor of freestyle skier. Broader valid classes are then arranged in decreasing order of specificity.\", \"types\": [\"freestyle skier\", \"skier\", \"athlete\", \"sportsperson\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The description specifies that Javier Lliso is a 'Spanish freestyle skier', making 'freestyle skier' the most accurate and specific type. Its broader category under winter sports competitors is 'skier', which falls under the direct parent class 'athlete'. Sibling classes like competition climber, tennis player, and field hockey player describe entirely different sports and are rejected. Similarly, the listed direct child classes (ski jumper, Nordic combined skier, cross-country skier) denote specific other skiing disciplines not supported by the evidence, so they are excluded in favor of freestyle skier. Broader valid classes are then arranged in decreasing order of specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description specifies that Javier Lliso is a 'Spanish freestyle skier', making 'freestyle skier' the most accurate and specific type. Its broader category under winter sports competitors is 'skier', which falls under the direct parent class 'athlete'. Sibling classes like competition climber, tennis player, and field hockey player describe entirely different sports and are rejected. Similarly, the listed direct child classes (ski jumper, Nordic combined skier, cross-country skier) denote specific other skiing disciplines not supported by the evidence, so they are excluded in favor of freestyle skier. Broader valid classes are then arranged in decreasing order of specificity.\", \"types\": [\"freestyle skier\", \"skier\", \"athlete\", \"sportsperson\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "EpsICpgIAWkUfRPo41H2+8Qeu/uTVywS6kGBlFT7bti5R2TlDXxehD5ADZfzNfSOgt4u1MNahpa8owWXViSPnaB+mAGBvJKGEJfywotD8E8Cv7o0b71+t/vYynpQk6dLHpwp6tI3A3cx7OB/ko85DbPKifaIMvxRjrXdBJ6qE5uUjyB8/G8pcBk/w/ztQI/3TKvCpTyGD8X0JoByDlRfSy+M4UldGUIaX5oIoePwtYVxS8C4SciuljyyTw8JMyT+Zd0l5r6kosAv5BB0ij7x8h/RL7A6W4sXTmIrVcpBjfZjTkhQzhCfbZzV0NlXq6g9e+iTiJazg1VMCn4Kopmc5Wof1J5acZnxUVYRPolSiHRdWstMVlJRxC7cgm57IGdV1smMNnU4S9Ta5F2Ge6WcMzBms6P1HkK7AtfSk3XsxNZ6Lt5hy2AGgkFhzgwqwiM7DfUQSI+H7rh532aCNE8HvSL6H8B1mRsTyAv5Ep8pN0UB2uZaZfQC/hbcDoy9paESACE1/KqSSDg475cb9vYIBCFINwC/EkP55TCEtuIoKTVwRqXrPOWWzhLnnQt2cRTEfP/6e4TTNhtbksriC4FlXfAHtErqjXfMAozabrYciSWVhJoATPs0Jb2AAeO4G8IMILV86Y8USCFEOdtCrD/4SR5uQl9H3NgstVgIKE/F2mgenxfS7FVjKrQYl4Wzf7jVHG3IX1qk5+UNo4rji+7DhPn4J+mdS7TLI4jfv9941Bm8naU2Xr2JvGj7ZKf2enbXNHY00Y3zxHRaFsF+Bcx1hhg09B4birsnorMkyJW4/34V3EU7E2rxEcH4hOmOUZoVB7LWdl/yxgRR+vunomX6H94lNemApIU6H8/ZIalBMfffnlWifQfKzCpAofFWVRn9dRZRyUDjGQBbtHo4oaEhcJqCbQioXAUTP7kHtPv4U3/OyvBvoyiQbPgl7yUvL0H7vqfAW0UZZFttwhwFO0G9uULa6HQseap9UvidQkJe9i5TgVYTKmeiNECPmTAa9c7GODGxtAXtK9ameXI07/nkc4cu+zbths0l4hhSsScKtyw7Vnb79jA+j2zHqJp67lnic6TsvAewG/RLZfuyMNo16zWw8hy7AuxHGkVOWa4skjyF3jpYuddK/sES6jUyQJcGp8C+xMCgPK3tFQ7WmcK3RaepiYN19aEouBATrek+twLxJPaUs+XhODht7lO5f5FA2pcyokB9RP+hc2/pIErVhKugDbWnp1r4pYYygicwdbwpONwEU6sBzrt5hPbdq5QpOq3rnZ5RlM17e5MFiN5sFUMXbaw05VVqEUzWI6sN04wPQ9tKwcJSUHChKWsxVKTiny1MO7qe8AXzcIJH7tkdCsl5V8Hejq+5AI9bjYxe9eYW7Lv/roX6wwS3dBKKAQ=="
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 557,
+      "candidatesTokenCount": 158,
+      "totalTokenCount": 920,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 557
+        }
+      ],
+      "thoughtsTokenCount": 205,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "EZW1aoeYFPLlnsEP5NvtuQY"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 557,
+    "candidatesTokenCount": 158,
+    "totalTokenCount": 920,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 557
+      }
+    ],
+    "thoughtsTokenCount": 205,
+    "serviceTier": "standard"
+  }
+}

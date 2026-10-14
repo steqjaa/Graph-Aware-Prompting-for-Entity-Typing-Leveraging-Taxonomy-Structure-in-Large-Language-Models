@@ -1,0 +1,153 @@
+{
+  "example_number": 755,
+  "entity_id": "wd:Q6113737",
+  "entity_label": "Jack London State Historic Park",
+  "description": "state park in Glen Ellen, California",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0755/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0755/metadata.json",
+  "input_hash": "8a58fc4a691520230ce09f37bb96700a9a857b4703686594050bc6a10874e439",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Jack London State Historic Park\nDescription: state park in Glen Ellen, California\n\nTaxonomy context:\n- Direct parent classes: historic site\n- Sibling classes: technical monument, industrial heritage site\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q6113737",
+    "entity_label": "Jack London State Historic Park",
+    "description": "state park in Glen Ellen, California",
+    "reference_class_id": "wd:Q28042933",
+    "reference_type": "state historic site in the United States",
+    "gold_types": [
+      {
+        "class_id": "wd:Q28042933",
+        "label": "state historic site in the United States",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q1081138",
+        "label": "historic site",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q358",
+        "label": "heritage site",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q210272",
+        "label": "cultural heritage",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q2434238",
+        "label": "heritage",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "historic site",
+      "siblings": "technical monument, industrial heritage site",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "historic site",
+      "siblings": "technical monument, industrial heritage site",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 755,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q28042933"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q1081138"
+      ],
+      "siblings": [
+        "wd:Q1516537",
+        "wd:Q1569871"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "state historic park",
+    "historic park",
+    "state park",
+    "historic site",
+    "park",
+    "protected area",
+    "geographic location",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:03:50.249379+00:00",
+  "response": "{\"explanation\": \"The description 'state park in Glen Ellen, California' and entity name support state historic park and historic park as the most specific types. In the taxonomy, historic site serves as the direct parent, setting the broader cultural-heritage scope. Sibling classes such as technical monument and industrial heritage site are rejected because the entity is a park rather than an industrial or engineering installation. There are no direct child classes to consider for further narrowing. The remaining types reflect valid broader classifications ordered by decreasing specificity.\", \"types\": [\"state historic park\", \"historic park\", \"state park\", \"historic site\", \"park\", \"protected area\", \"geographic location\", \"entity\"]}",
+  "explanation": "The description 'state park in Glen Ellen, California' and entity name support state historic park and historic park as the most specific types. In the taxonomy, historic site serves as the direct parent, setting the broader cultural-heritage scope. Sibling classes such as technical monument and industrial heritage site are rejected because the entity is a park rather than an industrial or engineering installation. There are no direct child classes to consider for further narrowing. The remaining types reflect valid broader classifications ordered by decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description 'state park in Glen Ellen, California' and entity name support state historic park and historic park as the most specific types. In the taxonomy, historic site serves as the direct parent, setting the broader cultural-heritage scope. Sibling classes such as technical monument and industrial heritage site are rejected because the entity is a park rather than an industrial or engineering installation. There are no direct child classes to consider for further narrowing. The remaining types reflect valid broader classifications ordered by decreasing specificity.\", \"types\": [\"state historic park\", \"historic park\", \"state park\", \"historic site\", \"park\", \"protected area\", \"geographic location\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 551,
+      "candidatesTokenCount": 136,
+      "totalTokenCount": 1362,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 551
+        }
+      ],
+      "thoughtsTokenCount": 675,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "Rp61aq3LHo6RxN8P7N_g0Q8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 551,
+    "candidatesTokenCount": 136,
+    "totalTokenCount": 1362,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 551
+      }
+    ],
+    "thoughtsTokenCount": 675,
+    "serviceTier": "standard"
+  }
+}

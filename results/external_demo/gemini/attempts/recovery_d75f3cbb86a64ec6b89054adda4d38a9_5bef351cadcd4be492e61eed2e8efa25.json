@@ -1,0 +1,155 @@
+{
+  "example_number": 590,
+  "entity_id": "wd:Q6408929",
+  "entity_label": "Kim Jones",
+  "description": "British designer",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0590/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0590/metadata.json",
+  "input_hash": "7d7a4b4f70c426d60faeb1f307e13cc4d217bc2ec494c239eacf3d4064d8d6ce",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Kim Jones\nDescription: British designer\n\nTaxonomy context:\n- Direct parent classes: creator\n- Sibling classes: crime fiction writer, advertising person, columnist\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q6408929",
+    "entity_label": "Kim Jones",
+    "description": "British designer",
+    "reference_class_id": "wd:Q3610436",
+    "reference_type": "personal stylist",
+    "gold_types": [
+      {
+        "class_id": "wd:Q3610436",
+        "label": "personal stylist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q2500638",
+        "label": "creator",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "creator",
+      "siblings": "crime fiction writer, advertising person, columnist",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "creator",
+      "siblings": "crime fiction writer, advertising person, columnist",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 590,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q3610436"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q2500638"
+      ],
+      "siblings": [
+        "wd:Q10297252",
+        "wd:Q10355417",
+        "wd:Q1086863"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "designer",
+    "creator",
+    "professional",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:20:48.374323+00:00",
+  "response": "{\"explanation\": \"The description \\\"British designer\\\" supports designer as the most specific valid type. In the taxonomy, its direct parent is creator, which establishes the broader semantic scope of someone who produces creative work. The sibling classes such as crime fiction writer, advertising person, and columnist represent alternative specializations of creator that are unsupported by the description. The direct child context is None, and narrower specializations are not explicitly stated in the description. The remaining types generalize logically from designer to broader ontological categories.\", \"types\": [\"designer\", \"creator\", \"professional\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The description \"British designer\" supports designer as the most specific valid type. In the taxonomy, its direct parent is creator, which establishes the broader semantic scope of someone who produces creative work. The sibling classes such as crime fiction writer, advertising person, and columnist represent alternative specializations of creator that are unsupported by the description. The direct child context is None, and narrower specializations are not explicitly stated in the description. The remaining types generalize logically from designer to broader ontological categories.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"British designer\\\" supports designer as the most specific valid type. In the taxonomy, its direct parent is creator, which establishes the broader semantic scope of someone who produces creative work. The sibling classes such as crime fiction writer, advertising person, and columnist represent alternative specializations of creator that are unsupported by the description. The direct child context is None, and narrower specializations are not explicitly stated in the description. The remaining types generalize logically from designer to broader ontological categories.\", \"types\": [\"designer\", \"creator\", \"professional\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 542,
+      "candidatesTokenCount": 121,
+      "totalTokenCount": 1079,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 542
+        }
+      ],
+      "thoughtsTokenCount": 416,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "4CfMapKGJ9KwxN8P-bqO0QY"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 542,
+    "candidatesTokenCount": 121,
+    "totalTokenCount": 1079,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 542
+      }
+    ],
+    "thoughtsTokenCount": 416,
+    "serviceTier": "standard"
+  }
+}

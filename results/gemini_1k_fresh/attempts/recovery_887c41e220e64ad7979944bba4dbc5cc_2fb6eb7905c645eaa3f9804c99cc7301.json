@@ -1,0 +1,172 @@
+{
+  "example_number": 385,
+  "entity_id": "wd:Q20643122",
+  "entity_label": "Green Party of Louisiana",
+  "description": "Louisiana affiliate of the Green Party",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0385/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0385/metadata.json",
+  "input_hash": "72c5c40353c5f5d5429903c41ada8e3cf77686c797d1b02c58ea60c9a0ea0359",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Green Party of Louisiana\nDescription: Louisiana affiliate of the Green Party\n\nTaxonomy context:\n- Direct parent classes: political party\n- Sibling classes: Humanist Party, political party in Germany, communist party\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q20643122",
+    "entity_label": "Green Party of Louisiana",
+    "description": "Louisiana affiliate of the Green Party",
+    "reference_class_id": "wd:Q3778417",
+    "reference_type": "only together",
+    "gold_types": [
+      {
+        "class_id": "wd:Q3778417",
+        "label": "only together",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q7278",
+        "label": "political party",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q7210356",
+        "label": "political organization",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "political party",
+      "siblings": "Humanist Party, political party in Germany, communist party",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "political party",
+      "siblings": "Humanist Party, political party in Germany, communist party",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 385,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q3778417"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q7278"
+      ],
+      "siblings": [
+        "wd:Q1112464",
+        "wd:Q2023214",
+        "wd:Q233591"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "green party",
+    "political party",
+    "political organization",
+    "organization",
+    "corporate body",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:36:05.195992+00:00",
+  "response": "{\"explanation\": \"The description \\\"Louisiana affiliate of the Green Party\\\" specifically identifies the entity as a green party. In the taxonomy, green party falls directly under political party, which establishes its broader categorical scope. Sibling classes under political party, such as Humanist Party, political party in Germany, and communist party, represent distinct ideological or regional party categories not supported by the context. No narrower child classes are specified or justified by the description. The remaining types form a valid hierarchy from specific to broad.\", \"types\": [\"green party\", \"political party\", \"political organization\", \"organization\", \"corporate body\", \"entity\"]}",
+  "explanation": "The description \"Louisiana affiliate of the Green Party\" specifically identifies the entity as a green party. In the taxonomy, green party falls directly under political party, which establishes its broader categorical scope. Sibling classes under political party, such as Humanist Party, political party in Germany, and communist party, represent distinct ideological or regional party categories not supported by the context. No narrower child classes are specified or justified by the description. The remaining types form a valid hierarchy from specific to broad.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"Louisiana affiliate of the Green Party\\\" specifically identifies the entity as a green party. In the taxonomy, green party falls directly under political party, which establishes its broader categorical scope. Sibling classes under political party, such as Humanist Party, political party in Germany, and communist party, represent distinct ideological or regional party categories not supported by the context. No narrower child classes are specified or justified by the description. The remaining types form a valid hierarchy from specific to broad.\", \"types\": [\"green party\", \"political party\", \"political organization\", \"organization\", \"corporate body\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 554,
+      "candidatesTokenCount": 125,
+      "totalTokenCount": 1507,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 554
+        }
+      ],
+      "thoughtsTokenCount": 828,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "xZe1arvVIPiCvdIPjtaI0Q8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 554,
+    "candidatesTokenCount": 125,
+    "totalTokenCount": 1507,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 554
+      }
+    ],
+    "thoughtsTokenCount": 828,
+    "serviceTier": "standard"
+  }
+}

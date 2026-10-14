@@ -1,0 +1,163 @@
+{
+  "example_number": 144,
+  "entity_id": "wd:Q7985199",
+  "entity_label": "West Fulton Township",
+  "description": "township in Missouri",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0144/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0144/metadata.json",
+  "input_hash": "1f760eb02a5e41c35ce4fc74707cc61e297f1ccc07234b115c39702f0c49066e",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: West Fulton Township\nDescription: township in Missouri\n\nTaxonomy context:\n- Direct parent classes: civil township\n- Sibling classes: township of Illinois, New England town, township of Minnesota\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q7985199",
+    "entity_label": "West Fulton Township",
+    "description": "township in Missouri",
+    "reference_class_id": "wd:Q6270791",
+    "reference_type": "township of Missouri",
+    "gold_types": [
+      {
+        "class_id": "wd:Q6270791",
+        "label": "township of Missouri",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q1394476",
+        "label": "civil township",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q486972",
+        "label": "human settlement",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q123964505",
+        "label": "populated place",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q27096235",
+        "label": "artificial geographic entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q27096213",
+        "label": "geographic entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "civil township",
+      "siblings": "township of Illinois, New England town, township of Minnesota",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "civil township",
+      "siblings": "township of Illinois, New England town, township of Minnesota",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 144,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q6270791"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q1394476"
+      ],
+      "siblings": [
+        "wd:Q17198545",
+        "wd:Q2154459",
+        "wd:Q42211429"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "township of Missouri",
+    "civil township",
+    "township",
+    "minor civil division",
+    "administrative territorial entity",
+    "geographic entity",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:17:52.540383+00:00",
+  "response": "{\"explanation\": \"The description \\\"township in Missouri\\\" directly identifies the entity as a township of Missouri, which serves as the most specific type. In the taxonomy, its direct parent is civil township, framing it as an administrative minor civil division. Sibling classes like township of Illinois and township of Minnesota are rejected as they designate townships in other specific states. There are no direct child classes provided, and none are warranted by the concise description. The broader types follow in decreasing specificity.\", \"types\": [\"township of Missouri\", \"civil township\", \"township\", \"minor civil division\", \"administrative territorial entity\", \"geographic entity\", \"entity\"]}",
+  "explanation": "The description \"township in Missouri\" directly identifies the entity as a township of Missouri, which serves as the most specific type. In the taxonomy, its direct parent is civil township, framing it as an administrative minor civil division. Sibling classes like township of Illinois and township of Minnesota are rejected as they designate townships in other specific states. There are no direct child classes provided, and none are warranted by the concise description. The broader types follow in decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"township in Missouri\\\" directly identifies the entity as a township of Missouri, which serves as the most specific type. In the taxonomy, its direct parent is civil township, framing it as an administrative minor civil division. Sibling classes like township of Illinois and township of Minnesota are rejected as they designate townships in other specific states. There are no direct child classes provided, and none are warranted by the concise description. The broader types follow in decreasing specificity.\", \"types\": [\"township of Missouri\", \"civil township\", \"township\", \"minor civil division\", \"administrative territorial entity\", \"geographic entity\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 550,
+      "candidatesTokenCount": 131,
+      "totalTokenCount": 1042,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 550
+        }
+      ],
+      "thoughtsTokenCount": 361,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "gJO1av6GNczYxs0Pk_nE2A0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 550,
+    "candidatesTokenCount": 131,
+    "totalTokenCount": 1042,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 550
+      }
+    ],
+    "thoughtsTokenCount": 361,
+    "serviceTier": "standard"
+  }
+}

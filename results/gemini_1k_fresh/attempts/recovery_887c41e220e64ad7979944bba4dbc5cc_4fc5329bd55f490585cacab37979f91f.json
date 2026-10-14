@@ -1,0 +1,173 @@
+{
+  "example_number": 581,
+  "entity_id": "wd:Q12208348",
+  "entity_label": "Fort Al-Ghwayzi",
+  "description": "Historical fort in Mukalla",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0581/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0581/metadata.json",
+  "input_hash": "c91d2b060f4c79af2843cbbf2d22d802b0c247ad5e25181490c582cd03e3c0ea",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Fort Al-Ghwayzi\nDescription: Historical fort in Mukalla\n\nTaxonomy context:\n- Direct parent classes: architectural structure\n- Sibling classes: ghat, altar, henge\n- Direct child classes: zwinger, pā, Roman fortification\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q12208348",
+    "entity_label": "Fort Al-Ghwayzi",
+    "description": "Historical fort in Mukalla",
+    "reference_class_id": "wd:Q57821",
+    "reference_type": "fortification",
+    "gold_types": [
+      {
+        "class_id": "wd:Q57821",
+        "label": "fortification",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q811979",
+        "label": "architectural structure",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q15710813",
+        "label": "physical structure",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q8205328",
+        "label": "artificial physical object",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q4406616",
+        "label": "concrete object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q6671777",
+        "label": "structure",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "architectural structure",
+      "siblings": "ghat, altar, henge",
+      "children": "zwinger, pā, Roman fortification"
+    },
+    "oracle_graph_context": {
+      "parents": "architectural structure",
+      "siblings": "ghat, altar, henge",
+      "children": "zwinger, pā, Roman fortification"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 581,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q57821"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q811979"
+      ],
+      "siblings": [
+        "wd:Q1010155",
+        "wd:Q101687",
+        "wd:Q1035294"
+      ],
+      "children": [
+        "wd:Q10561522",
+        "wd:Q1234236",
+        "wd:Q12433046"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "fort",
+    "fortification",
+    "military building",
+    "architectural structure",
+    "structure",
+    "man-made object",
+    "object",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:50:47.236214+00:00",
+  "response": "{\n  \"explanation\": \"The description identifies Fort Al-Ghwayzi as a 'historical fort', directly supporting 'fort' and its direct broader class 'fortification' as the target types. In the taxonomy context, 'fortification' has the parent 'architectural structure'. Sibling classes like 'ghat', 'altar', and 'henge' represent non-defensive or ceremonial structures and are rejected based on the military nature of a fort. The direct child classes ('zwinger', 'pā', 'Roman fortification') represent specific regional, cultural, or architectural types of fortifications that are not supported by a Yemeni fort. The returned types are ordered from the most specific evidence-backed type down to broadest categories.\",\n  \"types\": [\n    \"fort\",\n    \"fortification\",\n    \"military building\",\n    \"architectural structure\",\n    \"structure\",\n    \"man-made object\",\n    \"object\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The description identifies Fort Al-Ghwayzi as a 'historical fort', directly supporting 'fort' and its direct broader class 'fortification' as the target types. In the taxonomy context, 'fortification' has the parent 'architectural structure'. Sibling classes like 'ghat', 'altar', and 'henge' represent non-defensive or ceremonial structures and are rejected based on the military nature of a fort. The direct child classes ('zwinger', 'pā', 'Roman fortification') represent specific regional, cultural, or architectural types of fortifications that are not supported by a Yemeni fort. The returned types are ordered from the most specific evidence-backed type down to broadest categories.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The description identifies Fort Al-Ghwayzi as a 'historical fort', directly supporting 'fort' and its direct broader class 'fortification' as the target types. In the taxonomy context, 'fortification' has the parent 'architectural structure'. Sibling classes like 'ghat', 'altar', and 'henge' represent non-defensive or ceremonial structures and are rejected based on the military nature of a fort. The direct child classes ('zwinger', 'pā', 'Roman fortification') represent specific regional, cultural, or architectural types of fortifications that are not supported by a Yemeni fort. The returned types are ordered from the most specific evidence-backed type down to broadest categories.\",\n  \"types\": [\n    \"fort\",\n    \"fortification\",\n    \"military building\",\n    \"architectural structure\",\n    \"structure\",\n    \"man-made object\",\n    \"object\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 556,
+      "candidatesTokenCount": 206,
+      "totalTokenCount": 1292,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 556
+        }
+      ],
+      "thoughtsTokenCount": 530,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "N5u1ao3cHe3_vdIP8Pai6Q0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 556,
+    "candidatesTokenCount": 206,
+    "totalTokenCount": 1292,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 556
+      }
+    ],
+    "thoughtsTokenCount": 530,
+    "serviceTier": "standard"
+  }
+}

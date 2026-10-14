@@ -1,0 +1,173 @@
+{
+  "example_number": 457,
+  "entity_id": "wd:Q64995771",
+  "entity_label": "Halsbury",
+  "description": "historic manor in England",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0457/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0457/metadata.json",
+  "input_hash": "2624f261b9c673c275d6a2fcaa5ab433eaf527858d2a0d5a6b9cd8936295a2d2",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Halsbury\nDescription: historic manor in England\n\nTaxonomy context:\n- Direct parent classes: estate\n- Sibling classes: Fronhof, finca\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q64995771",
+    "entity_label": "Halsbury",
+    "description": "historic manor in England",
+    "reference_class_id": "wd:Q2116450",
+    "reference_type": "manor estate",
+    "gold_types": [
+      {
+        "class_id": "wd:Q2116450",
+        "label": "manor estate",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q12292478",
+        "label": "estate",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q811979",
+        "label": "architectural structure",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q15710813",
+        "label": "physical structure",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q8205328",
+        "label": "artificial physical object",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q4406616",
+        "label": "concrete object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q6671777",
+        "label": "structure",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "estate",
+      "siblings": "Fronhof, finca",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "estate",
+      "siblings": "Fronhof, finca",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 457,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q2116450"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q12292478"
+      ],
+      "siblings": [
+        "wd:Q1163630",
+        "wd:Q1416696"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "manor",
+    "estate",
+    "real estate",
+    "property",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:10:42.484549+00:00",
+  "response": "{\"explanation\": \"The description specifies Halsbury as a \\\"historic manor in England\\\", directly identifying \\\"manor\\\" as the most specific class. Its parent class in the taxonomy is \\\"estate\\\", establishing the broader domain of landed property. Sibling types such as \\\"Fronhof\\\" (a German manorial estate) and \\\"finca\\\" (a Spanish rural estate) are geographically and culturally distinct alternatives that are rejected in favor of the English \\\"manor\\\". With no direct children indicated, the sequence proceeds from \\\"manor\\\" to broader valid classifications such as \\\"estate\\\" and \\\"property\\\".\", \"types\": [\"manor\", \"estate\", \"real estate\", \"property\", \"entity\"]}",
+  "explanation": "The description specifies Halsbury as a \"historic manor in England\", directly identifying \"manor\" as the most specific class. Its parent class in the taxonomy is \"estate\", establishing the broader domain of landed property. Sibling types such as \"Fronhof\" (a German manorial estate) and \"finca\" (a Spanish rural estate) are geographically and culturally distinct alternatives that are rejected in favor of the English \"manor\". With no direct children indicated, the sequence proceeds from \"manor\" to broader valid classifications such as \"estate\" and \"property\".",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description specifies Halsbury as a \\\"historic manor in England\\\", directly identifying \\\"manor\\\" as the most specific class. Its parent class in the taxonomy is \\\"estate\\\", establishing the broader domain of landed property. Sibling types such as \\\"Fronhof\\\" (a German manorial estate) and \\\"finca\\\" (a Spanish rural estate) are geographically and culturally distinct alternatives that are rejected in favor of the English \\\"manor\\\". With no direct children indicated, the sequence proceeds from \\\"manor\\\" to broader valid classifications such as \\\"estate\\\" and \\\"property\\\".\", \"types\": [\"manor\", \"estate\", \"real estate\", \"property\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 540,
+      "candidatesTokenCount": 141,
+      "totalTokenCount": 1248,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 540
+        }
+      ],
+      "thoughtsTokenCount": 567,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "giXMatOzLLmensEPyrn8iAU"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 540,
+    "candidatesTokenCount": 141,
+    "totalTokenCount": 1248,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 540
+      }
+    ],
+    "thoughtsTokenCount": 567,
+    "serviceTier": "standard"
+  }
+}

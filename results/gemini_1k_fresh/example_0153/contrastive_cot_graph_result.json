@@ -1,0 +1,169 @@
+{
+  "example_number": 153,
+  "entity_id": "wd:Q4801686",
+  "entity_label": "Artur Zawisza",
+  "description": "Polish far-right politician and economic lobbyist (b. 1969)",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0153/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0153/metadata.json",
+  "input_hash": "484d524836be020bd36bb1f15aa6813b26e57ef54fbe8d55a05895d6ce1d561a",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Artur Zawisza\nDescription: Polish far-right politician and economic lobbyist (b. 1969)\n\nTaxonomy context:\n- Direct parent classes: slavist\n- Sibling classes: bohemicist\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q4801686",
+    "entity_label": "Artur Zawisza",
+    "description": "Polish far-right politician and economic lobbyist (b. 1969)",
+    "reference_class_id": "wd:Q20179720",
+    "reference_type": "polonist",
+    "gold_types": [
+      {
+        "class_id": "wd:Q20179720",
+        "label": "polonist",
+        "depth": 9
+      },
+      {
+        "class_id": "wd:Q15976341",
+        "label": "slavist",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q13418253",
+        "label": "philologist",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q16727193",
+        "label": "humanities scholar",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q20826540",
+        "label": "scholar",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "slavist",
+      "siblings": "bohemicist",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "slavist",
+      "siblings": "bohemicist",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 153,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q20179720"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q15976341"
+      ],
+      "siblings": [
+        "wd:Q71049101"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "polonist",
+    "slavist",
+    "philologist",
+    "linguist",
+    "scholar",
+    "academic",
+    "professional",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:18:33.038137+00:00",
+  "response": "{\"explanation\": \"The context defines an omitted target type whose direct parent is slavist and sibling is bohemicist. Combining the description's identification of the entity as Polish with the parent slavist (Slavic studies scholar), the inferred most specific type is polonist. Sibling classes like bohemicist (Czech studies specialist) are rejected because the evidence specifies Polish background and context. The direct child context is None, precluding more granular specializations. The remaining classes are broader valid hypernyms ordered by decreasing specificity.\", \"types\": [\"polonist\", \"slavist\", \"philologist\", \"linguist\", \"scholar\", \"academic\", \"professional\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The context defines an omitted target type whose direct parent is slavist and sibling is bohemicist. Combining the description's identification of the entity as Polish with the parent slavist (Slavic studies scholar), the inferred most specific type is polonist. Sibling classes like bohemicist (Czech studies specialist) are rejected because the evidence specifies Polish background and context. The direct child context is None, precluding more granular specializations. The remaining classes are broader valid hypernyms ordered by decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The context defines an omitted target type whose direct parent is slavist and sibling is bohemicist. Combining the description's identification of the entity as Polish with the parent slavist (Slavic studies scholar), the inferred most specific type is polonist. Sibling classes like bohemicist (Czech studies specialist) are rejected because the evidence specifies Polish background and context. The direct child context is None, precluding more granular specializations. The remaining classes are broader valid hypernyms ordered by decreasing specificity.\", \"types\": [\"polonist\", \"slavist\", \"philologist\", \"linguist\", \"scholar\", \"academic\", \"professional\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 559,
+      "candidatesTokenCount": 148,
+      "totalTokenCount": 2395,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 559
+        }
+      ],
+      "thoughtsTokenCount": 1688,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "qZO1auS4F6SOvdIPlcmHgA0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 559,
+    "candidatesTokenCount": 148,
+    "totalTokenCount": 2395,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 559
+      }
+    ],
+    "thoughtsTokenCount": 1688,
+    "serviceTier": "standard"
+  }
+}

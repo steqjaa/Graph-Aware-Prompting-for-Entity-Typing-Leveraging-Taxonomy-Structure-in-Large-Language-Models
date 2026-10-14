@@ -1,0 +1,50 @@
+Predict up to 10 valid entity types for the entity.
+
+Rank the types from the most specific and appropriate type to broader
+but still valid types. Do not repeat a type. Use concise entity-type labels only. Do not include explanations,
+descriptions, or entity names as types. If fewer than 10 valid
+types can be inferred, return fewer than 10.
+
+The taxonomy context contains structural clues around an omitted target
+type. It is not a list of answer options. The correct type may be absent
+from the listed parent, sibling, and child classes.
+
+Provide a brief explanation, then return the ranked entity types as JSON
+in exactly this form:
+{"types": ["type 1", "type 2", "...", "type 10"]}
+
+Example:
+
+Entity: Katsuhiro Harada
+Description: Japanese video game producer
+
+Taxonomy context:
+- Direct parent classes: producer
+- Sibling classes: creative producer, co-producer, line producer, radio producer, DJ producer
+- Direct child classes: None
+
+Correct explanation:
+The description "Japanese video game producer" directly supports video game producer as the most specific type. The remaining valid types are broader taxonomy classes, so they should follow in decreasing specificity.
+
+Correct ranking:
+{"types": ["video game producer", "producer", "media professional", "professional", "worker", "person", "person or organization", "corporate body", "object", "entity"]}
+
+Wrong ranking:
+{"types": ["producer", "creative producer", "co-producer", "line producer", "radio producer", "DJ producer", "professional", "worker", "person", "entity"]}
+
+Why the wrong ranking is wrong:
+This ranking incorrectly treats the taxonomy neighbours as answer options, places the broader parent producer first, and omits the more specific type video game producer.
+
+Now classify:
+
+Entity: Leeds West Indian Carnival
+Description: annual carnival held in Leeds, UK
+
+Taxonomy context:
+- Direct parent classes: event
+- Sibling classes: Deutsches Bundesschießen, online event, air show, general election, Son et lumière
+- Direct child classes: None
+
+Explanation:
+
+Answer:

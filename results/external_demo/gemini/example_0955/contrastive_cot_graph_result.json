@@ -1,0 +1,164 @@
+{
+  "example_number": 955,
+  "entity_id": "wd:Q544107",
+  "entity_label": "Messina Conference",
+  "description": "1955 ECSC member state meeting",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0955/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0955/metadata.json",
+  "input_hash": "68531d8a21e53b98ca7850b96034525045303b66c5d8ee28f2bb75b21e78f802",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Messina Conference\nDescription: 1955 ECSC member state meeting\n\nTaxonomy context:\n- Direct parent classes: meeting\n- Sibling classes: unconference, summit, rokosz\n- Direct child classes: political meeting, annual general meeting, fan convention\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q544107",
+    "entity_label": "Messina Conference",
+    "description": "1955 ECSC member state meeting",
+    "reference_class_id": "wd:Q625994",
+    "reference_type": "convention",
+    "gold_types": [
+      {
+        "class_id": "wd:Q625994",
+        "label": "convention",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q2761147",
+        "label": "meeting",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q1656682",
+        "label": "event",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q1190554",
+        "label": "occurrence",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q26907166",
+        "label": "temporal entity",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "meeting",
+      "siblings": "unconference, summit, rokosz",
+      "children": "political meeting, annual general meeting, fan convention"
+    },
+    "oracle_graph_context": {
+      "parents": "meeting",
+      "siblings": "unconference, summit, rokosz",
+      "children": "political meeting, annual general meeting, fan convention"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 955,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q625994"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q2761147"
+      ],
+      "siblings": [
+        "wd:Q1067715",
+        "wd:Q1072326",
+        "wd:Q1325214"
+      ],
+      "children": [
+        "wd:Q107285205",
+        "wd:Q1077012",
+        "wd:Q1129398"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "political meeting",
+    "meeting",
+    "social event",
+    "event",
+    "temporal entity",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:48:27.420024+00:00",
+  "response": "{\"explanation\": \"The description specifies a '1955 ECSC member state meeting', directly supporting 'political meeting' as the most specific valid type. In the taxonomy, 'meeting' is the direct parent class establishing the core category. Among the child classes, 'political meeting' fits an intergovernmental conference of member state representatives, whereas alternatives like 'annual general meeting' and 'fan convention' are unwarranted. Sibling classes such as 'unconference' or 'rokosz' are clearly inapplicable. The valid types are ordered from most specific to broadest.\", \"types\": [\"political meeting\", \"meeting\", \"social event\", \"event\", \"temporal entity\", \"entity\"]}",
+  "explanation": "The description specifies a '1955 ECSC member state meeting', directly supporting 'political meeting' as the most specific valid type. In the taxonomy, 'meeting' is the direct parent class establishing the core category. Among the child classes, 'political meeting' fits an intergovernmental conference of member state representatives, whereas alternatives like 'annual general meeting' and 'fan convention' are unwarranted. Sibling classes such as 'unconference' or 'rokosz' are clearly inapplicable. The valid types are ordered from most specific to broadest.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description specifies a '1955 ECSC member state meeting', directly supporting 'political meeting' as the most specific valid type. In the taxonomy, 'meeting' is the direct parent class establishing the core category. Among the child classes, 'political meeting' fits an intergovernmental conference of member state representatives, whereas alternatives like 'annual general meeting' and 'fan convention' are unwarranted. Sibling classes such as 'unconference' or 'rokosz' are clearly inapplicable. The valid types are ordered from most specific to broadest.\", \"types\": [\"political meeting\", \"meeting\", \"social event\", \"event\", \"temporal entity\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 558,
+      "candidatesTokenCount": 137,
+      "totalTokenCount": 1355,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 558
+        }
+      ],
+      "thoughtsTokenCount": 660,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "Wy7Map2FJvvT28oPhL76oAc"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 558,
+    "candidatesTokenCount": 137,
+    "totalTokenCount": 1355,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 558
+      }
+    ],
+    "thoughtsTokenCount": 660,
+    "serviceTier": "standard"
+  }
+}

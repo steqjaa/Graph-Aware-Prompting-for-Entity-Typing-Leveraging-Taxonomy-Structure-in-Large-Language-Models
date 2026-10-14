@@ -1,0 +1,154 @@
+{
+  "example_number": 647,
+  "entity_id": "wd:Q334865",
+  "entity_label": "Abu Bakr Shiblie",
+  "description": "Persian Sufi scholar (861–946)",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0647/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0647/metadata.json",
+  "input_hash": "fb4751a7b7c5b107f78cd0dc36f74cc7c5cc721831b86121a87017979e4f56da",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Abu Bakr Shiblie\nDescription: Persian Sufi scholar (861–946)\n\nTaxonomy context:\n- Direct parent classes: person\n- Sibling classes: defector, fashion icon, role model\n- Direct child classes: Africanist, legal scholar, Americanist\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q334865",
+    "entity_label": "Abu Bakr Shiblie",
+    "description": "Persian Sufi scholar (861–946)",
+    "reference_class_id": "wd:Q20826540",
+    "reference_type": "scholar",
+    "gold_types": [
+      {
+        "class_id": "wd:Q20826540",
+        "label": "scholar",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "person",
+      "siblings": "defector, fashion icon, role model",
+      "children": "Africanist, legal scholar, Americanist"
+    },
+    "oracle_graph_context": {
+      "parents": "person",
+      "siblings": "defector, fashion icon, role model",
+      "children": "Africanist, legal scholar, Americanist"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 647,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q20826540"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q215627"
+      ],
+      "siblings": [
+        "wd:Q101007738",
+        "wd:Q107013296",
+        "wd:Q1136974"
+      ],
+      "children": [
+        "wd:Q15936497",
+        "wd:Q16012028",
+        "wd:Q16308157"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "Sufi scholar",
+    "scholar",
+    "intellectual",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:25:05.375642+00:00",
+  "response": "{\"explanation\": \"The description identifies Abu Bakr Shiblie as a 'Persian Sufi scholar', directly supporting Sufi scholar and scholar as the most accurate specific types. Within the taxonomy context, scholar shares the broader parent class person with siblings like defector, fashion icon, and role model, which describe entirely different personal roles or statuses unsupported by the text. The child classes Africanist, legal scholar, and Americanist represent narrow specializations of scholar that are not substantiated by the description. Consequently, the valid types are arranged in descending order of specificity from Sufi scholar up to person and entity.\", \"types\": [\"Sufi scholar\", \"scholar\", \"intellectual\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The description identifies Abu Bakr Shiblie as a 'Persian Sufi scholar', directly supporting Sufi scholar and scholar as the most accurate specific types. Within the taxonomy context, scholar shares the broader parent class person with siblings like defector, fashion icon, and role model, which describe entirely different personal roles or statuses unsupported by the text. The child classes Africanist, legal scholar, and Americanist represent narrow specializations of scholar that are not substantiated by the description. Consequently, the valid types are arranged in descending order of specificity from Sufi scholar up to person and entity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies Abu Bakr Shiblie as a 'Persian Sufi scholar', directly supporting Sufi scholar and scholar as the most accurate specific types. Within the taxonomy context, scholar shares the broader parent class person with siblings like defector, fashion icon, and role model, which describe entirely different personal roles or statuses unsupported by the text. The child classes Africanist, legal scholar, and Americanist represent narrow specializations of scholar that are not substantiated by the description. Consequently, the valid types are arranged in descending order of specificity from Sufi scholar up to person and entity.\", \"types\": [\"Sufi scholar\", \"scholar\", \"intellectual\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 563,
+      "candidatesTokenCount": 146,
+      "totalTokenCount": 1511,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 563
+        }
+      ],
+      "thoughtsTokenCount": 802,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "4SjMaofzJYbEnsEPx-uz2AM"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 563,
+    "candidatesTokenCount": 146,
+    "totalTokenCount": 1511,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 563
+      }
+    ],
+    "thoughtsTokenCount": 802,
+    "serviceTier": "standard"
+  }
+}

@@ -1,0 +1,152 @@
+{
+  "example_number": 852,
+  "entity_id": "wd:Q6817930",
+  "entity_label": "Meramec Conservation Area",
+  "description": "conservation area in Missouri, US",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0852/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0852/metadata.json",
+  "input_hash": "1a0be7b060db79311a91178a1aa8745a378220fca003dd7dd7fa54cf3988cccf",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Meramec Conservation Area\nDescription: conservation area in Missouri, US\n\nTaxonomy context:\n- Direct parent classes: protected area\n- Sibling classes: Indigenous Protected Area, cultural reserve, wildlife conservation area\n- Direct child classes: Bannwald\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q6817930",
+    "entity_label": "Meramec Conservation Area",
+    "description": "conservation area in Missouri, US",
+    "reference_class_id": "wd:Q936257",
+    "reference_type": "conservation area",
+    "gold_types": [
+      {
+        "class_id": "wd:Q936257",
+        "label": "conservation area",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q473972",
+        "label": "protected area",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q386426",
+        "label": "natural heritage",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q2434238",
+        "label": "heritage",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "protected area",
+      "siblings": "Indigenous Protected Area, cultural reserve, wildlife conservation area",
+      "children": "Bannwald"
+    },
+    "oracle_graph_context": {
+      "parents": "protected area",
+      "siblings": "Indigenous Protected Area, cultural reserve, wildlife conservation area",
+      "children": "Bannwald"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 852,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q936257"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q473972"
+      ],
+      "siblings": [
+        "wd:Q10514237",
+        "wd:Q10550024",
+        "wd:Q108059873"
+      ],
+      "children": [
+        "wd:Q15900779"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "conservation area",
+    "nature reserve",
+    "protected area",
+    "geographic location",
+    "spatial entity",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:40:41.377876+00:00",
+  "response": "{\n  \"explanation\": \"The description identifies the entity as a 'conservation area in Missouri, US', supporting conservation area and nature reserve as the most specific appropriate types. Within the taxonomy, the direct parent protected area defines the broader category. Sibling classes such as Indigenous Protected Area and cultural reserve are rejected because Meramec is not designated for indigenous governance or cultural heritage preservation. The child class Bannwald is rejected because it is a specific type of German forest reserve that does not apply to a United States conservation site. The remaining types reflect valid broader classifications ordered from most specific to broadest.\",\n  \"types\": [\n    \"conservation area\",\n    \"nature reserve\",\n    \"protected area\",\n    \"geographic location\",\n    \"spatial entity\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The description identifies the entity as a 'conservation area in Missouri, US', supporting conservation area and nature reserve as the most specific appropriate types. Within the taxonomy, the direct parent protected area defines the broader category. Sibling classes such as Indigenous Protected Area and cultural reserve are rejected because Meramec is not designated for indigenous governance or cultural heritage preservation. The child class Bannwald is rejected because it is a specific type of German forest reserve that does not apply to a United States conservation site. The remaining types reflect valid broader classifications ordered from most specific to broadest.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The description identifies the entity as a 'conservation area in Missouri, US', supporting conservation area and nature reserve as the most specific appropriate types. Within the taxonomy, the direct parent protected area defines the broader category. Sibling classes such as Indigenous Protected Area and cultural reserve are rejected because Meramec is not designated for indigenous governance or cultural heritage preservation. The child class Bannwald is rejected because it is a specific type of German forest reserve that does not apply to a United States conservation site. The remaining types reflect valid broader classifications ordered from most specific to broadest.\",\n  \"types\": [\n    \"conservation area\",\n    \"nature reserve\",\n    \"protected area\",\n    \"geographic location\",\n    \"spatial entity\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 553,
+      "candidatesTokenCount": 165,
+      "totalTokenCount": 2310,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 553
+        }
+      ],
+      "thoughtsTokenCount": 1592,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "iSzMar-_I5CExN8Pz42IsQg"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 553,
+    "candidatesTokenCount": 165,
+    "totalTokenCount": 2310,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 553
+      }
+    ],
+    "thoughtsTokenCount": 1592,
+    "serviceTier": "standard"
+  }
+}

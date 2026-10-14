@@ -1,0 +1,164 @@
+{
+  "example_number": 819,
+  "entity_id": "wd:Q26540372",
+  "entity_label": "Andrey Fonseca",
+  "description": "Mountain bike racer",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0819/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0819/metadata.json",
+  "input_hash": "c185d1499f9fd9de185bde44647f23d3c748f7a788a0af8ba58c19b295ab9fdc",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Andrey Fonseca\nDescription: Mountain bike racer\n\nTaxonomy context:\n- Direct parent classes: cyclist\n- Sibling classes: None\n- Direct child classes: track cyclist, mountain biker, road cyclist\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q26540372",
+    "entity_label": "Andrey Fonseca",
+    "description": "Mountain bike racer",
+    "reference_class_id": "wd:Q2309784",
+    "reference_type": "sport cyclist",
+    "gold_types": [
+      {
+        "class_id": "wd:Q2309784",
+        "label": "sport cyclist",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q2125610",
+        "label": "cyclist",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q2066131",
+        "label": "athlete",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q50995749",
+        "label": "sportsperson",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "cyclist",
+      "siblings": "None",
+      "children": "track cyclist, mountain biker, road cyclist"
+    },
+    "oracle_graph_context": {
+      "parents": "cyclist",
+      "siblings": "None",
+      "children": "track cyclist, mountain biker, road cyclist"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 819,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q2309784"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q2125610"
+      ],
+      "siblings": [],
+      "children": [
+        "wd:Q15117395",
+        "wd:Q19799599",
+        "wd:Q52217314"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "mountain biker",
+    "cyclist",
+    "athlete",
+    "person",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:38:08.930185+00:00",
+  "response": "{\"explanation\": \"The description 'Mountain bike racer' directly supports 'mountain biker' as the most specific type, matching one of the direct child classes of 'cyclist'. Sibling child classes like 'track cyclist' and 'road cyclist' are rejected because the description specifically indicates mountain biking rather than track or road racing. Broader types trace up through 'cyclist', 'athlete', 'person', and 'entity' in descending order of specificity.\", \"types\": [\"mountain biker\", \"cyclist\", \"athlete\", \"person\", \"entity\"]}",
+  "explanation": "The description 'Mountain bike racer' directly supports 'mountain biker' as the most specific type, matching one of the direct child classes of 'cyclist'. Sibling child classes like 'track cyclist' and 'road cyclist' are rejected because the description specifically indicates mountain biking rather than track or road racing. Broader types trace up through 'cyclist', 'athlete', 'person', and 'entity' in descending order of specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description 'Mountain bike racer' directly supports 'mountain biker' as the most specific type, matching one of the direct child classes of 'cyclist'. Sibling child classes like 'track cyclist' and 'road cyclist' are rejected because the description specifically indicates mountain biking rather than track or road racing. Broader types trace up through 'cyclist', 'athlete', 'person', and 'entity' in descending order of specificity.\", \"types\": [\"mountain biker\", \"cyclist\", \"athlete\", \"person\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 543,
+      "candidatesTokenCount": 111,
+      "totalTokenCount": 1005,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 543
+        }
+      ],
+      "thoughtsTokenCount": 351,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "8SvMasieCseC7M8P_8atuA8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 543,
+    "candidatesTokenCount": 111,
+    "totalTokenCount": 1005,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 543
+      }
+    ],
+    "thoughtsTokenCount": 351,
+    "serviceTier": "standard"
+  }
+}

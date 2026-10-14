@@ -1,0 +1,167 @@
+{
+  "example_number": 246,
+  "entity_id": "wd:Q9155366",
+  "entity_label": "Anna Laszuk",
+  "description": "Polish journalist, feminist and activist LGBT movement",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0246/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0246/metadata.json",
+  "input_hash": "c81d116b14d9575ee0b4c4c9075ffcdd09447f2aa8a9c3d9eb900934d93bcd4a",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Anna Laszuk\nDescription: Polish journalist, feminist and activist LGBT movement\n\nTaxonomy context:\n- Direct parent classes: human rights activist\n- Sibling classes: environmental defender, civil rights advocate, woman human rights defenders\n- Direct child classes: suffragist\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q9155366",
+    "entity_label": "Anna Laszuk",
+    "description": "Polish journalist, feminist and activist LGBT movement",
+    "reference_class_id": "wd:Q28692502",
+    "reference_type": "women's rights activist",
+    "gold_types": [
+      {
+        "class_id": "wd:Q28692502",
+        "label": "women's rights activist",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q1476215",
+        "label": "human rights activist",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q11499147",
+        "label": "political activist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q15253558",
+        "label": "activist",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "human rights activist",
+      "siblings": "environmental defender, civil rights advocate, woman human rights defenders",
+      "children": "suffragist"
+    },
+    "oracle_graph_context": {
+      "parents": "human rights activist",
+      "siblings": "environmental defender, civil rights advocate, woman human rights defenders",
+      "children": "suffragist"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 246,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q28692502"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q1476215"
+      ],
+      "siblings": [
+        "wd:Q101067779",
+        "wd:Q1021386",
+        "wd:Q53834886"
+      ],
+      "children": [
+        "wd:Q27532437"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "women's rights activist",
+    "LGBT rights activist",
+    "human rights activist",
+    "activist",
+    "journalist",
+    "writer",
+    "person",
+    "organism",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:25:34.523797+00:00",
+  "response": "{\"explanation\": \"The description identifies Anna Laszuk as a feminist and LGBT movement activist, directly supporting women's rights activist (and LGBT rights activist) as the most specific entity types. In the taxonomy, women's rights activist is a direct child of human rights activist. Sibling classes like environmental defender and civil rights advocate are unsupported or less specific than her direct feminist activism, while woman human rights defenders is broader and not strictly synonymous. The child class suffragist must be rejected because Laszuk was an activist in the late 20th and early 21st centuries, not a participant in historical voting-rights suffrage campaigns. Broader supported classes include human rights activist, activist, journalist, and person.\", \"types\": [\"women's rights activist\", \"LGBT rights activist\", \"human rights activist\", \"activist\", \"journalist\", \"writer\", \"person\", \"organism\", \"entity\"]}",
+  "explanation": "The description identifies Anna Laszuk as a feminist and LGBT movement activist, directly supporting women's rights activist (and LGBT rights activist) as the most specific entity types. In the taxonomy, women's rights activist is a direct child of human rights activist. Sibling classes like environmental defender and civil rights advocate are unsupported or less specific than her direct feminist activism, while woman human rights defenders is broader and not strictly synonymous. The child class suffragist must be rejected because Laszuk was an activist in the late 20th and early 21st centuries, not a participant in historical voting-rights suffrage campaigns. Broader supported classes include human rights activist, activist, journalist, and person.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies Anna Laszuk as a feminist and LGBT movement activist, directly supporting women's rights activist (and LGBT rights activist) as the most specific entity types. In the taxonomy, women's rights activist is a direct child of human rights activist. Sibling classes like environmental defender and civil rights advocate are unsupported or less specific than her direct feminist activism, while woman human rights defenders is broader and not strictly synonymous. The child class suffragist must be rejected because Laszuk was an activist in the late 20th and early 21st centuries, not a participant in historical voting-rights suffrage campaigns. Broader supported classes include human rights activist, activist, journalist, and person.\", \"types\": [\"women's rights activist\", \"LGBT rights activist\", \"human rights activist\", \"activist\", \"journalist\", \"writer\", \"person\", \"organism\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 558,
+      "candidatesTokenCount": 186,
+      "totalTokenCount": 1884,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 558
+        }
+      ],
+      "thoughtsTokenCount": 1140,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "T5W1atCHGdCQ-8YP2ICtiAM"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 558,
+    "candidatesTokenCount": 186,
+    "totalTokenCount": 1884,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 558
+      }
+    ],
+    "thoughtsTokenCount": 1140,
+    "serviceTier": "standard"
+  }
+}

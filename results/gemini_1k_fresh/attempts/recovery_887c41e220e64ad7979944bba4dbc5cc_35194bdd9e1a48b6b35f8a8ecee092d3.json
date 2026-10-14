@@ -1,0 +1,176 @@
+{
+  "example_number": 672,
+  "entity_id": "wd:Q4967469",
+  "entity_label": "Takako Minekawa",
+  "description": "Japanese musician",
+  "condition": "cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0672/cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0672/metadata.json",
+  "input_hash": "2091ae084007887289437c958df3cae7b4d2bd740cdaa57426bb361160c6767d",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nNow classify:\n\nEntity: Takako Minekawa\nDescription: Japanese musician\n\nTaxonomy context:\n- Direct parent classes: instrumentalist\n- Sibling classes: clavichordist, double-bassist, violinist\n- Direct child classes: carillonist, pianist, harpsichordist\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q4967469",
+    "entity_label": "Takako Minekawa",
+    "description": "Japanese musician",
+    "reference_class_id": "wd:Q1075651",
+    "reference_type": "keyboardist",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1075651",
+        "label": "keyboardist",
+        "depth": 9
+      },
+      {
+        "class_id": "wd:Q1278335",
+        "label": "instrumentalist",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q639669",
+        "label": "musician",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q483501",
+        "label": "artist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q2500638",
+        "label": "creator",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "instrumentalist",
+      "siblings": "clavichordist, double-bassist, violinist",
+      "children": "carillonist, pianist, harpsichordist"
+    },
+    "oracle_graph_context": {
+      "parents": "instrumentalist",
+      "siblings": "clavichordist, double-bassist, violinist",
+      "children": "carillonist, pianist, harpsichordist"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 672,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1075651"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q1278335"
+      ],
+      "siblings": [
+        "wd:Q101579657",
+        "wd:Q1214796",
+        "wd:Q1259917"
+      ],
+      "children": [
+        "wd:Q18749693",
+        "wd:Q486748",
+        "wd:Q5371902"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "keyboardist",
+    "instrumentalist",
+    "musician",
+    "performer",
+    "entertainer",
+    "artist",
+    "creator",
+    "person",
+    "agent",
+    "physical object",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:57:35.745152+00:00",
+  "response": "{\"explanation\": \"The context places the omitted target type under instrumentalist and above specific keyboard-playing roles like pianist, carillonist, and harpsichordist, identifying the target type as keyboardist. While sibling instrumentalists include clavichordist, violinist, and double-bassist, none of those specific instruments are warranted over keyboardist given the classification context and Takako Minekawa's primary work with keyboards/synthesizers. The child classes (such as carillonist and pianist) lack direct support from the concise description 'Japanese musician'. Thus, keyboardist is the most specific valid type, followed by broader categories like instrumentalist, musician, and person.\", \"types\": [\"keyboardist\", \"instrumentalist\", \"musician\", \"performer\", \"entertainer\", \"artist\", \"creator\", \"person\", \"agent\", \"physical object\", \"entity\"]}",
+  "explanation": "The context places the omitted target type under instrumentalist and above specific keyboard-playing roles like pianist, carillonist, and harpsichordist, identifying the target type as keyboardist. While sibling instrumentalists include clavichordist, violinist, and double-bassist, none of those specific instruments are warranted over keyboardist given the classification context and Takako Minekawa's primary work with keyboards/synthesizers. The child classes (such as carillonist and pianist) lack direct support from the concise description 'Japanese musician'. Thus, keyboardist is the most specific valid type, followed by broader categories like instrumentalist, musician, and person.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The context places the omitted target type under instrumentalist and above specific keyboard-playing roles like pianist, carillonist, and harpsichordist, identifying the target type as keyboardist. While sibling instrumentalists include clavichordist, violinist, and double-bassist, none of those specific instruments are warranted over keyboardist given the classification context and Takako Minekawa's primary work with keyboards/synthesizers. The child classes (such as carillonist and pianist) lack direct support from the concise description 'Japanese musician'. Thus, keyboardist is the most specific valid type, followed by broader categories like instrumentalist, musician, and person.\", \"types\": [\"keyboardist\", \"instrumentalist\", \"musician\", \"performer\", \"entertainer\", \"artist\", \"creator\", \"person\", \"agent\", \"physical object\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 450,
+      "candidatesTokenCount": 181,
+      "totalTokenCount": 1571,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 450
+        }
+      ],
+      "thoughtsTokenCount": 940,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "z5y1avyLPJCXvdIPh_7N0A0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 450,
+    "candidatesTokenCount": 181,
+    "totalTokenCount": 1571,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 450
+      }
+    ],
+    "thoughtsTokenCount": 940,
+    "serviceTier": "standard"
+  }
+}

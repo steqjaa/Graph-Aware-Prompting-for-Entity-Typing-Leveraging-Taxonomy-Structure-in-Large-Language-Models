@@ -1,0 +1,161 @@
+{
+  "example_number": 631,
+  "entity_id": "wd:Q3749",
+  "entity_label": "Cauquenes",
+  "description": "city in Chile",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0631/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0631/metadata.json",
+  "input_hash": "5f248dde8a221415627a09073c84883e68d4481ef7bfab7d46a69738268a772d",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Cauquenes\nDescription: city in Chile\n\nTaxonomy context:\n- Direct parent classes: human settlement\n- Sibling classes: seaside resort, rural settlement, historical settlement\n- Direct child classes: caserío, aldea\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q3749",
+    "entity_label": "Cauquenes",
+    "description": "city in Chile",
+    "reference_class_id": "wd:Q28517279",
+    "reference_type": "population entity in Chile",
+    "gold_types": [
+      {
+        "class_id": "wd:Q28517279",
+        "label": "population entity in Chile",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q486972",
+        "label": "human settlement",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q123964505",
+        "label": "populated place",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q27096235",
+        "label": "artificial geographic entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q27096213",
+        "label": "geographic entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "human settlement",
+      "siblings": "seaside resort, rural settlement, historical settlement",
+      "children": "caserío, aldea"
+    },
+    "oracle_graph_context": {
+      "parents": "human settlement",
+      "siblings": "seaside resort, rural settlement, historical settlement",
+      "children": "caserío, aldea"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 631,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q28517279"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q486972"
+      ],
+      "siblings": [
+        "wd:Q1021711",
+        "wd:Q10354598",
+        "wd:Q106626840"
+      ],
+      "children": [
+        "wd:Q17624511",
+        "wd:Q25412758"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "city",
+    "populated place",
+    "human settlement",
+    "geographic location",
+    "location",
+    "object",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:54:32.242969+00:00",
+  "response": "{\"explanation\": \"The description \\\"city in Chile\\\" supports city as the most specific valid type for Cauquenes. Within the taxonomy, human settlement is a broader parent category. Nearby sibling types like seaside resort, rural settlement, and historical settlement represent alternative settlement characteristics not indicated by the evidence. The child classes caserío and aldea refer specifically to hamlets and small rural settlements, which directly conflict with Cauquenes being a city and are therefore rejected. The remaining classes represent broader valid geographic and physical categories ordered from most specific to broadest.\", \"types\": [\"city\", \"populated place\", \"human settlement\", \"geographic location\", \"location\", \"object\", \"entity\"]}",
+  "explanation": "The description \"city in Chile\" supports city as the most specific valid type for Cauquenes. Within the taxonomy, human settlement is a broader parent category. Nearby sibling types like seaside resort, rural settlement, and historical settlement represent alternative settlement characteristics not indicated by the evidence. The child classes caserío and aldea refer specifically to hamlets and small rural settlements, which directly conflict with Cauquenes being a city and are therefore rejected. The remaining classes represent broader valid geographic and physical categories ordered from most specific to broadest.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"city in Chile\\\" supports city as the most specific valid type for Cauquenes. Within the taxonomy, human settlement is a broader parent category. Nearby sibling types like seaside resort, rural settlement, and historical settlement represent alternative settlement characteristics not indicated by the evidence. The child classes caserío and aldea refer specifically to hamlets and small rural settlements, which directly conflict with Cauquenes being a city and are therefore rejected. The remaining classes represent broader valid geographic and physical categories ordered from most specific to broadest.\", \"types\": [\"city\", \"populated place\", \"human settlement\", \"geographic location\", \"location\", \"object\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 552,
+      "candidatesTokenCount": 137,
+      "totalTokenCount": 1928,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 552
+        }
+      ],
+      "thoughtsTokenCount": 1239,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "GJy1av7bG6KvxN8PqLPjkA0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 552,
+    "candidatesTokenCount": 137,
+    "totalTokenCount": 1928,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 552
+      }
+    ],
+    "thoughtsTokenCount": 1239,
+    "serviceTier": "standard"
+  }
+}

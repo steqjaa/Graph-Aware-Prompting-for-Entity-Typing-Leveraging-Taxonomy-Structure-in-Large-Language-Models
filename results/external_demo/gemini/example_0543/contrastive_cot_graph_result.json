@@ -1,0 +1,156 @@
+{
+  "example_number": 543,
+  "entity_id": "wd:Q5496550",
+  "entity_label": "Fred Whitton Challenge",
+  "description": "charity cyclosportive event",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0543/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0543/metadata.json",
+  "input_hash": "eed19ef8ec879d820aa1c2158d5d6f136cb47a67adf3d6421a436a040e2aba76",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Fred Whitton Challenge\nDescription: charity cyclosportive event\n\nTaxonomy context:\n- Direct parent classes: event\n- Sibling classes: Deutsches Bundesschießen, online event, air show\n- Direct child classes: benefit performance\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q5496550",
+    "entity_label": "Fred Whitton Challenge",
+    "description": "charity cyclosportive event",
+    "reference_class_id": "wd:Q2441722",
+    "reference_type": "charity event",
+    "gold_types": [
+      {
+        "class_id": "wd:Q2441722",
+        "label": "charity event",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q1656682",
+        "label": "event",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q1190554",
+        "label": "occurrence",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q26907166",
+        "label": "temporal entity",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "event",
+      "siblings": "Deutsches Bundesschießen, online event, air show",
+      "children": "benefit performance"
+    },
+    "oracle_graph_context": {
+      "parents": "event",
+      "siblings": "Deutsches Bundesschießen, online event, air show",
+      "children": "benefit performance"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 543,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q2441722"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q1656682"
+      ],
+      "siblings": [
+        "wd:Q1006694",
+        "wd:Q104418497",
+        "wd:Q1070669"
+      ],
+      "children": [
+        "wd:Q4887449"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "cyclosportive",
+    "cycling event",
+    "sporting event",
+    "charity event",
+    "event"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:17:11.990810+00:00",
+  "response": "{\"explanation\": \"The description identifies the Fred Whitton Challenge as a 'charity cyclosportive event', supporting cyclosportive as the most specific type, alongside charity event and cycling event. In the taxonomy, the direct parent class is event, defining the broader scope. Sibling classes like air show, online event, and Deutsches Bundesschießen represent completely different event domains and are rejected. The child class benefit performance is also rejected because a cyclosportive is an athletic cycling ride rather than an entertainment performance. The selected types proceed systematically from the specific cycling and charity event subtypes to the broader event categories.\", \"types\": [\"cyclosportive\", \"cycling event\", \"sporting event\", \"charity event\", \"event\"]}",
+  "explanation": "The description identifies the Fred Whitton Challenge as a 'charity cyclosportive event', supporting cyclosportive as the most specific type, alongside charity event and cycling event. In the taxonomy, the direct parent class is event, defining the broader scope. Sibling classes like air show, online event, and Deutsches Bundesschießen represent completely different event domains and are rejected. The child class benefit performance is also rejected because a cyclosportive is an athletic cycling ride rather than an entertainment performance. The selected types proceed systematically from the specific cycling and charity event subtypes to the broader event categories.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies the Fred Whitton Challenge as a 'charity cyclosportive event', supporting cyclosportive as the most specific type, alongside charity event and cycling event. In the taxonomy, the direct parent class is event, defining the broader scope. Sibling classes like air show, online event, and Deutsches Bundesschießen represent completely different event domains and are rejected. The child class benefit performance is also rejected because a cyclosportive is an athletic cycling ride rather than an entertainment performance. The selected types proceed systematically from the specific cycling and charity event subtypes to the broader event categories.\", \"types\": [\"cyclosportive\", \"cycling event\", \"sporting event\", \"charity event\", \"event\"]}",
+              "thoughtSignature": "EskVCsYVAWkUfRNOMU2SH10LW39IdggKyrn93O3W1PVx7JHO24Re0oFlhSlcx/PDDgAZrxGx5+aojUTLgX62n0Cee/buzsfiFDGRSsPxEmh1H0BTHccm+hz5dgULeMU/Jt6vu6IX8ck8tqQk+3bppxsgmDDgbqYOHhjEhkA6H0fOQUB1kD/cFZ+nVTimZf4n9vdzl7qBiHQC/1ecg6GJDXyMG6rMgOb941FL0+PPrPo/TVHk1JS9abPhV3wp14OV1vnc7UddWmdwq0M29JOzrJo1BtaqnsHetHq5psHZ4ArVt37a00WUdUMIYuhy1sNdMN1E24wXtrnFVPHKPSJxBAJGbwDYJB4uNUcQGZjpOq3WV51d0L5kdFVOhspUxaoCRlPomj+WXyzlwWqiw3BOpv3caB/Mg8emLX1XE83akGNuJh5tB1+23g/7KdKdylWlGvJdZIj0G3PdMPRbghEPMJKiYtWLeZ6kc7273QvxeBD3gdGU9Ge9NlkSop49nBlRhom3qxWKXt+KSd/SECLQgsbIjFpbfvEQ25i8g35L7UVKsGqTA4nb9oHMiRaHVpSPZ3dlJZxe/ZrxscU4QkiRGtOF5Y5riI+vU5QDLGioi/VGY7W1IC+xs+/Q9SElOnYLAz0T1Wa+Ncsc4VxoKIWKnDoy9HQCz7XykOs88HBNuTp4b0ZUUwNZnVzALcDGXog1W9Xj/qRMCXf/6P98eY4v8uH8TIzmveGP2gLfy6Dn6v65TEAB7r6P7HxiRkzUXCC9zyO8KJwG58F8WtGJ5inCxNMlmf68bCs2p5RpiMCui759NvJ5qp2RjmNTQJ4IbUe8Y7wBDvSyBZdmUgAN/7zmc3QnPCBgVtq4FUujElbuM9Fo6SBvXDJxdpaZP5i4f2hzg7xIJk2tew5uAnX0Tkqia7gOLSuWCTI5Xs8J43naJpuoGcRoFiod6EsXOkhmN+CxazzEbqEmA/wNQYNyObI1jLpnRkQO8FNfl8R/q9UNkgCXys1St/mTeuA2HkxePIWWR4sQggDI5urjQJnh58dr1u9MD0ZlgvbPglVk6JSojh2cz0Y/1+ZlpKKrfs6vAAYge5E1l5213gOUK5r/zoOOfj0SzJGE1oMLKs+Yqb7iJOYXoA4CY/tMAeeYz92MEJrKqIaqKIgxqC2S96HQyuYy70bj7it5NFqcjrIRyNe81uopLEFH61omgJd0UVBQu9+SFmk8Rl1fHwfoPIv1ZbRX7pHcCic1b1JcIZLlCDrTkNuL//UePzp3fFYTEG8F9YA1rN5Hlj+lVcERvCE/0Rnn3/QzJatT9S4EKDr/eRF/EBKw6CWImdp6WEaR6k41MffX3dqXbO4+tDDIsK/OsGNStNBDVL5TV/0r7+tjw+yYI4Ph5vAVOukcz6SPk7nqj90Rqdk6Dn8biQ4zz1upFFmjSJNXDYy4Jx2D2we7sjBpDNSfFzqkzNYvGBXic4DBpkP64h8xIWG/U1gniiFdY8iD4CxOdaHoAD9aVNqnlSTPPjFa9DOT2XiOxmgZvaHV71UrYdkjf8h0QevLj/fAEYNa8S1/zrHaXCqcEIFtDrRalkG5r7NQvPO5t4mYSxRrGWZaTZDim78fv9C4Ds1R9dp8CPrsRCulmfRwkEz4RVFZ/lGq6cJAETlCzkhUE3qWJbK/DUfeb5iO0sReao3HSeTeKFjVXKlf/tSSFd5527fVGD56HVPCiG0BtLTgeIaiFgLjozZAID2VoQmQyfFJ1N7VO8V1wVnQ2HS2LyF2oA+Av0qlphs/Kxdxl2xlK+k8VoTa/yj3hhYDf15ZmtvbI0ieXRSjuhTaxwxJ7hcOWYmTNXoLP4utDEva7/mSmJqW+VmtrL0b6Uq1nNWy/jxU+fw+ioS4JEID+BETcehdEdGHjZ3MCWOnSG+6qMkDy/jRVJjYrO8gCRYD8Xdh0sPNYa6TCqbrBpFLqeJZg+Xz5XQc8PGfLQSO5Wk6vLSIoF+NaKxwLxhkpgMh4QLzR3IVtlRd0+Qn4E1wYci/qA9cU01tk22tTcZODd6tpVnz+lmxpzoSjxtevIjAakzPv6ujackOSy0n0J/xPU+1jUGdV5rC2SBD/1atI67a0wNEhmATgZfudA3Qk1nMSC61b3q1ZfxwaVFnPp+6UrftVzLXOhUyMveWBVV/kImeRRjsP4lN+MweqUBnFoDtMjcFlg+P6jGiVfLz8SrqpApX+Gcs9oXLtpNIsshzB1+2SF+Y5qTSW6A/6JsB0IUTunBExaX/HUOwTsFk+N2RYd5ofL1avZW6vcj6y38ogt6TB5W9mrgZrXCxhM4BcNRE+0l++vxAoBCK6V4F+oz7wiZbmBmwQY5EM3HHOwX4AbTpduEQY6OtARSVsEzQieGsoTh1xlh4JpV+xF2jP1LNGguKKJQa7c9cd1rS10w0DxTATLO1+B19n7bbtjmQ9PQwEpIyQTD5eBVJc4Or5riIZP/Khih+F13vYkzmI/7uRpfX4V+8W1NoWuYqJOBJhK6dwlm+jBOdoMThiKPDtInLf81tWgy7Y5JU1d7i5j1bYIrISR4JgWo1KQxGZ+l/GUllj8bpEZO0Pp4n9DY828ZvJDhVZ/Tfcdmdu0/4HpAgBN47lneP8S90Z6cxRvHXPowxHVd0Lhuvnv+vACgmhOd+LzMGiaciCaKeFYIolIZDkUB5hZ3wtbr9AibT4NtMrdiMDMqiyWirWA+SiKC9rvoRAQJ82kKheVR7va3Fs6txJZUbZIcCF3syl01PnFb4W8IUfHzjTIF2FGDYk6CuATMIcY95GJnvXVQFki0KqeTchW0OCdv8suXRzyC4G13/VWHvfSTfuPk/RAP2uEbzuEsEWmwBGF6Hk2iL/KQOw9aSoQYIHC/YJGI7BuRMQmoJoJVQrM9LNzYigoMReSScEHnhL1txQEkyLwUTcjW55levNJUut2hjJqmee47XK7J8k6liH1l1/Kw9Sfx43aE6Y7RHl5PDcetHp4pmqvSerghg3ryFNRFZ3apy3gQ8cHv+hQyAJjTxpiBd+7vAzn5hpZVrmEOlPC8/DN1dc6hX7phClMeRhq1c6vl211VgYXF/EYs3rGnCGheorcE6w7AQ/dJ3FOmCHEpumR3dhlnQkBRJxc5JUirG8g7HFFnZRTJUAFwNXI86bknotrRwpn9SijAYPsj932hCBAGlLZCQ6ARqP95AV8GjVRLohiVTZOF5elxuxBDcqCUOoPLWwSXMq+hc4W9ni/e9CX226zYmludeE1BAsFObjf6r55qclW9MYuSuP7oT6w71fsv054sHpoBq84ylb17He/e79HxHjXhTYEhx1cMoAwtKzEH2z3kDU2BLZbAVRgmEYL3S1fLQUsbV+p8i0vRSaps8XG0fHIB7MsHGahojo49JX5wskAdFGQUsgfGTFxhrls/js28NkLX4UPx5mOWgjN561m5PcvtJ+mOi/hAdd9asC8cQvtVedrOumlhvG96wyjLIXTkfmxcnBawJ35d59le21lvDrU2OUaNMZ6OlBOA15QZoMIe4JA7O9WDLuzXigoEfTRKQmRsYbgzfZWW/XD7XnGgoljiltVAo/x2xGzwDluN3iC83ZUMTwR5Rwkpdm/sVWuCrJYEEwH1D+P0n6I9Ixjbe9OLyDHHLpuHZHKUVcWYASnZNizuwc4/qvMg4LLz4RKHLr7GuYPTBmYxpQw=="
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 552,
+      "candidatesTokenCount": 152,
+      "totalTokenCount": 1387,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 552
+        }
+      ],
+      "thoughtsTokenCount": 683,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "CCfMavXvDercnsEPz7zO2A4"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 552,
+    "candidatesTokenCount": 152,
+    "totalTokenCount": 1387,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 552
+      }
+    ],
+    "thoughtsTokenCount": 683,
+    "serviceTier": "standard"
+  }
+}

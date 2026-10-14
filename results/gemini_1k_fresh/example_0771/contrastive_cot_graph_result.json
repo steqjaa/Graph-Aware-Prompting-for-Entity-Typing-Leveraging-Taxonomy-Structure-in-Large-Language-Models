@@ -1,0 +1,168 @@
+{
+  "example_number": 771,
+  "entity_id": "wd:Q1430113",
+  "entity_label": "Institut national des langues et civilisations orientales",
+  "description": "academic language institution in France",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0771/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0771/metadata.json",
+  "input_hash": "ea6991856c78419f1b0a2b7645cb2c1a81dde8cc204f9d000f4d2e4fc0f0ef9b",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Institut national des langues et civilisations orientales\nDescription: academic language institution in France\n\nTaxonomy context:\n- Direct parent classes: public institution\n- Sibling classes: state school, ministry-owned university, Moroccan public institution\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q1430113",
+    "entity_label": "Institut national des langues et civilisations orientales",
+    "description": "academic language institution in France",
+    "reference_class_id": "wd:Q1542938",
+    "reference_type": "grand établissement",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1542938",
+        "label": "grand établissement",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q294163",
+        "label": "public institution",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "public institution",
+      "siblings": "state school, ministry-owned university, Moroccan public institution",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "public institution",
+      "siblings": "state school, ministry-owned university, Moroccan public institution",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 771,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1542938"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q294163"
+      ],
+      "siblings": [
+        "wd:Q1080794",
+        "wd:Q10875128",
+        "wd:Q121614922"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "grand établissement",
+    "higher education institution",
+    "educational institution",
+    "public institution",
+    "institution",
+    "organization",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:05:02.246006+00:00",
+  "response": "{\n  \"explanation\": \"The description identifies the entity as an 'academic language institution in France', which directly supports 'grand établissement' and 'higher education institution' as the most specific valid types. In the taxonomy context, its broader category is 'public institution'. Sibling classes like 'state school', 'ministry-owned university', and 'Moroccan public institution' represent alternative institutional forms under public institutions, but 'grand établissement' precisely matches the French academic status of this institution, while 'Moroccan public institution' is geographically contradicted. Broader classes like 'educational institution', 'public institution', and 'organization' follow in order of decreasing specificity.\",\n  \"types\": [\n    \"grand établissement\",\n    \"higher education institution\",\n    \"educational institution\",\n    \"public institution\",\n    \"institution\",\n    \"organization\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The description identifies the entity as an 'academic language institution in France', which directly supports 'grand établissement' and 'higher education institution' as the most specific valid types. In the taxonomy context, its broader category is 'public institution'. Sibling classes like 'state school', 'ministry-owned university', and 'Moroccan public institution' represent alternative institutional forms under public institutions, but 'grand établissement' precisely matches the French academic status of this institution, while 'Moroccan public institution' is geographically contradicted. Broader classes like 'educational institution', 'public institution', and 'organization' follow in order of decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The description identifies the entity as an 'academic language institution in France', which directly supports 'grand établissement' and 'higher education institution' as the most specific valid types. In the taxonomy context, its broader category is 'public institution'. Sibling classes like 'state school', 'ministry-owned university', and 'Moroccan public institution' represent alternative institutional forms under public institutions, but 'grand établissement' precisely matches the French academic status of this institution, while 'Moroccan public institution' is geographically contradicted. Broader classes like 'educational institution', 'public institution', and 'organization' follow in order of decreasing specificity.\",\n  \"types\": [\n    \"grand établissement\",\n    \"higher education institution\",\n    \"educational institution\",\n    \"public institution\",\n    \"institution\",\n    \"organization\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 558,
+      "candidatesTokenCount": 184,
+      "totalTokenCount": 1675,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 558
+        }
+      ],
+      "thoughtsTokenCount": 933,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "jp61aovcH_yUvdIPseDSGA"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 558,
+    "candidatesTokenCount": 184,
+    "totalTokenCount": 1675,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 558
+      }
+    ],
+    "thoughtsTokenCount": 933,
+    "serviceTier": "standard"
+  }
+}

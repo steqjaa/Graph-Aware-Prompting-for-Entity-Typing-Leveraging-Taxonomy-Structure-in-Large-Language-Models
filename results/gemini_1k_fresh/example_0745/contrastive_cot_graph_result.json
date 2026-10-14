@@ -1,0 +1,173 @@
+{
+  "example_number": 745,
+  "entity_id": "wd:Q88037492",
+  "entity_label": "Paul Moughan",
+  "description": "New Zealand food scientist",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0745/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0745/metadata.json",
+  "input_hash": "579da753823f62bb0c472410b8b0380b9026c19f0cc5e67b7901058bb8ca773e",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Paul Moughan\nDescription: New Zealand food scientist\n\nTaxonomy context:\n- Direct parent classes: scientist\n- Sibling classes: military scientist, scientific explorer, astronomer\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q88037492",
+    "entity_label": "Paul Moughan",
+    "description": "New Zealand food scientist",
+    "reference_class_id": "wd:Q12304425",
+    "reference_type": "food scientist",
+    "gold_types": [
+      {
+        "class_id": "wd:Q12304425",
+        "label": "food scientist",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q1650915",
+        "label": "researcher",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q1914017",
+        "label": "knowledge worker",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q901",
+        "label": "scientist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q20826540",
+        "label": "scholar",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q327055",
+        "label": "worker",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "scientist",
+      "siblings": "military scientist, scientific explorer, astronomer",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "scientist",
+      "siblings": "military scientist, scientific explorer, astronomer",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 745,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q12304425"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q901"
+      ],
+      "siblings": [
+        "wd:Q104176943",
+        "wd:Q10498147",
+        "wd:Q11063"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "food scientist",
+    "scientist",
+    "researcher",
+    "professional",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:03:05.244404+00:00",
+  "response": "{\"explanation\": \"The description \\\"New Zealand food scientist\\\" directly supports food scientist as the most specific type. Its direct parent in the taxonomy is scientist, defining the broad domain. Sibling classes such as military scientist, scientific explorer, and astronomer represent distinct specializations of scientist that are not supported by the evidence. With no direct child classes indicated or supported, food scientist remains the narrowest valid type, followed by broader superclasses in decreasing order of specificity.\", \"types\": [\"food scientist\", \"scientist\", \"researcher\", \"professional\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The description \"New Zealand food scientist\" directly supports food scientist as the most specific type. Its direct parent in the taxonomy is scientist, defining the broad domain. Sibling classes such as military scientist, scientific explorer, and astronomer represent distinct specializations of scientist that are not supported by the evidence. With no direct child classes indicated or supported, food scientist remains the narrowest valid type, followed by broader superclasses in decreasing order of specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"New Zealand food scientist\\\" directly supports food scientist as the most specific type. Its direct parent in the taxonomy is scientist, defining the broad domain. Sibling classes such as military scientist, scientific explorer, and astronomer represent distinct specializations of scientist that are not supported by the evidence. With no direct child classes indicated or supported, food scientist remains the narrowest valid type, followed by broader superclasses in decreasing order of specificity.\", \"types\": [\"food scientist\", \"scientist\", \"researcher\", \"professional\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "EpsMCpgMAWkUfRONRM64pcEd7k/BmMn++EE9qRwADwa3UngDjce3c06nVf+r3PqnaPgJEg4pp9gUHM/5oOyRYt9AjDx6ROBtsoqBRwXs6EtvykymyzsKrXz+FCnhm2NQ6WcLWGHUPyvBE8qwJNZVrgIq3cQuxYD3vjHogx50v647wz517N7UwDThrbEoa6+lTZcrEe7cByzFUgaelxV2OD5pvqNIrnkv+/YhWoBTnCvb2Hf6kBdBYg2uM8g6YJqW9v3OUJQgkc7L2o+pMTn66mGfw64PP/2Vu46ikIigYCBTYazTf0W2GvEj6q/s0dKxfoyngLYnMKEePmJPKkxa0IKQLwLK58QiEPcrtVrw9ZIT0n14yUPHMNNC/lzsyhlV5bxHAiuXL7539rqRvpsMH+9oHUQ+ermbyljmh3E3z7/FnR3O54Z+RkB/fe7lUzAZmhAGgryAaKr5PoBWh+GP8lYKKBJ1to01+0n04ypXthGSAWrM+J9kojhAbOPleLUDsyb98AdXqif+0BMSmTGX2ESa+2mH4KwnQRYDZxj+bGJloB9TQ8akw7NzU3F1wOx1lQC37zxSrldMBVhwpJuXJY8WoUHvgpD8Wik5imQGF8YVRt2v+o03CqH1yvWurz01Y/24iHQGThzktdnP4Fnet2HXrtGdh9rDAPRtuziSpxE+TX7ysVonL+8CNnNvCQQRwguEXn6aCNCV4T4no5etYbPvPKD1ahZPK2RLISkO6Mo6pH6UDwWT+4WG2aLA8UaYNhm7enqujLIBty8Zx8EMrle05+GuZ4VnQnb8fvOk2Knma1NvI1+JqJ+D2zbEHDjPupaUa4SRLCrG+ckDikN0z1+f9XBA34E1/He3/oQZ5suNoHiJBkKVEGte3WgG+HlaK8RH+PzsGJ/LVhbAdRJU85SiAioAbAaQP3OjUPZSD/EMoYDUwB/sctwDZ6iZDANbgnuOM+EX6DXW9BcAstse+dij/FIwTmLufUoAqOpWYBNeiak9UtCXN5oUc/HXx/RpNGcisI3abAm2/kxnVlkM2C3WKa1UKVWQXYynG56GfBvZiEIWnPb1ErNVvuHERbavtTS4Z1oW3PVQYpHKnhhDSKy0d/XtRWMMQEbrmq/Zi4DEl7xOq2s1KSap71QE4BHrXGAKbjVRzvMRwVGoi/FAOdA6ST0+xnOjL4cRVod7dDTuDRCerzyEn/Rmx5uarGMBG1Ts4KrKIlo4GXMXX2nx9rFbsD80dAA8FYCp9cLN9A0pkx3TVIOoPt5UY13uhavIgkI8DrlKftCBjDOOADfCK2iNMLWWmSjRRjghHxrtTDRM7k6HepFqYhDmxnw6KwKyLVFOnXnKVlB/IWJJRCyuFToPe6SDGwFpvoqWjII1yTRNJfsIpqgUnRvTkBl0Lm7xpobDCR0XrK0mq1bRynC4dQCGGQulSb8mA4MiDsSEJFD9aZKs/2x6KWxdKV6kZ81oX5lET+7uh6HJvfD+/8RlgXdVPK8E60COCOjfkIwczbzPZILXxn+56kJbGn/sco7MN349km9df4CTWm/rWI09g8XK5GTL5FOkYnk2M1lNl62sV4b/z/c51PKGOBlezffgmx/mYvWy95I5PzIpOAdpzFR3iMmCef1UJJBV7+wngOB468JzD7ofRlH3xEnoT2jCrlnAvg87kdkM58aAVAVU3VCIGjcb1M3MDjpxilXxLw4rLf62oogN1XXbfYp+P+V7geokGzm/HmP13FRRV4R3oF0Ci0/tzTRIzz8fo7AxOg5KFd/D63h/nzf0oJqOghhuugQn72kL2PHfaQxTk4IlVChHWkdXRCcAfwwyrLuhOhUoKLIU9s6Mz5VxL8uqRJBKStQ2itHA4sgCMlTW6PLhT6hFbB2sbBk5Ghh7LyeBKuvgRaFH7/OPm//eRUurJJiFPJnuYbqCMw9MU0LR1R29hr1jBH8OF6Z2EJXcEbv0Tm2+Lb08QLz9V8vv5J+a2JPoKPGxxteLeA/vfJeO15uUaqsSJmnUCIx4QC/48t9mIRIC+ucysdLR6JYLSdfRHRyomNJ2FdKW6rwb7VJhp/BIPjZDuVwcH1YEbtB24d3B"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 547,
+      "candidatesTokenCount": 118,
+      "totalTokenCount": 974,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 547
+        }
+      ],
+      "thoughtsTokenCount": 309,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "GZ61ar2XHrzPvdIP6rXZiQ0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 547,
+    "candidatesTokenCount": 118,
+    "totalTokenCount": 974,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 547
+      }
+    ],
+    "thoughtsTokenCount": 309,
+    "serviceTier": "standard"
+  }
+}

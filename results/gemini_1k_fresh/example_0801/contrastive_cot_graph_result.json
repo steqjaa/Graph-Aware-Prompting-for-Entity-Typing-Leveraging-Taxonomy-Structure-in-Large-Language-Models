@@ -1,0 +1,190 @@
+{
+  "example_number": 801,
+  "entity_id": "wd:Q1141531",
+  "entity_label": "Monument Avenue",
+  "description": "thoroughfare in Richmond, United States",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0801/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0801/metadata.json",
+  "input_hash": "035db2749525fca5d17846098c6aef2d00b62643ea6dfee411e74f78a6b8391c",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Monument Avenue\nDescription: thoroughfare in Richmond, United States\n\nTaxonomy context:\n- Direct parent classes: street\n- Sibling classes: main street, municipal road, jirón\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q1141531",
+    "entity_label": "Monument Avenue",
+    "description": "thoroughfare in Richmond, United States",
+    "reference_class_id": "wd:Q7543083",
+    "reference_type": "avenue",
+    "gold_types": [
+      {
+        "class_id": "wd:Q7543083",
+        "label": "avenue",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q79007",
+        "label": "street",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q1322402",
+        "label": "nonbuilding structure",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q83620",
+        "label": "thoroughfare",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q15710813",
+        "label": "physical structure",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1826691",
+        "label": "linear construction",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q8205328",
+        "label": "artificial physical object",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q35145743",
+        "label": "artificial geographic object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q4406616",
+        "label": "concrete object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q6671777",
+        "label": "structure",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "street",
+      "siblings": "main street, municipal road, jirón",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "street",
+      "siblings": "main street, municipal road, jirón",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 801,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q7543083"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q79007"
+      ],
+      "siblings": [
+        "wd:Q1006835",
+        "wd:Q10276558",
+        "wd:Q124090964"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "avenue",
+    "street",
+    "thoroughfare",
+    "road",
+    "transport infrastructure",
+    "infrastructure",
+    "structure",
+    "spatial entity",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:07:17.256722+00:00",
+  "response": "{\"explanation\": \"The description identifies Monument Avenue as a thoroughfare in Richmond, which, along with the entity name itself, directly supports avenue as the most specific entity type. In the taxonomy, avenue is a specific type of street. Sibling classes under street, such as main street, municipal road, and jir\\u00f3n, describe other specific street forms or administrative designations that are either unsupported or less specific than avenue. There are no listed direct child classes to consider. Broader valid classes follow in decreasing specificity from street to thoroughfare, road, infrastructure, and physical structure.\", \"types\": [\"avenue\", \"street\", \"thoroughfare\", \"road\", \"transport infrastructure\", \"infrastructure\", \"structure\", \"spatial entity\", \"entity\"]}",
+  "explanation": "The description identifies Monument Avenue as a thoroughfare in Richmond, which, along with the entity name itself, directly supports avenue as the most specific entity type. In the taxonomy, avenue is a specific type of street. Sibling classes under street, such as main street, municipal road, and jirón, describe other specific street forms or administrative designations that are either unsupported or less specific than avenue. There are no listed direct child classes to consider. Broader valid classes follow in decreasing specificity from street to thoroughfare, road, infrastructure, and physical structure.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies Monument Avenue as a thoroughfare in Richmond, which, along with the entity name itself, directly supports avenue as the most specific entity type. In the taxonomy, avenue is a specific type of street. Sibling classes under street, such as main street, municipal road, and jir\\u00f3n, describe other specific street forms or administrative designations that are either unsupported or less specific than avenue. There are no listed direct child classes to consider. Broader valid classes follow in decreasing specificity from street to thoroughfare, road, infrastructure, and physical structure.\", \"types\": [\"avenue\", \"street\", \"thoroughfare\", \"road\", \"transport infrastructure\", \"infrastructure\", \"structure\", \"spatial entity\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 549,
+      "candidatesTokenCount": 156,
+      "totalTokenCount": 1121,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 549
+        }
+      ],
+      "thoughtsTokenCount": 416,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "FZ-1aumHG8-GxN8PxomyuQ4"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 549,
+    "candidatesTokenCount": 156,
+    "totalTokenCount": 1121,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 549
+      }
+    ],
+    "thoughtsTokenCount": 416,
+    "serviceTier": "standard"
+  }
+}

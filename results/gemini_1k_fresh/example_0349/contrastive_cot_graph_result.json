@@ -1,0 +1,170 @@
+{
+  "example_number": 349,
+  "entity_id": "wd:Q5672450",
+  "entity_label": "Harry Smith",
+  "description": "English cricketer, born 1906",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0349/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0349/metadata.json",
+  "input_hash": "66eefd7228768ca92ba3229937bfed780f50db64b529fa6c12c0fb36b5b75e21",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Harry Smith\nDescription: English cricketer, born 1906\n\nTaxonomy context:\n- Direct parent classes: competitive player, athlete\n- Sibling classes: competition climber, tennis player, field hockey player\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q5672450",
+    "entity_label": "Harry Smith",
+    "description": "English cricketer, born 1906",
+    "reference_class_id": "wd:Q12299841",
+    "reference_type": "cricketer",
+    "gold_types": [
+      {
+        "class_id": "wd:Q12299841",
+        "label": "cricketer",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q18536342",
+        "label": "competitive player",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q2066131",
+        "label": "athlete",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q4197743",
+        "label": "player",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q50995749",
+        "label": "sportsperson",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "competitive player, athlete",
+      "siblings": "competition climber, tennis player, field hockey player",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "competitive player, athlete",
+      "siblings": "competition climber, tennis player, field hockey player",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 349,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q12299841"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q18536342",
+        "wd:Q2066131"
+      ],
+      "siblings": [
+        "wd:Q107690317",
+        "wd:Q10833314",
+        "wd:Q10843263"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "cricketer",
+    "athlete",
+    "competitive player",
+    "player",
+    "person",
+    "agent",
+    "organism",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:33:23.195809+00:00",
+  "response": "{\"explanation\": \"The description \\\"English cricketer, born 1906\\\" clearly supports cricketer as the most specific entity type. Under the taxonomy, cricketer falls directly under parents such as athlete and competitive player. Sibling alternatives such as tennis player, field hockey player, and competition climber represent athletes in other sports and are rejected because the evidence explicitly designates cricket. No narrower child types (such as wicket-keeper or bowler) are specified in the description. The remaining labels reflect broader, increasingly general categories based on taxonomy hierarchy.\", \"types\": [\"cricketer\", \"athlete\", \"competitive player\", \"player\", \"person\", \"agent\", \"organism\", \"entity\"]}",
+  "explanation": "The description \"English cricketer, born 1906\" clearly supports cricketer as the most specific entity type. Under the taxonomy, cricketer falls directly under parents such as athlete and competitive player. Sibling alternatives such as tennis player, field hockey player, and competition climber represent athletes in other sports and are rejected because the evidence explicitly designates cricket. No narrower child types (such as wicket-keeper or bowler) are specified in the description. The remaining labels reflect broader, increasingly general categories based on taxonomy hierarchy.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"English cricketer, born 1906\\\" clearly supports cricketer as the most specific entity type. Under the taxonomy, cricketer falls directly under parents such as athlete and competitive player. Sibling alternatives such as tennis player, field hockey player, and competition climber represent athletes in other sports and are rejected because the evidence explicitly designates cricket. No narrower child types (such as wicket-keeper or bowler) are specified in the description. The remaining labels reflect broader, increasingly general categories based on taxonomy hierarchy.\", \"types\": [\"cricketer\", \"athlete\", \"competitive player\", \"player\", \"person\", \"agent\", \"organism\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 555,
+      "candidatesTokenCount": 137,
+      "totalTokenCount": 1325,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 555
+        }
+      ],
+      "thoughtsTokenCount": 633,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "I5e1apWcI7jgxs0P94uN2Qg"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 555,
+    "candidatesTokenCount": 137,
+    "totalTokenCount": 1325,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 555
+      }
+    ],
+    "thoughtsTokenCount": 633,
+    "serviceTier": "standard"
+  }
+}

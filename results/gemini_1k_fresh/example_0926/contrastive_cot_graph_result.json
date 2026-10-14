@@ -1,0 +1,159 @@
+{
+  "example_number": 926,
+  "entity_id": "wd:Q207805",
+  "entity_label": "Junior Eurovision Song Contest 2007",
+  "description": "5th annual Junior Eurovision Song Contest",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0926/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0926/metadata.json",
+  "input_hash": "94f3eec3aa8e9ce96d0af3493755fdd50e45cb7eae2e9087c6224d3763675ee9",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Junior Eurovision Song Contest 2007\nDescription: 5th annual Junior Eurovision Song Contest\n\nTaxonomy context:\n- Direct parent classes: competition\n- Sibling classes: sports competition, horse show, robot competition\n- Direct child classes: singing competition\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q207805",
+    "entity_label": "Junior Eurovision Song Contest 2007",
+    "description": "5th annual Junior Eurovision Song Contest",
+    "reference_class_id": "wd:Q1955280",
+    "reference_type": "music competition",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1955280",
+        "label": "music competition",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q476300",
+        "label": "competition",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q1656682",
+        "label": "event",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q1190554",
+        "label": "occurrence",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q26907166",
+        "label": "temporal entity",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "competition",
+      "siblings": "sports competition, horse show, robot competition",
+      "children": "singing competition"
+    },
+    "oracle_graph_context": {
+      "parents": "competition",
+      "siblings": "sports competition, horse show, robot competition",
+      "children": "singing competition"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 926,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1955280"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q476300"
+      ],
+      "siblings": [
+        "wd:Q13406554",
+        "wd:Q1752292",
+        "wd:Q1836494"
+      ],
+      "children": [
+        "wd:Q60723717"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "song contest",
+    "singing competition",
+    "music competition",
+    "competition",
+    "event",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:16:44.930874+00:00",
+  "response": "{\n  \"explanation\": \"The description '5th annual Junior Eurovision Song Contest' identifies the entity as a song contest and singing competition. In the taxonomy context, the parent class competition and sibling classes like sports competition, horse show, and robot competition point to music competition as the intermediate category. The child class singing competition is directly supported by the entity being a song contest, making it and song contest the most specific valid types, followed by broader categories such as music competition, competition, and event.\",\n  \"types\": [\n    \"song contest\",\n    \"singing competition\",\n    \"music competition\",\n    \"competition\",\n    \"event\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The description '5th annual Junior Eurovision Song Contest' identifies the entity as a song contest and singing competition. In the taxonomy context, the parent class competition and sibling classes like sports competition, horse show, and robot competition point to music competition as the intermediate category. The child class singing competition is directly supported by the entity being a song contest, making it and song contest the most specific valid types, followed by broader categories such as music competition, competition, and event.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The description '5th annual Junior Eurovision Song Contest' identifies the entity as a song contest and singing competition. In the taxonomy context, the parent class competition and sibling classes like sports competition, horse show, and robot competition point to music competition as the intermediate category. The child class singing competition is directly supported by the entity being a song contest, making it and song contest the most specific valid types, followed by broader categories such as music competition, competition, and event.\",\n  \"types\": [\n    \"song contest\",\n    \"singing competition\",\n    \"music competition\",\n    \"competition\",\n    \"event\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 558,
+      "candidatesTokenCount": 146,
+      "totalTokenCount": 1993,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 558
+        }
+      ],
+      "thoughtsTokenCount": 1289,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "TaG1atrTDpChvdIPlMbZGA"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 558,
+    "candidatesTokenCount": 146,
+    "totalTokenCount": 1993,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 558
+      }
+    ],
+    "thoughtsTokenCount": 1289,
+    "serviceTier": "standard"
+  }
+}

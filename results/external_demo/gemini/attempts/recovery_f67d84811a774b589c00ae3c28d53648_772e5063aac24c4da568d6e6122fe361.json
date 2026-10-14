@@ -1,0 +1,159 @@
+{
+  "example_number": 28,
+  "entity_id": "wd:Q811859",
+  "entity_label": "Bauschänzli",
+  "description": "square",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0028/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0028/metadata.json",
+  "input_hash": "2007cbd5ea9355bc6e2b00120acfbe07141891ca24a3326e98dedb604985c32d",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Bauschänzli\nDescription: square\n\nTaxonomy context:\n- Direct parent classes: artificial physical object\n- Sibling classes: quilt, two-dimensional visual artwork, clothing\n- Direct child classes: climbing wall, caravanserai, inflatable space structure\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q811859",
+    "entity_label": "Bauschänzli",
+    "description": "square",
+    "reference_class_id": "wd:Q15710804",
+    "reference_type": "built structure",
+    "gold_types": [
+      {
+        "class_id": "wd:Q15710804",
+        "label": "built structure",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q8205328",
+        "label": "artificial physical object",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q4406616",
+        "label": "concrete object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "artificial physical object",
+      "siblings": "quilt, two-dimensional visual artwork, clothing",
+      "children": "climbing wall, caravanserai, inflatable space structure"
+    },
+    "oracle_graph_context": {
+      "parents": "artificial physical object",
+      "siblings": "quilt, two-dimensional visual artwork, clothing",
+      "children": "climbing wall, caravanserai, inflatable space structure"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 28,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q15710804"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q8205328"
+      ],
+      "siblings": [
+        "wd:Q1064538",
+        "wd:Q110304307",
+        "wd:Q11460"
+      ],
+      "children": [
+        "wd:Q1427951",
+        "wd:Q186347",
+        "wd:Q6030150"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "public square",
+    "town square",
+    "square",
+    "plaza",
+    "open space",
+    "architectural structure",
+    "facility",
+    "artificial physical object",
+    "physical object",
+    "object",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "f67d84811a774b589c00ae3c28d53648",
+  "timestamp_utc": "2026-10-11T23:28:16.462695+00:00",
+  "response": "{\"explanation\": \"The description \\\"square\\\" directly supports town square or public square as the most specific type. In the taxonomy, its broader scope encompasses architectural structures and facilities under artificial physical object. Sibling categories like quilt, clothing, and two-dimensional visual artwork represent other physical objects but lack architectural relevance, while direct child classes like climbing wall, caravanserai, and inflatable space structure are too specific and unsupported by the entity description. The selected types follow a strictly ordered chain from most specific to broadest evidence-supported categories.\", \"types\": [\"public square\", \"town square\", \"square\", \"plaza\", \"open space\", \"architectural structure\", \"facility\", \"artificial physical object\", \"physical object\", \"object\", \"entity\"]}",
+  "explanation": "The description \"square\" directly supports town square or public square as the most specific type. In the taxonomy, its broader scope encompasses architectural structures and facilities under artificial physical object. Sibling categories like quilt, clothing, and two-dimensional visual artwork represent other physical objects but lack architectural relevance, while direct child classes like climbing wall, caravanserai, and inflatable space structure are too specific and unsupported by the entity description. The selected types follow a strictly ordered chain from most specific to broadest evidence-supported categories.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"square\\\" directly supports town square or public square as the most specific type. In the taxonomy, its broader scope encompasses architectural structures and facilities under artificial physical object. Sibling categories like quilt, clothing, and two-dimensional visual artwork represent other physical objects but lack architectural relevance, while direct child classes like climbing wall, caravanserai, and inflatable space structure are too specific and unsupported by the entity description. The selected types follow a strictly ordered chain from most specific to broadest evidence-supported categories.\", \"types\": [\"public square\", \"town square\", \"square\", \"plaza\", \"open space\", \"architectural structure\", \"facility\", \"artificial physical object\", \"physical object\", \"object\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 555,
+      "candidatesTokenCount": 150,
+      "totalTokenCount": 1356,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 555
+        }
+      ],
+      "thoughtsTokenCount": 651,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "kBvMaou7Kdz7xN8PkfW48Qk"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 555,
+    "candidatesTokenCount": 150,
+    "totalTokenCount": 1356,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 555
+      }
+    ],
+    "thoughtsTokenCount": 651,
+    "serviceTier": "standard"
+  }
+}

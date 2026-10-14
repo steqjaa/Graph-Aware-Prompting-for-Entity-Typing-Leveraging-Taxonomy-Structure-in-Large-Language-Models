@@ -1,0 +1,153 @@
+{
+  "example_number": 447,
+  "entity_id": "wd:Q28323742",
+  "entity_label": "Hilal-e-Pakistan",
+  "description": "second-highest grade of the Order of Pakistan",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0447/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0447/metadata.json",
+  "input_hash": "e1983a43479579ba033d31768a9b63482ebf2f134b32e004cbad25083b1b283c",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Hilal-e-Pakistan\nDescription: second-highest grade of the Order of Pakistan\n\nTaxonomy context:\n- Direct parent classes: title, award\n- Sibling classes: design award, Ockham Award, tree of the year\n- Direct child classes: honorific title, honorary degree, honorary title\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q28323742",
+    "entity_label": "Hilal-e-Pakistan",
+    "description": "second-highest grade of the Order of Pakistan",
+    "reference_class_id": "wd:Q3320743",
+    "reference_type": "title of honor",
+    "gold_types": [
+      {
+        "class_id": "wd:Q3320743",
+        "label": "title of honor",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q216353",
+        "label": "title",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q618779",
+        "label": "award",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q3695082",
+        "label": "sign",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "title, award",
+      "siblings": "design award, Ockham Award, tree of the year",
+      "children": "honorific title, honorary degree, honorary title"
+    },
+    "oracle_graph_context": {
+      "parents": "title, award",
+      "siblings": "design award, Ockham Award, tree of the year",
+      "children": "honorific title, honorary degree, honorary title"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 447,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q3320743"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q216353",
+        "wd:Q618779"
+      ],
+      "siblings": [
+        "wd:Q1123481",
+        "wd:Q114979077",
+        "wd:Q12056594"
+      ],
+      "children": [
+        "wd:Q1326966",
+        "wd:Q209896",
+        "wd:Q28457366"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "honor",
+    "award"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:40:44.194327+00:00",
+  "response": "{\"explanation\": \"The description \\\"second-highest grade of the Order of Pakistan\\\" identifies Hilal-e-Pakistan as a state decoration, supporting honor as the most specific inferred type. In the taxonomy, its direct parents are award and title, defining its broader categorical scope as a formal recognition. Sibling classes under award, such as design award, Ockham Award, and tree of the year, represent awards in specific unrelated fields and are rejected. Direct child classes including honorary degree, honorific title, and honorary title are overly specific and unsupported, as Hilal-e-Pakistan is a grade of a national order rather than an academic degree or honorific title. The valid types ordered from most specific to broadest are honor and award.\", \"types\": [\"honor\", \"award\"]}",
+  "explanation": "The description \"second-highest grade of the Order of Pakistan\" identifies Hilal-e-Pakistan as a state decoration, supporting honor as the most specific inferred type. In the taxonomy, its direct parents are award and title, defining its broader categorical scope as a formal recognition. Sibling classes under award, such as design award, Ockham Award, and tree of the year, represent awards in specific unrelated fields and are rejected. Direct child classes including honorary degree, honorific title, and honorary title are overly specific and unsupported, as Hilal-e-Pakistan is a grade of a national order rather than an academic degree or honorific title. The valid types ordered from most specific to broadest are honor and award.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"second-highest grade of the Order of Pakistan\\\" identifies Hilal-e-Pakistan as a state decoration, supporting honor as the most specific inferred type. In the taxonomy, its direct parents are award and title, defining its broader categorical scope as a formal recognition. Sibling classes under award, such as design award, Ockham Award, and tree of the year, represent awards in specific unrelated fields and are rejected. Direct child classes including honorary degree, honorific title, and honorary title are overly specific and unsupported, as Hilal-e-Pakistan is a grade of a national order rather than an academic degree or honorific title. The valid types ordered from most specific to broadest are honor and award.\", \"types\": [\"honor\", \"award\"]}",
+              "thoughtSignature": "EpFQCo5QAWkUfRPIxEIYsH9beGQKTzXfK9zXNS6nSycqBTf4IwRJVFg4W3mre7GnsMD6Qu14Zwtun1PuRFWJfEDuR4U8CcR0Ju8oaVFxo4xH0cusUNEwNLs5JKq9MwNC8EV/aOK2uOPOSfkSR71BJcq/1XAO6icEiCB1KLpvUTw4aCIVKaaODLFIZy/84jFW1JHCU1CaNfr7/BB0+p0ZdcY54sPkVofBd1N2n6yFrfTWT1F203UGGp2lIXK7Fvpd2H5LVZftxFDhYXNX5Hz0GGskwOtyDId+sR1i9Fwi/qW/+jcsFuaMnfKoywCVz5SJW2cW91AvINZAtOyi1c76dRIrC6atAkkQxC6KqJLUBLv6roENFFtp3n8EL/n3BEdE07Hu8an1U2NqmnU/rYo4FtOxyfUK0ebqDjugoFgotaggoKhR465AE7MeTY0lNUPpKdckpvQefSzfSlLGzo1vC/T38gvNf34kHrFjzXWHKfMIxMyewq2SqGKBhr8KBuxUXMilhoIfLUNKaGA7BWutgHATotTXRyfFf85fpXqZEfNSyWcmnp+oTKrYM/ZWYsbXbZFRVMYS4V/HQPhKT9hWSRg8em529eYe29mk+Vpt88/YqVAwSZHegQ856Xy/3U+qUf3/xRDtNH4ZQA1e0q4EOcxcsN51T3TY+niymO23wi6KYQAIcM/96WzDhrNVqB8Cl6n64RI7jWO+thycM3tw8dAmgKeJ6U3pl6i4GG1GoaX4M3DBfA8vyAyDk4kwV4VJS8F4T04BusTDPnix1wi7UGd57L6Z7aLwNF3h/XXzUc8s4dgg5cpkYCcoPcSGg0EXW82WrWhq5LI38KRiusBl3XnCNZ6GSsOxxCQx2WnxMLvcqM9TWEOeq6INmNFAdjTKnUrwNdkA2mKzKh4EPvhXGa9CfHjx4X88Ov8AJ8lbJFyYhX36BUSeq8Rp789NYiO6WRyrGmFNaa5exUQYzrWzx6Vrh/aT84nxnCMoFFyZqXQJUXPksxQqU68jt1NRmfkvuhHHtyvwBW1iAj7QRVTviI/NtekXxQqOCjgFEAfE2rlWEgxjXRWWwHLs1XD5rlZXYjeaWJMLfPNmXtGN7Ebd1OU8AEdOZ6tEeII1kiBYdSwvpuDTi8CXJF/JFZeDFU0C6ZI/+B+fZvg/aXLHCF+4jYKON7vVec6laTKyd2+tLqz47xflwq2D56qco0FGZcyL9kaDZ5trTHMQM8JIe7fvMzj80J8yzPlVZH8Ndhlvku62SRGnAOievNBJNOoIkGEOlaZCZTCwbHzQhWcegcioArkDJgotohkt0bUFsPucHjIp94js+I0gFzariv6FUTyxwariIL6pdv+PVNApO6BOA8rGGD/SB9hVSwuGHi26714Jw2fxgbA02c27PZ7sUxn9+7ILYvTw7otxEH8O2/3uzbF00jEvhGhSDeq1LbgVX4GwYPFuq/In4ldZgNTTvSnlAYLM5p97sW06vbv87pw+g+ZA+K2w7zaUPeRodug0ohr04at6CZuZ1W5ISLsEolJjRtgIGsUBzN2OE+KWL4VmsnGNgCwrkA3BUrA8XXuYJd7hb+yvmJAsGUjUv6qe/IUqazUfZOX8Xs36yDfhb1tVumyvJhnxnCLjVix0UdD88b/kAZFeW/SuNhpgxfWMAsBK/uffDQjybZ5l8DGxWyY/F3aFidQ7M/rv6diwUNbXoguQz5SlNpRBIh1MwkcRs2/Ae0HyOliSgEI3/T6x2uWdkVvVuozDFHwXh/mPdwxK+hP5znatIa1TKnOxT/0eBdd+J8tlji0w+CFje2tKyOuCjMjdq6sTwe4bBYBxY+9e3BuxT6OMSpmvsCxcpeFu+qaMeNtvg+DpzcIthmBliC77D05e2tKoyMWB1q6Xj7VtbD4IoG/eSOmaAOlC4DgbkTLDq8+bCa7ORWW6GR23/GJznLjsWhQjuo14pX23pj/1xw386e9yjI8KDHntloa7w+vnIP3J8MyDwFtB/9FQZLaAwsWzN+wWijDEyQlgVFTTkj7pWfQmZnE2VN/zez6bMCBuH9Kpj6Aab9F+myBQ+ze9nqN4ELVJ2Rj5uvf8D88AnDa1+clsLvgIotF1yMCENA3XpVKdt+Iym/lL5C6ROrx6W5F5s3k+mdIxjzeYnXHF08XpSLQE7WcERJR60R9rDEHhFTI7t7vw9WeRbgBcp6O0kRv/fvFgzeD6DptuCnXXxzI7rl7GLKC81seDBmWObCOxQYgwvG7Nv5I9anxWOJIo5xLw2SXe7rfgKLRb9uW8ubs4fqtEx7TCywg9lVX3rXrXTLipdwWJc9jc5Vuqaz3CQmEvoKAKsYOi1kg3t5Lo0zXV6OVzPAC2cQaf9fE2kjHJU8eYgPYSwtYaIzzpHWYq0oyyPN2L7pIAB52ciJHBHEJ47tWfBja6HY1NUbl3qhAjtm6FBEMWvgM6VR8Q3USnSrcWErDtREtgLPacd52+yUPH/5nYvCk3PVqrfDAhPGcJJFSzra4DJw4aXshFjcJ+I5OlWY6f0lnsm0VtA08EuTbWeWnby/9a1Ncjiw6PHmvdVpz4zY1FWbVZ9YIXNJbc2PlfaeD9QULDosnYMFQnnbvJ1nDb8uZw7H0dxH12OhguJAOoCNuk4ewOSAoMKcFj2VGWsK7wlBxrOvyaXTK/nprwL573pQoOB1V1sVHat/TxXO3/oHo3yTl2ajiyfCbCJ/lgqccC/A7q1Ei4oszd+1CBtzzGIjnUEdl2YyncC+xn5T84qI5l69NxOOGuF5aURe94VYLJe09gaIxwIx6Q0aZy7ZH+PDA5qsAjZLeaV030d66CAZcknn52jbmth1aKojlhpWxMpYIwc1worZltpthROhzPQjtbeokSfn0xihy9CE0COYAoCLldIPhMU7CqnpzPff1FXR6hJEs8BV6I6xsJPP7qVlUqgFxZmJp/ZudsiGvqQYR+CW4PUQYCex5nZKDkHtFxg7lbdMJ26fNiXjBhpkUut+jIFRGd7glu4p5rtATGM4RtzzfJJmWBs5lqrnM1lRKFFTc5aEAfTKrMli/td+NjcLxgj+gprKpuigvgGXOvkk9wYPcIjLDNzAhyBpIrxkOcJXnd+LFm4LLKKR6kDC+opWVi1fqPHOtX3sUOiSrTQuiscG4Qqwwdd/Ea3rZ6W5+eQqxgmi6/FAc3sW2bdrnI3H76Pdk/FeJ1gZZOEj2JQRiE27/5chhb2GFvV7M17LhmRvgL5UlMrYVe5ow7xNRrdrEXpOSSGK3WXfPOsxiW/ieq+mLcHT92jvS2aJUFZaRQ/F6J36uwUDuTRu+l/6aWOv0dyFO8PpFVcenz05atAl4RzLYA1Te7Oa8xCkgKaZPNbrvG265IHuZ2bVZtX4FsixW8IoyJQlSjCa2nl9PJ8UESHfrAeUrgXshw3ccEKHmRpTkeNXnv4TX/nt+I5NGKOoG/m+o3IKPPxFg2vQ9q6YnXZchUjTJelEbWlMydL5UkCE3ojopxSjkuejY9FnUgBJnqgoHYrEEtbLjAtmKSmOMoJObDgDr1tVYmFl/5fHnChmQbqcDccR1nsz/3Bo0BcNBA7KL5G+UDlZSi8PN61HZCKZb/Enu+q9wrIpxfcszzreJEVDb/9Gjr95Y6dJlrV67Q8fO6QnknS/ioyrUXjkM+hJqknpcEzf6iCti5LgymCt9OUEDKEKXNDLEG4NsqAZ2JBKywHe6rRUv6dwpRI6/AdLKwEspLsn/em448koTgRVXRrvpFxbzt2pTeu0mUWOyDOgUm44B22hJEwMx4wFimjWbUg/TCKOy7n6brpQRNhWlccWx9TlD3tZHqWUXfW0HxjK0VuO6HZ91ErNhbVlNPekpIrTUhtlUh1+RwqEslJ7ac0232wjr660IiXZiSs7wRGdDTwVL78RWzZ1gKx8D7LffNDy8VpfoWpakFSjeRZcVUqa85QvLZZwfbV/aYCzvpzTgGIm6hY4muGxqe/GBlO7NonyrEvzlIQDPJBshFOJUTWPVckE9uv2wrcDySXzTI1FVdZwNkHyVuCHLtnaiLrTGVoRIEx6rH7GTBRuxJK/lEZpL8cP3Hr8av2QQfDCpm5jwI+nirPa2klTzC3bbqyydU1lAiaP4zHYElU5PV4mXNMu6BXNRTK4tbovf4rlyiemT7m8Tprj0C+DG1yU5Dp4gnGjUf6PFH4q0pt7z0rDrd9mP7dqCN+pUoZDHkF5meBe+wVt9f5cjoSdEYRfq3rAmcq4mfX4oCuDf03JoMmiJRyAfmzO0XYH0gvEO/uICvvb0wkMSResZl8pvYHPYvUkwe367UMHfrBMkh9rNKQPo1XVUFeAGyYb8Y6XvmOv2DG4Hg2OBDTErg1JFWqVcfyrdn9QQQ3Lt+JTElSDxU9dgC2+aY2I2o6Bir4MO7tuz0NqjJuxkxBZHNFggEJrqp0SJbbM6vuga5D3sD4mO+X8G0fZBXuHgXyECsdOZ4YWWO2jxyZGLgb86MDZdAtsV3GaOnV8z7yjp+kpNFABPTWEj6+1I2tz7SgfDWcg223oBWPPhja+xgLQTmhbtNJP4RKpwl4iaTlaVDt4jlIaoQEjyD0ZJfDFX0k5p4MzExH6M4+7VFJ0hfS8wOE181Tn5pdhpTvVS8Kp6pTvSdjJQ8q5J8cfILi8XFExf0OCK33ohDfq4v83QcVkqks9o2O9lQERu0cwu2Rp0T+8dPJZ+O1hFs1QNOxZU2r7JgG92WVY/w6HrxoRFyJI8V30ywkPpvLpG0PRZgT4x1JPHMeaLHEtU2k1CYvIDbqnbWieRdR2pEU95kJDvckYBaI/rktZriHh7DSmsq3p4N20q8WqkhVoYEQDHRMkUNISU0ajXPqV+quSPimK7hCpWLTTsels6qPWBb9+87EBCuJJ8a+zYouqaqhdUmDMKxNHva12xecBl3/qbW8R+cfT8lfbRe0ysEk7P3LCYZqfful34yCHMkiTl7dEfRRnKda6DoTEwnb78HAVdLQYvqQVk5AOdmjEueYK/g/QpfDa4B6DRjpfR6GxwkeRhdch6keij91HNm0SW5dsZLW8ZlfVEbEQ/aEh4cH0eQYi+282LpfwgORNJIaWX5EIuoZdEBLCRT3se2sURBWC/w7itqF4tHET/4z5P1CREqQTu7AjbFTCw28mLJe295bnpZbPNtF9MQvOH8JTttUDKR46mXkLrkGfreqq5Xjy7UQQi+BPJv1h5NG6t91nd4I8I8RRvRpad/UGUGQdYHrctZJqnN+bIGwLsdmEtc8+nUBcJHvjSpdotndPTs3rt18cxDW1AtH8EHFpQ58j1jr1zBONgsrOGlaeyLnbykrW4HNlt8FXcUnrAX5BhqmZ2CTA19Oi07URwKmr0CHpSGFsnyV6YpZwwC9zzbYL+IwCOZ9KFJSJjqtDLAb4trKFUWkTQKrIyflm81CC01I1+ereANmvTQD8R28Z+F2e4hG5wvMPiMx15ajmcjs9wTgZpt0nLGQKfT2wlqomkce+EgzvfsGLpt1sO6oLLqtPdVthCFXqKYbLYV8wRzt2Bq5+sT17irtpZwLB7nuwrDmwLXRc4P4Onpewq44Kbxe8FNnEoj6XiVKrV0C/j79B2nEq91aZF4sR2bkGQNu8MSCRhCHAHOlwUUoLIlAIrFd8dav8jDVpi2LrBjSPKp01G5qIbbpCp0vqgXjNc5yY46863s3FIO7IP1s1THrNSYmRzvQrdxNDTdGMIMuv510mHRpM4yPwfbEXI5fP6olmcJw7Oj5d5KdsgR/HtYDaAMOJGQ/66k6xNNPMVzcoYn/CX0wFGqMpLOpxHz9ZfESWmXIc2OAb0FzINKiLRkPGqcn9SxQ10XLwr4OFmnhHxn5YZiDZeCgxIrembk6clSczQRvfTpW59cTbsb35+wjI4DGjugr0+KWtvqztJiFZNH0bow4gZ5BGw3cKB0cFW2uloSa3vkfdMM7vGmGrwvHYSHsLaZinWyS0Hvj0tTOv9Mjip29nZozS5Mslvsq4bZaKpq8tbMSp4oyDw+FQb1U2dWU2eSqvVriV6v1kqcFcy0cLnxWlrozQhILzTNHyoVFZHWATAs5GT138cjJREHbVye24FyA/0mX5rr5HhAjn7xU0adSdHgTpLbIGPbugGICwxZFZ7ZFvcIYs1D7rXCjF5nHEcuYrtqZ7A51B6FdktpJkzjFOefJhxff8gmGavsmSkURoPOwjAjPhPygWkdgIo9Fkjd4bfeBNVwLfPrNDOO36giYrI+ZCwD9yIvYb/jVaPZ86hPQ8su21Zbgbog4kXeJGO04Xrjo/1NE+eXOgI1akOaC8rinp19o95HrTHx1x7wEPBy1+hJx3pBsQmYtCP9EpHGcidN2DxU3CROcV+w8gGsJbIdTWYJ02VdQCmUxu9COQMmIOBwLQCWeep05EGBePe8qUwRuEGwrKTfbvng5BfthvjVqkIem9v0TmMFUbW9YieD59AH9sqB1H/k5Kk24BhkYvDb84kxXU5hqrldXK6XVwzJyDUyM1wGohZUF1PXFI+fwCqKs2uj6Y9uj2BM+1Be+IiFVzuNKKyT96lMWIedhzkN1kTi8bXzZPB2r1MGIBTG62WV6eMlYidLMwDR4H13l48vcUaGnIYjUZVsOsZM9HJK2DxORvROtHsy7cHh5Hr7uq77TAbg29XujWbhagQpOD5yH3G7QZaq4aipSyzUPM9lnNsL1WsSnmwWq9jXP+ZleFLKbfY3oxokZQWhTe+FwtbZo/kO6hD9EyJrhnh1arOeLQvbDsG063NmMgNUlxYBiz/2tR8t640RHHii+jTVC69dooXVxYif8R6ehU5akBpClP09rrYmbX4kcXUtrbxFRi1hi4akG/PVup3hVZRCFYOn3iOccCJJpryKuLyr9GbptAiZFCNLa4lfRNFxBmXauWAOj1WI29DgtybTWJsd8a3NISd7PoGYHpyNxR7xD3Wnd4hZQKKsnijO4NszD1dbV/4YO9Wh5gP0rh/gOQGIxps2WnwrDsHjcyVJb4wB2z953q/WKZ5lNYI35sBfpQF4oqxyPOw4FaaxliC4zvjy6AlpslH0iM43vyWMT+Ls9XUvvdwWImCuBiKgm9YwbfUWfdfQ6Oe61/Izv8hZ/JEnWB20j0gYRzAbP+RabH8OE7o+rSq7jeMlO+d6zGlHpoeAY7YTxmBD1IctuDfcuLRpX0dW9/RCp5RXdseOpT+xBsNgQCoIBGuHhWbAzpr+MJow9IHozabfx7whahajlOmVmc9PtIShd9js8HbTfbHCv1/AICXd9FHq/KjQMQPf1fIRenwJCp6kOKeJzxn85XZ2k5MqHFHETuVBBxB1NmQqyfnA2FiA8qm1N7I9PYYVjGiwGamVfksJGTSes8xbJDCiY8HjZYXPpsHSqRpFYLXgh1rSH7JsmRIulusL/caA+CVLdcvCHxIJLj56x6xQYU2DjtGmRHKUTojXtAw/9N2lAB/AuDp0NYUDfYdF+79R8JeDawC/j9ZDS99mignMeGUg9I5A+o5FOdwufooYDZDme6GbmB/4hVY8Ul1NIh1lZMLjRCaRNrqj3W2vgaKyHUdg0NNSnEVDbYGoSNxDOsjRESt3SDbdxC6VQKaYUFm+16nJZX3pDL+In9sk6DNWZ/GWuVYH8wV9nzCBfuEL0iU8bfETprs8XFr2olSgd7LLDhTpsv35aZn7sTDBWPLiamKE+T1knPerLktA5cHWJtshTcwbXL0nESKYctrMeXoS9MPa42hgZc+o6LCDQI2I+PAFRx8s/DLF+RBiV7kZz3K432WV0H2r1MZpvsX6TWRfAyPtQQvDefYhY0cUoOPWI/B66/ekL+IVLdc+KYudOxwS4BpqNzOgTIT7FAPdkxtElFJto4rwqbMnKuCHq+e/n1YcRLFIJT1nu1RRq/SO1M5GbTKKTAPMvifzKd9e9hByBEPG4rMb7ox1CwD0qZ+4rRkoSKJG5TWh9Qr4PrxK+A3zJfWHqfiRQi9/RY6cswOuMFENY2e0xu02uKynH4fNTCsjnrKyV6GUMbwnFPOSrMhn26Frcwx6qJ3QUS5y22uUHD3Q2mJVp8qOuipssNdF8QsRHPgxw5luWD7eZ2ZdjGKI87Y7tQ6Nijh4MjgBRMNANOGz6IQMfZHsLTXJPr1GW7nEjDgB5Q/6hV3j5eE8bFhAOg5lNuCS+6Bmjh++MMb2ly9Yl93l6TxkEKUvt+yWnqVdybDfKDt/jC3LN7/xhTVmPU8gg1jSNfadNzvrikwwzrhs0Hh1KoBssuY7RW6jWLfBXnSBxugo3NAl4KswATFl1jMV2wB4amnR/+h3wJ+JbLcWQQDFQkTq7zyGkymcgqDKjGj/CbOaRAbIZcmdui7DtPcAQQkWieXSHsA0QGyItqUdqBetlZju2zX2Q2MXPj8Bi3IwqZC9QZFQCvaTojRiheQqeOvN3QXyqwCE5Ft9NWwxAi+1gUfLOS2mKOxWvreKRJMbBLLHsFgCBJLUY0paWMVNY/arW7tcos97uysYURtI3sJ2QnwwqZq4K7BeNh2gt2/WY0gvcZgwVbsz381bXPDCOlurDMJdq3BX8zHtsduneEWBmA1vVsTBgKFQeXtbVU0mh4K7YdGFDhvB8QGanKO69606jKDWIsmmGGHdosm3y+aXuaeL/ajakTthiv269+xIIc9J9V7qgDSwX2BFpK4ycV2B9wJiAYuwf0OKGDiY7vvF5XvUwli9ww6rcCK2PB/W+FmmGbJQMyptSylc6XPv0TznTagL+3YIG0FGeKhA+aa3sFA4tqd4X68dssV8AEPVc6tEiL7TabkCDKj0nlc00ymM0sGTB0QU9b2O3g7hjZMfCW7XQ62dUJQYQymo3AKRwh1XBMhWQAIbrrEBgZWYvQc/LI8/KD8WxMGofeZzkt9+6XnNTChBUJoTuV1FJoOOeeqdTcvcdO33hQtZvDh34Esj4qWVPDI1s58tobjEE7wWBv6q0O3yX573Ek8DC4uCAllolmaCyKr1O5AKEzT8Qr6bk5dx74zomydtnjT7x1/N9vUUkNlMewxuzmmw7pLqbPWs2yN/I4x/HIk2emjH8QbbooIDfh9qqVK/bVkaLBDFCSigQzkShnI9EtuQ+PJCcj2rwVBydzJl/QlBKDfPVnoZnhiEzqcVmx7CXQb5rDZaz6ediwsnZOZEJPgWniLzVSW7bDkR96FE2X8TijFuR02MOfG24i6ddMiKhTxC49v5xdyq0lmy1IWTSRcG9nHVeAZ5QUsHHn5hJq9a2F4zWlEIp747SDd4IXVGiVJiXVIwUO5wpVqSgb64ghlwTfbEbeHJeDJrAOW1w6FcerT58xAfivI0n6w2RbtR9ucGO74oGuFkyReQPSJeuJsCDptpRlpoPIIT3g2Gq/jQsJViRCrQRg5IwBZEs9alikkJxF9urPPHGUuE5RU9w7VffgykJ6Tw6eiLUcLz4Uc0mgxMBs5Io/JVnzp7pH9wRWlvfaLrLX2LxFmxmOuMh/4Ryns5nH84A6C04J6S149+3PNvM+lpF+dagNE/x+B89p6+q66hdOptSHUYpgoZ8R9NKe4GwZIDAkX/41ERemFNZ0gXODTDIvwNCpaABQcoJDLqpO5kujaoNGBFADSJyxJZv1lUnU7YclB6uleGBcs+PsX9fdR/uu+JBG2UQBxBvlwPRXXR5MiGdz9VlRyrE3iCtSsssJ15iVmKJuM/clvC4ASlqpN4LsunyUrqopPYhjY/rhggw3qTgzYGbiqLQnPV9esIvtSrXSlAfQg6DY5lVI4PGcg6KxNE8JiKmqo3SNas06qWgQcflQOGU5K8q/R85JrVQS2Kj2SvetH9Q4nTjcsxXfuq3AqlmTs/LMmMZOFhvLGpr0cNVMgMSn34p0IbAvkNNVf2HB/vD45AfFDYWBl6uQPqejW9MxTlWCfYXIOJNyyk2cSCRi7fGIKj/BruaMA8DobVh4W/evT7/fNC55QljdyQwgINtTU0MjlaQE/cRC+suTDBYlZXmX7qKKePhp1h1HtR1k/yx09bO4Rz+6hI7xjrQohNUuum2C6cChY98Avuc0srRqwh3sxepSp+0haTDhIb+utfAktQbTejJH0ZTrZpur/iGEQ6p8ZaU2tTIAC7aslLbCj7nmLXF8lOMmBwCGIOiNWSf0aNR2VRWq9TIsuOez1Uq4xW6EKfMKO2akR14WFku/w0iGT0bc/PyeXpv6+jIjlUEQbFDiJZGwNOhqteXjQT8l6wOTP2Su0vZHUcOLHl+vqDvoUNBEH0SF+s8AZXndq1RN2fWl9WFUcOCoIrSg9jwI0hKovusKON9Qj7p1XenCy3anVXqGS0SzRpT3bdmYhEIwtoFuESw+//+/wOqRBVeLvhSnlci+LlacfZMVGUtc0yqYiYF3LTDQ64OEdoQ6+Bi3ve/VzjMNa+F22JYolD1JY5TF0Iw0zm0uNH1hX6CJKIWoy6lUSHNds+u8ubZF312sG2dDMGXcsc+0HCiF3aBFIEa8n5IfOsvO9QPxdtjIUE/t0cBfJ6LSDiSYoEdwvt7rZkbBZR8vTETVND8lwPf444tHQmtKsAsK45lNqTeVuuPQrL7sgCOyeC3fhAWOz5Vrk9NgzH3Yhx3XLOSI1/ryepcC8nH2HwczRmUnQ00rB2MsQ2BU4hhCdPes6WNCzl8q9TvD0bSzRY1zcJiP2ccF6I/y1votLB3gRy8MkmNMzgUWu5uagpLys9IQpcBae+9HtJE2AGxyd+VMIF5yQwQDllYNaVOKNXC4P+4hLA770qsr022ZXJdBiCDj8WlcL9GKVUbTbRsDeARXiF7q96K0ZWnZ/Pqg6L1oAV0+9d7FcxSfH1TY5i8o6S2J7L26sWuYgCnYB0V46F9ZdV/sP+/uFwKcGMiLJnO0tN2+us5OfuCbx1fxwDloim+3VD42NjphdSfLzLVH7bN7Hz1KDAb2/4o+mJ6U7y7DVyItUZ9cg+gr/OjKedzPZexJkQJNrjkHY9vnJAq/bVdWwt+BV1LvNzquISne8UxjbR8f6kYCC8vh5Ls2j9+MVBQAZ1OOzOT6pU3WbWpGHr7X8H04lV0wLDphXJFxRlZq3KSxJE204Y9Oc/sP4vjbjBtnVwQeMcm8jAmCCBbEDaG2g9E5LzVAylCYuxjkHcjdW3xGFBn2hEFtRdji7cVx6BpXOVX09Lt+QmYdPS5wy/Kz4Cpzcw1WJHJqENORJ9GH6kXDdfZbFicezHE0vO+gjHx1NEFdgk3LTOjgC2JorOsgKyVZuyAT7m8cOSwfXUpTS6q4NMHBgf10MHtZdiQDZRnb7SSTLJZtMVnkEoTh4YgogjED0C8E1mk8Tucl5iV6qOqld97GIZgRNzyrH9ANfVq+lcyjzVLY28Wkm3CFwcljnzCuDb396UEpNJZ0Oi0qREMjjqN2cQB94k/HXOaUoHUXNc3ZPnulP1o8k0rOs3Ae+YQx5Zs8MLr2it+l5HeTlghYgXPj+h5w9hbY6QMkM9RgCvjunBHirD6D5MaJQgr0NTP3O/smPOzCJgmpOSmUuo2G6R8MLNFW+PTnYxfM5Aa1SW3bcPgQfiaYHrhoPYdtWVeFTsURHjvyQQeSVq004YNqnlJDbOvwTTPnRnVgZBq45AGJgwzOiRRH7ng8PiMbNCg1L1+x67u74IIZYkR2S+JEtl1XHwZyuSLKN75NhzMLFVsp5mfZkhA4o3a+FTOyhSy3Bf76ybs1MaktvPDqBeTBNxL+R/+wlxf0Jq9/D7rlEN1nvsk78XsXvDhoV9UgnOk6l3WVgJgZ+Frw12Tg0/JtPyp8jfvcnhHoIEBWufwEhmB3pdu0a/rV08gQZEn44HZnJUxG200kM7wgE1vZs87b1BUD+haSJED5UB3I4cRiy+4MA/HhQTQj8NWmgBp3jSap4bV6Mmn47zb9NmLzcL2hoUHgu9leKRlz+zoTLy0rdUJldU1x/YxGW3wRHexQcTVyZGSWBdY0o4ZIVZ8A6+PbL5DqQdkGKSA3CXhYyBw19bajicM6+UMFz5PgPYUuWSnpRrtY7JXTyCxlU1qpUcoyQMFqixvhQ34njry8h1w07uON0KdtbCTZuhGGbtN8QADruwAbjYPb469PdWPw79Oqmm3ZgnN50UemR8DIOnP/4YrFSlroWXrv/97BJ39+UVEfYTDU27Ii3k7EOCrK1uL1aZyvb9O2aOlJtjjqdkVKrG4OXrdEyhx6xlVwpMJ1jZD9HuRjqxZWsmFHk0nuom5Far6DrEgwVO60Z8y/bjrQ4XDIprYpyQ1r6RSzUQaP5+W/u89FGov9nF2f0lguCL7Qe46oMVaUB/dPoLld00r4kKv9E+etyoe76Eu9rmgSitPCL0cYoJoHa6qD0QoAxERoYUlTIPzPE4xPCcA0DG7CI01diKPDtJeSvYjIi3jaPxbaHUPazmbaCvp9kpttGsJ9kaH2YWZPqYcIiVHYJ+z/pfjtQWGdeGF4xMm9c+652PEUWUWTDrODy12bTWJKilgihiAMzFklSZvjerklBDZUEUMclhDFEWGHwkf1DPA8/n/sJfryrLYIMEl9S2iZtIVi/iDcM3iWoET4bnS2REusfQhFyi4PdBVm6DhxmMI6XeI/GywW9cSlgPpNvewZBu9th6RaS6MzTJ/1YLb/HOHQlwSwOLaieIMQcSbRQp8FNUYwOJ1hTUGiy5MEcfDPZ/AAXySFlnHFNm7JTAsFZ33DLTN+5DUX2jocKWKQtPhr27zFDsTQpYANckgLdUOSgITblYMG4sZL7MTiJT00g9049A+zhwagn3z0MGLTSzbpJj8GPta+VEf8FdNAIhaN9GIQ85KDoeHOlY1z23A5L/Pb4fdHRbZwGtIvpUUhJJ5CJUpkNPBLEOlOLnKj/aJYuu/Lsr5n1PoHNTFmnpohegDP6pG4OhrwR6N0FvVILMaEDeju30QV4Vy+G/rW82aS0fRxQRqBAdvgYRssodyxYhyV1mdnEW1r4ICxfQ2SnLn7LOiWaHPrx+AzgBP3aHgEdspZ/e1PkdjkkMjnEcGCFzyMHVBerDm0TbmtHYyd7k86TUbdeS41E2UrY4AlU3ABJx7D9mqDx52fzfrnPh8tAh3a0prm7pZWtwE7VyCNHTVcxQlaGeIdu5/SqJOg1OBdOKCH30BoS0ye36+5VK6zhx8RfW50AQIRw43RhxarKuRUQ83yKkXzCMUKv/lP5rNnPFVCBnlw+VMiSdjN8eSVWHxmxxYVPvs+aNlZktjU358T6YQac3NfECFUyEQw2wLtIZDM4TpRj+0JkQbHR/Ux3HHF9Z5LZ0fKtvTcss3xQ8M+1KtonVor/xIcP524kvNGR5cWiXpyvtcBijJf4gKWPFO4pbk1FAjFiFeunUYyfHCeJ6Ij0+Ip1BY2EHCbTP3bLtRX1iS4zp0Dor+1Lp+KkFtvEhYgR9yKeqw6GFbBEZ4cmEiTgvQLictHSvtMf9jrlIeTBs9wInR7SP7mdfV4PYEdex9QzB//Oc+ZtoGT0T5Zvs6arSDywdNPP3ZKRs2DQFFVsHMxIiBQS7K8UEvE3woJvk/2G2XL1GOJXpVt7K/0H5M4071iMMbW3ZDwl52u3+vJgx+Bt9jZjHttaC196Lcp6ajJoLq1cOL7weJ4kkgP4S0PPzthPZGfupHj1+sv0iOcHARHJsxlnzfYOqz4IcsPNYZF4X9P342aMkizdLsqOR/AcO5cSQkSLj"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 569,
+      "candidatesTokenCount": 160,
+      "totalTokenCount": 3381,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 569
+        }
+      ],
+      "thoughtsTokenCount": 2652,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "3Ji1ar_JHeq3vdIPsbPJsAM"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 569,
+    "candidatesTokenCount": 160,
+    "totalTokenCount": 3381,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 569
+      }
+    ],
+    "thoughtsTokenCount": 2652,
+    "serviceTier": "standard"
+  }
+}

@@ -1,0 +1,149 @@
+{
+  "example_number": 277,
+  "entity_id": "wd:Q5198793",
+  "entity_label": "Cyclone Fay",
+  "description": "Category 5 Australian region cyclone in 2004",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0277/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0277/metadata.json",
+  "input_hash": "284220307c5f99cd530f2f36e0a97cea18cbd3934774c41221800ccd6b4a6c47",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Cyclone Fay\nDescription: Category 5 Australian region cyclone in 2004\n\nTaxonomy context:\n- Direct parent classes: physical process\n- Sibling classes: chemical process, nuclear reaction, transformation of matter\n- Direct child classes: jumping, swimming, maneuver\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q5198793",
+    "entity_label": "Cyclone Fay",
+    "description": "Category 5 Australian region cyclone in 2004",
+    "reference_class_id": "wd:Q79782",
+    "reference_type": "motion",
+    "gold_types": [
+      {
+        "class_id": "wd:Q79782",
+        "label": "motion",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q17320256",
+        "label": "physical process",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1293220",
+        "label": "physical phenomenon",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q30241068",
+        "label": "observable entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "physical process",
+      "siblings": "chemical process, nuclear reaction, transformation of matter",
+      "children": "jumping, swimming, maneuver"
+    },
+    "oracle_graph_context": {
+      "parents": "physical process",
+      "siblings": "chemical process, nuclear reaction, transformation of matter",
+      "children": "jumping, swimming, maneuver"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 277,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q79782"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q17320256"
+      ],
+      "siblings": [
+        "wd:Q2281940",
+        "wd:Q238323",
+        "wd:Q3537517"
+      ],
+      "children": [
+        "wd:Q1151752",
+        "wd:Q115727402",
+        "wd:Q1601114"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "tropical cyclone",
+    "cyclone",
+    "storm",
+    "meteorological phenomenon",
+    "natural disaster",
+    "physical process",
+    "process",
+    "event",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:27:59.195376+00:00",
+  "response": "{\"explanation\": \"The description \\\"Category 5 Australian region cyclone in 2004\\\" identifies Cyclone Fay as a tropical cyclone. In the taxonomy context, the parent class physical process establishes the broader physical, non-chemical domain. Sibling classes like chemical process, nuclear reaction, and transformation of matter are rejected because a cyclone is an atmospheric and thermodynamic phenomenon. Child classes like jumping, swimming, and maneuver describe agentive physical movements and are wholly unsupported. The inferred types are arranged from most specific to broadest valid categories.\", \"types\": [\"tropical cyclone\", \"cyclone\", \"storm\", \"meteorological phenomenon\", \"natural disaster\", \"physical process\", \"process\", \"event\", \"entity\"]}",
+  "explanation": "The description \"Category 5 Australian region cyclone in 2004\" identifies Cyclone Fay as a tropical cyclone. In the taxonomy context, the parent class physical process establishes the broader physical, non-chemical domain. Sibling classes like chemical process, nuclear reaction, and transformation of matter are rejected because a cyclone is an atmospheric and thermodynamic phenomenon. Child classes like jumping, swimming, and maneuver describe agentive physical movements and are wholly unsupported. The inferred types are arranged from most specific to broadest valid categories.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"Category 5 Australian region cyclone in 2004\\\" identifies Cyclone Fay as a tropical cyclone. In the taxonomy context, the parent class physical process establishes the broader physical, non-chemical domain. Sibling classes like chemical process, nuclear reaction, and transformation of matter are rejected because a cyclone is an atmospheric and thermodynamic phenomenon. Child classes like jumping, swimming, and maneuver describe agentive physical movements and are wholly unsupported. The inferred types are arranged from most specific to broadest valid categories.\", \"types\": [\"tropical cyclone\", \"cyclone\", \"storm\", \"meteorological phenomenon\", \"natural disaster\", \"physical process\", \"process\", \"event\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 560,
+      "candidatesTokenCount": 142,
+      "totalTokenCount": 1375,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 560
+        }
+      ],
+      "thoughtsTokenCount": 673,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "35W1apyzHPiCvdIPjtaI0Q8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 560,
+    "candidatesTokenCount": 142,
+    "totalTokenCount": 1375,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 560
+      }
+    ],
+    "thoughtsTokenCount": 673,
+    "serviceTier": "standard"
+  }
+}

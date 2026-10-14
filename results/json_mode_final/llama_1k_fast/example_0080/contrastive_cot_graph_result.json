@@ -1,0 +1,157 @@
+{
+  "example_number": "80",
+  "entity_id": "wd:Q19874209",
+  "entity_label": "BRRISON",
+  "description": "2013 NASA project to study comet ISON",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0080/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0080/metadata.json",
+  "metadata": {
+    "entity_id": "wd:Q19874209",
+    "entity_label": "BRRISON",
+    "description": "2013 NASA project to study comet ISON",
+    "reference_class_id": "wd:Q1751850",
+    "reference_type": "optical instrument",
+    "gold_types": [
+      {
+        "class_id": "wd:Q3099911",
+        "label": "scientific instrument",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q1047213",
+        "label": "measurement tool",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q1751850",
+        "label": "optical instrument",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q1183543",
+        "label": "appliance",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q2920313",
+        "label": "optical system",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q1454986",
+        "label": "physical system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q39546",
+        "label": "physical tool",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q8205328",
+        "label": "artificial physical object",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q123691918",
+        "label": "tool",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q4406616",
+        "label": "concrete object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "optical system, scientific instrument",
+      "siblings": "still, space telescope, wind tunnel",
+      "children": "binoculars, electron microscope, camera"
+    },
+    "oracle_graph_context": {
+      "parents": "optical system, scientific instrument",
+      "siblings": "still, space telescope, wind tunnel",
+      "children": "binoculars, electron microscope, camera"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 80,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1751850"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q2920313",
+        "wd:Q3099911"
+      ],
+      "siblings": [
+        "wd:Q1436130",
+        "wd:Q148578",
+        "wd:Q193010"
+      ],
+      "children": [
+        "wd:Q102626",
+        "wd:Q132560",
+        "wd:Q15328"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: BRRISON\nDescription: 2013 NASA project to study comet ISON\n\nTaxonomy context:\n- Direct parent classes: optical system, scientific instrument\n- Sibling classes: still, space telescope, wind tunnel\n- Direct child classes: binoculars, electron microscope, camera\n\nAnswer:",
+  "input_hash": "c1551f9b2ee3ae82d42bb68b7aba29e7c00299b6427d95749191283ba6487d5a",
+  "model": "meta-llama/Llama-3.1-8B-Instruct",
+  "model_version": "meta-llama/Llama-3.1-8B-Instruct@0e9e39f249a16976918f6564b8830bc894c89659 (vLLM)",
+  "revision": "0e9e39f249a16976918f6564b8830bc894c89659",
+  "backend": "vllm",
+  "status": "completed",
+  "response": "{\"explanation\": \"The description \\\"2013 NASA project to study comet ISON\\\" supports a NASA project as a direct parent class. However, its direct parent classes are optical system and scientific instrument. These types are not specific enough because they lack the direct association with NASA and the project purpose. The sibling classes optical system and scientific instrument are direct parents but more specific than the alternatives still, space telescope, wind tunnel. Neither of the direct child classes is supported by the entity description independently because they are unrelated project types. Thus, the remaining sibling alternatives (missing NASA-space link) and the broader evidence-supported relatives and root are partially omitted and ranked in decreasing specificity.\", \"types\": [\"NASA project\", \"NASA space science project\", \"scientific instrument\", \"optical system\", \"space mission\"]}",
+  "predictions": [
+    "NASA project",
+    "NASA space science project",
+    "scientific instrument",
+    "optical system",
+    "space mission"
+  ],
+  "explanation": "The description \"2013 NASA project to study comet ISON\" supports a NASA project as a direct parent class. However, its direct parent classes are optical system and scientific instrument. These types are not specific enough because they lack the direct association with NASA and the project purpose. The sibling classes optical system and scientific instrument are direct parents but more specific than the alternatives still, space telescope, wind tunnel. Neither of the direct child classes is supported by the entity description independently because they are unrelated project types. Thus, the remaining sibling alternatives (missing NASA-space link) and the broader evidence-supported relatives and root are partially omitted and ranked in decreasing specificity.",
+  "finish_reason": "STOP",
+  "generated_tokens": 161,
+  "prompt_tokens": 583,
+  "generation_config": {
+    "temperature": 1.0,
+    "seed": 0,
+    "response_format": "json_object",
+    "max_tokens": 32185,
+    "structured_json_schema": null
+  },
+  "timestamp_utc": "2026-10-09T07:13:11.909973+00:00"
+}

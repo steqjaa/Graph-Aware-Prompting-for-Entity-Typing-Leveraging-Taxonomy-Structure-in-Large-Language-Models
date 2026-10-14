@@ -1,0 +1,166 @@
+{
+  "example_number": 993,
+  "entity_id": "wd:Q3456584",
+  "entity_label": "Polytech Group",
+  "description": "French public technology university system",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0993/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0993/metadata.json",
+  "input_hash": "916908b3c645149d68590c0fcf351e64d3bf7422102055fcec9abbfbab07959f",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Polytech Group\nDescription: French public technology university system\n\nTaxonomy context:\n- Direct parent classes: organization\n- Sibling classes: national trust, Native American organization, hackerspace\n- Direct child classes: research consortium, university network, library consortium\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q3456584",
+    "entity_label": "Polytech Group",
+    "description": "French public technology university system",
+    "reference_class_id": "wd:Q194166",
+    "reference_type": "consortium",
+    "gold_types": [
+      {
+        "class_id": "wd:Q194166",
+        "label": "consortium",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "organization",
+      "siblings": "national trust, Native American organization, hackerspace",
+      "children": "research consortium, university network, library consortium"
+    },
+    "oracle_graph_context": {
+      "parents": "organization",
+      "siblings": "national trust, Native American organization, hackerspace",
+      "children": "research consortium, university network, library consortium"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 993,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q194166"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q43229"
+      ],
+      "siblings": [
+        "wd:Q1006283",
+        "wd:Q100731037",
+        "wd:Q1032372"
+      ],
+      "children": [
+        "wd:Q20747412",
+        "wd:Q3457065",
+        "wd:Q6542557"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "university network",
+    "consortium",
+    "organization",
+    "corporate body",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:21:46.930647+00:00",
+  "response": "{\"explanation\": \"The entity Polytech Group is described as a 'French public technology university system'. In the taxonomy, the omitted target class has the direct parent organization and includes child classes such as university network, research consortium, and library consortium, indicating that the target node is consortium or network. Among the children, university network is specifically and independently supported by the description 'university system', whereas alternatives like research consortium and library consortium are rejected as too narrow and unsupported. The resulting types are ordered from most specific to broadest valid categories.\", \"types\": [\"university network\", \"consortium\", \"organization\", \"corporate body\", \"agent\", \"entity\"]}",
+  "explanation": "The entity Polytech Group is described as a 'French public technology university system'. In the taxonomy, the omitted target class has the direct parent organization and includes child classes such as university network, research consortium, and library consortium, indicating that the target node is consortium or network. Among the children, university network is specifically and independently supported by the description 'university system', whereas alternatives like research consortium and library consortium are rejected as too narrow and unsupported. The resulting types are ordered from most specific to broadest valid categories.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The entity Polytech Group is described as a 'French public technology university system'. In the taxonomy, the omitted target class has the direct parent organization and includes child classes such as university network, research consortium, and library consortium, indicating that the target node is consortium or network. Among the children, university network is specifically and independently supported by the description 'university system', whereas alternatives like research consortium and library consortium are rejected as too narrow and unsupported. The resulting types are ordered from most specific to broadest valid categories.\", \"types\": [\"university network\", \"consortium\", \"organization\", \"corporate body\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 556,
+      "candidatesTokenCount": 130,
+      "totalTokenCount": 1536,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 556
+        }
+      ],
+      "thoughtsTokenCount": 850,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "e6K1avCJC_eYvdIPsaDT4QQ"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 556,
+    "candidatesTokenCount": 130,
+    "totalTokenCount": 1536,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 556
+      }
+    ],
+    "thoughtsTokenCount": 850,
+    "serviceTier": "standard"
+  }
+}

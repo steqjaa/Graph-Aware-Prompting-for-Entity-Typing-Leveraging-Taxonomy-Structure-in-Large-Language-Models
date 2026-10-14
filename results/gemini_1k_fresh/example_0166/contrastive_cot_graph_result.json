@@ -1,0 +1,176 @@
+{
+  "example_number": 166,
+  "entity_id": "wd:Q7252628",
+  "entity_label": "Provincial Court of British Columbia",
+  "description": "provincial court",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0166/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0166/metadata.json",
+  "input_hash": "aeb2685d4f2548b3c54879f89f740bd20350d979118331f55d902a53f61ca8ec",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Provincial Court of British Columbia\nDescription: provincial court\n\nTaxonomy context:\n- Direct parent classes: lower court\n- Sibling classes: trial court\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q7252628",
+    "entity_label": "Provincial Court of British Columbia",
+    "description": "provincial court",
+    "reference_class_id": "wd:Q7252624",
+    "reference_type": "Canadian inferior court",
+    "gold_types": [
+      {
+        "class_id": "wd:Q7252624",
+        "label": "Canadian inferior court",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q1090817",
+        "label": "lower court",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q41487",
+        "label": "court",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q895526",
+        "label": "governing body",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "lower court",
+      "siblings": "trial court",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "lower court",
+      "siblings": "trial court",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 166,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q7252624"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q1090817"
+      ],
+      "siblings": [
+        "wd:Q3125101"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "provincial court",
+    "lower court",
+    "trial court",
+    "court",
+    "judicial body",
+    "organization",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:19:31.538255+00:00",
+  "response": "{\"explanation\": \"The description \\\"provincial court\\\" directly supports provincial court as the most specific type. The taxonomy context provides lower court as the direct parent, which appropriately establishes the hierarchical scope of this court within the judicial system. The sibling class trial court is also valid since provincial courts function as trial courts of first instance, but provincial court specifically captures its jurisdictional status. No narrower child classes are specified or supported. The subsequent types broaden systematically through court to general organizational and abstract entities.\", \"types\": [\"provincial court\", \"lower court\", \"trial court\", \"court\", \"judicial body\", \"organization\", \"entity\"]}",
+  "explanation": "The description \"provincial court\" directly supports provincial court as the most specific type. The taxonomy context provides lower court as the direct parent, which appropriately establishes the hierarchical scope of this court within the judicial system. The sibling class trial court is also valid since provincial courts function as trial courts of first instance, but provincial court specifically captures its jurisdictional status. No narrower child classes are specified or supported. The subsequent types broaden systematically through court to general organizational and abstract entities.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"provincial court\\\" directly supports provincial court as the most specific type. The taxonomy context provides lower court as the direct parent, which appropriately establishes the hierarchical scope of this court within the judicial system. The sibling class trial court is also valid since provincial courts function as trial courts of first instance, but provincial court specifically captures its jurisdictional status. No narrower child classes are specified or supported. The subsequent types broaden systematically through court to general organizational and abstract entities.\", \"types\": [\"provincial court\", \"lower court\", \"trial court\", \"court\", \"judicial body\", \"organization\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 542,
+      "candidatesTokenCount": 126,
+      "totalTokenCount": 1299,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 542
+        }
+      ],
+      "thoughtsTokenCount": 631,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "45O1aoiUMsnfxs0PtrLhyQ4"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 542,
+    "candidatesTokenCount": 126,
+    "totalTokenCount": 1299,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 542
+      }
+    ],
+    "thoughtsTokenCount": 631,
+    "serviceTier": "standard"
+  }
+}

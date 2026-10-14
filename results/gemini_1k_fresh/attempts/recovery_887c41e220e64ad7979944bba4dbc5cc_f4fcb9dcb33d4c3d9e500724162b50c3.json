@@ -1,0 +1,156 @@
+{
+  "example_number": 919,
+  "entity_id": "wd:Q123677208",
+  "entity_label": "Smurk Carter",
+  "description": "2023 single by Lil Durk and Only the Family",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0919/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0919/metadata.json",
+  "input_hash": "190d47f4bb49c2987f9494f18c422d26323498fe5e6d64989d4d9fae1cf9ae64",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Smurk Carter\nDescription: 2023 single by Lil Durk and Only the Family\n\nTaxonomy context:\n- Direct parent classes: work of art\n- Sibling classes: audiobook, rock art, lamentation\n- Direct child classes: single album, mini album, single\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q123677208",
+    "entity_label": "Smurk Carter",
+    "description": "2023 single by Lil Durk and Only the Family",
+    "reference_class_id": "wd:Q2188189",
+    "reference_type": "musical work",
+    "gold_types": [
+      {
+        "class_id": "wd:Q2188189",
+        "label": "musical work",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q838948",
+        "label": "work of art",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q17537576",
+        "label": "creative work",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q386724",
+        "label": "work",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "work of art",
+      "siblings": "audiobook, rock art, lamentation",
+      "children": "single album, mini album, single"
+    },
+    "oracle_graph_context": {
+      "parents": "work of art",
+      "siblings": "audiobook, rock art, lamentation",
+      "children": "single album, mini album, single"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 919,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q2188189"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q838948"
+      ],
+      "siblings": [
+        "wd:Q106833",
+        "wd:Q1211146",
+        "wd:Q1229479"
+      ],
+      "children": [
+        "wd:Q106042566",
+        "wd:Q107154516",
+        "wd:Q134556"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "single",
+    "musical work",
+    "work of art",
+    "creative work",
+    "intellectual work",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:16:13.436441+00:00",
+  "response": "{\"explanation\": \"The description identifies \\\"Smurk Carter\\\" as a 2023 single by Lil Durk and Only the Family, directly supporting 'single' as the most specific type. In the taxonomy context, 'single' is listed among child classes alongside 'single album' and 'mini album', of which 'single' is the only one strictly evidenced by the description. The parent context 'work of art' defines the broader scope of creative works, while sibling classes like 'audiobook', 'rock art', and 'lamentation' represent distinct artistic or literary forms that are irrelevant to a musical single.\", \"types\": [\"single\", \"musical work\", \"work of art\", \"creative work\", \"intellectual work\", \"entity\"]}",
+  "explanation": "The description identifies \"Smurk Carter\" as a 2023 single by Lil Durk and Only the Family, directly supporting 'single' as the most specific type. In the taxonomy context, 'single' is listed among child classes alongside 'single album' and 'mini album', of which 'single' is the only one strictly evidenced by the description. The parent context 'work of art' defines the broader scope of creative works, while sibling classes like 'audiobook', 'rock art', and 'lamentation' represent distinct artistic or literary forms that are irrelevant to a musical single.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies \\\"Smurk Carter\\\" as a 2023 single by Lil Durk and Only the Family, directly supporting 'single' as the most specific type. In the taxonomy context, 'single' is listed among child classes alongside 'single album' and 'mini album', of which 'single' is the only one strictly evidenced by the description. The parent context 'work of art' defines the broader scope of creative works, while sibling classes like 'audiobook', 'rock art', and 'lamentation' represent distinct artistic or literary forms that are irrelevant to a musical single.\", \"types\": [\"single\", \"musical work\", \"work of art\", \"creative work\", \"intellectual work\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 564,
+      "candidatesTokenCount": 153,
+      "totalTokenCount": 1565,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 564
+        }
+      ],
+      "thoughtsTokenCount": 848,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "LaG1aq6jLYa5vdIP0ojhsA0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 564,
+    "candidatesTokenCount": 153,
+    "totalTokenCount": 1565,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 564
+      }
+    ],
+    "thoughtsTokenCount": 848,
+    "serviceTier": "standard"
+  }
+}

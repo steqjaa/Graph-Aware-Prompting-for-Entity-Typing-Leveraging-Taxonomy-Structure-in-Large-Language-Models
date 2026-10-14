@@ -1,0 +1,156 @@
+{
+  "example_number": 75,
+  "entity_id": "wd:Q1111051",
+  "entity_label": "Colonne Vendôme",
+  "description": "monument in Paris",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0075/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0075/metadata.json",
+  "input_hash": "91717abf3d3a7016833a475bbafc6be767bed97f392ddfdb25816770ec5665b9",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Colonne Vendôme\nDescription: monument in Paris\n\nTaxonomy context:\n- Direct parent classes: sculpture\n- Sibling classes: wax sculpture, chryselephantine sculpture, life mask\n- Direct child classes: rostral column\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q1111051",
+    "entity_label": "Colonne Vendôme",
+    "description": "monument in Paris",
+    "reference_class_id": "wd:Q1930585",
+    "reference_type": "victory column",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1930585",
+        "label": "victory column",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q860861",
+        "label": "sculpture",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q8205328",
+        "label": "artificial physical object",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q4406616",
+        "label": "concrete object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "sculpture",
+      "siblings": "wax sculpture, chryselephantine sculpture, life mask",
+      "children": "rostral column"
+    },
+    "oracle_graph_context": {
+      "parents": "sculpture",
+      "siblings": "wax sculpture, chryselephantine sculpture, life mask",
+      "children": "rostral column"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 75,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1930585"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q860861"
+      ],
+      "siblings": [
+        "wd:Q1055622",
+        "wd:Q1088535",
+        "wd:Q11346505"
+      ],
+      "children": [
+        "wd:Q1112897"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "triumphal column",
+    "monumental column",
+    "monument",
+    "sculpture",
+    "structure",
+    "work of art",
+    "physical object",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:12:35.210028+00:00",
+  "response": "{\n  \"explanation\": \"The entity Colonne Vendôme is a famous monument in Paris modeled on Trajan's Column, making monumental column (and specifically triumphal column) the most fitting type. Its taxonomy parent is sculpture, establishing the broad artistic medium. Sibling classes such as wax sculpture, chryselephantine sculpture, and life mask denote specific sculpture materials or forms not applicable to a stone and bronze architectural column. The direct child class rostral column is rejected because the Vendôme Column does not feature naval prows (rostra) characteristic of rostral columns. Broader valid classifications include monument, sculpture, structure, and physical object.\",\n  \"types\": [\n    \"triumphal column\",\n    \"monumental column\",\n    \"monument\",\n    \"sculpture\",\n    \"structure\",\n    \"work of art\",\n    \"physical object\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The entity Colonne Vendôme is a famous monument in Paris modeled on Trajan's Column, making monumental column (and specifically triumphal column) the most fitting type. Its taxonomy parent is sculpture, establishing the broad artistic medium. Sibling classes such as wax sculpture, chryselephantine sculpture, and life mask denote specific sculpture materials or forms not applicable to a stone and bronze architectural column. The direct child class rostral column is rejected because the Vendôme Column does not feature naval prows (rostra) characteristic of rostral columns. Broader valid classifications include monument, sculpture, structure, and physical object.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The entity Colonne Vendôme is a famous monument in Paris modeled on Trajan's Column, making monumental column (and specifically triumphal column) the most fitting type. Its taxonomy parent is sculpture, establishing the broad artistic medium. Sibling classes such as wax sculpture, chryselephantine sculpture, and life mask denote specific sculpture materials or forms not applicable to a stone and bronze architectural column. The direct child class rostral column is rejected because the Vendôme Column does not feature naval prows (rostra) characteristic of rostral columns. Broader valid classifications include monument, sculpture, structure, and physical object.\",\n  \"types\": [\n    \"triumphal column\",\n    \"monumental column\",\n    \"monument\",\n    \"sculpture\",\n    \"structure\",\n    \"work of art\",\n    \"physical object\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 553,
+      "candidatesTokenCount": 196,
+      "totalTokenCount": 1940,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 553
+        }
+      ],
+      "thoughtsTokenCount": 1191,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "Q5K1aqyTH_etvdIP79GaIQ"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 553,
+    "candidatesTokenCount": 196,
+    "totalTokenCount": 1940,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 553
+      }
+    ],
+    "thoughtsTokenCount": 1191,
+    "serviceTier": "standard"
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "example_number": 916,
+  "entity_id": "wd:Q12289782",
+  "entity_label": "Panayot Panayotov",
+  "description": "Bulgarian pop singer",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0916/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0916/metadata.json",
+  "input_hash": "fbcae574c202a80db6adce413c9618ae19f56c4ec0ff4165135bfffb4c5b534c",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Panayot Panayotov\nDescription: Bulgarian pop singer\n\nTaxonomy context:\n- Direct parent classes: vocalist\n- Sibling classes: lead vocalist, chanteuse, chorist\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q12289782",
+    "entity_label": "Panayot Panayotov",
+    "description": "Bulgarian pop singer",
+    "reference_class_id": "wd:Q60723829",
+    "reference_type": "pop singer",
+    "gold_types": [
+      {
+        "class_id": "wd:Q60723829",
+        "label": "pop singer",
+        "depth": 9
+      },
+      {
+        "class_id": "wd:Q2643890",
+        "label": "vocalist",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q639669",
+        "label": "musician",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q483501",
+        "label": "artist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q2500638",
+        "label": "creator",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "vocalist",
+      "siblings": "lead vocalist, chanteuse, chorist",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "vocalist",
+      "siblings": "lead vocalist, chanteuse, chorist",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 916,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q60723829"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q2643890"
+      ],
+      "siblings": [
+        "wd:Q1045845",
+        "wd:Q1062433",
+        "wd:Q106625143"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "pop singer",
+    "singer",
+    "vocalist",
+    "musician",
+    "performer",
+    "artist",
+    "person",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:45:30.848770+00:00",
+  "response": "{\"explanation\": \"The description \\\"Bulgarian pop singer\\\" directly supports pop singer (and singer) as the most specific type. In the taxonomy, the direct parent class vocalist defines the general category of vocal performers. Sibling classes such as lead vocalist, chorist, or chanteuse represent narrower or gender-/role-specific roles not indicated by the text. With no child classes specified in the taxonomy context, pop singer remains the most precise valid category, followed by increasingly broader classifications.\", \"types\": [\"pop singer\", \"singer\", \"vocalist\", \"musician\", \"performer\", \"artist\", \"person\", \"entity\"]}",
+  "explanation": "The description \"Bulgarian pop singer\" directly supports pop singer (and singer) as the most specific type. In the taxonomy, the direct parent class vocalist defines the general category of vocal performers. Sibling classes such as lead vocalist, chorist, or chanteuse represent narrower or gender-/role-specific roles not indicated by the text. With no child classes specified in the taxonomy context, pop singer remains the most precise valid category, followed by increasingly broader classifications.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"Bulgarian pop singer\\\" directly supports pop singer (and singer) as the most specific type. In the taxonomy, the direct parent class vocalist defines the general category of vocal performers. Sibling classes such as lead vocalist, chorist, or chanteuse represent narrower or gender-/role-specific roles not indicated by the text. With no child classes specified in the taxonomy context, pop singer remains the most precise valid category, followed by increasingly broader classifications.\", \"types\": [\"pop singer\", \"singer\", \"vocalist\", \"musician\", \"performer\", \"artist\", \"person\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 547,
+      "candidatesTokenCount": 129,
+      "totalTokenCount": 1039,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 547
+        }
+      ],
+      "thoughtsTokenCount": 363,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "qy3Mau2xBrmensEPyrn8iAU"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 547,
+    "candidatesTokenCount": 129,
+    "totalTokenCount": 1039,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 547
+      }
+    ],
+    "thoughtsTokenCount": 363,
+    "serviceTier": "standard"
+  }
+}

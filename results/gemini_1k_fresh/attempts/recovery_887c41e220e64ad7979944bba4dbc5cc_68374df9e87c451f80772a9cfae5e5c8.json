@@ -1,0 +1,188 @@
+{
+  "example_number": 527,
+  "entity_id": "wd:Q22348276",
+  "entity_label": "Moritz Stefaner",
+  "description": "German data visualization specialist",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0527/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0527/metadata.json",
+  "input_hash": "924d93d0851f07f58426ef793b6b5a79574b95cd730181a8029e6b06eccd3299",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Moritz Stefaner\nDescription: German data visualization specialist\n\nTaxonomy context:\n- Direct parent classes: technology specialist, scientist\n- Sibling classes: military scientist, data engineer, scientific explorer\n- Direct child classes: hacker, artificial intelligence researcher, computational scientist\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q22348276",
+    "entity_label": "Moritz Stefaner",
+    "description": "German data visualization specialist",
+    "reference_class_id": "wd:Q82594",
+    "reference_type": "computer scientist",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1650915",
+        "label": "researcher",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q5157565",
+        "label": "technology specialist",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q82594",
+        "label": "computer scientist",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q1914017",
+        "label": "knowledge worker",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q702269",
+        "label": "professional",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q901",
+        "label": "scientist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q20826540",
+        "label": "scholar",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q327055",
+        "label": "worker",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "technology specialist, scientist",
+      "siblings": "military scientist, data engineer, scientific explorer",
+      "children": "hacker, artificial intelligence researcher, computational scientist"
+    },
+    "oracle_graph_context": {
+      "parents": "technology specialist, scientist",
+      "siblings": "military scientist, data engineer, scientific explorer",
+      "children": "hacker, artificial intelligence researcher, computational scientist"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 527,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q82594"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q5157565",
+        "wd:Q901"
+      ],
+      "siblings": [
+        "wd:Q104176943",
+        "wd:Q104659813",
+        "wd:Q10498147"
+      ],
+      "children": [
+        "wd:Q1487",
+        "wd:Q15976092",
+        "wd:Q5157338"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "data visualization specialist",
+    "technology specialist",
+    "specialist",
+    "professional",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:46:44.237650+00:00",
+  "response": "{\"explanation\": \"The description identifies Moritz Stefaner as a 'German data visualization specialist', directly supporting 'data visualization specialist' as the most specific type. In the taxonomy, parent classes like 'technology specialist' capture the broader professional domain. Sibling classes such as 'military scientist', 'data engineer', and 'scientific explorer' describe different technical or scientific roles not supported by the evidence. Direct child classes like 'hacker', 'artificial intelligence researcher', and 'computational scientist' are overly specific or unaligned with data visualization. The remaining types reflect valid, broader classifications ordered by decreasing specificity.\", \"types\": [\"data visualization specialist\", \"technology specialist\", \"specialist\", \"professional\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The description identifies Moritz Stefaner as a 'German data visualization specialist', directly supporting 'data visualization specialist' as the most specific type. In the taxonomy, parent classes like 'technology specialist' capture the broader professional domain. Sibling classes such as 'military scientist', 'data engineer', and 'scientific explorer' describe different technical or scientific roles not supported by the evidence. Direct child classes like 'hacker', 'artificial intelligence researcher', and 'computational scientist' are overly specific or unaligned with data visualization. The remaining types reflect valid, broader classifications ordered by decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies Moritz Stefaner as a 'German data visualization specialist', directly supporting 'data visualization specialist' as the most specific type. In the taxonomy, parent classes like 'technology specialist' capture the broader professional domain. Sibling classes such as 'military scientist', 'data engineer', and 'scientific explorer' describe different technical or scientific roles not supported by the evidence. Direct child classes like 'hacker', 'artificial intelligence researcher', and 'computational scientist' are overly specific or unaligned with data visualization. The remaining types reflect valid, broader classifications ordered by decreasing specificity.\", \"types\": [\"data visualization specialist\", \"technology specialist\", \"specialist\", \"professional\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 557,
+      "candidatesTokenCount": 148,
+      "totalTokenCount": 1094,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 557
+        }
+      ],
+      "thoughtsTokenCount": 389,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "RJq1arzYHPbaxs0PqfDk4Q0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 557,
+    "candidatesTokenCount": 148,
+    "totalTokenCount": 1094,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 557
+      }
+    ],
+    "thoughtsTokenCount": 389,
+    "serviceTier": "standard"
+  }
+}

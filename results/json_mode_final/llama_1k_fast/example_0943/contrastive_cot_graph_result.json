@@ -1,0 +1,129 @@
+{
+  "example_number": "943",
+  "entity_id": "wd:Q21507756",
+  "entity_label": "Redmann",
+  "description": "family name",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0943/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0943/metadata.json",
+  "metadata": {
+    "entity_id": "wd:Q21507756",
+    "entity_label": "Redmann",
+    "description": "family name",
+    "reference_class_id": "wd:Q10856962",
+    "reference_type": "anthroponym",
+    "gold_types": [
+      {
+        "class_id": "wd:Q10856962",
+        "label": "anthroponym",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q147276",
+        "label": "proper noun",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q187931",
+        "label": "phrase",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q1786828",
+        "label": "constituent",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q5371079",
+        "label": "emic unit",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q11953984",
+        "label": "linguistic unit",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q2198779",
+        "label": "unit",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q7048977",
+        "label": "abstract entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "proper noun",
+      "siblings": "theophoric name, toponym",
+      "children": "full name, Chinese family name, patronymic family name"
+    },
+    "oracle_graph_context": {
+      "parents": "proper noun",
+      "siblings": "theophoric name, toponym",
+      "children": "full name, Chinese family name, patronymic family name"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 943,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q10856962"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q147276"
+      ],
+      "siblings": [
+        "wd:Q1501358",
+        "wd:Q7884789"
+      ],
+      "children": [
+        "wd:Q1071027",
+        "wd:Q1093580",
+        "wd:Q11455398"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Redmann\nDescription: family name\n\nTaxonomy context:\n- Direct parent classes: proper noun\n- Sibling classes: theophoric name, toponym\n- Direct child classes: full name, Chinese family name, patronymic family name\n\nAnswer:",
+  "input_hash": "0fc0c90ed9e8c930498c4fa8d7c626f0146d1fede8e8b505a041bc8e4a3b7649",
+  "model": "meta-llama/Llama-3.1-8B-Instruct",
+  "model_version": "meta-llama/Llama-3.1-8B-Instruct@0e9e39f249a16976918f6564b8830bc894c89659 (vLLM)",
+  "revision": "0e9e39f249a16976918f6564b8830bc894c89659",
+  "backend": "vllm",
+  "status": "completed",
+  "response": "{\"explanation\": \"The description \\\"family name\\\" supports proper noun as its parent. The sibling class theophoric name is supported by evidence, family names often originated from gods while toponyms come from locations. In contrast, the full name is not specific enough because many family names are also family names within a full name. The direct children of proper noun that are well-supported by the description are Chinese family name, patronymic family name because family names have geographical, origin, or cultural variation, are non-routine with names possibly both in various scales as simple entire phrase or as components when it could form any parts of others. More discouraging are partially not applicable contexts in a parent context above. The description does not independently support \", \"types\": [\"Chinese family name\", \"patronymic family name\", \"proper noun\", \"name\", \"noun\", \"legal entity\", \"corporate body\", \"object\", \"entity\"]}",
+  "predictions": [
+    "Chinese family name",
+    "patronymic family name",
+    "proper noun",
+    "name",
+    "noun",
+    "legal entity",
+    "corporate body",
+    "object",
+    "entity"
+  ],
+  "explanation": "The description \"family name\" supports proper noun as its parent. The sibling class theophoric name is supported by evidence, family names often originated from gods while toponyms come from locations. In contrast, the full name is not specific enough because many family names are also family names within a full name. The direct children of proper noun that are well-supported by the description are Chinese family name, patronymic family name because family names have geographical, origin, or cultural variation, are non-routine with names possibly both in various scales as simple entire phrase or as components when it could form any parts of others. More discouraging are partially not applicable contexts in a parent context above. The description does not independently support ",
+  "finish_reason": "STOP",
+  "generated_tokens": 191,
+  "prompt_tokens": 576,
+  "generation_config": {
+    "temperature": 1.0,
+    "seed": 0,
+    "response_format": "json_object",
+    "max_tokens": 32192,
+    "structured_json_schema": null
+  },
+  "timestamp_utc": "2026-10-09T08:00:38.414261+00:00"
+}

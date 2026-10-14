@@ -1,0 +1,175 @@
+{
+  "example_number": 726,
+  "entity_id": "wd:Q6275102",
+  "entity_label": "Jones/Ginzel",
+  "description": "American artist team",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0726/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0726/metadata.json",
+  "input_hash": "ce39d42551ad1de51ec6bb394326b65991895841e3fc6433fa62e4b37d40282c",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Jones/Ginzel\nDescription: American artist team\n\nTaxonomy context:\n- Direct parent classes: performing arts group, collective\n- Sibling classes: copyright collective, musical ensemble, editorial team\n- Direct child classes: double act, duo of photographers\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q6275102",
+    "entity_label": "Jones/Ginzel",
+    "description": "American artist team",
+    "reference_class_id": "wd:Q1400264",
+    "reference_type": "artist collective",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1400264",
+        "label": "artist collective",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q105815710",
+        "label": "performing arts group",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q13473501",
+        "label": "collective",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "performing arts group, collective",
+      "siblings": "copyright collective, musical ensemble, editorial team",
+      "children": "double act, duo of photographers"
+    },
+    "oracle_graph_context": {
+      "parents": "performing arts group, collective",
+      "siblings": "copyright collective, musical ensemble, editorial team",
+      "children": "double act, duo of photographers"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 726,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1400264"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q105815710",
+        "wd:Q13473501"
+      ],
+      "siblings": [
+        "wd:Q1047437",
+        "wd:Q2088357",
+        "wd:Q24354647"
+      ],
+      "children": [
+        "wd:Q1141470",
+        "wd:Q85938941"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "duo",
+    "collective",
+    "group of humans",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:01:39.746483+00:00",
+  "response": "{\"explanation\": \"The taxonomy context indicates that the omitted target type has direct parents 'performing arts group' and 'collective', and direct children such as 'double act' and 'duo of photographers', which identifies the target concept as 'duo'. Sibling classes like 'musical ensemble', 'copyright collective', and 'editorial team' represent groups in music, law, or publishing, which do not fit the description of an artist team. The child classes 'double act' and 'duo of photographers' are overly specific and unsupported by the evidence. Jones/Ginzel is a collaborative partnership of two visual artists, supporting 'duo' as the most specific appropriate type, followed by broader valid categories like 'collective' and higher-level groupings.\", \"types\": [\"duo\", \"collective\", \"group of humans\", \"agent\", \"entity\"]}",
+  "explanation": "The taxonomy context indicates that the omitted target type has direct parents 'performing arts group' and 'collective', and direct children such as 'double act' and 'duo of photographers', which identifies the target concept as 'duo'. Sibling classes like 'musical ensemble', 'copyright collective', and 'editorial team' represent groups in music, law, or publishing, which do not fit the description of an artist team. The child classes 'double act' and 'duo of photographers' are overly specific and unsupported by the evidence. Jones/Ginzel is a collaborative partnership of two visual artists, supporting 'duo' as the most specific appropriate type, followed by broader valid categories like 'collective' and higher-level groupings.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The taxonomy context indicates that the omitted target type has direct parents 'performing arts group' and 'collective', and direct children such as 'double act' and 'duo of photographers', which identifies the target concept as 'duo'. Sibling classes like 'musical ensemble', 'copyright collective', and 'editorial team' represent groups in music, law, or publishing, which do not fit the description of an artist team. The child classes 'double act' and 'duo of photographers' are overly specific and unsupported by the evidence. Jones/Ginzel is a collaborative partnership of two visual artists, supporting 'duo' as the most specific appropriate type, followed by broader valid categories like 'collective' and higher-level groupings.\", \"types\": [\"duo\", \"collective\", \"group of humans\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 556,
+      "candidatesTokenCount": 173,
+      "totalTokenCount": 2184,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 556
+        }
+      ],
+      "thoughtsTokenCount": 1455,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "xJ21aqYCoq_E3w-os-OQDQ"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 556,
+    "candidatesTokenCount": 173,
+    "totalTokenCount": 2184,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 556
+      }
+    ],
+    "thoughtsTokenCount": 1455,
+    "serviceTier": "standard"
+  }
+}

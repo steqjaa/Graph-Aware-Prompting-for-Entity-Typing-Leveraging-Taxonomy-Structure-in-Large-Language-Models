@@ -1,0 +1,167 @@
+{
+  "example_number": 13,
+  "entity_id": "wd:Q1499247",
+  "entity_label": "Gelbe Bürg",
+  "description": "castle",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0013/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0013/metadata.json",
+  "input_hash": "897b679a8471eb1fdc7b7898f6f66ff3348fb060193e4f14785c9b8bac48d70f",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Gelbe Bürg\nDescription: castle\n\nTaxonomy context:\n- Direct parent classes: location of discovery\n- Sibling classes: burnt mound, Samian Ware Discovery Site, megalithic tomb\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q1499247",
+    "entity_label": "Gelbe Bürg",
+    "description": "castle",
+    "reference_class_id": "wd:Q1015644",
+    "reference_type": "Burgstall",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1015644",
+        "label": "Burgstall",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q839954",
+        "label": "archaeological site",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q15642541",
+        "label": "human-geographic territorial entity",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q4835091",
+        "label": "territory",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q82794",
+        "label": "geographic region",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q26713767",
+        "label": "region of space",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "location of discovery",
+      "siblings": "burnt mound, Samian Ware Discovery Site, megalithic tomb",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "location of discovery",
+      "siblings": "burnt mound, Samian Ware Discovery Site, megalithic tomb",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 13,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1015644",
+      "wd:Q15642541",
+      "wd:Q839954"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q1291195"
+      ],
+      "siblings": [
+        "wd:Q1016853",
+        "wd:Q102202066",
+        "wd:Q10521078"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "castle",
+    "fortification",
+    "architectural structure",
+    "structure",
+    "location of discovery",
+    "archaeological site",
+    "human-made object",
+    "physical object",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:07:52.711078+00:00",
+  "response": "{\"explanation\": \"The entity is explicitly described as a \\\"castle\\\", identifying it as a fortified residential or defensive structure. In the taxonomy context, the parent class \\\"location of discovery\\\" emphasizes its archaeological dimension as a place of historical finds. Siblings like \\\"burnt mound\\\", \\\"Samian Ware Discovery Site\\\", and \\\"megalithic tomb\\\" represent other specific archaeological sites or features that are unsupported by the castle description. With no child classes present, \\\"castle\\\" stands as the most specific evidenced type, followed by broader taxonomic classifications such as fortification, architectural structure, structure, and physical object.\", \"types\": [\"castle\", \"fortification\", \"architectural structure\", \"structure\", \"location of discovery\", \"archaeological site\", \"human-made object\", \"physical object\", \"entity\"]}",
+  "explanation": "The entity is explicitly described as a \"castle\", identifying it as a fortified residential or defensive structure. In the taxonomy context, the parent class \"location of discovery\" emphasizes its archaeological dimension as a place of historical finds. Siblings like \"burnt mound\", \"Samian Ware Discovery Site\", and \"megalithic tomb\" represent other specific archaeological sites or features that are unsupported by the castle description. With no child classes present, \"castle\" stands as the most specific evidenced type, followed by broader taxonomic classifications such as fortification, architectural structure, structure, and physical object.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The entity is explicitly described as a \\\"castle\\\", identifying it as a fortified residential or defensive structure. In the taxonomy context, the parent class \\\"location of discovery\\\" emphasizes its archaeological dimension as a place of historical finds. Siblings like \\\"burnt mound\\\", \\\"Samian Ware Discovery Site\\\", and \\\"megalithic tomb\\\" represent other specific archaeological sites or features that are unsupported by the castle description. With no child classes present, \\\"castle\\\" stands as the most specific evidenced type, followed by broader taxonomic classifications such as fortification, architectural structure, structure, and physical object.\", \"types\": [\"castle\", \"fortification\", \"architectural structure\", \"structure\", \"location of discovery\", \"archaeological site\", \"human-made object\", \"physical object\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 552,
+      "candidatesTokenCount": 162,
+      "totalTokenCount": 1671,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 552
+        }
+      ],
+      "thoughtsTokenCount": 957,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "KJG1ao_gOrnOvdIPxdTkqQo"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 552,
+    "candidatesTokenCount": 162,
+    "totalTokenCount": 1671,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 552
+      }
+    ],
+    "thoughtsTokenCount": 957,
+    "serviceTier": "standard"
+  }
+}

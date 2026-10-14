@@ -1,0 +1,158 @@
+{
+  "example_number": 209,
+  "entity_id": "wd:Q22964575",
+  "entity_label": "Abraccine Top 100 Brazilian films",
+  "description": "2015 ranked listicle by Abraccine",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0209/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0209/metadata.json",
+  "input_hash": "897465ad069eee8dead6e528b958ffb52613555a388412ce76c855d6fa1d84e7",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Abraccine Top 100 Brazilian films\nDescription: 2015 ranked listicle by Abraccine\n\nTaxonomy context:\n- Direct parent classes: article\n- Sibling classes: Wikimedia list article, Wikimedia duplicated page, reference work entry\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q22964575",
+    "entity_label": "Abraccine Top 100 Brazilian films",
+    "description": "2015 ranked listicle by Abraccine",
+    "reference_class_id": "wd:Q6646525",
+    "reference_type": "listicle",
+    "gold_types": [
+      {
+        "class_id": "wd:Q6646525",
+        "label": "listicle",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q191067",
+        "label": "article",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q234460",
+        "label": "text",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q47461344",
+        "label": "written work",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q286583",
+        "label": "manifestation",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q386724",
+        "label": "work",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "article",
+      "siblings": "Wikimedia list article, Wikimedia duplicated page, reference work entry",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "article",
+      "siblings": "Wikimedia list article, Wikimedia duplicated page, reference work entry",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 209,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q6646525"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q191067"
+      ],
+      "siblings": [
+        "wd:Q13406463",
+        "wd:Q17362920",
+        "wd:Q3055347"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "status": "completed",
+  "predictions": [
+    "listicle",
+    "article",
+    "written work",
+    "document",
+    "creative work",
+    "intellectual work",
+    "entity"
+  ],
+  "timestamp_utc": "2026-09-24T20:43:46.721110+00:00",
+  "response": "{\"explanation\": \"The description specifies that the entity is a \\\"2015 ranked listicle by Abraccine\\\", identifying \\\"listicle\\\" as the most specific appropriate type. In the taxonomy, its direct parent is \\\"article\\\", defining its broader scope as an essayistic or journalistic written piece. Siblings such as \\\"Wikimedia list article\\\" or \\\"Wikimedia duplicated page\\\" are rejected because the entity is an externally published critical film listicle rather than internal Wikimedia content, and \\\"reference work entry\\\" does not capture its format as a ranked listicle. The types are ordered from most specific to broadest based on this taxonomy.\", \"types\": [\"listicle\", \"article\", \"written work\", \"document\", \"creative work\", \"intellectual work\", \"entity\"]}",
+  "explanation": "The description specifies that the entity is a \"2015 ranked listicle by Abraccine\", identifying \"listicle\" as the most specific appropriate type. In the taxonomy, its direct parent is \"article\", defining its broader scope as an essayistic or journalistic written piece. Siblings such as \"Wikimedia list article\" or \"Wikimedia duplicated page\" are rejected because the entity is an externally published critical film listicle rather than internal Wikimedia content, and \"reference work entry\" does not capture its format as a ranked listicle. The types are ordered from most specific to broadest based on this taxonomy.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description specifies that the entity is a \\\"2015 ranked listicle by Abraccine\\\", identifying \\\"listicle\\\" as the most specific appropriate type. In the taxonomy, its direct parent is \\\"article\\\", defining its broader scope as an essayistic or journalistic written piece. Siblings such as \\\"Wikimedia list article\\\" or \\\"Wikimedia duplicated page\\\" are rejected because the entity is an externally published critical film listicle rather than internal Wikimedia content, and \\\"reference work entry\\\" does not capture its format as a ranked listicle. The types are ordered from most specific to broadest based on this taxonomy.\", \"types\": [\"listicle\", \"article\", \"written work\", \"document\", \"creative work\", \"intellectual work\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 565,
+      "candidatesTokenCount": 155,
+      "totalTokenCount": 1420,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 565
+        }
+      ],
+      "thoughtsTokenCount": 700,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "gou1arrLOtiIvdIPrPTruAY"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 565,
+    "candidatesTokenCount": 155,
+    "totalTokenCount": 1420,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 565
+      }
+    ],
+    "thoughtsTokenCount": 700,
+    "serviceTier": "standard"
+  }
+}

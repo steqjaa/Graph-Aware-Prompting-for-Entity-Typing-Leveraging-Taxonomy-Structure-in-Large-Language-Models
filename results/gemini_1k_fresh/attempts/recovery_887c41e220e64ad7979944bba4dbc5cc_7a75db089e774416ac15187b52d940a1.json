@@ -1,0 +1,172 @@
+{
+  "example_number": 698,
+  "entity_id": "wd:Q1791379",
+  "entity_label": "Lydia Sokolova",
+  "description": "British dancer",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0698/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0698/metadata.json",
+  "input_hash": "ecc3b6a9ff50983ba5c332e804bf4f747e103883090346bb2d0f61191228f960",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Lydia Sokolova\nDescription: British dancer\n\nTaxonomy context:\n- Direct parent classes: dancer\n- Sibling classes: b-boy, stripper, ice dancer\n- Direct child classes: ballerina, soloist\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q1791379",
+    "entity_label": "Lydia Sokolova",
+    "description": "British dancer",
+    "reference_class_id": "wd:Q805221",
+    "reference_type": "ballet dancer",
+    "gold_types": [
+      {
+        "class_id": "wd:Q805221",
+        "label": "ballet dancer",
+        "depth": 9
+      },
+      {
+        "class_id": "wd:Q5716684",
+        "label": "dancer",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q713200",
+        "label": "performing artist",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q483501",
+        "label": "artist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q2500638",
+        "label": "creator",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "dancer",
+      "siblings": "b-boy, stripper, ice dancer",
+      "children": "ballerina, soloist"
+    },
+    "oracle_graph_context": {
+      "parents": "dancer",
+      "siblings": "b-boy, stripper, ice dancer",
+      "children": "ballerina, soloist"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 698,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q805221"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q5716684"
+      ],
+      "siblings": [
+        "wd:Q108764079",
+        "wd:Q1141526",
+        "wd:Q17361147"
+      ],
+      "children": [
+        "wd:Q4070300",
+        "wd:Q7558519"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "ballet dancer",
+    "dancer",
+    "performer",
+    "entertainer",
+    "artist",
+    "person",
+    "physical object",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:59:33.746544+00:00",
+  "response": "{\n  \"explanation\": \"The context places the omitted target type between dancer (parent) and ballerina/soloist (children), with siblings like b-boy, stripper, and ice dancer, identifying the target type as ballet dancer. Sibling classes are rejected because they represent distinct dance disciplines not matching the entity. Although ballerina and soloist are direct children and historically true of Lydia Sokolova, the concise description 'British dancer' does not independently provide explicit evidence for these narrower specializations. Thus, ballet dancer is the most specific supported type, followed by broader taxonomic categories in decreasing order of specificity.\",\n  \"types\": [\n    \"ballet dancer\",\n    \"dancer\",\n    \"performer\",\n    \"entertainer\",\n    \"artist\",\n    \"person\",\n    \"physical object\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The context places the omitted target type between dancer (parent) and ballerina/soloist (children), with siblings like b-boy, stripper, and ice dancer, identifying the target type as ballet dancer. Sibling classes are rejected because they represent distinct dance disciplines not matching the entity. Although ballerina and soloist are direct children and historically true of Lydia Sokolova, the concise description 'British dancer' does not independently provide explicit evidence for these narrower specializations. Thus, ballet dancer is the most specific supported type, followed by broader taxonomic categories in decreasing order of specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The context places the omitted target type between dancer (parent) and ballerina/soloist (children), with siblings like b-boy, stripper, and ice dancer, identifying the target type as ballet dancer. Sibling classes are rejected because they represent distinct dance disciplines not matching the entity. Although ballerina and soloist are direct children and historically true of Lydia Sokolova, the concise description 'British dancer' does not independently provide explicit evidence for these narrower specializations. Thus, ballet dancer is the most specific supported type, followed by broader taxonomic categories in decreasing order of specificity.\",\n  \"types\": [\n    \"ballet dancer\",\n    \"dancer\",\n    \"performer\",\n    \"entertainer\",\n    \"artist\",\n    \"person\",\n    \"physical object\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 547,
+      "candidatesTokenCount": 176,
+      "totalTokenCount": 2221,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 547
+        }
+      ],
+      "thoughtsTokenCount": 1498,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "RZ21asTMOs2SxN8PoISsoQ4"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 547,
+    "candidatesTokenCount": 176,
+    "totalTokenCount": 2221,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 547
+      }
+    ],
+    "thoughtsTokenCount": 1498,
+    "serviceTier": "standard"
+  }
+}

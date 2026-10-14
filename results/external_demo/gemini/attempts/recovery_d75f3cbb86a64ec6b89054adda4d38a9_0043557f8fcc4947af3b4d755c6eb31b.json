@@ -1,0 +1,182 @@
+{
+  "example_number": 839,
+  "entity_id": "wd:Q1053511",
+  "entity_label": "Centavia",
+  "description": "Defunct Serbian airline",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0839/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0839/metadata.json",
+  "input_hash": "58b88f96fcd5f5d07b92b47ae04c3f59bb89c532bdc70c2978037d66b1b3a108",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Centavia\nDescription: Defunct Serbian airline\n\nTaxonomy context:\n- Direct parent classes: aircraft operator\n- Sibling classes: None\n- Direct child classes: cargo airline, low-cost airline, regional airline\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q1053511",
+    "entity_label": "Centavia",
+    "description": "Defunct Serbian airline",
+    "reference_class_id": "wd:Q46970",
+    "reference_type": "airline",
+    "gold_types": [
+      {
+        "class_id": "wd:Q46970",
+        "label": "airline",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q1875615",
+        "label": "aircraft operator",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q740752",
+        "label": "transport company",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q4830453",
+        "label": "business",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "aircraft operator",
+      "siblings": "None",
+      "children": "cargo airline, low-cost airline, regional airline"
+    },
+    "oracle_graph_context": {
+      "parents": "aircraft operator",
+      "siblings": "None",
+      "children": "cargo airline, low-cost airline, regional airline"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 839,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q46970"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q1875615"
+      ],
+      "siblings": [],
+      "children": [
+        "wd:Q1057026",
+        "wd:Q190915",
+        "wd:Q2440569"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "airline",
+    "aircraft operator",
+    "transport company",
+    "business enterprise",
+    "organization",
+    "corporate body",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:39:42.886484+00:00",
+  "response": "{\"explanation\": \"The description \\\"Defunct Serbian airline\\\" directly supports airline as the most specific valid type. In the taxonomy, its direct parent is aircraft operator, establishing the broader functional domain. Potential child classes such as cargo airline, low-cost airline, and regional airline are rejected because the provided description does not independently verify any of these specialized models. The remaining types generalize logically from airline to broader corporate and organizational categories.\", \"types\": [\"airline\", \"aircraft operator\", \"transport company\", \"business enterprise\", \"organization\", \"corporate body\", \"agent\", \"entity\"]}",
+  "explanation": "The description \"Defunct Serbian airline\" directly supports airline as the most specific valid type. In the taxonomy, its direct parent is aircraft operator, establishing the broader functional domain. Potential child classes such as cargo airline, low-cost airline, and regional airline are rejected because the provided description does not independently verify any of these specialized models. The remaining types generalize logically from airline to broader corporate and organizational categories.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"Defunct Serbian airline\\\" directly supports airline as the most specific valid type. In the taxonomy, its direct parent is aircraft operator, establishing the broader functional domain. Potential child classes such as cargo airline, low-cost airline, and regional airline are rejected because the provided description does not independently verify any of these specialized models. The remaining types generalize logically from airline to broader corporate and organizational categories.\", \"types\": [\"airline\", \"aircraft operator\", \"transport company\", \"business enterprise\", \"organization\", \"corporate body\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 547,
+      "candidatesTokenCount": 116,
+      "totalTokenCount": 1320,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 547
+        }
+      ],
+      "thoughtsTokenCount": 657,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "TyzMaui8BuCh3boPw6vb0A4"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 547,
+    "candidatesTokenCount": 116,
+    "totalTokenCount": 1320,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 547
+      }
+    ],
+    "thoughtsTokenCount": 657,
+    "serviceTier": "standard"
+  }
+}

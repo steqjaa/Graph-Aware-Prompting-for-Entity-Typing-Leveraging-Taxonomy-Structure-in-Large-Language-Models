@@ -1,0 +1,178 @@
+{
+  "example_number": 189,
+  "entity_id": "wd:Q321234",
+  "entity_label": "Herbert Fandel",
+  "description": "German football referee",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0189/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0189/metadata.json",
+  "input_hash": "b42ac88dd5aa2707792913a31f6b2851d83c764ab99ccd0bfce0f69816cb1af8",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Herbert Fandel\nDescription: German football referee\n\nTaxonomy context:\n- Direct parent classes: sports executive, sportsperson\n- Sibling classes: team manager, soccer commentator, ice hockey official\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q321234",
+    "entity_label": "Herbert Fandel",
+    "description": "German football referee",
+    "reference_class_id": "wd:Q859528",
+    "reference_type": "association football referee",
+    "gold_types": [
+      {
+        "class_id": "wd:Q26481809",
+        "label": "sports executive",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q2462658",
+        "label": "manager",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q25713832",
+        "label": "leader of organization",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q859528",
+        "label": "association football referee",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q1251441",
+        "label": "leader",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q50995749",
+        "label": "sportsperson",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "sports executive, sportsperson",
+      "siblings": "team manager, soccer commentator, ice hockey official",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "sports executive, sportsperson",
+      "siblings": "team manager, soccer commentator, ice hockey official",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 189,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q859528"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q26481809",
+        "wd:Q50995749"
+      ],
+      "siblings": [
+        "wd:Q107070290",
+        "wd:Q1366909",
+        "wd:Q1757103"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "association football referee",
+    "football referee",
+    "referee",
+    "sports official",
+    "sportsperson",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "f67d84811a774b589c00ae3c28d53648",
+  "timestamp_utc": "2026-10-11T23:41:00.805166+00:00",
+  "response": "{\"explanation\": \"The description identifies Herbert Fandel as a \\\"German football referee\\\", which directly supports association football referee as the most specific type. In the taxonomy, broader parent categories include sports official and sportsperson. Sibling classes such as ice hockey official, team manager, and soccer commentator represent different sports or roles within athletics and are rejected based on the explicit description of his role. There are no narrower child classes listed, avoiding unwarranted specialization. Broader classifications then trace upward through referee, sports official, sportsperson, and person.\", \"types\": [\"association football referee\", \"football referee\", \"referee\", \"sports official\", \"sportsperson\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The description identifies Herbert Fandel as a \"German football referee\", which directly supports association football referee as the most specific type. In the taxonomy, broader parent categories include sports official and sportsperson. Sibling classes such as ice hockey official, team manager, and soccer commentator represent different sports or roles within athletics and are rejected based on the explicit description of his role. There are no narrower child classes listed, avoiding unwarranted specialization. Broader classifications then trace upward through referee, sports official, sportsperson, and person.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies Herbert Fandel as a \\\"German football referee\\\", which directly supports association football referee as the most specific type. In the taxonomy, broader parent categories include sports official and sportsperson. Sibling classes such as ice hockey official, team manager, and soccer commentator represent different sports or roles within athletics and are rejected based on the explicit description of his role. There are no narrower child classes listed, avoiding unwarranted specialization. Broader classifications then trace upward through referee, sports official, sportsperson, and person.\", \"types\": [\"association football referee\", \"football referee\", \"referee\", \"sports official\", \"sportsperson\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "EtwRCtkRAWkUfRO9ePIRAq0UKRWRFmsHRDXwctyL9YbrDGZxpEVJTbYgG+6HUILRUOTvB0iMTf3H3zTbjWri1OTLzOpe7TClv+LaSedkbNb/IjF5NfgBOhpr18OTAbRR99+FIAqLDlgMc+zlzmJjf8IJXvpvD2eKI/BWMeT15P7Ps12xmuF2zjXYGE9pOhIawOxvXhJxkXvSSgJfeajn8FZOibgBlLmBJKCVNMFkTsukq6ny5jQxpR4DCkxBxAnKzAEvGfTfaW327ZSBmqZwCPyGgmasWMso/+eGV4FE0CG45KB6CrpKPIttKbXCNkspUiOp7syZYXOvZeAXMn6aRhlpAGNEs9IPt5vjS7ZPWwFs8MZrWNNCKPpQTzeESpyoo6frUNGt++FXFYquG7hLkYfmcSLj76b2JeFZjbeC8KoaQVRfQysXKQOlTDCYYybOTKySD7qcobzvvW8MlosNEnNFDGcUHgzsdUtEJcXtzjr22c/C4fOtVL5i6Onnwvc08KkYH9QdzArTpN5J7/3l7BwyuQWH3hxYRS5/QXM3XIi+/zCRtj6g1hNhvm+I0w7TFrD02IUIlu0gqYo7Q4oJb2xzsMnZ/dlGlQ53NASGn0W831SLRp/FzZw3z9CmmTMWMB13TsXf4AN2RsNLHqaRma5ATmpf1Efoa1kUmE9P15pTX8eJcIEtUxXyuU2EDaLictGQbMBnblrbvafN2N54z/rjSB0ivuANl04/nrjwuqBx2sWHXUi3mvnjbGnGGvy5AG3uqoPKpXwf3q1mAkFZ3tiskgft1YAXrOdaVNRDf59UuDnsHyuJE7CnH7W8hXECNb+ZujFw5uy/xJyU73FBJ1a+DvK91D0ZC6VwjFUcDBLU0GaRRBjWjRUgzXHEi7kN1fcNaBmSMxVFY6Ot7ly7uA9aoqfEFa+ddvlUHSGVfp56+h4if2w8XTkSTBW0KqXu/5jK0hjjle4t7Kuyu/+UvbWaVaYA3JvjtbIS6I1Te4DlPYuxJbHhHBHGStpmg/X46KKNsEzlaEuwavmcIyVyzo2ju8IYm1xRViF2xzDZKw2EW96HrPgXjx2W4O2nmlQ9vSVZZ98muaTc9yT3J/y2h62MBkT4KC9mpFvRGA8KRZ6wRnXdHukTx80spZW+k/B+2Z3yOqsYlPARnSsVurdyoBGVM0dwhMC0+Fn4QNn+GyrtRSlywBbK4m0l5auboctFb8g157iaNQCYy+EbPxLuiaTbkfUZD+27rNe/XEerC5ADpkqC4JmbDPxsQ7pUuJse7Dk0HasAlsxEj1XlHAo9PubQfabUDU1/jZeXhS+Rg+Itly6MMqHYG3HRA8QB00hOLt3Jbyw9IUtcqMRaxFOPIFzYwGdmexiw4tgj2BIPbl+asHyByoe7OhGD6oFQfp4J8RT16jvXMiD0SK1edRnATzbF0kr7QEFb1Ew6S4jGvfSymS2lZahjBOXi+BNETYRXzfn+j0nWY3YdCSBIZkNCtSOQVOWP3NjHkAQDTfs0NhLLctmcn9CqKdwC5R+rPbTJ+uBAJ/0S1b8/eJecf4a73evz0k7zMgMOIdkkwHn/+0FypiinOOTweMYmD70GUnnstPDG1UeRh9PJu2OFAxdHttcFAUvXonzcZpPNJtqsyfmXwVsdN8Z1d1iMemKpMJJk6Mv4+oLrJaPgiFfvC2AJW+o9NjB1MmwQ+KVrlxpLOcnfEmQp5bjhQ+8fXmRltA9juLJyITO5i8gXShWuIO5/F1FrR3nd+TPd11w/9Kckx1US5Lz5WXAdTMUQg+V/f03RhcCkoDMa8CF7vQoUJ+lrelPCyqP4IA6OdW+OTDJRov/FFafaCiXJR2liaJeklHDLxsLNjLjY+BJfeP3ZwmblDZ5j7HiX8sCmsWoC0BfXA/L5xxUVBgc8d2gh5RTe9mGlqvmsvOMPhwWjy+n2zsXtmqL236rcxftx1evQHusqqI/CcdJhL0vcEabVJwTE+0ma21vXGw5AaLTv+LJMB9Vg73r4sR5wwfR5R0bbmFWncYUg/J2nEyM+twOVMXFQHtvTxys4YUW/pghR89Gpgfo5+SuSyXTs+Iqvg4nwZUA7b9Tt3g2NeQHGfPWLAeqO0hamB3TbDftgSYJ0/t8IkJ6fSgd1wREtKCwaIV1S8buSKmzHkzriDBMhYtQSWbXSAXIpEmTPDb7FVoIOenJz1+DSt8Yxv0U5GslZcPdqpNCCSmqXBjQj/oYHwwCBm0HmdvyVgpFZ5W9IwA2hmpJ1htWbNDNlAzQpFyd5tN9UfShsHqwOc3ttDMljGl5rB5d9k6gyJkWrZxKsdlBK3LfXop5CLedJhdTxddpfpEb8Kj3LDZ/uXRjDlCiSJQ40bukIhqxryeycS98tlK45M4kmWA12yTybTx0cJOr1C6lCjAj4X222VGrI4GLkdR4lB6DJcxgIh9Ksjs35xFIIQwj8PicF8WFIawocPkNLI1Mj1nOz8ikhppMOFnl0fqIaeHq4ct9bP72y0v8YJNNDc3bdFviewNPrwTKzBSVbxVoHyc8q3wTXDRLISbcfTv7e0jXkvlxxjxoILi5eYuTl+IK2jDIftbExNUX5kSaMHoSFdEVMcvSJ/2m+jqirKW18q1OwHxwzfSeXtmrFmsixeglnBCS2bfAe8pM/DFOSBy+8OMWbOjNiqMw/6X96nuoMHuVOf3RbTvhaDQcMGbNQhC9eZombXcfwAg4W8ROSoxy/DpHm8Jwt8HKVGcKNbtMLrBRDAUSU7KVQvOwxxqlZFG+LQI//sgt4ooK7EZOZa5QNcIreYPWGxIdILRXuIpdcgOrVGxcGMikCu2mjRH7VB2JGyjzxEUjSqeyyzHSgHwqkQmlyqV4GkHsxL88Xq6fe3I/NIOKXSrcbEUhnWQh91f2444k58VzgedEvGdJG2GvDSE4zaQ9VngvadenK/6uV8Uy5/9sr/dg97rKf82TQ4on04SdQxenb4N4GBkvJZ9FXmBYpbdy/iQr8+HQEPGOndos0wztdPi8up+WcgZF4PDGJgpkk"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 550,
+      "candidatesTokenCount": 143,
+      "totalTokenCount": 1211,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 550
+        }
+      ],
+      "thoughtsTokenCount": 518,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "jR7Map1GpqvE3w-azZ2gBA"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 550,
+    "candidatesTokenCount": 143,
+    "totalTokenCount": 1211,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 550
+      }
+    ],
+    "thoughtsTokenCount": 518,
+    "serviceTier": "standard"
+  }
+}

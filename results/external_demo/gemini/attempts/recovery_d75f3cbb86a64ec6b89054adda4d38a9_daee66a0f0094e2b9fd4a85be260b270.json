@@ -1,0 +1,162 @@
+{
+  "example_number": 773,
+  "entity_id": "wd:Q6220685",
+  "entity_label": "John Barker",
+  "description": "Australian rules footballer and coach",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0773/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0773/metadata.json",
+  "input_hash": "b46544fc20a6abd1680212dae71b6e4170bfce2095a03991806732b2f696e841",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: John Barker\nDescription: Australian rules footballer and coach\n\nTaxonomy context:\n- Direct parent classes: sportsperson\n- Sibling classes: soccer commentator, association football assistant referee, coach\n- Direct child classes: competition climber, tennis player, field hockey player\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q6220685",
+    "entity_label": "John Barker",
+    "description": "Australian rules footballer and coach",
+    "reference_class_id": "wd:Q2066131",
+    "reference_type": "athlete",
+    "gold_types": [
+      {
+        "class_id": "wd:Q2066131",
+        "label": "athlete",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q50995749",
+        "label": "sportsperson",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "sportsperson",
+      "siblings": "soccer commentator, association football assistant referee, coach",
+      "children": "competition climber, tennis player, field hockey player"
+    },
+    "oracle_graph_context": {
+      "parents": "sportsperson",
+      "siblings": "soccer commentator, association football assistant referee, coach",
+      "children": "competition climber, tennis player, field hockey player"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 773,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q2066131"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q50995749"
+      ],
+      "siblings": [
+        "wd:Q1366909",
+        "wd:Q223291",
+        "wd:Q41583"
+      ],
+      "children": [
+        "wd:Q107690317",
+        "wd:Q10833314",
+        "wd:Q10843263"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "Australian rules footballer",
+    "footballer",
+    "coach",
+    "sportsperson",
+    "athlete",
+    "person",
+    "agent",
+    "object",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:34:35.529671+00:00",
+  "response": "{\"explanation\": \"The description identifies John Barker as an \\\"Australian rules footballer and coach\\\". Under the parent class sportsperson, specific athlete types such as competition climber, tennis player, and field hockey player represent child classes for different sports. Sibling classes like soccer commentator, association football assistant referee, and coach represent alternative sports roles or occupations, but the description most specifically supports Australian rules footballer as his playing specialization alongside coach. Moving from most specific to broadest, Australian rules footballer generalizes to footballer/football player, coach, sportsperson, athlete, person, and entity.\", \"types\": [\"Australian rules footballer\", \"footballer\", \"coach\", \"sportsperson\", \"athlete\", \"person\", \"agent\", \"object\", \"entity\"]}",
+  "explanation": "The description identifies John Barker as an \"Australian rules footballer and coach\". Under the parent class sportsperson, specific athlete types such as competition climber, tennis player, and field hockey player represent child classes for different sports. Sibling classes like soccer commentator, association football assistant referee, and coach represent alternative sports roles or occupations, but the description most specifically supports Australian rules footballer as his playing specialization alongside coach. Moving from most specific to broadest, Australian rules footballer generalizes to footballer/football player, coach, sportsperson, athlete, person, and entity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies John Barker as an \\\"Australian rules footballer and coach\\\". Under the parent class sportsperson, specific athlete types such as competition climber, tennis player, and field hockey player represent child classes for different sports. Sibling classes like soccer commentator, association football assistant referee, and coach represent alternative sports roles or occupations, but the description most specifically supports Australian rules footballer as his playing specialization alongside coach. Moving from most specific to broadest, Australian rules footballer generalizes to footballer/football player, coach, sportsperson, athlete, person, and entity.\", \"types\": [\"Australian rules footballer\", \"footballer\", \"coach\", \"sportsperson\", \"athlete\", \"person\", \"agent\", \"object\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 556,
+      "candidatesTokenCount": 150,
+      "totalTokenCount": 1213,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 556
+        }
+      ],
+      "thoughtsTokenCount": 507,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "GyvMat7RLZ-M28oPoajg-QM"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 556,
+    "candidatesTokenCount": 150,
+    "totalTokenCount": 1213,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 556
+      }
+    ],
+    "thoughtsTokenCount": 507,
+    "serviceTier": "standard"
+  }
+}

@@ -1,0 +1,169 @@
+{
+  "example_number": 954,
+  "entity_id": "wd:Q3916289",
+  "entity_label": "Ihor Tenyukh",
+  "description": "Admiral of Ukraine",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0954/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0954/metadata.json",
+  "input_hash": "1d87b8d8d552a2b477da5ea52fed8b8ef2e2a57ecf2da312790815c38586529a",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Ihor Tenyukh\nDescription: Admiral of Ukraine\n\nTaxonomy context:\n- Direct parent classes: position, military personnel\n- Sibling classes: business analyst, military scientist, deputy chairperson\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q3916289",
+    "entity_label": "Ihor Tenyukh",
+    "description": "Admiral of Ukraine",
+    "reference_class_id": "wd:Q337902",
+    "reference_type": "naval rating",
+    "gold_types": [
+      {
+        "class_id": "wd:Q47064",
+        "label": "military personnel",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q1414937",
+        "label": "combatant",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q337902",
+        "label": "naval rating",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q4164871",
+        "label": "position",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "position, military personnel",
+      "siblings": "business analyst, military scientist, deputy chairperson",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "position, military personnel",
+      "siblings": "business analyst, military scientist, deputy chairperson",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 954,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q337902"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q4164871",
+        "wd:Q47064"
+      ],
+      "siblings": [
+        "wd:Q1017553",
+        "wd:Q104176943",
+        "wd:Q1127270"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "admiral",
+    "naval officer",
+    "military officer",
+    "military personnel",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:18:50.931245+00:00",
+  "response": "{\"explanation\": \"The description \\\"Admiral of Ukraine\\\" directly supports admiral as the most specific type for Ihor Tenyukh. In the taxonomy, direct parents include military personnel and position, defining the military and functional scope. Sibling classes such as business analyst, military scientist, and deputy chairperson are rejected because the evidence specifies a naval flag officer rather than an analytical, academic, or general executive role. Direct child classes are absent, preventing narrower subclassification. The valid types are ordered from the specific naval rank to broader military and ontological categories.\", \"types\": [\"admiral\", \"naval officer\", \"military officer\", \"military personnel\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The description \"Admiral of Ukraine\" directly supports admiral as the most specific type for Ihor Tenyukh. In the taxonomy, direct parents include military personnel and position, defining the military and functional scope. Sibling classes such as business analyst, military scientist, and deputy chairperson are rejected because the evidence specifies a naval flag officer rather than an analytical, academic, or general executive role. Direct child classes are absent, preventing narrower subclassification. The valid types are ordered from the specific naval rank to broader military and ontological categories.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"Admiral of Ukraine\\\" directly supports admiral as the most specific type for Ihor Tenyukh. In the taxonomy, direct parents include military personnel and position, defining the military and functional scope. Sibling classes such as business analyst, military scientist, and deputy chairperson are rejected because the evidence specifies a naval flag officer rather than an analytical, academic, or general executive role. Direct child classes are absent, preventing narrower subclassification. The valid types are ordered from the specific naval rank to broader military and ontological categories.\", \"types\": [\"admiral\", \"naval officer\", \"military officer\", \"military personnel\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 551,
+      "candidatesTokenCount": 137,
+      "totalTokenCount": 1263,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 551
+        }
+      ],
+      "thoughtsTokenCount": 575,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "y6G1asTHCpf6xN8P86_QyAk"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 551,
+    "candidatesTokenCount": 137,
+    "totalTokenCount": 1263,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 551
+      }
+    ],
+    "thoughtsTokenCount": 575,
+    "serviceTier": "standard"
+  }
+}

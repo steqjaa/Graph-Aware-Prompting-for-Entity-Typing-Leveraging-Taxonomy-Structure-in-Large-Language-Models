@@ -1,0 +1,154 @@
+{
+  "example_number": 518,
+  "entity_id": "wd:Q50059217",
+  "entity_label": "Herbert Koziol",
+  "description": "Austrian linguist",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0518/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0518/metadata.json",
+  "input_hash": "61aea3a30220373d2f8dea0d56b394b08a6cd3970d575b5e812500667e8d66b2",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Herbert Koziol\nDescription: Austrian linguist\n\nTaxonomy context:\n- Direct parent classes: scholar\n- Sibling classes: Africanist, legal scholar, humanities scholar\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q50059217",
+    "entity_label": "Herbert Koziol",
+    "description": "Austrian linguist",
+    "reference_class_id": "wd:Q16308157",
+    "reference_type": "Americanist",
+    "gold_types": [
+      {
+        "class_id": "wd:Q16308157",
+        "label": "Americanist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q20826540",
+        "label": "scholar",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "scholar",
+      "siblings": "Africanist, legal scholar, humanities scholar",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "scholar",
+      "siblings": "Africanist, legal scholar, humanities scholar",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 518,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q16308157"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q20826540"
+      ],
+      "siblings": [
+        "wd:Q15936497",
+        "wd:Q16012028",
+        "wd:Q16727193"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "linguist",
+    "humanities scholar",
+    "scholar",
+    "academic",
+    "researcher",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:46:03.737181+00:00",
+  "response": "{\"explanation\": \"The description \\\"Austrian linguist\\\" directly supports linguist as the most specific type. In the taxonomy, linguist falls under humanities scholar and scholar (the direct parent class). Sibling alternatives like Africanist and legal scholar are rejected because there is no evidence of specialization in African languages or law. There are no direct child classes listed, and further specialization is unsupported. Broader valid classes follow in decreasing order of specificity.\", \"types\": [\"linguist\", \"humanities scholar\", \"scholar\", \"academic\", \"researcher\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The description \"Austrian linguist\" directly supports linguist as the most specific type. In the taxonomy, linguist falls under humanities scholar and scholar (the direct parent class). Sibling alternatives like Africanist and legal scholar are rejected because there is no evidence of specialization in African languages or law. There are no direct child classes listed, and further specialization is unsupported. Broader valid classes follow in decreasing order of specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"Austrian linguist\\\" directly supports linguist as the most specific type. In the taxonomy, linguist falls under humanities scholar and scholar (the direct parent class). Sibling alternatives like Africanist and legal scholar are rejected because there is no evidence of specialization in African languages or law. There are no direct child classes listed, and further specialization is unsupported. Broader valid classes follow in decreasing order of specificity.\", \"types\": [\"linguist\", \"humanities scholar\", \"scholar\", \"academic\", \"researcher\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "EqMLCqALAWkUfRNmGtSRNJrdzy28MUfEiR3+isJSDxgIR7l37PVuAQUtjukizfEmkFz78GWldSogj1IvaHn2fXBKCYvoegOMEy9m4km++XafMfcciI0I5EskmvY8T3KpkIcOBVtVL3BoBsshZyikDca1u2rDHkT/lx4xsqoMeIkVFFGSCCzEvFEl5LJlPXUBv/aWJya9q9tUKMZrj+/wvKX8awUZvYj4dgRzmvnE8LR8LIQyO2XV5rBo1xAtPNCF0+XAkpJ6pcJhCNtSs13Zgqdn3u63GKSkAhavt7buj9u3E47cooOvI8bLKjPIdH/HfmxxT1F3eU1rRZ5bWow2qpPkK+gq4hxgPPT0J7W8g7ZveUi5awrxxMf7jd5+r6x6L8Ue6vMMjQG8HyGuAVX2w0jRjhOdnGGOjHKtLMyqzcnx/Xf2ZUDYA3k8c3LRewDabTNvN5bi6vhxz1XckNzglrBoaauWTsjDnT8tKbMzhm2SoHj+S6MQFbBC2F/cqnI2NIo/W9b9igrQGvWIxxjkijkIJ6do1+BJiH5Y4wMU0nCr+N1p+cllzBRqneShzyaub2hUUQ7ZSgDlhEozz8L7H7e8Y8rg2epCanP4NIBEmautpX4OahtFNUF2euP7+Y8A81h5QZ1YaKtviU212VovvxW+v0MY91RodLhAZK2hfQf+5oU2hSpKJB4kOGL2XWrSe+G/A8kL56tAIOc0XOU133my3qYxFbU3M/v5On3/m5FwE9/55/gJiqW7MS7LBl5n+oYQsva8Sn1n5PhA41qrWdlrzBDsDSwFgD8NBVHOTns7UrX/CVGOLlPvz0w0+4Mjt7uGl74qFf/AjJo8f2LBvkJoeS1wh/i0vEQOFdpVOxUXmzh/bqRGMnKZ+winVwpVE5W3YOQZzY+Ax7oS0Z+a1dbDQ0MA2AXdsKqt0bRRgYvuie1OiBNfjfrEEcjKU/kA6YhKLTONzZVMbfGaEJYisf2cOe0dkyx8pEUgf2CM1EjJhAp7zrrjDaGDPyeqm9ZVJN5fY2/vK3d+jBqC0JrJ2vDZIstCdiDzlZYj3Nbt1TP11aZqIND/Ftt4h7Cs+pXPq+HwOhHkB2FZqNWPTH08U7R60+4Ch/PkY9rRF7n523l2re+Bl2E6lweQvkJF3h2F01YYGOHJc28a8O5dYbmthltH2kQsqJ2uOFPgCufj0UDv2t01v4+9APLcUyEZgx541wLYDSWhLFWmwOLMtjgR7o9v3ltQcD8goNa1xIsCmBg9VylD1hUNflh5isq+AW7XFRi9BOGNLo8Cy7ENfbNJFx36TPlUQ+acLzGJr5n0UgznrbKVXQsr86JRRisZ0dneMJhdGys9c0irAh4h2xjmaUbDSsGwtinOAtyN9ZT8uoz912UFE+XTQwdBTitEleToKB+usXaidm6Yh5S5Crwlyec/na0Ijcw5oLZ9eI/SdWg3BCyG0NQi8+8HEe4SPdDUG8C1sbs5IaIhSNcMScQVFpiYQZymFASaSHlYgS2qqjzIs7Jt347xW3+gGzmJ5g5moDPStRNdahkN2Ic+fatYhNiTWxkJb+ojBbNuSRORkS0oZTswyGqV0+G+Aj7uHh32UAP2qkuCMeX5Yxph0B6VmyNUnsi8tB5jDoR5j51i09FylwuAREOCf+092lAAEMEH2U5w31FP9AtR/mWDfdoCzTT6a1eVL7C5eNujtLjymD3nw3pO99MMH6ctussUc8J0qNlzvUvBUScf9tHowviDa54omftXOR8lqVjzDgyXxmfCFsyBnpT29zP3mLDzigwhz2PMvEjW+XvfOfw28yv8x7u/Eo9iTLcWqfyhgqWyMndGlNj+CeNEtK3UbWaxbOJgAE+l+pwKLQANBri0Z5gPEAVCtie8pd+VjsxdY6PtQ48KJreAiPxKPzZNl/6ezNJoNg30eVVc"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 547,
+      "candidatesTokenCount": 120,
+      "totalTokenCount": 973,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 547
+        }
+      ],
+      "thoughtsTokenCount": 306,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "G5q1aujPO4i-vdIP5t246Qk"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 547,
+    "candidatesTokenCount": 120,
+    "totalTokenCount": 973,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 547
+      }
+    ],
+    "thoughtsTokenCount": 306,
+    "serviceTier": "standard"
+  }
+}

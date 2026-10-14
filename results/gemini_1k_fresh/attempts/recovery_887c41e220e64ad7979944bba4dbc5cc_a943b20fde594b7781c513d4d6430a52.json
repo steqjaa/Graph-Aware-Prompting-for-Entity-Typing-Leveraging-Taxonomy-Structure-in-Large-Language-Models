@@ -1,0 +1,160 @@
+{
+  "example_number": 764,
+  "entity_id": "wd:Q7286310",
+  "entity_label": "Rajmala",
+  "description": "15th century chronicle of the Kings of Tripura, written in Bengali verse",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0764/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0764/metadata.json",
+  "input_hash": "aac93e67b733201b7fcffb63fffc52e295cae0de4c2932ad2ea16a0232774167",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Rajmala\nDescription: 15th century chronicle of the Kings of Tripura, written in Bengali verse\n\nTaxonomy context:\n- Direct parent classes: historiography, written work\n- Sibling classes: screenplay, pseudohistory, album\n- Direct child classes: events in a specific year or time period, letopis\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q7286310",
+    "entity_label": "Rajmala",
+    "description": "15th century chronicle of the Kings of Tripura, written in Bengali verse",
+    "reference_class_id": "wd:Q185363",
+    "reference_type": "chronicle",
+    "gold_types": [
+      {
+        "class_id": "wd:Q185363",
+        "label": "chronicle",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q30277550",
+        "label": "historiography",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q213051",
+        "label": "nonfiction",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q47461344",
+        "label": "written work",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q386724",
+        "label": "work",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "historiography, written work",
+      "siblings": "screenplay, pseudohistory, album",
+      "children": "events in a specific year or time period, letopis"
+    },
+    "oracle_graph_context": {
+      "parents": "historiography, written work",
+      "siblings": "screenplay, pseudohistory, album",
+      "children": "events in a specific year or time period, letopis"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 764,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q185363"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q30277550",
+        "wd:Q47461344"
+      ],
+      "siblings": [
+        "wd:Q103076",
+        "wd:Q11146759",
+        "wd:Q1173065"
+      ],
+      "children": [
+        "wd:Q18340514",
+        "wd:Q2624969"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "chronicle",
+    "historiography",
+    "written work",
+    "work",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:04:30.746835+00:00",
+  "response": "{\"explanation\": \"The description identifies Rajmala as a '15th century chronicle of the Kings of Tripura, written in Bengali verse', directly supporting 'chronicle' as the most specific type. Its parent classes in the taxonomy are 'historiography' and 'written work', confirming its broader classification as an established historical text. Sibling classes under written work or historiography like 'screenplay' or 'pseudohistory' are inapplicable because Rajmala is a royal verse chronicle, while child classes such as 'letopis' represent specific regional traditions (East Slavic chronicles) not supported by the Bengali origin of this text. The remaining labels broaden appropriately through historiography, written work, and general entities.\", \"types\": [\"chronicle\", \"historiography\", \"written work\", \"work\", \"entity\"]}",
+  "explanation": "The description identifies Rajmala as a '15th century chronicle of the Kings of Tripura, written in Bengali verse', directly supporting 'chronicle' as the most specific type. Its parent classes in the taxonomy are 'historiography' and 'written work', confirming its broader classification as an established historical text. Sibling classes under written work or historiography like 'screenplay' or 'pseudohistory' are inapplicable because Rajmala is a royal verse chronicle, while child classes such as 'letopis' represent specific regional traditions (East Slavic chronicles) not supported by the Bengali origin of this text. The remaining labels broaden appropriately through historiography, written work, and general entities.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies Rajmala as a '15th century chronicle of the Kings of Tripura, written in Bengali verse', directly supporting 'chronicle' as the most specific type. Its parent classes in the taxonomy are 'historiography' and 'written work', confirming its broader classification as an established historical text. Sibling classes under written work or historiography like 'screenplay' or 'pseudohistory' are inapplicable because Rajmala is a royal verse chronicle, while child classes such as 'letopis' represent specific regional traditions (East Slavic chronicles) not supported by the Bengali origin of this text. The remaining labels broaden appropriately through historiography, written work, and general entities.\", \"types\": [\"chronicle\", \"historiography\", \"written work\", \"work\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 571,
+      "candidatesTokenCount": 164,
+      "totalTokenCount": 1418,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 571
+        }
+      ],
+      "thoughtsTokenCount": 683,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "bp61ar3PO87XxN8P94bz4Q8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 571,
+    "candidatesTokenCount": 164,
+    "totalTokenCount": 1418,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 571
+      }
+    ],
+    "thoughtsTokenCount": 683,
+    "serviceTier": "standard"
+  }
+}

@@ -1,0 +1,149 @@
+{
+  "example_number": 36,
+  "entity_id": "wd:Q5040265",
+  "entity_label": "Carl H. Claudy",
+  "description": "American science fiction writer (1879–1957)",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0036/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0036/metadata.json",
+  "input_hash": "4aa91851da57e272ff6860f2375a29a3912b5e88e44c427bac26ad25501d58bb",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Carl H. Claudy\nDescription: American science fiction writer (1879–1957)\n\nTaxonomy context:\n- Direct parent classes: creator\n- Sibling classes: crime fiction writer, advertising person, columnist\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q5040265",
+    "entity_label": "Carl H. Claudy",
+    "description": "American science fiction writer (1879–1957)",
+    "reference_class_id": "wd:Q28225718",
+    "reference_type": "science fiction author",
+    "gold_types": [
+      {
+        "class_id": "wd:Q28225718",
+        "label": "science fiction author",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q2500638",
+        "label": "creator",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "creator",
+      "siblings": "crime fiction writer, advertising person, columnist",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "creator",
+      "siblings": "crime fiction writer, advertising person, columnist",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 36,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q28225718"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q2500638"
+      ],
+      "siblings": [
+        "wd:Q10297252",
+        "wd:Q10355417",
+        "wd:Q1086863"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "status": "completed",
+  "predictions": [
+    "science fiction writer",
+    "writer",
+    "creator",
+    "artist",
+    "person",
+    "agent",
+    "object",
+    "entity"
+  ],
+  "timestamp_utc": "2026-09-24T20:30:47.233346+00:00",
+  "response": "{\n  \"explanation\": \"The description identifies Carl H. Claudy as an \\\"American science fiction writer\\\", directly supporting science fiction writer as the most specific type. In the taxonomy, its broader categorization falls under writer and creator. Sibling classes like crime fiction writer, advertising person, and columnist represent alternative creative roles that are not directly supported by the description. Since there are no narrower child classes indicated or supported, science fiction writer is ordered first, followed by increasingly broader classifications.\",\n  \"types\": [\n    \"science fiction writer\",\n    \"writer\",\n    \"creator\",\n    \"artist\",\n    \"person\",\n    \"agent\",\n    \"object\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The description identifies Carl H. Claudy as an \"American science fiction writer\", directly supporting science fiction writer as the most specific type. In the taxonomy, its broader categorization falls under writer and creator. Sibling classes like crime fiction writer, advertising person, and columnist represent alternative creative roles that are not directly supported by the description. Since there are no narrower child classes indicated or supported, science fiction writer is ordered first, followed by increasingly broader classifications.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The description identifies Carl H. Claudy as an \\\"American science fiction writer\\\", directly supporting science fiction writer as the most specific type. In the taxonomy, its broader categorization falls under writer and creator. Sibling classes like crime fiction writer, advertising person, and columnist represent alternative creative roles that are not directly supported by the description. Since there are no narrower child classes indicated or supported, science fiction writer is ordered first, followed by increasingly broader classifications.\",\n  \"types\": [\n    \"science fiction writer\",\n    \"writer\",\n    \"creator\",\n    \"artist\",\n    \"person\",\n    \"agent\",\n    \"object\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 560,
+      "candidatesTokenCount": 150,
+      "totalTokenCount": 1176,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 560
+        }
+      ],
+      "thoughtsTokenCount": 466,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "d4i1auSmHeSOxN8Pv7H0iA8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 560,
+    "candidatesTokenCount": 150,
+    "totalTokenCount": 1176,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 560
+      }
+    ],
+    "thoughtsTokenCount": 466,
+    "serviceTier": "standard"
+  }
+}

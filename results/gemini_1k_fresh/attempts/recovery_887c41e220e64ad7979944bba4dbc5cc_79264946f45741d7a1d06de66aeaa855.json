@@ -1,0 +1,167 @@
+{
+  "example_number": 487,
+  "entity_id": "wd:Q569814",
+  "entity_label": "Xinshe District",
+  "description": "district of Taiwan",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0487/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0487/metadata.json",
+  "input_hash": "d81ee598cfa1f927651050eda0ab8c051a53635ae92975228a4c52e52f698329",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Xinshe District\nDescription: district of Taiwan\n\nTaxonomy context:\n- Direct parent classes: administrative territorial entity\n- Sibling classes: parish, cantref, new area of the People's Republic of China\n- Direct child classes: mountain indigenous district, special municipality, township of Taiwan\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q569814",
+    "entity_label": "Xinshe District",
+    "description": "district of Taiwan",
+    "reference_class_id": "wd:Q50218",
+    "reference_type": "administrative territorial entity of the Republic of China",
+    "gold_types": [
+      {
+        "class_id": "wd:Q50218",
+        "label": "administrative territorial entity of the Republic of China",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q56061",
+        "label": "administrative territorial entity",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q15642541",
+        "label": "human-geographic territorial entity",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q4835091",
+        "label": "territory",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q82794",
+        "label": "geographic region",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q26713767",
+        "label": "region of space",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "administrative territorial entity",
+      "siblings": "parish, cantref, new area of the People's Republic of China",
+      "children": "mountain indigenous district, special municipality, township of Taiwan"
+    },
+    "oracle_graph_context": {
+      "parents": "administrative territorial entity",
+      "siblings": "parish, cantref, new area of the People's Republic of China",
+      "children": "mountain indigenous district, special municipality, township of Taiwan"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 487,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q50218"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q56061"
+      ],
+      "siblings": [
+        "wd:Q102496",
+        "wd:Q1033904",
+        "wd:Q106342591"
+      ],
+      "children": [
+        "wd:Q17194217",
+        "wd:Q2225003",
+        "wd:Q2367508"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "district of Taiwan",
+    "district",
+    "administrative territorial entity",
+    "territory",
+    "geographic entity",
+    "object",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:43:44.197747+00:00",
+  "response": "{\"explanation\": \"The entity description \\\"district of Taiwan\\\" directly supports \\\"district of Taiwan\\\" as the most specific class. In the taxonomy, its direct parent is \\\"administrative territorial entity\\\", which establishes the general category of jurisdictional subdivisions alongside siblings like \\\"parish\\\", \\\"cantref\\\", and \\\"new area of the People's Republic of China\\\". The child class \\\"mountain indigenous district\\\" represents a specialized subcategory of Taiwanese districts that is rejected because Xinshe District is a standard rural district, not an indigenous district. Broader valid classes follow in descending order of specificity.\", \"types\": [\"district of Taiwan\", \"district\", \"administrative territorial entity\", \"territory\", \"geographic entity\", \"object\", \"entity\"]}",
+  "explanation": "The entity description \"district of Taiwan\" directly supports \"district of Taiwan\" as the most specific class. In the taxonomy, its direct parent is \"administrative territorial entity\", which establishes the general category of jurisdictional subdivisions alongside siblings like \"parish\", \"cantref\", and \"new area of the People's Republic of China\". The child class \"mountain indigenous district\" represents a specialized subcategory of Taiwanese districts that is rejected because Xinshe District is a standard rural district, not an indigenous district. Broader valid classes follow in descending order of specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The entity description \\\"district of Taiwan\\\" directly supports \\\"district of Taiwan\\\" as the most specific class. In the taxonomy, its direct parent is \\\"administrative territorial entity\\\", which establishes the general category of jurisdictional subdivisions alongside siblings like \\\"parish\\\", \\\"cantref\\\", and \\\"new area of the People's Republic of China\\\". The child class \\\"mountain indigenous district\\\" represents a specialized subcategory of Taiwanese districts that is rejected because Xinshe District is a standard rural district, not an indigenous district. Broader valid classes follow in descending order of specificity.\", \"types\": [\"district of Taiwan\", \"district\", \"administrative territorial entity\", \"territory\", \"geographic entity\", \"object\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 565,
+      "candidatesTokenCount": 146,
+      "totalTokenCount": 1552,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 565
+        }
+      ],
+      "thoughtsTokenCount": 841,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "kJm1aqemHuGJ28oP0-ag8Ak"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 565,
+    "candidatesTokenCount": 146,
+    "totalTokenCount": 1552,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 565
+      }
+    ],
+    "thoughtsTokenCount": 841,
+    "serviceTier": "standard"
+  }
+}

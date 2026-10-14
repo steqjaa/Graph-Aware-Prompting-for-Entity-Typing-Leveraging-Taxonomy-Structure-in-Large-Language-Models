@@ -1,0 +1,170 @@
+{
+  "example_number": 922,
+  "entity_id": "wd:Q3112571",
+  "entity_label": "Government of Tasmania",
+  "description": "state government of Tasmania, Australia",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0922/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0922/metadata.json",
+  "input_hash": "916b066b749f0ea8ae0ce298e9d4dfaed1b4abadf275283ec85e635d793d931b",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Government of Tasmania\nDescription: state government of Tasmania, Australia\n\nTaxonomy context:\n- Direct parent classes: governing body\n- Sibling classes: federal government, mufu, legislature\n- Direct child classes: state government in Germany, Government of Punjab, county municipality\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q3112571",
+    "entity_label": "Government of Tasmania",
+    "description": "state government of Tasmania, Australia",
+    "reference_class_id": "wd:Q1802419",
+    "reference_type": "state government",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1802419",
+        "label": "state government",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q895526",
+        "label": "governing body",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "governing body",
+      "siblings": "federal government, mufu, legislature",
+      "children": "state government in Germany, Government of Punjab, county municipality"
+    },
+    "oracle_graph_context": {
+      "parents": "governing body",
+      "siblings": "federal government, mufu, legislature",
+      "children": "state government in Germany, Government of Punjab, county municipality"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 922,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1802419"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q895526"
+      ],
+      "siblings": [
+        "wd:Q1006644",
+        "wd:Q11060547",
+        "wd:Q11204"
+      ],
+      "children": [
+        "wd:Q314729",
+        "wd:Q3306996",
+        "wd:Q5177805"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "state government",
+    "government",
+    "governing body",
+    "organization",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:16:26.930823+00:00",
+  "response": "{\n  \"explanation\": \"The description \\\"state government of Tasmania, Australia\\\" explicitly supports state government as the most specific type. In the taxonomy, its direct parent is governing body, establishing the broader scope of executive political authority. Sibling classes such as federal government, legislature, and mufu represent national-level, legislative, or historical military administration, which are rejected because Tasmania is a constituent state of a federation. The child classes represent specific regional subtypes or individual instances like state government in Germany and Government of Punjab, which do not apply to an Australian state. The resulting types are ordered from most specific to broadest.\",\n  \"types\": [\n    \"state government\",\n    \"government\",\n    \"governing body\",\n    \"organization\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The description \"state government of Tasmania, Australia\" explicitly supports state government as the most specific type. In the taxonomy, its direct parent is governing body, establishing the broader scope of executive political authority. Sibling classes such as federal government, legislature, and mufu represent national-level, legislative, or historical military administration, which are rejected because Tasmania is a constituent state of a federation. The child classes represent specific regional subtypes or individual instances like state government in Germany and Government of Punjab, which do not apply to an Australian state. The resulting types are ordered from most specific to broadest.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The description \\\"state government of Tasmania, Australia\\\" explicitly supports state government as the most specific type. In the taxonomy, its direct parent is governing body, establishing the broader scope of executive political authority. Sibling classes such as federal government, legislature, and mufu represent national-level, legislative, or historical military administration, which are rejected because Tasmania is a constituent state of a federation. The child classes represent specific regional subtypes or individual instances like state government in Germany and Government of Punjab, which do not apply to an Australian state. The resulting types are ordered from most specific to broadest.\",\n  \"types\": [\n    \"state government\",\n    \"government\",\n    \"governing body\",\n    \"organization\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 559,
+      "candidatesTokenCount": 164,
+      "totalTokenCount": 1487,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 559
+        }
+      ],
+      "thoughtsTokenCount": 764,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "O6G1ap7aDLSvvdIPh5rvoQw"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 559,
+    "candidatesTokenCount": 164,
+    "totalTokenCount": 1487,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 559
+      }
+    ],
+    "thoughtsTokenCount": 764,
+    "serviceTier": "standard"
+  }
+}

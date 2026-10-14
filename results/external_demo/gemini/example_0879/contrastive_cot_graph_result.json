@@ -1,0 +1,162 @@
+{
+  "example_number": 879,
+  "entity_id": "wd:Q21064624",
+  "entity_label": "Kat Gunn",
+  "description": "American electronic sports player, television personality and cosplayer",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0879/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0879/metadata.json",
+  "input_hash": "8c6e56f7dcbd595868be5dd522b2376a6b6acace9fc08c3f34af26891d2aeb9c",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Kat Gunn\nDescription: American electronic sports player, television personality and cosplayer\n\nTaxonomy context:\n- Direct parent classes: gamer\n- Sibling classes: Twitch streamer\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q21064624",
+    "entity_label": "Kat Gunn",
+    "description": "American electronic sports player, television personality and cosplayer",
+    "reference_class_id": "wd:Q4379701",
+    "reference_type": "professional gamer",
+    "gold_types": [
+      {
+        "class_id": "wd:Q4379701",
+        "label": "professional gamer",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q5276395",
+        "label": "gamer",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q4197743",
+        "label": "player",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "gamer",
+      "siblings": "Twitch streamer",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "gamer",
+      "siblings": "Twitch streamer",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 879,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q4379701"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q5276395"
+      ],
+      "siblings": [
+        "wd:Q50279140"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "esports player",
+    "gamer",
+    "cosplayer",
+    "television personality",
+    "entertainer",
+    "person",
+    "agent",
+    "organism",
+    "living entity",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:42:44.354210+00:00",
+  "response": "{\"explanation\": \"The description \\\"American electronic sports player, television personality and cosplayer\\\" clearly supports esports player as the most specific entity type. In the taxonomy, its direct parent is gamer, bounding the primary domain. The sibling class Twitch streamer represents another specialized gaming-related role, but esports player precisely captures the competitive gaming identity stated in the text. With no child classes specified in the taxonomy, esports player remains the most accurate fine-grained category, followed by broader occupations and classifications such as gamer, entertainer, and person.\", \"types\": [\"esports player\", \"gamer\", \"cosplayer\", \"television personality\", \"entertainer\", \"person\", \"agent\", \"organism\", \"living entity\", \"entity\"]}",
+  "explanation": "The description \"American electronic sports player, television personality and cosplayer\" clearly supports esports player as the most specific entity type. In the taxonomy, its direct parent is gamer, bounding the primary domain. The sibling class Twitch streamer represents another specialized gaming-related role, but esports player precisely captures the competitive gaming identity stated in the text. With no child classes specified in the taxonomy, esports player remains the most accurate fine-grained category, followed by broader occupations and classifications such as gamer, entertainer, and person.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"American electronic sports player, television personality and cosplayer\\\" clearly supports esports player as the most specific entity type. In the taxonomy, its direct parent is gamer, bounding the primary domain. The sibling class Twitch streamer represents another specialized gaming-related role, but esports player precisely captures the competitive gaming identity stated in the text. With no child classes specified in the taxonomy, esports player remains the most accurate fine-grained category, followed by broader occupations and classifications such as gamer, entertainer, and person.\", \"types\": [\"esports player\", \"gamer\", \"cosplayer\", \"television personality\", \"entertainer\", \"person\", \"agent\", \"organism\", \"living entity\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 544,
+      "candidatesTokenCount": 146,
+      "totalTokenCount": 1497,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 544
+        }
+      ],
+      "thoughtsTokenCount": 807,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "BC3MaoGvJ-TR28oPquKmuAk"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 544,
+    "candidatesTokenCount": 146,
+    "totalTokenCount": 1497,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 544
+      }
+    ],
+    "thoughtsTokenCount": 807,
+    "serviceTier": "standard"
+  }
+}

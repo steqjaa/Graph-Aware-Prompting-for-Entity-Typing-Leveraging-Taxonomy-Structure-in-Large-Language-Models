@@ -1,0 +1,168 @@
+{
+  "example_number": 535,
+  "entity_id": "wd:Q763018",
+  "entity_label": "Yamaguchi-gumi",
+  "description": "criminal organization based in Japan",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0535/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0535/metadata.json",
+  "input_hash": "fb1b4a817585c47d120bf9144fd6965cfd47690c948c74f82d8be65dbbe67c39",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Yamaguchi-gumi\nDescription: criminal organization based in Japan\n\nTaxonomy context:\n- Direct parent classes: organization\n- Sibling classes: national trust, Native American organization, hackerspace\n- Direct child classes: terrorist organization, mafia, gang\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q763018",
+    "entity_label": "Yamaguchi-gumi",
+    "description": "criminal organization based in Japan",
+    "reference_class_id": "wd:Q1788992",
+    "reference_type": "criminal organization",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1788992",
+        "label": "criminal organization",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "organization",
+      "siblings": "national trust, Native American organization, hackerspace",
+      "children": "terrorist organization, mafia, gang"
+    },
+    "oracle_graph_context": {
+      "parents": "organization",
+      "siblings": "national trust, Native American organization, hackerspace",
+      "children": "terrorist organization, mafia, gang"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 535,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1788992"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q43229"
+      ],
+      "siblings": [
+        "wd:Q1006283",
+        "wd:Q100731037",
+        "wd:Q1032372"
+      ],
+      "children": [
+        "wd:Q17127659",
+        "wd:Q18550",
+        "wd:Q275186"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "criminal organization",
+    "organization",
+    "corporate body",
+    "social group",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:16:35.990714+00:00",
+  "response": "{\"explanation\": \"The description \\\"criminal organization based in Japan\\\" directly supports criminal organization as the most specific evidenced type. Its taxonomy parent organization establishes the broader category. Sibling classes such as national trust, Native American organization, and hackerspace represent unrelated kinds of organizations. Direct child classes include terrorist organization, mafia, and gang; terrorist organization is strongly contradicted and rejected by the evidence, while mafia and gang are narrower subtypes that are less directly grounded in the provided text than criminal organization. Broader valid classes are ordered by decreasing specificity.\", \"types\": [\"criminal organization\", \"organization\", \"corporate body\", \"social group\", \"entity\"]}",
+  "explanation": "The description \"criminal organization based in Japan\" directly supports criminal organization as the most specific evidenced type. Its taxonomy parent organization establishes the broader category. Sibling classes such as national trust, Native American organization, and hackerspace represent unrelated kinds of organizations. Direct child classes include terrorist organization, mafia, and gang; terrorist organization is strongly contradicted and rejected by the evidence, while mafia and gang are narrower subtypes that are less directly grounded in the provided text than criminal organization. Broader valid classes are ordered by decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"criminal organization based in Japan\\\" directly supports criminal organization as the most specific evidenced type. Its taxonomy parent organization establishes the broader category. Sibling classes such as national trust, Native American organization, and hackerspace represent unrelated kinds of organizations. Direct child classes include terrorist organization, mafia, and gang; terrorist organization is strongly contradicted and rejected by the evidence, while mafia and gang are narrower subtypes that are less directly grounded in the provided text than criminal organization. Broader valid classes are ordered by decreasing specificity.\", \"types\": [\"criminal organization\", \"organization\", \"corporate body\", \"social group\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 553,
+      "candidatesTokenCount": 128,
+      "totalTokenCount": 2185,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 553
+        }
+      ],
+      "thoughtsTokenCount": 1504,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "5CbMapLADrmIvdIPvqS2kAc"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 553,
+    "candidatesTokenCount": 128,
+    "totalTokenCount": 2185,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 553
+      }
+    ],
+    "thoughtsTokenCount": 1504,
+    "serviceTier": "standard"
+  }
+}

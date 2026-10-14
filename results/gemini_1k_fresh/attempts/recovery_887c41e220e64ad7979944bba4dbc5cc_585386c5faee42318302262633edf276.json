@@ -1,0 +1,167 @@
+{
+  "example_number": 550,
+  "entity_id": "wd:Q25253494",
+  "entity_label": "Madonna di Pietraquaria",
+  "description": "Italian religious feast",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0550/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0550/metadata.json",
+  "input_hash": "3fa2885c9bc2cd538007de9340b68273441fa97dec20195c0973a0acebb3e5be",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Madonna di Pietraquaria\nDescription: Italian religious feast\n\nTaxonomy context:\n- Direct parent classes: festival, party\n- Sibling classes: food festival, spring festival, International Horticultural Exhibition\n- Direct child classes: Bahá'í Holy Days, Christian holy day, Jewish holiday\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q25253494",
+    "entity_label": "Madonna di Pietraquaria",
+    "description": "Italian religious feast",
+    "reference_class_id": "wd:Q375011",
+    "reference_type": "religious and cultural festive day",
+    "gold_types": [
+      {
+        "class_id": "wd:Q375011",
+        "label": "religious and cultural festive day",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q132241",
+        "label": "festival",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q200538",
+        "label": "party",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q1656682",
+        "label": "event",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q1190554",
+        "label": "occurrence",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q26907166",
+        "label": "temporal entity",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "festival, party",
+      "siblings": "food festival, spring festival, International Horticultural Exhibition",
+      "children": "Bahá'í Holy Days, Christian holy day, Jewish holiday"
+    },
+    "oracle_graph_context": {
+      "parents": "festival, party",
+      "siblings": "food festival, spring festival, International Horticultural Exhibition",
+      "children": "Bahá'í Holy Days, Christian holy day, Jewish holiday"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 550,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q375011"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q132241",
+        "wd:Q200538"
+      ],
+      "siblings": [
+        "wd:Q1435951",
+        "wd:Q1472127",
+        "wd:Q154012"
+      ],
+      "children": [
+        "wd:Q24905495",
+        "wd:Q60075825",
+        "wd:Q94920"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "Christian holy day",
+    "religious festival",
+    "festival",
+    "celebration",
+    "event",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:48:27.738832+00:00",
+  "response": "{\n  \"explanation\": \"The description \\\"Italian religious feast\\\" and the dedication to the Madonna support Christian holy day as the most specific type, situated within religious festival. In the taxonomy, the broader parent classes festival and party establish the scope of communal celebrations. Sibling categories such as food festival, spring festival, and International Horticultural Exhibition do not fit the religious nature of the observance. Among the direct child classes (Bahá'í Holy Days, Christian holy day, Jewish holiday), Christian holy day is directly supported by the Italian Catholic veneration of the Madonna. The subsequent types represent increasingly broader valid classes.\",\n  \"types\": [\n    \"Christian holy day\",\n    \"religious festival\",\n    \"festival\",\n    \"celebration\",\n    \"event\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The description \"Italian religious feast\" and the dedication to the Madonna support Christian holy day as the most specific type, situated within religious festival. In the taxonomy, the broader parent classes festival and party establish the scope of communal celebrations. Sibling categories such as food festival, spring festival, and International Horticultural Exhibition do not fit the religious nature of the observance. Among the direct child classes (Bahá'í Holy Days, Christian holy day, Jewish holiday), Christian holy day is directly supported by the Italian Catholic veneration of the Madonna. The subsequent types represent increasingly broader valid classes.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The description \\\"Italian religious feast\\\" and the dedication to the Madonna support Christian holy day as the most specific type, situated within religious festival. In the taxonomy, the broader parent classes festival and party establish the scope of communal celebrations. Sibling categories such as food festival, spring festival, and International Horticultural Exhibition do not fit the religious nature of the observance. Among the direct child classes (Bahá'í Holy Days, Christian holy day, Jewish holiday), Christian holy day is directly supported by the Italian Catholic veneration of the Madonna. The subsequent types represent increasingly broader valid classes.\",\n  \"types\": [\n    \"Christian holy day\",\n    \"religious festival\",\n    \"festival\",\n    \"celebration\",\n    \"event\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 564,
+      "candidatesTokenCount": 168,
+      "totalTokenCount": 2190,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 564
+        }
+      ],
+      "thoughtsTokenCount": 1458,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "q5q1aqT5PPiCvdIPjtaI0Q8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 564,
+    "candidatesTokenCount": 168,
+    "totalTokenCount": 2190,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 564
+      }
+    ],
+    "thoughtsTokenCount": 1458,
+    "serviceTier": "standard"
+  }
+}

@@ -1,0 +1,176 @@
+{
+  "example_number": 699,
+  "entity_id": "wd:Q110267360",
+  "entity_label": "Atlantic City Gambits",
+  "description": "American professional basketball team",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0699/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0699/metadata.json",
+  "input_hash": "5fd6606db507493c9ad631f6c5726a81fe58b45f117151c72a37315c73dba509",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Atlantic City Gambits\nDescription: American professional basketball team\n\nTaxonomy context:\n- Direct parent classes: sports team\n- Sibling classes: national sports team, stable, volleyball team\n- Direct child classes: national basketball team\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q110267360",
+    "entity_label": "Atlantic City Gambits",
+    "description": "American professional basketball team",
+    "reference_class_id": "wd:Q13393265",
+    "reference_type": "basketball team",
+    "gold_types": [
+      {
+        "class_id": "wd:Q13393265",
+        "label": "basketball team",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q12973014",
+        "label": "sports team",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q327245",
+        "label": "team",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "sports team",
+      "siblings": "national sports team, stable, volleyball team",
+      "children": "national basketball team"
+    },
+    "oracle_graph_context": {
+      "parents": "sports team",
+      "siblings": "national sports team, stable, volleyball team",
+      "children": "national basketball team"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 699,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q13393265"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q12973014"
+      ],
+      "siblings": [
+        "wd:Q1194951",
+        "wd:Q1300510",
+        "wd:Q15720476"
+      ],
+      "children": [
+        "wd:Q46351685"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "basketball team",
+    "sports team",
+    "team",
+    "sports organization",
+    "organization",
+    "social group",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:59:38.246472+00:00",
+  "response": "{\"explanation\": \"The description \\\"American professional basketball team\\\" directly identifies the entity as a basketball team. In the provided taxonomy context, the parent class is sports team, and its siblings include stable and volleyball team, which are rejected because the team plays basketball. The child class national basketball team is also rejected because the Atlantic City Gambits is a domestic professional club rather than a country's national representative team. Thus, basketball team is the most specific valid type, followed by increasingly broader taxonomic categories.\", \"types\": [\"basketball team\", \"sports team\", \"team\", \"sports organization\", \"organization\", \"social group\", \"agent\", \"entity\"]}",
+  "explanation": "The description \"American professional basketball team\" directly identifies the entity as a basketball team. In the provided taxonomy context, the parent class is sports team, and its siblings include stable and volleyball team, which are rejected because the team plays basketball. The child class national basketball team is also rejected because the Atlantic City Gambits is a domestic professional club rather than a country's national representative team. Thus, basketball team is the most specific valid type, followed by increasingly broader taxonomic categories.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"American professional basketball team\\\" directly identifies the entity as a basketball team. In the provided taxonomy context, the parent class is sports team, and its siblings include stable and volleyball team, which are rejected because the team plays basketball. The child class national basketball team is also rejected because the Atlantic City Gambits is a domestic professional club rather than a country's national representative team. Thus, basketball team is the most specific valid type, followed by increasingly broader taxonomic categories.\", \"types\": [\"basketball team\", \"sports team\", \"team\", \"sports organization\", \"organization\", \"social group\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 551,
+      "candidatesTokenCount": 131,
+      "totalTokenCount": 1308,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 551
+        }
+      ],
+      "thoughtsTokenCount": 626,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "Sp21araLHuaivdIPkd666A4"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 551,
+    "candidatesTokenCount": 131,
+    "totalTokenCount": 1308,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 551
+      }
+    ],
+    "thoughtsTokenCount": 626,
+    "serviceTier": "standard"
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "example_number": 223,
+  "entity_id": "wd:Q4720874",
+  "entity_label": "Alexandre Maria Pinheiro Torres",
+  "description": "Philologist and writer",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0223/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0223/metadata.json",
+  "input_hash": "9fedde54c6eb22e3dece1b8c7a4b65ec5718888acad649c21583cd31279e1225",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Alexandre Maria Pinheiro Torres\nDescription: Philologist and writer\n\nTaxonomy context:\n- Direct parent classes: critic\n- Sibling classes: food critic, theatre critic, media critic\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q4720874",
+    "entity_label": "Alexandre Maria Pinheiro Torres",
+    "description": "Philologist and writer",
+    "reference_class_id": "wd:Q4263842",
+    "reference_type": "literary critic",
+    "gold_types": [
+      {
+        "class_id": "wd:Q4263842",
+        "label": "literary critic",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q6430706",
+        "label": "critic",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q15980158",
+        "label": "non-fiction writer",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q2500638",
+        "label": "creator",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "critic",
+      "siblings": "food critic, theatre critic, media critic",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "critic",
+      "siblings": "food critic, theatre critic, media critic",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 223,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q4263842"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q6430706"
+      ],
+      "siblings": [
+        "wd:Q1495660",
+        "wd:Q17337766",
+        "wd:Q19251029"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "literary critic",
+    "critic",
+    "writer",
+    "person",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "f67d84811a774b589c00ae3c28d53648",
+  "timestamp_utc": "2026-10-11T23:43:41.105363+00:00",
+  "response": "{\"explanation\": \"The description identifies Alexandre Maria Pinheiro Torres as a philologist and writer, which together with the parent class 'critic' points to 'literary critic' as the most specific type. Sibling classes such as 'food critic', 'theatre critic', and 'media critic' are rejected because his background in philology and writing pertains specifically to literature rather than food, theatre, or media. With no child classes specified, 'literary critic' is the most specific justified category, followed by broader taxonomic parent classes like 'critic', 'writer', and 'person'.\", \"types\": [\"literary critic\", \"critic\", \"writer\", \"person\", \"entity\"]}",
+  "explanation": "The description identifies Alexandre Maria Pinheiro Torres as a philologist and writer, which together with the parent class 'critic' points to 'literary critic' as the most specific type. Sibling classes such as 'food critic', 'theatre critic', and 'media critic' are rejected because his background in philology and writing pertains specifically to literature rather than food, theatre, or media. With no child classes specified, 'literary critic' is the most specific justified category, followed by broader taxonomic parent classes like 'critic', 'writer', and 'person'.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies Alexandre Maria Pinheiro Torres as a philologist and writer, which together with the parent class 'critic' points to 'literary critic' as the most specific type. Sibling classes such as 'food critic', 'theatre critic', and 'media critic' are rejected because his background in philology and writing pertains specifically to literature rather than food, theatre, or media. With no child classes specified, 'literary critic' is the most specific justified category, followed by broader taxonomic parent classes like 'critic', 'writer', and 'person'.\", \"types\": [\"literary critic\", \"critic\", \"writer\", \"person\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 547,
+      "candidatesTokenCount": 139,
+      "totalTokenCount": 1049,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 547
+        }
+      ],
+      "thoughtsTokenCount": 363,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "LR_Maq3QEpGBkdUP2OXcmQw"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 547,
+    "candidatesTokenCount": 139,
+    "totalTokenCount": 1049,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 547
+      }
+    ],
+    "thoughtsTokenCount": 363,
+    "serviceTier": "standard"
+  }
+}

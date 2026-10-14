@@ -1,0 +1,162 @@
+{
+  "example_number": 912,
+  "entity_id": "wd:Q4924284",
+  "entity_label": "Blaise MacDonald",
+  "description": "College ice hockey coach",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0912/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0912/metadata.json",
+  "input_hash": "fbcae6fcd94b5b528f1805684b3a0e5c66bbdedaf7f076c1439408c1b877c3c7",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Blaise MacDonald\nDescription: College ice hockey coach\n\nTaxonomy context:\n- Direct parent classes: coach\n- Sibling classes: caretaker manager, assistant coach, baseball manager\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q4924284",
+    "entity_label": "Blaise MacDonald",
+    "description": "College ice hockey coach",
+    "reference_class_id": "wd:Q5137576",
+    "reference_type": "ice hockey coach",
+    "gold_types": [
+      {
+        "class_id": "wd:Q5137576",
+        "label": "ice hockey coach",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q41583",
+        "label": "coach",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q50995749",
+        "label": "sportsperson",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "coach",
+      "siblings": "caretaker manager, assistant coach, baseball manager",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "coach",
+      "siblings": "caretaker manager, assistant coach, baseball manager",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 912,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q5137576"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q41583"
+      ],
+      "siblings": [
+        "wd:Q1050607",
+        "wd:Q11703711",
+        "wd:Q1186921"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "ice hockey coach",
+    "coach",
+    "sports professional",
+    "instructor",
+    "professional",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:45:12.856700+00:00",
+  "response": "{\"explanation\": \"The description \\\"College ice hockey coach\\\" directly supports ice hockey coach as the most specific type. Its direct parent in the taxonomy is coach, which defines the general professional scope. Sibling classes like baseball manager, caretaker manager, and assistant coach are rejected because the description specifically indicates ice hockey coaching rather than baseball or interim roles. The direct child context is None, and no more specific subtype is independently verified. The remaining types generalize from ice hockey coach to coach, sports professional, person, and entity.\", \"types\": [\"ice hockey coach\", \"coach\", \"sports professional\", \"instructor\", \"professional\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The description \"College ice hockey coach\" directly supports ice hockey coach as the most specific type. Its direct parent in the taxonomy is coach, which defines the general professional scope. Sibling classes like baseball manager, caretaker manager, and assistant coach are rejected because the description specifically indicates ice hockey coaching rather than baseball or interim roles. The direct child context is None, and no more specific subtype is independently verified. The remaining types generalize from ice hockey coach to coach, sports professional, person, and entity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"College ice hockey coach\\\" directly supports ice hockey coach as the most specific type. Its direct parent in the taxonomy is coach, which defines the general professional scope. Sibling classes like baseball manager, caretaker manager, and assistant coach are rejected because the description specifically indicates ice hockey coaching rather than baseball or interim roles. The direct child context is None, and no more specific subtype is independently verified. The remaining types generalize from ice hockey coach to coach, sports professional, person, and entity.\", \"types\": [\"ice hockey coach\", \"coach\", \"sports professional\", \"instructor\", \"professional\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 545,
+      "candidatesTokenCount": 134,
+      "totalTokenCount": 1237,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 545
+        }
+      ],
+      "thoughtsTokenCount": 558,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "mS3MatLXBYPR28oPnK6j6Q0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 545,
+    "candidatesTokenCount": 134,
+    "totalTokenCount": 1237,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 545
+      }
+    ],
+    "thoughtsTokenCount": 558,
+    "serviceTier": "standard"
+  }
+}

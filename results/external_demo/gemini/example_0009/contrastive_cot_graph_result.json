@@ -1,0 +1,153 @@
+{
+  "example_number": 9,
+  "entity_id": "wd:Q28208975",
+  "entity_label": "butterfly pea flower tea",
+  "description": "herbal tea",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0009/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0009/metadata.json",
+  "input_hash": "c2a90ec3d185bcf78238edb53f39a2cf724e855c5079c2eba91c6bd0737d21e3",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: butterfly pea flower tea\nDescription: herbal tea\n\nTaxonomy context:\n- Direct parent classes: drink\n- Sibling classes: carbonated beverage, alcoholic beverage, mineral water\n- Direct child classes: black tea, coffee\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q28208975",
+    "entity_label": "butterfly pea flower tea",
+    "description": "herbal tea",
+    "reference_class_id": "wd:Q19359564",
+    "reference_type": "hot beverage",
+    "gold_types": [
+      {
+        "class_id": "wd:Q19359564",
+        "label": "hot beverage",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q40050",
+        "label": "drink",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q2095",
+        "label": "food",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q28732711",
+        "label": "physical substance",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q378078",
+        "label": "substance",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "drink",
+      "siblings": "carbonated beverage, alcoholic beverage, mineral water",
+      "children": "black tea, coffee"
+    },
+    "oracle_graph_context": {
+      "parents": "drink",
+      "siblings": "carbonated beverage, alcoholic beverage, mineral water",
+      "children": "black tea, coffee"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 9,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q19359564"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q40050"
+      ],
+      "siblings": [
+        "wd:Q13417200",
+        "wd:Q154",
+        "wd:Q178921"
+      ],
+      "children": [
+        "wd:Q203415",
+        "wd:Q8486"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "herbal tea",
+    "tea",
+    "drink",
+    "food",
+    "physical object",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "f67d84811a774b589c00ae3c28d53648",
+  "timestamp_utc": "2026-10-11T23:26:46.761659+00:00",
+  "response": "{\"explanation\": \"The description \\\"herbal tea\\\" identifies herbal tea as the most specific valid type for butterfly pea flower tea. In the taxonomy context, drink acts as the direct parent defining the general category. Sibling classes like carbonated beverage, alcoholic beverage, and mineral water represent distinct beverage categories and are rejected because the entity is an infusion. The child classes black tea and coffee are rejected because butterfly pea flower tea is a caffeine-free floral tisane rather than a true tea from Camellia sinensis or a coffee bean brew. Broader valid classes are arranged in decreasing specificity.\", \"types\": [\"herbal tea\", \"tea\", \"drink\", \"food\", \"physical object\", \"entity\"]}",
+  "explanation": "The description \"herbal tea\" identifies herbal tea as the most specific valid type for butterfly pea flower tea. In the taxonomy context, drink acts as the direct parent defining the general category. Sibling classes like carbonated beverage, alcoholic beverage, and mineral water represent distinct beverage categories and are rejected because the entity is an infusion. The child classes black tea and coffee are rejected because butterfly pea flower tea is a caffeine-free floral tisane rather than a true tea from Camellia sinensis or a coffee bean brew. Broader valid classes are arranged in decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"herbal tea\\\" identifies herbal tea as the most specific valid type for butterfly pea flower tea. In the taxonomy context, drink acts as the direct parent defining the general category. Sibling classes like carbonated beverage, alcoholic beverage, and mineral water represent distinct beverage categories and are rejected because the entity is an infusion. The child classes black tea and coffee are rejected because butterfly pea flower tea is a caffeine-free floral tisane rather than a true tea from Camellia sinensis or a coffee bean brew. Broader valid classes are arranged in decreasing specificity.\", \"types\": [\"herbal tea\", \"tea\", \"drink\", \"food\", \"physical object\", \"entity\"]}",
+              "thoughtSignature": "EuQgCuEgAWkUfRO9X15scw/X7lynzqAniKNNqkR4Qj4Kt8Af3Frm2WrErc55O9B/xzhwN3lU2qYJ6wjFyQU+Ah1VzUnUyAMhQq0VA0RLlX9X7PCHGyueVOtKeh9KC+0UdCCtvMps2FUx9m4YqVej3wX8UQXW/ciBF24pNvcUYbpXA9x5uaoMTlga3slppxM+TrkLGG6zcqeNgXqX6rWZI3lslmzvDZQJW+XFtGtv7UPLcFisWDQlTx26WuRLvFZp6Esk22hXwk3Tw61yUlao61SCeDWd1Kno7yrQWk5YKCRvM47aAwIlAXHp8WWkw4Y6CT2+41idYZNNxO4a+PP57paKnqzkyDgs05EZsLAqXwZDBQhMvUqgaAUB4bclQSB9qeZavPydLuadh82iVChj9GAZH4Rx6aeIB/ef//M5YfgTwznYAW/XedtRHSChDBSOxCNsbWXZpKGo2mYV96VqNgzKMozEPXdsyMpGEpE2VHMiUsetgWu4knMD2QgFBb3t5cMHRaI+it/xBzx63FRTVaoFza0xfWUnsSYkqR0wex5Mnuimb8pHwTu1xS0ODzpV3EVF7rsGvN7xSameCYT/lPsIqKlAQ6R9wGyd3WiPJJMLEMDbm2rVQQjrOOG/BBfShImwe+nsVLUGrW7u6y+aSg2BXdRAV2k/+DGcz2hZX/GBX3AdJ0UbaOZkQmWm7PDEKkHGpYhROeBCtArSqbGX0EMVBIWbnvp4GV8Y9Rn5cLg6ucQx8JmZ76485Uv3xb0UJdy1wqnWxjUtknj62plRKMeT5IZmEuvzzYYA9wwqvPSakwQ0pnQh4LzfARUIrDEiDrJBO5W630LOjPdkag2N1AjH8Z6EPQ0oM7EEeUBNuY15J5cysw4uKUabaClvCij2Gcy2vqDHvNCy35YzFNJJ3YbEe82qnlOF9SfQW8MWY8PcacTxu2CcmbwHaaFPbkaT3gi8bJhvmDUK1JLj/fMTd4uTLUdgFGwcGsnCKhb4oSwdogld7z/JVCYQ5k8Z3FeFoRfGDwAsh+hQ5KW+SleyFRAAQpxqYBw3iK7EwyxTAYrfZ/z0ILTUBNax+BpdAEgD9twxUk1FcNc94GqRmEQg7wK3sGBVcVqdY55R3OIIK5eR40DHj9vdA27QMv3sShazggJvL4RK3pHBdkY0yspZyiLhyWWrKlwqevMq3CnvCNMm7dXnZLMYAWErLptAjF/Uy9I9QSWhQ6ELKiwVxLaJfS1tAAf34eR7Abjkf3ODwmcNa8FYqDS9qmkmGTHqxH/Np8kr9Do/XF+sUvrKVrQ+CWVMRQzbXOYdqD9kTkPdNK8ztStP1NGlHIO4jDGdymLz+lhqNz0ZRqWdfhhQLOlNAKIMIqOoAJduhN6ozqAZ/VB9p0W6mQYppdHec8vjrOpFr7DE/gOKgXlvM5isVzn29EThoCxLBq/u9YhgNXPKHFCcIyTxC8lrBihm4thBJfmb1cnHe1r04sFraaDmCBZjzDgydfqqRXiDHnT6npn18XGGuPlTLuEamUR+NwkwXImkxXHRM5t2tIY8jnbvWzUfCzKV3jd4OSe25dsU7Fnb6ZJMMwKWUr+a4QEbqMszjbCYkc/OzhWcobrVfSl39iaZH766cAaYNlFK8zuCrC6Y8nL7z6Ut42MWvRNnXZKbitXT7AA6ZxAUNBNYXzgGr1FZw1T/UlsMgLCSZJCFp2MDA7PWx1cb9U9wzO/Mxp3oMOgQw0G+VgqDmOtrD04e0Fa0KuJnokfn2z3Krt234li2lehImlFYdz+wk5g5n3Cm6Wv5kwJ569PyRCq+wuG9LLBp+T/suPbJXmq5G8izK7AQ9RZ6kHCouePhYpR32EbFkoxBACMByV2Kxwq2nNgKwu+QqNUeG/9Ea7x/J+COY/d8uimYJTXfQSX3bGDgJ4qjRjnrZ68X3BhGpSLBJ25Pey2PfsNSjd5OXBliv4eD7emnh/OA5LSXdP4iZ3bsRv9wik7v7umUXm3onq0Deb6M4xhA4tr0TZEK2dwlj6yJI93ZOB63/ZH3pwTMFaDbZe/kIddP6RbKtQHxNjNDDxOys+O9qXEpf7Nnj2YrtEHPsowkkgCqXc4uFx2cuj6rDh2ZerEYj7nKb7ae59NdvvSIy594EDMPwvfcRniaWyLSHEPfGdI4q9qcEljX47+wf7Y3NUtqnJ6k0kLZ5n7yqm6khHUrNUqD/dMowfN+oES7R6FPNfc+eubbB1x6z0vkEBsNzBeEHaDlE5KEEybUsk2rhtKCp2K35MSp0GYxs+qYNMC62JBSr0jljWfivb1fUVDz3kvl/Ksp2bp0IsTKu2uxofTIFPkx6n3Zi6it9K3K+DnDVPdzsd24ZrIJ0MtsDHW0oit82JjC0d0VjaKeuTbWqrV3s4Q0xFthdwC+aKnWdYgL5ScYCiUc607KMzFS9esKrAvapk3m5L63CNIwoh0MJIwbl+3hHWfHiWTZdYzvKbIBE7kE92CRGygW4V/SSrB904oOtBN6pelHQvyU7D6RgVbt/7re3/26OWnCVz2uj0zCgde0YapbOPFJtncSbYxNlbnmaLUB3tFmfqH91P8UpkU1Di9x0PRyYMESzOG9UalcRNQ/pLJfrM4abPmbGHFHJKE5gitV3YznOxItz6Wm02erEPOCsKt2i0ggAyGxlNfL2xELTlKNfsXy0RTEGbexIrsx1t32spWFbN44Cs+u+NxbHvhGLIlGAPmFowTfDKnHz7/vApcAdxZ/0K92kkQvPq9vXkOu7QgzGlrUUE740SPQgc3oq6gwetE0bfbMB53vrW1IJINH0rjOuXULi+u2K5jUXQ+TOXKAJDdBERWNpGxVfdRjZSGSe7Ub/wJYBQt7usPs6pfwQKDHJBURcM6SrHau+p6rLdL5R/LWG8ZS3PXpXMO/6pBwRBUV8+iYKLsy03t0lCPipVSyHkDYVtyeb+1zSu1ctqBD+fz86hZcqt+bhHDHRz9rJknmcIh+TEk/dAGNaxbG3XNuQnLyOGnhcrGScuJjgfH+h2HUk2yniy/u/43eqOcZImGo/kjBEn9hgZMTmvKhETrWSCZOKPNbxkzjQ/laDA6J+7Zq95mWC+ndl5veS5R8+7UPjkOymit8mvh/i07zTbNalzokjD6hl000nxE7AiNpfkozmmk6dXd7KhpsfMI6Y1/pwDBQZ5w+PFHWVoP0TrU87iuGQTIgs7Rio5L4PZ2SoQrSgJSHgJjMvRFik0txQn3YWzM5zZQ5ryAi1R1PcUzBZQ0tTKpDDx/RdaHqE1lCNRK4zgwTEP3NLwj+jgpJhes7zNwx9fRPKIBpVx87g3zMhqIsy8XY9A/5E9LSuBYNq7SJQOmsDnyzVwUSmm0YiSX7+0om9AYnRvuO/XLNSggWWmgy9XdNz8PyUg9fuJbiYsJzLzMS0fypfBCrcRVTHhujL0HxkG5ktCE3Ji8o5vOQxIre0kKc0b2zg6qEfcQ04E6k6PuAC7G0XovqdYj1yQ6iX+LT8/nn4L0JakeWobrOnKG/SQSEQ+7YR7xtBigtHJW8pOOocm25387DHuZn/3FZXJ1S6/H2JMc2LEJ5lhqn1Dmk7a1AKJAk9A8smIyxYFfpYvdjw8tdWQJl4XPOdZHjXTMXZKbes1qvE2N9NjO4XD0lfbGbVY95NmatphO73OThriKNu+46yFCxQxNHBB26SMf/vbkIxouMz+DLsVFZLgltALvAfr3KlEkjKbGyZTmwAF3nIn/ipWsngsgPYw8G9I6aUdll4YT6F4AEf9S2k6h9B4RU4UeuoWVQOGNPV492/PY4PLOkn2Y7TUKLVXf74bd2JBEDmYlJ80kKr2Ikyt5F47JDh0fty817LDHvOiZuMsrkVNUifaOBCjInASa/nA4HrknsetHrIlf982EhGokQxL/09YBHcZ78QB1c2SSxa9Nu3BwA7M6v9u4QQC9hk16RG9KBD/H/Ev6YSR/d8YrdECzJoO1WwQUaRBGJlK2xT3YNkZGka5onsd6taNYG69gSDjWnx8Mu9Tu8bxiqQqfGYHxPbGXaAtVdApVY9cnb5ecCjguK20TO0dX74q1H3UtMl/6+oxCNUZMMAY/V4iq2hceMKkkxe+kqqX7JFuSNUBemMPkShznkxBrpqpbcdQH+2SdK1f/7Masu60BJEwODm8Da+2P13mkrKxo4oADdhEfyG65xu9VLfhr5c8jRoj6y5nSkadHKFvmEkVPZTRIoe6OGZhgVjHaOtQqXk8LZUBR+p5Ck78+gXblyRRAFyYUzoQsYtUwoVBbUmqQPVymUGr1hP1MhZGxRmsEpixroNDA4Q89ODPUJY+jirPUXWL90ZnQC4AqkCBwB4GBUd2xldl3/eUwu+JpewTN2rELhNswkJ/DLLpbSvkTc0ElpAhAnFftnzQf4vmJ5ENl7zGOMTwAymTWWwhBsD8sDxMDn/IC3jy8TimC60S4npdCtzkYIF4tuO442Nm/wMutBfemIibzXkHrVnoboTbnzDa0cWzl6aGgEf2bM4pnk8TkgBOL2b3S+PNc+xsGolk18z1wmmWvk8tki7kpw8nCD27rGzFkLW4sKHZJxV8fWIFb4cfjExMZjFrTQyn1zOq6ArT2yqiXDcHKLYS04o7mDQUUCkm4aH2EBy+chMrayAWba4XhcxhufqxxR5vujk7h3LPHjXPfAagiOvkfyn28UPopKSQ8bBgQKG2ljVqTehZQtzGgxCVi+c4oLkwTMpJfau5TTGGU4T9Jt0CNgm1cFbb48Sp2fzrOaUrM+dmuue8OfIJsLkOPdaiYn+n0YqR3lAjYowyMQuGSsZhcnMx1Dkc1BlMCKJ9VIxFlDTZHa71/C3QJjrNLOP5fnnRk04+ZvvJUsl4fPJSROphxFpQLmqmoU/al5MIkR5n85f884Sct5O5urVzGymNIoC/2U9Ex2Vvv6NoZmNnya75vbxdGVFC8tPdOf+iIMGJRvxilzH6/NifUXslVkKf8j9CsCd+NvjmlGmK3TjzjHZ4JE8LDim3NeNWiwHRAsUCkrCkVd+aGWOefimKjSYCJHL5AdJ/0+0W7tfCUv1VcpiHoOpKmH+Q5ZxnkkwtKg7j0ho8VyhOUX4SRd2Zis80+0M//6tYU4/PrQ1j6DW7h3mFyQTtxgCQgVyJ7BqrnQXc5On64jARsVOJ4CythQ/jVVcGAzCq6Ts3FM09Vd7/YBpP2kvp1fzk0tmmd9ALdJgc8K6LyG2ug4leHMwxPX8hp2QmWdZA0fa1E3mWQISs6x+xun+Xi3BlXuSkT1rX4vf/m0pB2U45rPLnjcbsPIHKkpU+Pkr/gLzqkuQ78GqMa7m8jBcknZWPZ+S794YkEnOrl5zgYvr2dpx6lrsagSiwQS8e1GIHhvtlxmdJegZ4fB4UE7JIFTFAZKYs30Fek0ndcVwQ8hvlpC2TlFuUN2TH6d09UlEiABVBSo1yPGjTZlUf/Hx0Nf8FhR+kNVeTP5ulyRfIdwFTEOgHaQ4Qt0PDHvvbas5TotZeu8J5DcE3haohrmPoe9K4+pcf/GRgsmstIXOo+4UvIWonnlEitHmNRmOXI3YxdkCfbgtPZwNP0UdunjOyWm7Y62TYQWoIvmP+MrdjjkEtE="
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 548,
+      "candidatesTokenCount": 142,
+      "totalTokenCount": 1689,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 548
+        }
+      ],
+      "thoughtsTokenCount": 999,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "NhvMaofIOcOwkdUPv_aQyAY"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 548,
+    "candidatesTokenCount": 142,
+    "totalTokenCount": 1689,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 548
+      }
+    ],
+    "thoughtsTokenCount": 999,
+    "serviceTier": "standard"
+  }
+}

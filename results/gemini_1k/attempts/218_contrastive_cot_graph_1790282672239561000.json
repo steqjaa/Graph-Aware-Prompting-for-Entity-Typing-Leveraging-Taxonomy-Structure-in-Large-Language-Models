@@ -1,0 +1,147 @@
+{
+  "example_number": 218,
+  "entity_id": "wd:Q4564875",
+  "entity_label": "1941 Pacific typhoon season",
+  "description": "Pacific typhoon season",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0218/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0218/metadata.json",
+  "input_hash": "475daf53e5d579a4baabccef7c97631e7de9209ac7b78cddc8adb9310f7fdbd3",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: 1941 Pacific typhoon season\nDescription: Pacific typhoon season\n\nTaxonomy context:\n- Direct parent classes: season\n- Sibling classes: South Pacific cyclone season, North Indian Ocean cyclone season, Atlantic hurricane season\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q4564875",
+    "entity_label": "1941 Pacific typhoon season",
+    "description": "Pacific typhoon season",
+    "reference_class_id": "wd:Q27491613",
+    "reference_type": "Pacific typhoon season",
+    "gold_types": [
+      {
+        "class_id": "wd:Q27491613",
+        "label": "Pacific typhoon season",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q10688145",
+        "label": "season",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q186081",
+        "label": "time interval",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q26907166",
+        "label": "temporal entity",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "season",
+      "siblings": "South Pacific cyclone season, North Indian Ocean cyclone season, Atlantic hurricane season",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "season",
+      "siblings": "South Pacific cyclone season, North Indian Ocean cyclone season, Atlantic hurricane season",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 218,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q27491613"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q10688145"
+      ],
+      "siblings": [
+        "wd:Q22949126",
+        "wd:Q27491654",
+        "wd:Q756721"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "status": "completed",
+  "predictions": [
+    "Pacific typhoon season",
+    "tropical cyclone season",
+    "season",
+    "recurring event",
+    "event",
+    "entity"
+  ],
+  "timestamp_utc": "2026-09-24T20:44:28.722163+00:00",
+  "response": "{\"explanation\": \"The description 'Pacific typhoon season' directly supports Pacific typhoon season as the most specific type. In the taxonomy context, its parent is season, while siblings such as Atlantic hurricane season, South Pacific cyclone season, and North Indian Ocean cyclone season represent tropical cyclone seasons in other oceanic basins and are therefore rejected. No narrower child classes are supported. The types are ordered from the most specific basin-level cyclone season to broader recurring events and general classes.\", \"types\": [\"Pacific typhoon season\", \"tropical cyclone season\", \"season\", \"recurring event\", \"event\", \"entity\"]}",
+  "explanation": "The description 'Pacific typhoon season' directly supports Pacific typhoon season as the most specific type. In the taxonomy context, its parent is season, while siblings such as Atlantic hurricane season, South Pacific cyclone season, and North Indian Ocean cyclone season represent tropical cyclone seasons in other oceanic basins and are therefore rejected. No narrower child classes are supported. The types are ordered from the most specific basin-level cyclone season to broader recurring events and general classes.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description 'Pacific typhoon season' directly supports Pacific typhoon season as the most specific type. In the taxonomy context, its parent is season, while siblings such as Atlantic hurricane season, South Pacific cyclone season, and North Indian Ocean cyclone season represent tropical cyclone seasons in other oceanic basins and are therefore rejected. No narrower child classes are supported. The types are ordered from the most specific basin-level cyclone season to broader recurring events and general classes.\", \"types\": [\"Pacific typhoon season\", \"tropical cyclone season\", \"season\", \"recurring event\", \"event\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 557,
+      "candidatesTokenCount": 118,
+      "totalTokenCount": 1108,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 557
+        }
+      ],
+      "thoughtsTokenCount": 433,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "rIu1aqOKOZSJvdIP3qqz6Q4"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 557,
+    "candidatesTokenCount": 118,
+    "totalTokenCount": 1108,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 557
+      }
+    ],
+    "thoughtsTokenCount": 433,
+    "serviceTier": "standard"
+  }
+}

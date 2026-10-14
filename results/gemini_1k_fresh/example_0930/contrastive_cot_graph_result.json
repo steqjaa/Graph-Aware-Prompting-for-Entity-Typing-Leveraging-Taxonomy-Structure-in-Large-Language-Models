@@ -1,0 +1,160 @@
+{
+  "example_number": 930,
+  "entity_id": "wd:Q60743264",
+  "entity_label": "Global Climate Action Summit",
+  "description": "aimed to address climate change",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0930/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0930/metadata.json",
+  "input_hash": "e682aee8d756c1df0f500ef850e7592252504d27a8370d10eb99a3db2c62908b",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Global Climate Action Summit\nDescription: aimed to address climate change\n\nTaxonomy context:\n- Direct parent classes: meeting\n- Sibling classes: unconference, rokosz, flash mob\n- Direct child classes: G8 summit, Imperial Conference, inter-Korean summits\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q60743264",
+    "entity_label": "Global Climate Action Summit",
+    "description": "aimed to address climate change",
+    "reference_class_id": "wd:Q1072326",
+    "reference_type": "summit",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1072326",
+        "label": "summit",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q2761147",
+        "label": "meeting",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q1656682",
+        "label": "event",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q1190554",
+        "label": "occurrence",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q26907166",
+        "label": "temporal entity",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "meeting",
+      "siblings": "unconference, rokosz, flash mob",
+      "children": "G8 summit, Imperial Conference, inter-Korean summits"
+    },
+    "oracle_graph_context": {
+      "parents": "meeting",
+      "siblings": "unconference, rokosz, flash mob",
+      "children": "G8 summit, Imperial Conference, inter-Korean summits"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 930,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1072326"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q2761147"
+      ],
+      "siblings": [
+        "wd:Q1067715",
+        "wd:Q1325214",
+        "wd:Q152263"
+      ],
+      "children": [
+        "wd:Q20739115",
+        "wd:Q2139567",
+        "wd:Q485644"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "summit",
+    "meeting",
+    "gathering",
+    "event",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:17:02.936379+00:00",
+  "response": "{\"explanation\": \"The entity 'Global Climate Action Summit' describes a high-level conference focused on climate change, supporting 'summit' (or 'summit meeting') as the most specific type. The direct parent 'meeting' establishes the broader category of structured gatherings, while siblings such as 'unconference', 'rokosz', and 'flash mob' describe distinct formats unsupported by the entity's formal governmental/organizational nature. The listed child classes ('G8 summit', 'Imperial Conference', 'inter-Korean summits') represent specific political summits that do not apply here. The types are ordered from the specific inferred type up through broader taxonomic categories.\", \"types\": [\"summit\", \"meeting\", \"gathering\", \"event\", \"entity\"]}",
+  "explanation": "The entity 'Global Climate Action Summit' describes a high-level conference focused on climate change, supporting 'summit' (or 'summit meeting') as the most specific type. The direct parent 'meeting' establishes the broader category of structured gatherings, while siblings such as 'unconference', 'rokosz', and 'flash mob' describe distinct formats unsupported by the entity's formal governmental/organizational nature. The listed child classes ('G8 summit', 'Imperial Conference', 'inter-Korean summits') represent specific political summits that do not apply here. The types are ordered from the specific inferred type up through broader taxonomic categories.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The entity 'Global Climate Action Summit' describes a high-level conference focused on climate change, supporting 'summit' (or 'summit meeting') as the most specific type. The direct parent 'meeting' establishes the broader category of structured gatherings, while siblings such as 'unconference', 'rokosz', and 'flash mob' describe distinct formats unsupported by the entity's formal governmental/organizational nature. The listed child classes ('G8 summit', 'Imperial Conference', 'inter-Korean summits') represent specific political summits that do not apply here. The types are ordered from the specific inferred type up through broader taxonomic categories.\", \"types\": [\"summit\", \"meeting\", \"gathering\", \"event\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 560,
+      "candidatesTokenCount": 151,
+      "totalTokenCount": 1364,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 560
+        }
+      ],
+      "thoughtsTokenCount": 653,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "X6G1atPDDoa5vdIP0ojhsA0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 560,
+    "candidatesTokenCount": 151,
+    "totalTokenCount": 1364,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 560
+      }
+    ],
+    "thoughtsTokenCount": 653,
+    "serviceTier": "standard"
+  }
+}

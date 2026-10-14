@@ -1,0 +1,162 @@
+{
+  "example_number": 523,
+  "entity_id": "wd:Q8028287",
+  "entity_label": "Withrow",
+  "description": "hamlet in Alberta, Canada",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0523/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0523/metadata.json",
+  "input_hash": "00dbf1c2b14930d2a367716459a6d5a498af38e64bd60c01c6632bfcefcd730a",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Withrow\nDescription: hamlet in Alberta, Canada\n\nTaxonomy context:\n- Direct parent classes: human settlement\n- Sibling classes: seaside resort, rural settlement, historical settlement\n- Direct child classes: unincorporated community in the United States, gore, compact rural community\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q8028287",
+    "entity_label": "Withrow",
+    "description": "hamlet in Alberta, Canada",
+    "reference_class_id": "wd:Q269528",
+    "reference_type": "unincorporated area",
+    "gold_types": [
+      {
+        "class_id": "wd:Q269528",
+        "label": "unincorporated area",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q486972",
+        "label": "human settlement",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q123964505",
+        "label": "populated place",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q27096235",
+        "label": "artificial geographic entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q27096213",
+        "label": "geographic entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "human settlement",
+      "siblings": "seaside resort, rural settlement, historical settlement",
+      "children": "unincorporated community in the United States, gore, compact rural community"
+    },
+    "oracle_graph_context": {
+      "parents": "human settlement",
+      "siblings": "seaside resort, rural settlement, historical settlement",
+      "children": "unincorporated community in the United States, gore, compact rural community"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 523,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q269528"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q486972"
+      ],
+      "siblings": [
+        "wd:Q1021711",
+        "wd:Q10354598",
+        "wd:Q106626840"
+      ],
+      "children": [
+        "wd:Q17343829",
+        "wd:Q5586091",
+        "wd:Q56885310"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "hamlet of Alberta",
+    "hamlet",
+    "rural settlement",
+    "human settlement",
+    "populated place",
+    "geographic entity",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:46:26.237489+00:00",
+  "response": "{\"explanation\": \"The description \\\"hamlet in Alberta, Canada\\\" directly supports 'hamlet of Alberta' and 'hamlet' as the most specific valid types. The taxonomy parent 'human settlement' anchors the broader category. Sibling classes like 'seaside resort' and 'historical settlement' are contradicted or unsupported by the evidence, while 'rural settlement' is an appropriate intermediate broader type. Child classes such as 'unincorporated community in the United States' or 'gore' are rejected due to geographic incompatibility (Withrow is in Canada). The types are ordered strictly from most specific to broadest.\", \"types\": [\"hamlet of Alberta\", \"hamlet\", \"rural settlement\", \"human settlement\", \"populated place\", \"geographic entity\", \"entity\"]}",
+  "explanation": "The description \"hamlet in Alberta, Canada\" directly supports 'hamlet of Alberta' and 'hamlet' as the most specific valid types. The taxonomy parent 'human settlement' anchors the broader category. Sibling classes like 'seaside resort' and 'historical settlement' are contradicted or unsupported by the evidence, while 'rural settlement' is an appropriate intermediate broader type. Child classes such as 'unincorporated community in the United States' or 'gore' are rejected due to geographic incompatibility (Withrow is in Canada). The types are ordered strictly from most specific to broadest.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"hamlet in Alberta, Canada\\\" directly supports 'hamlet of Alberta' and 'hamlet' as the most specific valid types. The taxonomy parent 'human settlement' anchors the broader category. Sibling classes like 'seaside resort' and 'historical settlement' are contradicted or unsupported by the evidence, while 'rural settlement' is an appropriate intermediate broader type. Child classes such as 'unincorporated community in the United States' or 'gore' are rejected due to geographic incompatibility (Withrow is in Canada). The types are ordered strictly from most specific to broadest.\", \"types\": [\"hamlet of Alberta\", \"hamlet\", \"rural settlement\", \"human settlement\", \"populated place\", \"geographic entity\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 559,
+      "candidatesTokenCount": 153,
+      "totalTokenCount": 1875,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 559
+        }
+      ],
+      "thoughtsTokenCount": 1163,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "Mpq1aoHrH_baxs0PqfDk4Q0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 559,
+    "candidatesTokenCount": 153,
+    "totalTokenCount": 1875,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 559
+      }
+    ],
+    "thoughtsTokenCount": 1163,
+    "serviceTier": "standard"
+  }
+}

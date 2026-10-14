@@ -1,0 +1,158 @@
+{
+  "example_number": 202,
+  "entity_id": "wd:Q939453",
+  "entity_label": "Genesee Township",
+  "description": "township of Illinois",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0202/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0202/metadata.json",
+  "input_hash": "2d6550da671b5aeaaed94f22f00f2ee690757d89fcefd93f21a973b0bec545c0",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Genesee Township\nDescription: township of Illinois\n\nTaxonomy context:\n- Direct parent classes: civil township\n- Sibling classes: New England town, township of Minnesota, township of Missouri\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q939453",
+    "entity_label": "Genesee Township",
+    "description": "township of Illinois",
+    "reference_class_id": "wd:Q17198545",
+    "reference_type": "township of Illinois",
+    "gold_types": [
+      {
+        "class_id": "wd:Q17198545",
+        "label": "township of Illinois",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q1394476",
+        "label": "civil township",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q486972",
+        "label": "human settlement",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q123964505",
+        "label": "populated place",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q27096235",
+        "label": "artificial geographic entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q27096213",
+        "label": "geographic entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "civil township",
+      "siblings": "New England town, township of Minnesota, township of Missouri",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "civil township",
+      "siblings": "New England town, township of Minnesota, township of Missouri",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 202,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q17198545"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q1394476"
+      ],
+      "siblings": [
+        "wd:Q2154459",
+        "wd:Q42211429",
+        "wd:Q6270791"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "status": "completed",
+  "predictions": [
+    "township of Illinois",
+    "civil township",
+    "township",
+    "minor civil division",
+    "administrative territorial entity",
+    "geographic entity",
+    "entity"
+  ],
+  "timestamp_utc": "2026-09-24T20:43:14.221637+00:00",
+  "response": "{\"explanation\": \"The description \\\"township of Illinois\\\" directly identifies the entity as a township of Illinois. In the taxonomy, its direct parent is civil township, confirming its broader classification as an administrative subdivision. Sibling classes such as township of Minnesota, township of Missouri, and New England town represent alternative territorial units in other states, which are ruled out by the entity's explicit location in Illinois. No child classes are listed. The broader valid classes proceed up the taxonomy from civil township and township to administrative territorial entity, geographic entity, and entity.\", \"types\": [\"township of Illinois\", \"civil township\", \"township\", \"minor civil division\", \"administrative territorial entity\", \"geographic entity\", \"entity\"]}",
+  "explanation": "The description \"township of Illinois\" directly identifies the entity as a township of Illinois. In the taxonomy, its direct parent is civil township, confirming its broader classification as an administrative subdivision. Sibling classes such as township of Minnesota, township of Missouri, and New England town represent alternative territorial units in other states, which are ruled out by the entity's explicit location in Illinois. No child classes are listed. The broader valid classes proceed up the taxonomy from civil township and township to administrative territorial entity, geographic entity, and entity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"township of Illinois\\\" directly identifies the entity as a township of Illinois. In the taxonomy, its direct parent is civil township, confirming its broader classification as an administrative subdivision. Sibling classes such as township of Minnesota, township of Missouri, and New England town represent alternative territorial units in other states, which are ruled out by the entity's explicit location in Illinois. No child classes are listed. The broader valid classes proceed up the taxonomy from civil township and township to administrative territorial entity, geographic entity, and entity.\", \"types\": [\"township of Illinois\", \"civil township\", \"township\", \"minor civil division\", \"administrative territorial entity\", \"geographic entity\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 550,
+      "candidatesTokenCount": 145,
+      "totalTokenCount": 1177,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 550
+        }
+      ],
+      "thoughtsTokenCount": 482,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "You1auydG4S_vdIP8qOcgAY"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 550,
+    "candidatesTokenCount": 145,
+    "totalTokenCount": 1177,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 550
+      }
+    ],
+    "thoughtsTokenCount": 482,
+    "serviceTier": "standard"
+  }
+}

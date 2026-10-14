@@ -1,0 +1,153 @@
+{
+  "example_number": 804,
+  "entity_id": "wd:Q381558",
+  "entity_label": "1986 Cerritos mid-air collision",
+  "description": "mid-air collision",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0804/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0804/metadata.json",
+  "input_hash": "a81b85d8642883576042a1ccadda3f486fa46e5c77226028a56c729453a56887",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: 1986 Cerritos mid-air collision\nDescription: mid-air collision\n\nTaxonomy context:\n- Direct parent classes: occurrence\n- Sibling classes: stock market crash, Doomsday, first ascent\n- Direct child classes: vehicle ramming, impact event, traffic collision\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q381558",
+    "entity_label": "1986 Cerritos mid-air collision",
+    "description": "mid-air collision",
+    "reference_class_id": "wd:Q238053",
+    "reference_type": "collision",
+    "gold_types": [
+      {
+        "class_id": "wd:Q238053",
+        "label": "collision",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q1190554",
+        "label": "occurrence",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q26907166",
+        "label": "temporal entity",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "occurrence",
+      "siblings": "stock market crash, Doomsday, first ascent",
+      "children": "vehicle ramming, impact event, traffic collision"
+    },
+    "oracle_graph_context": {
+      "parents": "occurrence",
+      "siblings": "stock market crash, Doomsday, first ascent",
+      "children": "vehicle ramming, impact event, traffic collision"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 804,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q238053"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q1190554"
+      ],
+      "siblings": [
+        "wd:Q1020018",
+        "wd:Q1036775",
+        "wd:Q1194369"
+      ],
+      "children": [
+        "wd:Q25893885",
+        "wd:Q463796",
+        "wd:Q9687"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "mid-air collision",
+    "aviation accident",
+    "collision",
+    "transportation accident",
+    "accident",
+    "occurrence",
+    "event",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:07:30.753543+00:00",
+  "response": "{\n  \"explanation\": \"The description \\\"mid-air collision\\\" directly identifies mid-air collision as the most specific valid type. In the taxonomy, the omitted intermediate type is collision, whose direct parent occurrence establishes the broader category of events. Sibling classes under occurrence such as stock market crash, Doomsday, and first ascent describe non-physical or unrelated occurrences and are rejected. Direct child classes of collision include vehicle ramming, impact event, and traffic collision; among these, vehicle ramming is unwarranted as this was an accidental collision, and traffic collision typically refers to road transport rather than aviation. The entity fits narrower aviation disaster types before generalizing through collision, accident, occurrence, and event.\",\n  \"types\": [\n    \"mid-air collision\",\n    \"aviation accident\",\n    \"collision\",\n    \"transportation accident\",\n    \"accident\",\n    \"occurrence\",\n    \"event\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The description \"mid-air collision\" directly identifies mid-air collision as the most specific valid type. In the taxonomy, the omitted intermediate type is collision, whose direct parent occurrence establishes the broader category of events. Sibling classes under occurrence such as stock market crash, Doomsday, and first ascent describe non-physical or unrelated occurrences and are rejected. Direct child classes of collision include vehicle ramming, impact event, and traffic collision; among these, vehicle ramming is unwarranted as this was an accidental collision, and traffic collision typically refers to road transport rather than aviation. The entity fits narrower aviation disaster types before generalizing through collision, accident, occurrence, and event.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The description \\\"mid-air collision\\\" directly identifies mid-air collision as the most specific valid type. In the taxonomy, the omitted intermediate type is collision, whose direct parent occurrence establishes the broader category of events. Sibling classes under occurrence such as stock market crash, Doomsday, and first ascent describe non-physical or unrelated occurrences and are rejected. Direct child classes of collision include vehicle ramming, impact event, and traffic collision; among these, vehicle ramming is unwarranted as this was an accidental collision, and traffic collision typically refers to road transport rather than aviation. The entity fits narrower aviation disaster types before generalizing through collision, accident, occurrence, and event.\",\n  \"types\": [\n    \"mid-air collision\",\n    \"aviation accident\",\n    \"collision\",\n    \"transportation accident\",\n    \"accident\",\n    \"occurrence\",\n    \"event\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 564,
+      "candidatesTokenCount": 198,
+      "totalTokenCount": 1491,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 564
+        }
+      ],
+      "thoughtsTokenCount": 729,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "Ip-1asipO_CDvdIP9eeswAw"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 564,
+    "candidatesTokenCount": 198,
+    "totalTokenCount": 1491,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 564
+      }
+    ],
+    "thoughtsTokenCount": 729,
+    "serviceTier": "standard"
+  }
+}

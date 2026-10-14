@@ -1,0 +1,161 @@
+{
+  "example_number": 682,
+  "entity_id": "wd:Q1974105",
+  "entity_label": "Averys Gore",
+  "description": "gore in Essex County, Vermont, United States",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0682/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0682/metadata.json",
+  "input_hash": "4cb40781fe053c9527c36a676e01d60c7a8cd59bc40d754770ae4ed52cd45b41",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Averys Gore\nDescription: gore in Essex County, Vermont, United States\n\nTaxonomy context:\n- Direct parent classes: unincorporated area\n- Sibling classes: unincorporated community in the United States, compact rural community, police village\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q1974105",
+    "entity_label": "Averys Gore",
+    "description": "gore in Essex County, Vermont, United States",
+    "reference_class_id": "wd:Q5586091",
+    "reference_type": "gore",
+    "gold_types": [
+      {
+        "class_id": "wd:Q5586091",
+        "label": "gore",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q269528",
+        "label": "unincorporated area",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q486972",
+        "label": "human settlement",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q123964505",
+        "label": "populated place",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q27096235",
+        "label": "artificial geographic entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q27096213",
+        "label": "geographic entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "unincorporated area",
+      "siblings": "unincorporated community in the United States, compact rural community, police village",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "unincorporated area",
+      "siblings": "unincorporated community in the United States, compact rural community, police village",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 682,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q5586091"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q269528"
+      ],
+      "siblings": [
+        "wd:Q17343829",
+        "wd:Q56885310",
+        "wd:Q7209617"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "gore",
+    "unincorporated area",
+    "administrative territorial entity",
+    "geographic entity",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:58:21.745671+00:00",
+  "response": "{\"explanation\": \"The description \\\"gore in Essex County, Vermont, United States\\\" directly supports gore as the most specific type. In the taxonomy context, its direct parent is unincorporated area, which establishes the broader administrative category of land not incorporated into a standard municipality. Sibling classes like unincorporated community in the United States, compact rural community, and police village imply populated settlements or distinct local administrative models, whereas a New England gore is primarily an unincorporated territorial land division. There are no child classes to evaluate. The remaining types reflect valid, progressively broader classifications.\", \"types\": [\"gore\", \"unincorporated area\", \"administrative territorial entity\", \"geographic entity\", \"entity\"]}",
+  "explanation": "The description \"gore in Essex County, Vermont, United States\" directly supports gore as the most specific type. In the taxonomy context, its direct parent is unincorporated area, which establishes the broader administrative category of land not incorporated into a standard municipality. Sibling classes like unincorporated community in the United States, compact rural community, and police village imply populated settlements or distinct local administrative models, whereas a New England gore is primarily an unincorporated territorial land division. There are no child classes to evaluate. The remaining types reflect valid, progressively broader classifications.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"gore in Essex County, Vermont, United States\\\" directly supports gore as the most specific type. In the taxonomy context, its direct parent is unincorporated area, which establishes the broader administrative category of land not incorporated into a standard municipality. Sibling classes like unincorporated community in the United States, compact rural community, and police village imply populated settlements or distinct local administrative models, whereas a New England gore is primarily an unincorporated territorial land division. There are no child classes to evaluate. The remaining types reflect valid, progressively broader classifications.\", \"types\": [\"gore\", \"unincorporated area\", \"administrative territorial entity\", \"geographic entity\", \"entity\"]}",
+              "thoughtSignature": "Eq0aCqoaAWkUfRMX3g1khf1QEr8ql5z14oPkhdfMOYhVrmFBPBfNqRaA10ljBkC9Hg2yDFpUCAzMcmrHO3V2CSGSfANm1+FcZDVIsJQOmCjF2u9/643glWYTVSp3vQVzlzZqkIGpkjjKg81Vswq5QmaKbp5SDbph4z7ynHsUzVrKsXrSdNc+pwPxD1GlUj6995hsU47MSK217A02/OOUMqVHd4/vUhSdmVAQqngz0rfrZHjOpT6geQLpqNe7K6TkpYM0LHyhyMU/qyPXibl0npqlQzhIb1JFc6hbY0dZWY8qb+v3F4DwNr65x/q5dF0yv4P8fUErnfkYdbPFuBVHdtp5CudW+gs6GvXgUUNgxqlWbAEv9FS9GBBzZR3wtAXi2J7pyVsde2lsoq3/lt2mfuP4mo8JP39Kvk9j91/O1JDbDzEB2ANkjLCVqO4MLtfEXNgsQ3rHuQv9kXYdn0Tl8spY+vY2HF7H+Vk31Q81IkpGAh2/OEVWmRgasF//agKrtqrYGH2sVkWsumsfqex0hU987EuSMj77MbU3yY0niOLUi1HTXcZeBOqj/Hevh5a+44eeDWyPLzwDJThMU2hXFhdrDN5isRT3C5piZEOd5X9EyL3nzvjGdNGrlPdjSt/iN84f9x3oHoXxogFiTiFQl9ismymQicQzOX3hrHFsjwHkRxr7QcPnWfOTcmNwU6kQ/Oeoz8lASwpxj6AyVotjPqumt8gD1L7QCy1UtlVtpzAJE2OWVvbgTp74gdx2NIYBvdwE+IZRrl0FhlXShsb74ARVK/Em/LHI2qsoTlfzyEgIJDGLJyRblaVMNwpnhSQqzAc5DJ9P9PIpDEFTSIwvWSq/bLKHWVf2HPVNBN/97MMd4rklSK0H8g7ofhjFfCWJbvibw297yrVLY3r7Xos/E7xx9GAGwPlZn6k99NUCadHFNrQL/Cv8PU70MkncCM9Jkcn4bFcbu/vqkXnLwv0xdFWUZZn9J7tg49828JYvcaNJ1bgNSByDMXgqOIzaidGk+GlLiVAKmwCsCWRP8GLkNHAK6baR4Spe48Du+lGCCfVWPy+UU8H94RRRP55dZIoUrUDGdUmWi7Z8e/DsaRoRMzamGc/US/9+SE+nqXMaVpJz53uHfaS/INadQFLadwWODxaEKw3Oqml7goy/Xc2/szyUx58yxozY5y38boeBavwvrxcsRpUVwIPw0OlSakecNLiJuKCcOUKgEFGJ7m7TcB+9EcZeiGkrNYPZOE24TwjhZjFNrvpWJsK44dHno3FEmfGZt7Z9JBv8N69u/7ICAZTtMs1UvYr3eGwiwHwuQI+WPmPOZdLtLIuesDGC+0iJn0b1EPvUozCHr22AeyvosfsUpdm1TA5pmd8W8B5pDMK57TyuKfw0QY1yTTNinp9FlTuX+vX1tHjuZpPCKoJUTCBKLb2l/VTHENlyGPLnDclG1KYhJsr/Hri7qGJmQ8dC4Psq2lFAyqql9uL2JAg6FcNYc09rlHt9gmFyjrr63v7v87UiW2LpE4rRdRZrFKeer4YyU0ZFYvyEF5d7qT0P/vv8lr7BOiFo7uBMdP5q6QLwTkgFKYFxxdA4JVopUZpJX/ZeIkYuwRmeShXVL3J8hM8mV1ziobuhwjO2cv/0b+WfBCipwWoq1YSYi8EmpycuDwMPYENaUhdxTENmX2e6BPmASM/QH4DGoXDbk6ENcJVCNPJPVjhbekvYPDPC24AFDy6HDwexkE3JP58pEfXSkZQlFB84uKA/8N5XLPn3rPsZp90kW9LtIVhI6OUfA/M1VxjG1zobidIeOTQ2uBKFbVBFwKWi75ekWiCIew8KVP6SbdQWRH54R4xInT4+G5753JkfVLr8teoEgIV5TLCHT02mxfAV2yW1NmIiCzI86SdOseJI21m6h/ge6hWcIlcV0TURgK9CWCqg+esreoN7xsIyDWmvQpH4Y2d6WH7AW03BWNIG4ZWODguR6kM8wFVMtyPnEV6BUXq5nFijxEwYcEbpqne0TgjPYfp/L7Pt9Hvg3TKeLwijnEELQneeznJEb0HFBAme5+NI0Nhcxo7T6xdhh5xsq2gQeZk/Su5E1ykfb1SZ/LLDTysXKP1IOkUYWV13/eZ/kY+tjWf22NDM8zc6PNXehC6OoCVV1ROpD49J8fIt+FJTn7rlr7N1ekZKnLN9KLIU97fdZ7GagPXdWR53C/Apf24M4Q6D7oHpLwwBfn0uyzA69JL9gZBTy3YwD9OaHIgKpH3F2TkHQGGQ+PBO1blmrHaq/VQQCxUAy8Oha9Y+ZhOVzf17FJEE8wFriOkiIgdQuNnsPRyptf/c2x58QQ2NCytUmHpqu0vH38qhq3lTTIEVIkFQ/P1pFXvnb1XbkTMsWJTF3RK5PU1pdHt6O+4k8Zvd2Kv8XIVTSQLZ+XD+XZYuUhgC+NBlR0gz2TfS2q2ioMhdRzOKZDkR7djRArdGo75IBL3nXu28tx3fNJx4ZahTaYDg51Z7YHCVgja3RVjOicmyfS6sDAEMk2LQUiC4ujZV1fCJH3CZBRB4UYc2c9Ks4t0nMWPUiUXYSlmbGxf7yGfUMiXOHlB8OBj8oV74ucLFzxiE33UKMwlq+gDXckWMws/hw2vCQZNwskzTEWT1bQ3TxTjmAB19jXbIeYeiB5iw5Aqaj4cdqL+wdTKzGRUHCxEuOeLmNZ63cJ1d3Kg4gja0ofF8baYlW1gOaU9LzaL5UePC0W0z5yTACw3TY3I1pO/40WlcYZ+WxKU7J35soEn3T2ktXM9phBQoY0tCQDhLQZB9ccYJw4hxh47ZufmorofsooPX0SowkN6HduR0VJ7wJVrgi3tjCmNCyQKEP1jbUd8wNT/JHUeQKGWLzfCiXXKaju1gLOX5qlvY+1Q0odJA0g+eJwIsPK22SkR8iFxBQoMNcTJXnyTiVaDdLWZdgH/sgItO/pO0mFgrVF59WwtRv7jvP+fmI9INcmF2S84Qq2tPyqOlB7yXO0xj9slVw/RgmGfUK2M/XL3s+/7zUYuQ0u/sNiwCA0X/HTY6r1Si5UyYnuLK81wSyGAsJfMbeu1jF/9xNXBnrbVMHJoT2n9aY5c7btFD9M4cQAYZfpTMlMEDbRRnZntEU+LmHMDl7+SyX8iuR8udZCBaDKBb0s64gLO5k5k132O7w0I4RdFRKaf9NSsJkuywAhwW4yE5/tkxmGwXsIF/HCW2qSVOyg138CEVLMVLXDrKiBK/w6yBw8TLS11Bce930tScTjvUQ0n5aNfsKDeKJxCzQ1qkeCQTqhowYhzIc/76bdV/BWltZ34BEeSKiwlWLUd7xqAu6GyVe6Jcfuj3cQ7AdLa/UoeZFZN4Qja/lCqMdhnxJ1dO7qUYg6VGpNmMVqD5L5aSjlyOaqbDGOrYFDbn8MUgykC0aa/cRX7D6eeX1R60b/jxkW0Yhg6FyrLGCzqgdp89euEK4GFXaUuEV2Qft/mmypsZ9QeZr23sUo/baHPIibpUDIDFQNmBKY8RHiKjL2UOf+fPn06cRn3W5MHprbe/na4/UxPt/4ciCgCq3zn/BmS3fpmajpkEtcEXM8K9/ZpvUu4b6Xx7dxB6sM0V5L+GYH+twwL2HZAomp5UH4AQRg7j1pBeoOLeih6+t1BgeXbi31NQYUt5U+zS6OaNHnMjOexgF8QkF8T6TKlFLrrsbRoacnG9AoaSVJ1IWEPlEeR3AyI+qE7H26xdyno/2w5WlWexGJC43KUHzEDsF3+U6naCE5Fb39BfY9K+u6Ca4uFCTbNQ9Su5Yqd8i0s/WmflQ5G91vNeBNRAUa41qDIz5zsugj3jEaJIb3aZ2PBOj1dmYEE8QXbOyH/IFcgpDmZBYfGLuYotKZlDSpMyFOFDp78MTXQQsfKGCh3uig58hYPciPBlt1LfCgxH1J4vkedWtbk8aRoPC3gVQZkUPM1DmUZ6YUcQofbCHV2nXOAASSoedM/TITkT3pd+RWza+Hf2Wy9Z1OB/5Rxi8YuWj3Gdq2n3h5tjSPAol7mhrr5ghKEOK8q+Myy8cg7b88Nm/cFTUuc8sTuEckc8yjzRxMYHlWjrICeiuwrwjqz/F+jRagWji6Hi1orE9L1OeFvDNxXGkg3YZRp69oBG2t8fFlWutb+74eA8VUux8qbxumLQM8GEQH+7j352mroKhid3OOBzVcdXQL8MbrnlQucYanhRn4PsfjW8+0MPLUY0NY8FgjpOoGFN2kvupO5QwMdC/rQ/5BOfz4lfZ40BtkJoKTHletVrHHbW5Ue16k+cFrzDAEBPAOY03Dw7DYqwQ0R4YPSv81Lfazm4AdNE+uGQXTMpwI2U2NSjl3n/ZcMN5VsvyOPvUB+PSpeiJRu+EE+UImgGUpF9CDuzQDV3g2yF0rmFyFhsGFHYlOjoRQt63hEz2LF14X3JAlGWUYwYhz8XRjroGiKkUgv4kwcg7Lf9MiwG7qX+tAdjME/HT7LP22Sj8RjlRM/ZnmBc6eDyKj3N2ZwXGQkjxy7ZKHEkiA=="
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 558,
+      "candidatesTokenCount": 134,
+      "totalTokenCount": 1416,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 558
+        }
+      ],
+      "thoughtsTokenCount": 724,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "_Zy1aoyDPICEvdIPhIjr2A0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 558,
+    "candidatesTokenCount": 134,
+    "totalTokenCount": 1416,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 558
+      }
+    ],
+    "thoughtsTokenCount": 724,
+    "serviceTier": "standard"
+  }
+}

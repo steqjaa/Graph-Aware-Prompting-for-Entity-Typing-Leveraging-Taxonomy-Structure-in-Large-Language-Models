@@ -1,0 +1,165 @@
+{
+  "example_number": 572,
+  "entity_id": "wd:Q2449683",
+  "entity_label": "Carl Hårleman",
+  "description": "Swedish athlete (1886-1948)",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0572/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0572/metadata.json",
+  "input_hash": "89ecc588e7b30cf7ea21767cc19ea704dd0bac857e513ff9bd30defcea969b31",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Carl Hårleman\nDescription: Swedish athlete (1886-1948)\n\nTaxonomy context:\n- Direct parent classes: athletics competitor\n- Sibling classes: runner, long jumper, discus thrower\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q2449683",
+    "entity_label": "Carl Hårleman",
+    "description": "Swedish athlete (1886-1948)",
+    "reference_class_id": "wd:Q13464497",
+    "reference_type": "pole vaulter",
+    "gold_types": [
+      {
+        "class_id": "wd:Q13464497",
+        "label": "pole vaulter",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q11513337",
+        "label": "athletics competitor",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q2066131",
+        "label": "athlete",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q50995749",
+        "label": "sportsperson",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "athletics competitor",
+      "siblings": "runner, long jumper, discus thrower",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "athletics competitor",
+      "siblings": "runner, long jumper, discus thrower",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 572,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q13464497"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q11513337"
+      ],
+      "siblings": [
+        "wd:Q12803959",
+        "wd:Q13381428",
+        "wd:Q13381689"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "pole vaulter",
+    "athletics competitor",
+    "athlete",
+    "sportsperson",
+    "person",
+    "agent",
+    "organism",
+    "object",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:50:06.734927+00:00",
+  "response": "{\n  \"explanation\": \"The entity Carl Hårleman is a Swedish track and field athlete known primarily as an Olympic pole vaulter, matching the omitted target class pole vaulter under the direct parent class athletics competitor. Sibling classes such as runner, long jumper, and discus thrower represent distinct athletic disciplines not supported as the primary specialization for this entity. The direct child context is None, indicating that pole vaulter is the most specific valid type. Broader parent classes follow in decreasing order of specificity.\",\n  \"types\": [\n    \"pole vaulter\",\n    \"athletics competitor\",\n    \"athlete\",\n    \"sportsperson\",\n    \"person\",\n    \"agent\",\n    \"organism\",\n    \"object\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The entity Carl Hårleman is a Swedish track and field athlete known primarily as an Olympic pole vaulter, matching the omitted target class pole vaulter under the direct parent class athletics competitor. Sibling classes such as runner, long jumper, and discus thrower represent distinct athletic disciplines not supported as the primary specialization for this entity. The direct child context is None, indicating that pole vaulter is the most specific valid type. Broader parent classes follow in decreasing order of specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The entity Carl Hårleman is a Swedish track and field athlete known primarily as an Olympic pole vaulter, matching the omitted target class pole vaulter under the direct parent class athletics competitor. Sibling classes such as runner, long jumper, and discus thrower represent distinct athletic disciplines not supported as the primary specialization for this entity. The direct child context is None, indicating that pole vaulter is the most specific valid type. Broader parent classes follow in decreasing order of specificity.\",\n  \"types\": [\n    \"pole vaulter\",\n    \"athletics competitor\",\n    \"athlete\",\n    \"sportsperson\",\n    \"person\",\n    \"agent\",\n    \"organism\",\n    \"object\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 558,
+      "candidatesTokenCount": 165,
+      "totalTokenCount": 1923,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 558
+        }
+      ],
+      "thoughtsTokenCount": 1200,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "D5u1atiACd_4vdIP_tKP6Q4"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 558,
+    "candidatesTokenCount": 165,
+    "totalTokenCount": 1923,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 558
+      }
+    ],
+    "thoughtsTokenCount": 1200,
+    "serviceTier": "standard"
+  }
+}

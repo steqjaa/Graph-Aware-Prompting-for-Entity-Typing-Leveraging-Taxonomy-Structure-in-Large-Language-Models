@@ -1,0 +1,156 @@
+{
+  "example_number": 93,
+  "entity_id": "wd:Q64918667",
+  "entity_label": "Nancy M. Bolton",
+  "description": "Australian-born New Zealand artist (1913–2008)",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0093/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0093/metadata.json",
+  "input_hash": "7ca868b7bf6f06cf3252bdbe7ead87a1d9212e3cd4e6d69a285030b72c813fc2",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Nancy M. Bolton\nDescription: Australian-born New Zealand artist (1913–2008)\n\nTaxonomy context:\n- Direct parent classes: creator\n- Sibling classes: crime fiction writer, columnist, content creator\n- Direct child classes: marketer\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q64918667",
+    "entity_label": "Nancy M. Bolton",
+    "description": "Australian-born New Zealand artist (1913–2008)",
+    "reference_class_id": "wd:Q10355417",
+    "reference_type": "advertising person",
+    "gold_types": [
+      {
+        "class_id": "wd:Q10355417",
+        "label": "advertising person",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q2500638",
+        "label": "creator",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "creator",
+      "siblings": "crime fiction writer, columnist, content creator",
+      "children": "marketer"
+    },
+    "oracle_graph_context": {
+      "parents": "creator",
+      "siblings": "crime fiction writer, columnist, content creator",
+      "children": "marketer"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 93,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q10355417"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q2500638"
+      ],
+      "siblings": [
+        "wd:Q10297252",
+        "wd:Q1086863",
+        "wd:Q109459317"
+      ],
+      "children": [
+        "wd:Q1900657"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "artist",
+    "creator",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "f67d84811a774b589c00ae3c28d53648",
+  "timestamp_utc": "2026-10-11T23:33:09.823717+00:00",
+  "response": "{\"explanation\": \"The description identifies Nancy M. Bolton as an \\\"Australian-born New Zealand artist\\\", directly supporting 'artist' as the most specific entity type. Under the parent class 'creator', 'artist' fits appropriately, whereas sibling classes such as 'crime fiction writer', 'columnist', and 'content creator' describe specialized writing and media roles that lack evidence here. The child class 'marketer' is not supported by the biographical context and is rejected. The types are ordered from the most specific inferred category to broader valid classifications.\", \"types\": [\"artist\", \"creator\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The description identifies Nancy M. Bolton as an \"Australian-born New Zealand artist\", directly supporting 'artist' as the most specific entity type. Under the parent class 'creator', 'artist' fits appropriately, whereas sibling classes such as 'crime fiction writer', 'columnist', and 'content creator' describe specialized writing and media roles that lack evidence here. The child class 'marketer' is not supported by the biographical context and is rejected. The types are ordered from the most specific inferred category to broader valid classifications.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies Nancy M. Bolton as an \\\"Australian-born New Zealand artist\\\", directly supporting 'artist' as the most specific entity type. Under the parent class 'creator', 'artist' fits appropriately, whereas sibling classes such as 'crime fiction writer', 'columnist', and 'content creator' describe specialized writing and media roles that lack evidence here. The child class 'marketer' is not supported by the biographical context and is rejected. The types are ordered from the most specific inferred category to broader valid classifications.\", \"types\": [\"artist\", \"creator\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 559,
+      "candidatesTokenCount": 126,
+      "totalTokenCount": 1290,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 559
+        }
+      ],
+      "thoughtsTokenCount": 605,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "thzMavbzAZCExN8Pz42IsQg"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 559,
+    "candidatesTokenCount": 126,
+    "totalTokenCount": 1290,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 559
+      }
+    ],
+    "thoughtsTokenCount": 605,
+    "serviceTier": "standard"
+  }
+}

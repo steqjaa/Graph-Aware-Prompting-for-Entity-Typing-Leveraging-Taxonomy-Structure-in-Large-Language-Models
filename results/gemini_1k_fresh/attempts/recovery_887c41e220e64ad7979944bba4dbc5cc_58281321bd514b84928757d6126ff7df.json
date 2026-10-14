@@ -1,0 +1,157 @@
+{
+  "example_number": 960,
+  "entity_id": "wd:Q6431504",
+  "entity_label": "Kord Industries",
+  "description": "fictional company in DC Comics",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0960/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0960/metadata.json",
+  "input_hash": "b2275d808ebb4e56add0b3b33f569ef5f1896d4c15191ae4f56fbd3d30afc61a",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Kord Industries\nDescription: fictional company in DC Comics\n\nTaxonomy context:\n- Direct parent classes: fictional organization\n- Sibling classes: ministry of Oceania, Pokémon crime organization, fictional resistance movement\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q6431504",
+    "entity_label": "Kord Industries",
+    "description": "fictional company in DC Comics",
+    "reference_class_id": "wd:Q5446565",
+    "reference_type": "fictional company",
+    "gold_types": [
+      {
+        "class_id": "wd:Q5446565",
+        "label": "fictional company",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q14623646",
+        "label": "fictional organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q14897293",
+        "label": "fictional entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q64728693",
+        "label": "non-existent entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q7048977",
+        "label": "abstract entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "fictional organization",
+      "siblings": "ministry of Oceania, Pokémon crime organization, fictional resistance movement",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "fictional organization",
+      "siblings": "ministry of Oceania, Pokémon crime organization, fictional resistance movement",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 960,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q5446565"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q14623646"
+      ],
+      "siblings": [
+        "wd:Q20736226",
+        "wd:Q3241052",
+        "wd:Q5446577"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "fictional company",
+    "fictional organization",
+    "organization",
+    "corporate body",
+    "fictional entity",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:19:17.931199+00:00",
+  "response": "{\"explanation\": \"The description \\\"fictional company in DC Comics\\\" indicates that \\\"fictional company\\\" is the most specific type. Its direct parent in the taxonomy is \\\"fictional organization\\\", establishing the broader scope. Sibling classes such as \\\"ministry of Oceania\\\", \\\"Pokémon crime organization\\\", and \\\"fictional resistance movement\\\" represent specific governmental, criminal, or insurgent groups that are unsupported by the evidence of a corporate entity. The remaining types generalize from fictional company to broader organizational and abstract concepts in descending order of specificity.\", \"types\": [\"fictional company\", \"fictional organization\", \"organization\", \"corporate body\", \"fictional entity\", \"entity\"]}",
+  "explanation": "The description \"fictional company in DC Comics\" indicates that \"fictional company\" is the most specific type. Its direct parent in the taxonomy is \"fictional organization\", establishing the broader scope. Sibling classes such as \"ministry of Oceania\", \"Pokémon crime organization\", and \"fictional resistance movement\" represent specific governmental, criminal, or insurgent groups that are unsupported by the evidence of a corporate entity. The remaining types generalize from fictional company to broader organizational and abstract concepts in descending order of specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"fictional company in DC Comics\\\" indicates that \\\"fictional company\\\" is the most specific type. Its direct parent in the taxonomy is \\\"fictional organization\\\", establishing the broader scope. Sibling classes such as \\\"ministry of Oceania\\\", \\\"Pokémon crime organization\\\", and \\\"fictional resistance movement\\\" represent specific governmental, criminal, or insurgent groups that are unsupported by the evidence of a corporate entity. The remaining types generalize from fictional company to broader organizational and abstract concepts in descending order of specificity.\", \"types\": [\"fictional company\", \"fictional organization\", \"organization\", \"corporate body\", \"fictional entity\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 552,
+      "candidatesTokenCount": 142,
+      "totalTokenCount": 1349,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 552
+        }
+      ],
+      "thoughtsTokenCount": 655,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "5qG1au7iDc-GxN8PxomyuQ4"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 552,
+    "candidatesTokenCount": 142,
+    "totalTokenCount": 1349,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 552
+      }
+    ],
+    "thoughtsTokenCount": 655,
+    "serviceTier": "standard"
+  }
+}

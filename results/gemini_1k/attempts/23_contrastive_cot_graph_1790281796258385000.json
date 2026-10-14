@@ -1,0 +1,176 @@
+{
+  "example_number": 23,
+  "entity_id": "wd:Q7372522",
+  "entity_label": "Roy Andries De Groot",
+  "description": "American writer (1910-1983)",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0023/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0023/metadata.json",
+  "input_hash": "384ee5718cfd5bd3c5f5965f9309b87341185907ea8294e29fc7c1050d623c8d",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Roy Andries De Groot\nDescription: American writer (1910-1983)\n\nTaxonomy context:\n- Direct parent classes: critic\n- Sibling classes: theatre critic, media critic, cultural critic\n- Direct child classes: beer critic\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q7372522",
+    "entity_label": "Roy Andries De Groot",
+    "description": "American writer (1910-1983)",
+    "reference_class_id": "wd:Q1495660",
+    "reference_type": "food critic",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1495660",
+        "label": "food critic",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q2556193",
+        "label": "wine critic",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q6430706",
+        "label": "critic",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q15980158",
+        "label": "non-fiction writer",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q702269",
+        "label": "professional",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q2500638",
+        "label": "creator",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q327055",
+        "label": "worker",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "critic",
+      "siblings": "theatre critic, media critic, cultural critic",
+      "children": "beer critic"
+    },
+    "oracle_graph_context": {
+      "parents": "critic",
+      "siblings": "theatre critic, media critic, cultural critic",
+      "children": "beer critic"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 23,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1495660",
+      "wd:Q2556193"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q6430706"
+      ],
+      "siblings": [
+        "wd:Q17337766",
+        "wd:Q19251029",
+        "wd:Q20020377"
+      ],
+      "children": [
+        "wd:Q858000"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "status": "completed",
+  "predictions": [
+    "food critic",
+    "critic",
+    "writer",
+    "professional",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "timestamp_utc": "2026-09-24T20:29:48.736805+00:00",
+  "response": "{\n  \"explanation\": \"The taxonomy context positions the omitted target class directly under critic, alongside siblings like theatre critic, media critic, and cultural critic, and directly above beer critic; this pinpointed node is food critic. While siblings specialize in performing arts or general culture, Roy Andries De Groot is specifically recognized as a food and culinary critic and writer. The child class beer critic is rejected as overly narrow, as the evidence does not justify restricting his domain solely to beer. The broader valid classes (critic, writer, professional, person) follow in decreasing order of specificity.\",\n  \"types\": [\n    \"food critic\",\n    \"critic\",\n    \"writer\",\n    \"professional\",\n    \"person\",\n    \"agent\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The taxonomy context positions the omitted target class directly under critic, alongside siblings like theatre critic, media critic, and cultural critic, and directly above beer critic; this pinpointed node is food critic. While siblings specialize in performing arts or general culture, Roy Andries De Groot is specifically recognized as a food and culinary critic and writer. The child class beer critic is rejected as overly narrow, as the evidence does not justify restricting his domain solely to beer. The broader valid classes (critic, writer, professional, person) follow in decreasing order of specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The taxonomy context positions the omitted target class directly under critic, alongside siblings like theatre critic, media critic, and cultural critic, and directly above beer critic; this pinpointed node is food critic. While siblings specialize in performing arts or general culture, Roy Andries De Groot is specifically recognized as a food and culinary critic and writer. The child class beer critic is rejected as overly narrow, as the evidence does not justify restricting his domain solely to beer. The broader valid classes (critic, writer, professional, person) follow in decreasing order of specificity.\",\n  \"types\": [\n    \"food critic\",\n    \"critic\",\n    \"writer\",\n    \"professional\",\n    \"person\",\n    \"agent\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 559,
+      "candidatesTokenCount": 164,
+      "totalTokenCount": 2080,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 559
+        }
+      ],
+      "thoughtsTokenCount": 1357,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "PYi1aoT5C7bXxN8P4MKimAE"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 559,
+    "candidatesTokenCount": 164,
+    "totalTokenCount": 2080,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 559
+      }
+    ],
+    "thoughtsTokenCount": 1357,
+    "serviceTier": "standard"
+  }
+}

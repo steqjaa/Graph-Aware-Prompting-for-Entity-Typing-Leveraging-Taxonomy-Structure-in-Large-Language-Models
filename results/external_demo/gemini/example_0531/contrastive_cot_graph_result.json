@@ -1,0 +1,164 @@
+{
+  "example_number": 531,
+  "entity_id": "wd:Q1193901",
+  "entity_label": "Jōtoku",
+  "description": "Japanese era from November 1097 to August 1099",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0531/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0531/metadata.json",
+  "input_hash": "9ceb4039c8c5101ed0453a6cc778e543b9277ca52d4b4432bd7f5dd21c7b859d",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Jōtoku\nDescription: Japanese era from November 1097 to August 1099\n\nTaxonomy context:\n- Direct parent classes: historical period\n- Sibling classes: post-war, age, ice age\n- Direct child classes: Korean era name, Chinese era name\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q1193901",
+    "entity_label": "Jōtoku",
+    "description": "Japanese era from November 1097 to August 1099",
+    "reference_class_id": "wd:Q256408",
+    "reference_type": "era name",
+    "gold_types": [
+      {
+        "class_id": "wd:Q256408",
+        "label": "era name",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q11514315",
+        "label": "historical period",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q6428674",
+        "label": "era",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q186081",
+        "label": "time interval",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q26907166",
+        "label": "temporal entity",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "historical period",
+      "siblings": "post-war, age, ice age",
+      "children": "Korean era name, Chinese era name"
+    },
+    "oracle_graph_context": {
+      "parents": "historical period",
+      "siblings": "post-war, age, ice age",
+      "children": "Korean era name, Chinese era name"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 531,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q256408"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q11514315"
+      ],
+      "siblings": [
+        "wd:Q1201472",
+        "wd:Q17522177",
+        "wd:Q49367"
+      ],
+      "children": [
+        "wd:Q698350",
+        "wd:Q845538"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "Japanese era name",
+    "era name",
+    "era",
+    "historical period",
+    "period of time",
+    "temporal entity",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:16:17.985508+00:00",
+  "response": "{\n  \"explanation\": \"The description identifies Jōtoku as a 'Japanese era', supporting 'Japanese era name' and 'era name' as the most specific types. The taxonomy's direct parent 'historical period' and sibling classes like 'age', 'post-war', and 'ice age' establish the temporal context. While the taxonomy lists child classes 'Korean era name' and 'Chinese era name', they are rejected because the entity is specifically Japanese. Valid broader types follow in order of decreasing specificity.\",\n  \"types\": [\n    \"Japanese era name\",\n    \"era name\",\n    \"era\",\n    \"historical period\",\n    \"period of time\",\n    \"temporal entity\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The description identifies Jōtoku as a 'Japanese era', supporting 'Japanese era name' and 'era name' as the most specific types. The taxonomy's direct parent 'historical period' and sibling classes like 'age', 'post-war', and 'ice age' establish the temporal context. While the taxonomy lists child classes 'Korean era name' and 'Chinese era name', they are rejected because the entity is specifically Japanese. Valid broader types follow in order of decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The description identifies Jōtoku as a 'Japanese era', supporting 'Japanese era name' and 'era name' as the most specific types. The taxonomy's direct parent 'historical period' and sibling classes like 'age', 'post-war', and 'ice age' establish the temporal context. While the taxonomy lists child classes 'Korean era name' and 'Chinese era name', they are rejected because the entity is specifically Japanese. Valid broader types follow in order of decreasing specificity.\",\n  \"types\": [\n    \"Japanese era name\",\n    \"era name\",\n    \"era\",\n    \"historical period\",\n    \"period of time\",\n    \"temporal entity\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 565,
+      "candidatesTokenCount": 160,
+      "totalTokenCount": 2110,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 565
+        }
+      ],
+      "thoughtsTokenCount": 1385,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "0ibMaqWvD6mQ3boP9cr-6AM"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 565,
+    "candidatesTokenCount": 160,
+    "totalTokenCount": 2110,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 565
+      }
+    ],
+    "thoughtsTokenCount": 1385,
+    "serviceTier": "standard"
+  }
+}

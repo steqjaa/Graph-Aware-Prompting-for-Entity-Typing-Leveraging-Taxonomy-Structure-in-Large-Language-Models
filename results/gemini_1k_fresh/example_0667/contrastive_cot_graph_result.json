@@ -1,0 +1,172 @@
+{
+  "example_number": 667,
+  "entity_id": "wd:Q3487226",
+  "entity_label": "SoFLY & Nius",
+  "description": "French record production team",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0667/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0667/metadata.json",
+  "input_hash": "d8bf386e18d33d0526eafba60514acb4924b84c156f30f88b01c95b86d3aed62",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: SoFLY & Nius\nDescription: French record production team\n\nTaxonomy context:\n- Direct parent classes: team\n- Sibling classes: duo, computer emergency response team, sports team\n- Direct child classes: art department, film crew\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q3487226",
+    "entity_label": "SoFLY & Nius",
+    "description": "French record production team",
+    "reference_class_id": "wd:Q7247847",
+    "reference_type": "production team",
+    "gold_types": [
+      {
+        "class_id": "wd:Q7247847",
+        "label": "production team",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q327245",
+        "label": "team",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "team",
+      "siblings": "duo, computer emergency response team, sports team",
+      "children": "art department, film crew"
+    },
+    "oracle_graph_context": {
+      "parents": "team",
+      "siblings": "duo, computer emergency response team, sports team",
+      "children": "art department, film crew"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 667,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q7247847"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q327245"
+      ],
+      "siblings": [
+        "wd:Q10648343",
+        "wd:Q1122253",
+        "wd:Q12973014"
+      ],
+      "children": [
+        "wd:Q4797184",
+        "wd:Q506702"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "record production team",
+    "production team",
+    "team",
+    "group of people",
+    "collective",
+    "organization",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:57:14.242089+00:00",
+  "response": "{\"explanation\": \"The description \\\"French record production team\\\" directly supports record production team and production team as the most specific types. The taxonomy places production team under the direct parent class team. Nearby sibling classes under team like sports team and computer emergency response team are rejected because the entity's domain is music. Although duo is also factually compatible with a two-person team, production team directly reflects the primary function described. Child classes such as film crew and art department represent specialized visual and cinematic production units unsupported by the record production context. Broader types trace up through general social groups and entities.\", \"types\": [\"record production team\", \"production team\", \"team\", \"group of people\", \"collective\", \"organization\", \"agent\", \"entity\"]}",
+  "explanation": "The description \"French record production team\" directly supports record production team and production team as the most specific types. The taxonomy places production team under the direct parent class team. Nearby sibling classes under team like sports team and computer emergency response team are rejected because the entity's domain is music. Although duo is also factually compatible with a two-person team, production team directly reflects the primary function described. Child classes such as film crew and art department represent specialized visual and cinematic production units unsupported by the record production context. Broader types trace up through general social groups and entities.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"French record production team\\\" directly supports record production team and production team as the most specific types. The taxonomy places production team under the direct parent class team. Nearby sibling classes under team like sports team and computer emergency response team are rejected because the entity's domain is music. Although duo is also factually compatible with a two-person team, production team directly reflects the primary function described. Child classes such as film crew and art department represent specialized visual and cinematic production units unsupported by the record production context. Broader types trace up through general social groups and entities.\", \"types\": [\"record production team\", \"production team\", \"team\", \"group of people\", \"collective\", \"organization\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "Eu8jCuwjAWkUfRPHPnabbbCeMCPiWi5gFGJHUiNXdXa3Q9dlVTT3gl5XyyLlKDE6l20g27EyB0QRBRbfxZQj7Jyx9tcfGkAs+nNtQsIHqKpVX63p5UPetqPTOtW+dYjLCqYbmMtlGDG18USFJIelh4XX+In1vxbFimyZSmy5sFYLTMlCrzKvRdMfXs4L04lRU/gzzxIOJK/l/j6KuHXcA8ha/QdY8lRu9ISue6SXj/L/hMveC9sVf7vpAeg5MbHr4MXe24kBrTlxsE0tPK891GtSADPYMOnloH9XgxC6UJzIRyOeCA/x/c1ZXTfzNWKq8N+DL1RZWC882cEBgUp3hJzk+BiUir93Vjj6DtUazo5jOKeJBsOG5yCgdlNIpxa87jz9h14gL9UwIAN6MYjul+tW+gARBj0+IL7hL6P40pVsN0Q8aYFwzo0msD4wZHao2/m1LVIDD0KpK7VAhBPZRvVi36RJJiexOpvv7rexH5Q+fWGvL2pCCs7zbfLx1CkfxhElHQcdC4jwPww+eeXP+U9gPNHqhcAY0YAe4LoQctGlmTMI/ZDr3arG70r2DMLvViQweC7jv66ijMvOrkm+Qdw8S+34K6Iw0VdUuf3YWUeFDxY4bApbgseqIwZJgIUQAV8GfQQCbextvcVGW0HMqVL+VoocN+FL+UCUuvwksP7Lz3aZkx9aobux+MqJrg6qdHoAXvrX0dlFPDLLVILDg0bM2gNknkphfg/IDJ1l3EMFYTt0bDcq2ATHZuLQiiN3QJtlWuLWvm0+ORvHQWPsmmph7qSAEIRDTxdRmwzGygLCRiqdGQseXL4Rw/i78x6r5OrV2MAyrwv7lA474ODavbqCvKMdWWi7hEiodrbc7hmd/aIUiObstusKIwTOgT/Q1+9u7OnRmaAAr2esCo1GZBzJj2lfqxbE0F7iMe8lA+evAUJQTf/sHb1p+LlOlhh5UXklAuIXdJtizpHRZnWYKQnI+PGQgJ2Pbm/FetYzsXG6crn7gKzw8H2HgtLRgRZFr8u34z4fXfUvMJJ9ZRv/apMHmlnXjJe6FMYfi7FdxvkX2nMgIpXv+1Rxl2B2pHtIuY3hSFLTFQEnILj8UOye/hJ7yU6hpAlqM+ZqUEN67A40+dITvfuudJWC4VPUbiJTjKjQbV1pEftq74femmxNRqEUAoL2SCRBZq/GtsinrX8XxOCZreHWKAapteT585Xdkz7aCSZG5nJtr0bMaZ9+8p5L110JueDFg+OBdcTFMFL6Qi19BcwSwfZNCZZ962NbBNgpj4YcDmZuVEE6ITxZ1u1I+NviVENVC9u42mv352b/kJllX6aejlTUOZN3fC/Z5tp5OsNj77o//q9XrlNJNWUUWs6uJ4b/gE3i/HDQR16+sBI/19BLl1r2/Xi78WSMrE+gEL1ZFOjRIPcNQq4kVuz2UfNBtG/lC9+IXDYiagd5ayF91/rnyP8OhIsBzk1sDqXJHhzw25/sissjVMz69WoNRS4jSaRxoW+BPHGw8Rro0mUR/AORG8S+XFG2s5zDkZ6sIC9O2AixpAdKqnsC8GDDqOS39TyBGmC1IMg6+wBTbM6aij/grHvCfA+RVj8J+FluO0UJsj+orNN+eAmiBcTDKA9bF2irfirOi1SV25Jb96NNMLez9nnOhhqwhaT4DG8piXp8N02K1MaZmPq+VXc2UezD87lA5lHTqoLQUWKyjYzLb5FAYdBF4luHuXUikvQYT9SR5V8Rrt/3tfYXE+jze1ylDpowEW1+VBME2Ge8lhnBifOLrkC28gPklGhfbpdxGzlOFALNWP9frUlykqyNeOb1g9BzUes2avDUpCiEAVRNw5y3FupiQ+/JnkovWZqVGdKRqRTZ3uVW19iPpkeukVZOQEpWasK+T+BZTIbz2tlB/lM7Ufxz5rOIAS9gW+KyGWYMnJQ0AQHhZ2a2CX2SJCfIknSMmA9q2heEN7u3nyOEn1RGr8BQRJwm6+YKjnXdPVKy/3TajiMsA5LeOF6sZIgrW1EYVoen8Ew64lJgPKKsHB/FxNbo4xIs8Vjp60z+NKhudYK92Qw/A2NIfmpHcO4/F5qDr857L6shNSxBQh3TiCnhfhqbS8Na9dBfCuIIH2yPhuGdytpemzS3vuHt0Femxdw3jdTyT0UM+SyIFfqZevHlcFceCOdF3sdVugPg1WVMiiTZZIxX+FWBz2xg+Hk2kdUV+FkB1XqwINkqyyQf5R5pe974r38rMaba32N3kSYF1aepr4wwFqK2h878vWhRH7jmeiB6UXsiJXoRONmg+IjptHNDbdRkCm1FTdWHDqzeC2yihj3+utxPU+9Q607COXYQUoyzFX5fM0JQQ+Eg8hHwanolCAnl0867il5mFSmhKze9E2+Wl5Mn1xduYRP43ppkPCB4QJ/lF1tLnylN6cOiFRZrWMI6cnrgLgJ85KODiLkILujhPfnIoRVRrktkgL6yKSvKXrlXuY59tWif2zI3YCNAgXVK0x37NS/POciHNsDt+/sBlSQN6QfJWfwjAneKd93wAavs8Z4A3JUiwFRdE3Gdy+UU3vknS65MCDfDpEMFVskLh0Se2Sb0Nvv42o0iq1BCVdAcx9Kl/nJa6qa+/HZigSznxp8/rJTzJ7V6hX4PurNaFlfIroGt+yaJNXerXrw7+tmd+DtrXvsXae8gZyds+C7D4d/DeV4ykyo09G3lcbX8HXDkLrnFHJWdqeIqTetUoP/4B8IkgwhlhSBnrPXxRWQYaaR5c5c1WPRZeT7OrhZpM/MK1aHP6u8A8G4jwzeomh3Bdc/lE91we2itk0OMNcPiF7jFvYkjyOPZ6l1gK+xcm7O7rXWooI+6qmAb0soNhYnJS0/YQgWVHbf+vVVBO02ixEGpTjiL0cGpWgkzznonjiVIiY9PYRs8GW5qIWdqxIl4DbLhM8M2+sVXSxrQH/NUBjZ+OhlrIBCmXtQjlzhDD/aEpzl313nTWcw7D8CpPbQROmX/+elATiiRk6gMASYXI7ywnj5+WTd6HGILS7r9/fn+BY4BKw9vzrRmoxnV2XfsIEDpPHWZHxn4Jitk7cbh2eTSz52UR5d9ro70MTtb09xjGjRfzBZUN4iqkegHNyoCgmDZszXEp6de/utgXwUgNOE253KayR/901KXVmCuVnpCS1GDKfMkZFr+jyRWbekw3qCu+HFIkTmvUtC4/tAlNjYEwp+AtBkrqRIDg80sEffwfvLEQRbfLL/BBWjZUth+nrtBRiSf1YDEbvJQWpR8OQc1ykbgbcyJPycu03SoMa7BAdsZIk65IY/ePwaNtKszOQGcY3DJhSzEA/ENQm6A/yhecCbY7vkp4EfhAoWC3JeVbdBd+mRq1KQ1BXAc2KzBFvs4OzxBrJ1jgoUI2OkYwC+rFuKEu9UhSH5QkhVYYnDHfe1MHBBgUYrNcT2jc2pl3BSVcLKHqCTJGStlYEcjrlNhe0AiMCtfMoXSdgwR0DUfgoRYDbmCeRARfroU6mfU4LaKPa7eIk8BIMU4mRjaUDjdislmrK5IR9I47Ev1oH6kGNirDCUCH63IQBH3gmrigdssd6w2zLDHIzaHGxc6HgCsg3Lvp4HnUxFbzp88KNJIWWzCPxjR+ecLkoJnMjcseJ3WzUBZpVTumstxmIWuSHnu6QktdwYZBL8YnX8TxMuHOh5DEUJElZyVbgqjXqur3a1RTr35B2Lj/VSd14bGcq2xZQ07hdtBi8L12TjXCmm3mIQI8GgD0SDg2AIqflHcdIxFD8Cm2k39Ut/kGCMZ3o6GCHOgIX7ExRodDvlGzzwTgfBIKoUnD3yUVkc5pJEcSrFclBetlciSY+rRfAPBggRBvRyjsQzlMlg2i3OYEqgm0cH5GIKA7dkU6hYkqSB4G4eFmf5a2hLlRLaIuck3BLsoV7B2bWXVQAhWm1IjFtwrEX6a1g9j0aonANs0uEiLlnI7japcocNTGEV2hQ7yt062LAiTDkApwgm57FnUWVrmvon5pL9TCAnLDnXx2ExLXtjjbYtp2aZIWRlVg8J5rxT4n2vwAnr7MJmttVs/wGI0a63RfIzQstlYy93Bvoh6SbPwSB3s+zIWwMQkcQXogLkFxZ5O7ZUqddWlCp1IZMnm/GCZlu9CXpmC2OaE2ckvoOOVmoECip29SFV9foolr3MukOi3b2i21bARHwMPQkmwOvnHTw2JMpFZ+IhIxxSS/vN45mGZd/Y1hfJdK22cSO0ataKLWHsqlEP71XBRivGSgy8WFOSfGJY6+6+5xn0vKSk1v+kWahb1Og9/yRbZYPMgdeRdOBsVjNinOhMSrdQvdZf/Nv2hKrEKG+DdPzlt0tdvxxUpAYBV4UmnDCtzC3VNF5k/HDiHQGBbBKabLM+d/yi6vaBZHT/9Pk4dHWCkAsxGnlcNAE5Fz6CXB1JRiSjeDX8T65OE5jpp1/UZnubX1mW+UVcMFMAnKBRedB7WuX0/TAw5vDY3dWiWgKHtdByGzikiAuWdVLM/s3nXcPnqHKqKzqAZl4rxUzeva47qq/4xVJZoqWSM/6+zOm5j87+3Bofpz6jpyuEPBJGjWpVta0ArmSmVGLDB7S5vtIirmKTk7b8FhjGb/NYIRWPLKgn2OJVJZrNgfMh1fjGuMtg3owA+83vY8Lw86mti/uckHWs6o77I8G5yb0XDtvxP0h4r7qdSAv5LKwsH7vC5SD67CxAziasWjGKFAiF7RTl3aMW600R+xKRN7DKaq9GB3CpMU1vjfpkLgbMh9RhWuUlR/7UYloOX3MjKx6WAQN50jMGjkbuPHoHIw//uyj5xX8mYz3VUefnpoqWCqv0xLtPMzwtD8qZQrFGHGZ9wdzkqB77BkLHdXedaruT6xSQPtJWVqZtyu4ZsUfdX+IV+c6Sg9HdPcuTUzHbp0YY/j0ssfrGMZZFW54sLqbXr4d+yC+2ycYtR8C9/4l2y8D2ymQcGA6HUZ+HKJ7RYBM8HdEmNM7NoSm5DNJpVUvW4u9lnzcfebN/lhnWUXfcdfVK/kh1ljpIRjUrMb7p5qKt3Z5CvQHjK1uf2z9vEtsAGrUUdMm7mrfxdq2PpOghGW4b5MQSri7zuoCLrmyB1S78fZpYssziYWWwzkmgsCewf2LWZEvhVELFTebytDC5e/k99Ade8lfxUjQnl8Ect/eJnlbj5p+IwFVtxqC1DWabAxRLJuAsEZ+KyWEYBPSgFYFWDM79YBoufpQnJb5iukI9GX+JUKZ2E+gZ/ByBfarQEGRWsUwIRfD8xQelj64cqmKC8Ur/i5VxGmSM3zqyh5kyDC9KOhXi1vJk/n8lcZ/XFfwPVHarB1e0VjBt6wc1wC8G7LPUKlnVKs5doJORHj05So1NRONN+jj5DFdEpqlTx1qVQF2pdFnubDi7IK1fyy3j48ohU5sFu1N1EDxnNduyRSnAi0kSPnMZJzMXJLupLo5UmcImFZtHnKrMT0w6uc2Vc+QPIHK5c0j3jh31aZBFA5Vm7DlorCml9e3eIxEYCe9S0KnmKCW5dQ7CcIdO1N9xelhjZxBLbB9Njidw4M+xhLSJWAtKNtn+ojyIf2jhWK3ajMwJ6w8UXO6ureaJGwDsSMLByinMdqE+wZr+8DJLrkdL5HJ1Ms/pIjCki3oV5gIXAqozJVOizmLTmX7ocJe9hrMxJJSjeMT9YJfsnpD/onwpA2Vc4/XNfbuQab51XVQcrCaKGkazwQixY0hiSc69v4JlWQnG6pJCnhT8rNlV5DhUhs5oZtDVx74Vne2hQH9mmmPHP9pVthM0R8wRachw2JwY1Wk/a027KW6MlgUKBQ1X5kh5yOYWZgtyDI9vXBgaeXQZZZjpDyCkQAqoNcAhU6z4j+Lr3wwqPBYqqhs2aE19Qe3zRu9UZTYZ3Hr+ySa/rGdH1WP8AO7KDZ+Px5tM2LhEU28suL+5wFT4puCqRH/W//SqTzkMqwzbbBvw5ygob0dx05nFhtiwjFfMrtTocJHcNsHIglohjjO1SHPozHQvgjy6wVSYaSs/1iffPUSocOaZdCtUX6WrCTeQEE0ViOwqG+0D+CokA5ed3FMXkPmO/NUjOZHXfySglasL1r2v7MRCdyQBgIwPnwqn3TnZjDJCyOzYGS6gYw11Ywl7DpFpZ9F1Q5g=="
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 554,
+      "candidatesTokenCount": 152,
+      "totalTokenCount": 1790,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 554
+        }
+      ],
+      "thoughtsTokenCount": 1084,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "upy1au-dG6_YvdIP2YqLiQ8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 554,
+    "candidatesTokenCount": 152,
+    "totalTokenCount": 1790,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 554
+      }
+    ],
+    "thoughtsTokenCount": 1084,
+    "serviceTier": "standard"
+  }
+}

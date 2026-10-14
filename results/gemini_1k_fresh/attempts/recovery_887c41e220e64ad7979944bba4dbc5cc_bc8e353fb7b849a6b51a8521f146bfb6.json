@@ -1,0 +1,160 @@
+{
+  "example_number": 966,
+  "entity_id": "wd:Q106604171",
+  "entity_label": "Ludmila Stovbchataya",
+  "description": "gymnast born 1974",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0966/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0966/metadata.json",
+  "input_hash": "4cc3fe1c80e086ce1d63af8fddb11b7137ef8976bbc2598b60b0a2e39b2941cf",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Ludmila Stovbchataya\nDescription: gymnast born 1974\n\nTaxonomy context:\n- Direct parent classes: athlete\n- Sibling classes: competition climber, tennis player, field hockey player\n- Direct child classes: artistic gymnast, trampoline gymnast\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q106604171",
+    "entity_label": "Ludmila Stovbchataya",
+    "description": "gymnast born 1974",
+    "reference_class_id": "wd:Q16947675",
+    "reference_type": "gymnast",
+    "gold_types": [
+      {
+        "class_id": "wd:Q16947675",
+        "label": "gymnast",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q2066131",
+        "label": "athlete",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q50995749",
+        "label": "sportsperson",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "athlete",
+      "siblings": "competition climber, tennis player, field hockey player",
+      "children": "artistic gymnast, trampoline gymnast"
+    },
+    "oracle_graph_context": {
+      "parents": "athlete",
+      "siblings": "competition climber, tennis player, field hockey player",
+      "children": "artistic gymnast, trampoline gymnast"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 966,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q16947675"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q2066131"
+      ],
+      "siblings": [
+        "wd:Q107690317",
+        "wd:Q10833314",
+        "wd:Q10843263"
+      ],
+      "children": [
+        "wd:Q13381572",
+        "wd:Q23892384"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "gymnast",
+    "athlete",
+    "contestant",
+    "person",
+    "physical entity",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:19:44.931155+00:00",
+  "response": "{\"explanation\": \"The description \\\"gymnast born 1974\\\" explicitly identifies the entity as a gymnast. In the provided taxonomy, gymnast falls under the direct parent class athlete, which correctly defines the broader scope. Sibling classes under athlete such as competition climber, tennis player, and field hockey player represent other sport specialties that are inconsistent with gymnastics. Child classes like artistic gymnast and trampoline gymnast are narrower disciplines that are not directly confirmed by the concise description. Therefore, gymnast is the most specific justified type, followed by progressively broader classifications.\", \"types\": [\"gymnast\", \"athlete\", \"contestant\", \"person\", \"physical entity\", \"entity\"]}",
+  "explanation": "The description \"gymnast born 1974\" explicitly identifies the entity as a gymnast. In the provided taxonomy, gymnast falls under the direct parent class athlete, which correctly defines the broader scope. Sibling classes under athlete such as competition climber, tennis player, and field hockey player represent other sport specialties that are inconsistent with gymnastics. Child classes like artistic gymnast and trampoline gymnast are narrower disciplines that are not directly confirmed by the concise description. Therefore, gymnast is the most specific justified type, followed by progressively broader classifications.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"gymnast born 1974\\\" explicitly identifies the entity as a gymnast. In the provided taxonomy, gymnast falls under the direct parent class athlete, which correctly defines the broader scope. Sibling classes under athlete such as competition climber, tennis player, and field hockey player represent other sport specialties that are inconsistent with gymnastics. Child classes like artistic gymnast and trampoline gymnast are narrower disciplines that are not directly confirmed by the concise description. Therefore, gymnast is the most specific justified type, followed by progressively broader classifications.\", \"types\": [\"gymnast\", \"athlete\", \"contestant\", \"person\", \"physical entity\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 559,
+      "candidatesTokenCount": 133,
+      "totalTokenCount": 1048,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 559
+        }
+      ],
+      "thoughtsTokenCount": 356,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "AaK1arGyC9_4vdIP_tKP6Q4"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 559,
+    "candidatesTokenCount": 133,
+    "totalTokenCount": 1048,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 559
+      }
+    ],
+    "thoughtsTokenCount": 356,
+    "serviceTier": "standard"
+  }
+}

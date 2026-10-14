@@ -1,0 +1,143 @@
+{
+  "example_number": "571",
+  "entity_id": "wd:Q87407785",
+  "entity_label": "Kay Kinoshita",
+  "description": "particle physicist at University of Cincinnati",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0571/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0571/metadata.json",
+  "metadata": {
+    "entity_id": "wd:Q87407785",
+    "entity_label": "Kay Kinoshita",
+    "description": "particle physicist at University of Cincinnati",
+    "reference_class_id": "wd:Q169470",
+    "reference_type": "physicist",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1650915",
+        "label": "researcher",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q169470",
+        "label": "physicist",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q1914017",
+        "label": "knowledge worker",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q901",
+        "label": "scientist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q20826540",
+        "label": "scholar",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q327055",
+        "label": "worker",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "scientist",
+      "siblings": "military scientist, scientific explorer, astronomer",
+      "children": "acoustician, atomic physicist, geophysicist"
+    },
+    "oracle_graph_context": {
+      "parents": "scientist",
+      "siblings": "military scientist, scientific explorer, astronomer",
+      "children": "acoustician, atomic physicist, geophysicist"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 571,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q169470"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q901"
+      ],
+      "siblings": [
+        "wd:Q104176943",
+        "wd:Q10498147",
+        "wd:Q11063"
+      ],
+      "children": [
+        "wd:Q10404150",
+        "wd:Q105627120",
+        "wd:Q12094958"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Kay Kinoshita\nDescription: particle physicist at University of Cincinnati\n\nTaxonomy context:\n- Direct parent classes: scientist\n- Sibling classes: military scientist, scientific explorer, astronomer\n- Direct child classes: acoustician, atomic physicist, geophysicist\n\nAnswer:",
+  "input_hash": "80dc2f42d9e2ec5b33b278662352bc6ee4dd720dde092d6d1c006ce0c79bfbdd",
+  "model": "meta-llama/Llama-3.1-8B-Instruct",
+  "model_version": "meta-llama/Llama-3.1-8B-Instruct@0e9e39f249a16976918f6564b8830bc894c89659 (vLLM)",
+  "revision": "0e9e39f249a16976918f6564b8830bc894c89659",
+  "backend": "vllm",
+  "status": "completed",
+  "response": "{\"explanation\": \"Particle physicist is most specific by description. The taxonomy parent class is scientist, suggesting a narrower category. However, direct child classes atomic physicist and geophysicist are overly specific and unsupported by the description. Considering sibling classes and their relation to the parent class, military scientist is less appropriate. Astronomer as a sibling is relevant due to the shared physics context, but physicist is supported more directly by the description. The remaining returned types are valid, broader classes ranked in decreasing specificity.\", \"types\": [\"particle physicist\", \"atomic physicist is not as good; it was marked as a child, but e.g. acoustician is a child not likely with above description\", \"physicist\", \"scientist\", \"research scientist\", \"technical expert\", \"professional\", \"worker\", \"person\", \"person or organization\", \"legal entity\", \"abstract entity\"]}",
+  "predictions": [
+    "particle physicist",
+    "atomic physicist is not as good; it was marked as a child, but e.g. acoustician is a child not likely with above description",
+    "physicist",
+    "scientist",
+    "research scientist",
+    "technical expert",
+    "professional",
+    "worker",
+    "person",
+    "person or organization",
+    "legal entity",
+    "abstract entity"
+  ],
+  "explanation": "Particle physicist is most specific by description. The taxonomy parent class is scientist, suggesting a narrower category. However, direct child classes atomic physicist and geophysicist are overly specific and unsupported by the description. Considering sibling classes and their relation to the parent class, military scientist is less appropriate. Astronomer as a sibling is relevant due to the shared physics context, but physicist is supported more directly by the description. The remaining returned types are valid, broader classes ranked in decreasing specificity.",
+  "finish_reason": "STOP",
+  "generated_tokens": 180,
+  "prompt_tokens": 580,
+  "generation_config": {
+    "temperature": 1.0,
+    "seed": 0,
+    "response_format": "json_object",
+    "max_tokens": 32188,
+    "structured_json_schema": null
+  },
+  "timestamp_utc": "2026-10-09T07:37:40.071209+00:00"
+}

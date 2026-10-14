@@ -1,0 +1,170 @@
+{
+  "example_number": 72,
+  "entity_id": "wd:Q4548469",
+  "entity_label": "1260",
+  "description": "IBM PC DOS computer file virus",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0072/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0072/metadata.json",
+  "input_hash": "67a71f50777e4266a4db3844cb48b44241622b3986df70734510b2db435e1ded",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: 1260\nDescription: IBM PC DOS computer file virus\n\nTaxonomy context:\n- Direct parent classes: malware\n- Sibling classes: Trojan horse, spyware, rootkit\n- Direct child classes: boot sector virus\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q4548469",
+    "entity_label": "1260",
+    "description": "IBM PC DOS computer file virus",
+    "reference_class_id": "wd:Q485",
+    "reference_type": "computer virus",
+    "gold_types": [
+      {
+        "class_id": "wd:Q485",
+        "label": "computer virus",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q14001",
+        "label": "malware",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q17537576",
+        "label": "creative work",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q40056",
+        "label": "computer program",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q386724",
+        "label": "work",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q7397",
+        "label": "software",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q2424752",
+        "label": "product",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "malware",
+      "siblings": "Trojan horse, spyware, rootkit",
+      "children": "boot sector virus"
+    },
+    "oracle_graph_context": {
+      "parents": "malware",
+      "siblings": "Trojan horse, spyware, rootkit",
+      "children": "boot sector virus"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 72,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q485"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q14001"
+      ],
+      "siblings": [
+        "wd:Q14639",
+        "wd:Q14644",
+        "wd:Q14645"
+      ],
+      "children": [
+        "wd:Q893210"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "file virus",
+    "computer virus",
+    "malware",
+    "software",
+    "computer program",
+    "intellectual work",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:12:21.716607+00:00",
+  "response": "{\n  \"explanation\": \"The description identifies 1260 as an 'IBM PC DOS computer file virus', directly supporting computer virus (and file virus) as the most specific type. In the taxonomy, the direct parent class malware defines the broad category of malicious software. Sibling classes such as Trojan horse, spyware, and rootkit are rejected because the entity functions specifically as a self-replicating virus rather than a standalone deceptive program, covert monitoring tool, or stealth privilege-escalation system. The child class boot sector virus is rejected because the description explicitly identifies 1260 as a file virus rather than an infector of storage boot sectors. The remaining types reflect valid, increasingly broad classifications.\",\n  \"types\": [\n    \"file virus\",\n    \"computer virus\",\n    \"malware\",\n    \"software\",\n    \"computer program\",\n    \"intellectual work\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The description identifies 1260 as an 'IBM PC DOS computer file virus', directly supporting computer virus (and file virus) as the most specific type. In the taxonomy, the direct parent class malware defines the broad category of malicious software. Sibling classes such as Trojan horse, spyware, and rootkit are rejected because the entity functions specifically as a self-replicating virus rather than a standalone deceptive program, covert monitoring tool, or stealth privilege-escalation system. The child class boot sector virus is rejected because the description explicitly identifies 1260 as a file virus rather than an infector of storage boot sectors. The remaining types reflect valid, increasingly broad classifications.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The description identifies 1260 as an 'IBM PC DOS computer file virus', directly supporting computer virus (and file virus) as the most specific type. In the taxonomy, the direct parent class malware defines the broad category of malicious software. Sibling classes such as Trojan horse, spyware, and rootkit are rejected because the entity functions specifically as a self-replicating virus rather than a standalone deceptive program, covert monitoring tool, or stealth privilege-escalation system. The child class boot sector virus is rejected because the description explicitly identifies 1260 as a file virus rather than an infector of storage boot sectors. The remaining types reflect valid, increasingly broad classifications.\",\n  \"types\": [\n    \"file virus\",\n    \"computer virus\",\n    \"malware\",\n    \"software\",\n    \"computer program\",\n    \"intellectual work\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 552,
+      "candidatesTokenCount": 197,
+      "totalTokenCount": 1947,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 552
+        }
+      ],
+      "thoughtsTokenCount": 1198,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "NZK1aqDmOrOf28oP5ZOU6A0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 552,
+    "candidatesTokenCount": 197,
+    "totalTokenCount": 1947,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 552
+      }
+    ],
+    "thoughtsTokenCount": 1198,
+    "serviceTier": "standard"
+  }
+}

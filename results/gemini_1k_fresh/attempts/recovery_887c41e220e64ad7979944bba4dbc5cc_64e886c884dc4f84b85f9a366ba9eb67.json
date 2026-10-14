@@ -1,0 +1,169 @@
+{
+  "example_number": 873,
+  "entity_id": "wd:Q3276252",
+  "entity_label": "DISA A/S",
+  "description": "Danish manufacturing limited company",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0873/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0873/metadata.json",
+  "input_hash": "a46749f7ebca1f7641498703320ea2fdef69c1d23736bb51476d2e5c64a0e90a",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: DISA A/S\nDescription: Danish manufacturing limited company\n\nTaxonomy context:\n- Direct parent classes: business\n- Sibling classes: art gallery, software company, tea house\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q3276252",
+    "entity_label": "DISA A/S",
+    "description": "Danish manufacturing limited company",
+    "reference_class_id": "wd:Q2538889",
+    "reference_type": "weapons manufacturing company",
+    "gold_types": [
+      {
+        "class_id": "wd:Q2538889",
+        "label": "weapons manufacturing company",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q4830453",
+        "label": "business",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "business",
+      "siblings": "art gallery, software company, tea house",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "business",
+      "siblings": "art gallery, software company, tea house",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 873,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q2538889"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q4830453"
+      ],
+      "siblings": [
+        "wd:Q1007870",
+        "wd:Q1058914",
+        "wd:Q1072166"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "manufacturing company",
+    "limited company",
+    "company",
+    "business",
+    "enterprise",
+    "organization",
+    "corporate body",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:12:45.268472+00:00",
+  "response": "{\"explanation\": \"The description \\\"Danish manufacturing limited company\\\" specifies both its sector (manufacturing) and corporate structure (limited company). Under the parent class business, 'manufacturing company' (or 'manufacturing business') is the most direct and specific inferred category, contrasting with sibling alternatives like art gallery, software company, or tea house which represent completely different business domains. With no direct children listed, we avoid unsupported sub-specializations. Broader valid classes follow in decreasing order of specificity from enterprise to corporate body and entity.\", \"types\": [\"manufacturing company\", \"limited company\", \"company\", \"business\", \"enterprise\", \"organization\", \"corporate body\", \"entity\"]}",
+  "explanation": "The description \"Danish manufacturing limited company\" specifies both its sector (manufacturing) and corporate structure (limited company). Under the parent class business, 'manufacturing company' (or 'manufacturing business') is the most direct and specific inferred category, contrasting with sibling alternatives like art gallery, software company, or tea house which represent completely different business domains. With no direct children listed, we avoid unsupported sub-specializations. Broader valid classes follow in decreasing order of specificity from enterprise to corporate body and entity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"Danish manufacturing limited company\\\" specifies both its sector (manufacturing) and corporate structure (limited company). Under the parent class business, 'manufacturing company' (or 'manufacturing business') is the most direct and specific inferred category, contrasting with sibling alternatives like art gallery, software company, or tea house which represent completely different business domains. With no direct children listed, we avoid unsupported sub-specializations. Broader valid classes follow in decreasing order of specificity from enterprise to corporate body and entity.\", \"types\": [\"manufacturing company\", \"limited company\", \"company\", \"business\", \"enterprise\", \"organization\", \"corporate body\", \"entity\"]}",
+              "thoughtSignature": "EtUICtIIAWkUfRM9pQK5h4xO3BBqXL5daZyrLZgqGj9ShZWBm1J01aQQIdIn6huDzHDPRsKAxpXZ4SiiRjDRh+i1KMBeU9zN8bH6jSUQORJ8mEg5UvnoR0Ysje7lvVVQ9XoTgrQM5BfQ7pr0b6Le/VPp5uiDtUZZ5hTeo8jS2bcoMIjRsvUzxB8zkNsz+wZTNVoLvBZHJfwYoXuMSr3Om3AN4hHvWQnLbdSsxVLWMp0IOZVwZMunC/CPXXP/1DBhJc5650eRzeGDBheEcypdmVuDZa5MWZP2lviap461PGT3zpoC2VWAnwCq9w3LNtmadl0dlqFbGAovUDd6DwwxrO91USiAEdyCD208gFQkBc/EimAalfJsr6cHeEWduK1EMsY/0dShRm6054CBYq8rxOfEBFP7VAWrtRweRV8hWMd0quXNIoSeXF0dEWrAYp71pS0CxEv0upxMndh4qBzhjigkWuKCvo9wusbewm+4FakPfKEtlLikzLpVmWB2bfQccbsOchr4uzYeMfi71v3Dp4WWM0ROMRI9wwOSUPW9U/piaHVCwNYS/1DPNCSGvklXXy0XAMDu49tPMfYBuufaCQucvTnw8o1mV1InnK3q5HhIcCSBQtW6/yiDYfjQs8PZe5zj7gTyyif7uC0w9QwgDZa6BMQAdyAcy4nx/gDDabRYY9gzt8qlxf5XJ9GTu3Y8nEkLg4HjawUynYFCXg+fINVd0pxFpz5bZw3zDip5qnYnn95ijRJmjptFKSgf60jDnYAUZlimlqHevpH2DqUTYbkiX56ZmH6scSjahh83OREI+hep0OvYiUovxkuC4YjuNTBL8/y4Uk0wJ5jegozb6gQT1BPgGEo2pPUCUD1WDlyvIAIc3ZGxhcvfY8V+sqh2CRH4WVZNVOIdlzN98EZXfh8mbRJ/Es0silgIC4YRTPIskert1iRp/809kw68S3hiSnSxJCaxwa79j9ZcZNhodgBWRorBVT15ZLMjKYRgsYd80coHFFBV9lv04vZ5P6jP/qc17GDN+DRyvBlfucw2ecj3JU0FrQKFNPRmKr4OR5BrzW/eaEE1oZaGUEPy6w+Zir4YbAzOcJ1Y3uOvAiMCJlKaDJC0OowVGxYmIQtfpypxEgq7lO8MQiasmGdyjqG8o8Ejynoh81XBOxy6ifd73XgqHv3Gw1QM1wbGnUjuumzyGV5JE3lD0b1cRW8g8Em7OMNq4HQQ+Mv8IxuDy3powgQU4Btkry4/4BhsN/HdRPvHUJsXJj2nBGvhg9yuLRqdKJRnDBsvpjGylu9SGx8RilZ8qtD1TMGsJO1LcCgGmn5BqOYgg22/Kw0YKU2Ij+wKjE+h7TjuzCLedCOcIY26IXCCuaD8dIImybsnivGXStzLHigq9RE0kkcClpQ3On/n1ZHq3smWMkj6UKpP67EuFsCoZIDglBlPUNyOxDg6fMFsBQkhQusKY+w0PU/e2JBm12pfSkbKMJE="
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 549,
+      "candidatesTokenCount": 135,
+      "totalTokenCount": 892,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 549
+        }
+      ],
+      "thoughtsTokenCount": 208,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "XaC1aqCNI7KexN8PgYXnOQ"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 549,
+    "candidatesTokenCount": 135,
+    "totalTokenCount": 892,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 549
+      }
+    ],
+    "thoughtsTokenCount": 208,
+    "serviceTier": "standard"
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "example_number": 744,
+  "entity_id": "wd:Q33296913",
+  "entity_label": "Jazmin Pinedo",
+  "description": "Tv host and publicis",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0744/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0744/metadata.json",
+  "input_hash": "587a3636a2efbb396e7ac7ccc523bd7262764c61965c3f5c5fb1a060c54d20b0",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Jazmin Pinedo\nDescription: Tv host and publicis\n\nTaxonomy context:\n- Direct parent classes: creator\n- Sibling classes: crime fiction writer, advertising person, columnist\n- Direct child classes: promotional model, pin-up model, art model\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q33296913",
+    "entity_label": "Jazmin Pinedo",
+    "description": "Tv host and publicis",
+    "reference_class_id": "wd:Q4610556",
+    "reference_type": "model",
+    "gold_types": [
+      {
+        "class_id": "wd:Q4610556",
+        "label": "model",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q2500638",
+        "label": "creator",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "creator",
+      "siblings": "crime fiction writer, advertising person, columnist",
+      "children": "promotional model, pin-up model, art model"
+    },
+    "oracle_graph_context": {
+      "parents": "creator",
+      "siblings": "crime fiction writer, advertising person, columnist",
+      "children": "promotional model, pin-up model, art model"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 744,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q4610556"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q2500638"
+      ],
+      "siblings": [
+        "wd:Q10297252",
+        "wd:Q10355417",
+        "wd:Q1086863"
+      ],
+      "children": [
+        "wd:Q1193763",
+        "wd:Q151092",
+        "wd:Q1630100"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "model",
+    "television host",
+    "creator",
+    "entertainer",
+    "professional",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:03:00.748810+00:00",
+  "response": "{\"explanation\": \"The taxonomy context indicates that the target type is model, positioned under the direct parent creator and having child classes such as promotional model, pin-up model, and art model. While Jazmin Pinedo is described as a TV host and publicist/media figure with modeling background, the description does not provide sufficient evidence to support narrower child classes like promotional model, pin-up model, or art model. Sibling classes such as crime fiction writer or columnist are clearly inapplicable, while advertising person does not accurately capture her primary career compared to model and television host. Thus, model and television host are the most specific supported types, followed by broader categories such as creator, professional, person, and entity.\", \"types\": [\"model\", \"television host\", \"creator\", \"entertainer\", \"professional\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The taxonomy context indicates that the target type is model, positioned under the direct parent creator and having child classes such as promotional model, pin-up model, and art model. While Jazmin Pinedo is described as a TV host and publicist/media figure with modeling background, the description does not provide sufficient evidence to support narrower child classes like promotional model, pin-up model, or art model. Sibling classes such as crime fiction writer or columnist are clearly inapplicable, while advertising person does not accurately capture her primary career compared to model and television host. Thus, model and television host are the most specific supported types, followed by broader categories such as creator, professional, person, and entity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The taxonomy context indicates that the target type is model, positioned under the direct parent creator and having child classes such as promotional model, pin-up model, and art model. While Jazmin Pinedo is described as a TV host and publicist/media figure with modeling background, the description does not provide sufficient evidence to support narrower child classes like promotional model, pin-up model, or art model. Sibling classes such as crime fiction writer or columnist are clearly inapplicable, while advertising person does not accurately capture her primary career compared to model and television host. Thus, model and television host are the most specific supported types, followed by broader categories such as creator, professional, person, and entity.\", \"types\": [\"model\", \"television host\", \"creator\", \"entertainer\", \"professional\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 559,
+      "candidatesTokenCount": 174,
+      "totalTokenCount": 1898,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 559
+        }
+      ],
+      "thoughtsTokenCount": 1165,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "FJ61aobQO5OkvdIP6-fEyA4"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 559,
+    "candidatesTokenCount": 174,
+    "totalTokenCount": 1898,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 559
+      }
+    ],
+    "thoughtsTokenCount": 1165,
+    "serviceTier": "standard"
+  }
+}

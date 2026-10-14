@@ -1,0 +1,164 @@
+{
+  "example_number": 836,
+  "entity_id": "wd:Q7774493",
+  "entity_label": "The White Fisher",
+  "description": "traditional song",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0836/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0836/metadata.json",
+  "input_hash": "9ed27b9cf113c713d67db6f177ba46d8df8db91e5cbebb297d376350783dd499",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: The White Fisher\nDescription: traditional song\n\nTaxonomy context:\n- Direct parent classes: poem\n- Sibling classes: Gushi, psalm, dramatic poem\n- Direct child classes: broadside ballad\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q7774493",
+    "entity_label": "The White Fisher",
+    "description": "traditional song",
+    "reference_class_id": "wd:Q182659",
+    "reference_type": "ballad",
+    "gold_types": [
+      {
+        "class_id": "wd:Q182659",
+        "label": "ballad",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q5185279",
+        "label": "poem",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q482",
+        "label": "poetry",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q7725634",
+        "label": "literary work",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q47461344",
+        "label": "written work",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q386724",
+        "label": "work",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "poem",
+      "siblings": "Gushi, psalm, dramatic poem",
+      "children": "broadside ballad"
+    },
+    "oracle_graph_context": {
+      "parents": "poem",
+      "siblings": "Gushi, psalm, dramatic poem",
+      "children": "broadside ballad"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 836,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q182659"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q5185279"
+      ],
+      "siblings": [
+        "wd:Q10752663",
+        "wd:Q12497663",
+        "wd:Q1255669"
+      ],
+      "children": [
+        "wd:Q849965"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "ballad",
+    "song",
+    "poem",
+    "musical work",
+    "creative work",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:09:58.775813+00:00",
+  "response": "{\"explanation\": \"The description \\\"traditional song\\\" together with the taxonomy context indicates that the omitted target type is ballad. In this taxonomy, ballad is a subclass of poem, while sibling classes like Gushi, psalm, and dramatic poem represent distinctly different poetic traditions or genres that do not fit a traditional song. The direct child class broadside ballad is overly specific because the concise description \\\"traditional song\\\" provides no evidence of broadside publication. The entity is ordered from the most specific inferred type (ballad) up through broader valid categories.\", \"types\": [\"ballad\", \"song\", \"poem\", \"musical work\", \"creative work\", \"entity\"]}",
+  "explanation": "The description \"traditional song\" together with the taxonomy context indicates that the omitted target type is ballad. In this taxonomy, ballad is a subclass of poem, while sibling classes like Gushi, psalm, and dramatic poem represent distinctly different poetic traditions or genres that do not fit a traditional song. The direct child class broadside ballad is overly specific because the concise description \"traditional song\" provides no evidence of broadside publication. The entity is ordered from the most specific inferred type (ballad) up through broader valid categories.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"traditional song\\\" together with the taxonomy context indicates that the omitted target type is ballad. In this taxonomy, ballad is a subclass of poem, while sibling classes like Gushi, psalm, and dramatic poem represent distinctly different poetic traditions or genres that do not fit a traditional song. The direct child class broadside ballad is overly specific because the concise description \\\"traditional song\\\" provides no evidence of broadside publication. The entity is ordered from the most specific inferred type (ballad) up through broader valid categories.\", \"types\": [\"ballad\", \"song\", \"poem\", \"musical work\", \"creative work\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 546,
+      "candidatesTokenCount": 132,
+      "totalTokenCount": 1806,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 546
+        }
+      ],
+      "thoughtsTokenCount": 1128,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "t5-1avZ6oezGzQ_T5ZXoCA"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 546,
+    "candidatesTokenCount": 132,
+    "totalTokenCount": 1806,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 546
+      }
+    ],
+    "thoughtsTokenCount": 1128,
+    "serviceTier": "standard"
+  }
+}

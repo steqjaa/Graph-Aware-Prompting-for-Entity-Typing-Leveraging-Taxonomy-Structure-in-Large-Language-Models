@@ -1,0 +1,171 @@
+{
+  "example_number": 282,
+  "entity_id": "wd:Q90745126",
+  "entity_label": "Commercial Type",
+  "description": "digital type foundry based in New York",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0282/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0282/metadata.json",
+  "input_hash": "69c867c2f541a9312ca7954248928e39750dc9c1a3edf120fc79644aceef6c1d",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Commercial Type\nDescription: digital type foundry based in New York\n\nTaxonomy context:\n- Direct parent classes: business\n- Sibling classes: art gallery, software company, tea house\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q90745126",
+    "entity_label": "Commercial Type",
+    "description": "digital type foundry based in New York",
+    "reference_class_id": "wd:Q377688",
+    "reference_type": "type foundry",
+    "gold_types": [
+      {
+        "class_id": "wd:Q377688",
+        "label": "type foundry",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q4830453",
+        "label": "business",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "business",
+      "siblings": "art gallery, software company, tea house",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "business",
+      "siblings": "art gallery, software company, tea house",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 282,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q377688"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q4830453"
+      ],
+      "siblings": [
+        "wd:Q1007870",
+        "wd:Q1058914",
+        "wd:Q1072166"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "type foundry",
+    "business",
+    "company",
+    "organization",
+    "corporate body",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "f67d84811a774b589c00ae3c28d53648",
+  "timestamp_utc": "2026-10-11T23:48:39.300401+00:00",
+  "response": "{\"explanation\": \"The description identifies Commercial Type as a 'digital type foundry based in New York', indicating that 'type foundry' is the most specific valid type. Under the parent class 'business', siblings such as 'software company', 'art gallery', and 'tea house' do not specifically capture the core business of designing and distributing typefaces. There are no narrower child classes listed in the context. Broader supported categories ascend from type foundry to business, organization, and entity.\", \"types\": [\"type foundry\", \"business\", \"company\", \"organization\", \"corporate body\", \"agent\", \"entity\"]}",
+  "explanation": "The description identifies Commercial Type as a 'digital type foundry based in New York', indicating that 'type foundry' is the most specific valid type. Under the parent class 'business', siblings such as 'software company', 'art gallery', and 'tea house' do not specifically capture the core business of designing and distributing typefaces. There are no narrower child classes listed in the context. Broader supported categories ascend from type foundry to business, organization, and entity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies Commercial Type as a 'digital type foundry based in New York', indicating that 'type foundry' is the most specific valid type. Under the parent class 'business', siblings such as 'software company', 'art gallery', and 'tea house' do not specifically capture the core business of designing and distributing typefaces. There are no narrower child classes listed in the context. Broader supported categories ascend from type foundry to business, organization, and entity.\", \"types\": [\"type foundry\", \"business\", \"company\", \"organization\", \"corporate body\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 547,
+      "candidatesTokenCount": 122,
+      "totalTokenCount": 1028,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 547
+        }
+      ],
+      "thoughtsTokenCount": 359,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "VyDMapXgH9_CvdIPo729wQI"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 547,
+    "candidatesTokenCount": 122,
+    "totalTokenCount": 1028,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 547
+      }
+    ],
+    "thoughtsTokenCount": 359,
+    "serviceTier": "standard"
+  }
+}

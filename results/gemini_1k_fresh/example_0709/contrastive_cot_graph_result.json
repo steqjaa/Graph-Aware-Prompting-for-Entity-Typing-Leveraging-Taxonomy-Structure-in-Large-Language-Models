@@ -1,0 +1,166 @@
+{
+  "example_number": 709,
+  "entity_id": "wd:Q56245758",
+  "entity_label": "Marck",
+  "description": "family name",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0709/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0709/metadata.json",
+  "input_hash": "039ff43cb5d1975e8a0303d4e1232adf8c44095ccfe70d296fedc7666b3dbff4",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Marck\nDescription: family name\n\nTaxonomy context:\n- Direct parent classes: anthroponym\n- Sibling classes: full name, Chinese family name, patronymic family name\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q56245758",
+    "entity_label": "Marck",
+    "description": "family name",
+    "reference_class_id": "wd:Q1714800",
+    "reference_type": "locational surname",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1714800",
+        "label": "locational surname",
+        "depth": 9
+      },
+      {
+        "class_id": "wd:Q10856962",
+        "label": "anthroponym",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q147276",
+        "label": "proper noun",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q187931",
+        "label": "phrase",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q1786828",
+        "label": "constituent",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q5371079",
+        "label": "emic unit",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q11953984",
+        "label": "linguistic unit",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q2198779",
+        "label": "unit",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q7048977",
+        "label": "abstract entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "anthroponym",
+      "siblings": "full name, Chinese family name, patronymic family name",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "anthroponym",
+      "siblings": "full name, Chinese family name, patronymic family name",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 709,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1714800"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q10856962"
+      ],
+      "siblings": [
+        "wd:Q1071027",
+        "wd:Q1093580",
+        "wd:Q11455398"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "family name",
+    "anthroponym",
+    "personal name",
+    "name",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:00:23.247007+00:00",
+  "response": "{\"explanation\": \"The description \\\"family name\\\" directly identifies the entity as a family name (surname). In the taxonomy, its direct parent is anthroponym, representing human names in general. Sibling classes such as \\\"Chinese family name\\\" and \\\"patronymic family name\\\" are overly specific subtypes unsupported by the evidence, while \\\"full name\\\" denotes an entire name rather than just a surname. There are no child classes to evaluate. Broader classes ascending the taxonomy are anthroponym, personal name, name, and entity.\", \"types\": [\"family name\", \"anthroponym\", \"personal name\", \"name\", \"entity\"]}",
+  "explanation": "The description \"family name\" directly identifies the entity as a family name (surname). In the taxonomy, its direct parent is anthroponym, representing human names in general. Sibling classes such as \"Chinese family name\" and \"patronymic family name\" are overly specific subtypes unsupported by the evidence, while \"full name\" denotes an entire name rather than just a surname. There are no child classes to evaluate. Broader classes ascending the taxonomy are anthroponym, personal name, name, and entity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"family name\\\" directly identifies the entity as a family name (surname). In the taxonomy, its direct parent is anthroponym, representing human names in general. Sibling classes such as \\\"Chinese family name\\\" and \\\"patronymic family name\\\" are overly specific subtypes unsupported by the evidence, while \\\"full name\\\" denotes an entire name rather than just a surname. There are no child classes to evaluate. Broader classes ascending the taxonomy are anthroponym, personal name, name, and entity.\", \"types\": [\"family name\", \"anthroponym\", \"personal name\", \"name\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 550,
+      "candidatesTokenCount": 130,
+      "totalTokenCount": 1282,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 550
+        }
+      ],
+      "thoughtsTokenCount": 602,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "d521ar-MHJLOsALVu6mRDg"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 550,
+    "candidatesTokenCount": 130,
+    "totalTokenCount": 1282,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 550
+      }
+    ],
+    "thoughtsTokenCount": 602,
+    "serviceTier": "standard"
+  }
+}

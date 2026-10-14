@@ -1,0 +1,167 @@
+{
+  "example_number": 902,
+  "entity_id": "wd:Q1662654",
+  "entity_label": "Infraero",
+  "description": "Brazilian government corporation",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0902/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0902/metadata.json",
+  "input_hash": "5671a457286cd2cd3e8aa83a72a34d69a22066a7d41da13defd54544d9481db3",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Infraero\nDescription: Brazilian government corporation\n\nTaxonomy context:\n- Direct parent classes: organization\n- Sibling classes: national trust, Native American organization, hackerspace\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q1662654",
+    "entity_label": "Infraero",
+    "description": "Brazilian government corporation",
+    "reference_class_id": "wd:Q2828218",
+    "reference_type": "air navigation service provider",
+    "gold_types": [
+      {
+        "class_id": "wd:Q2828218",
+        "label": "air navigation service provider",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "organization",
+      "siblings": "national trust, Native American organization, hackerspace",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "organization",
+      "siblings": "national trust, Native American organization, hackerspace",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 902,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q2828218"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q43229"
+      ],
+      "siblings": [
+        "wd:Q1006283",
+        "wd:Q100731037",
+        "wd:Q1032372"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "government corporation",
+    "state-owned enterprise",
+    "corporation",
+    "enterprise",
+    "organization",
+    "corporate body",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:44:27.849396+00:00",
+  "response": "{\"explanation\": \"The description \\\"Brazilian government corporation\\\" directly supports government corporation (or state-owned enterprise) as the most specific entity type. In the taxonomy, organization serves as a broader parent class. Sibling classes such as national trust, Native American organization, and hackerspace reflect alternative specialized organization types that are unsupported by the evidence. No narrower child classes are specified or justified by the description. The returned list follows a valid decreasing order of specificity from government corporation to broader organizational and abstract categories.\", \"types\": [\"government corporation\", \"state-owned enterprise\", \"corporation\", \"enterprise\", \"organization\", \"corporate body\", \"agent\", \"entity\"]}",
+  "explanation": "The description \"Brazilian government corporation\" directly supports government corporation (or state-owned enterprise) as the most specific entity type. In the taxonomy, organization serves as a broader parent class. Sibling classes such as national trust, Native American organization, and hackerspace reflect alternative specialized organization types that are unsupported by the evidence. No narrower child classes are specified or justified by the description. The returned list follows a valid decreasing order of specificity from government corporation to broader organizational and abstract categories.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"Brazilian government corporation\\\" directly supports government corporation (or state-owned enterprise) as the most specific entity type. In the taxonomy, organization serves as a broader parent class. Sibling classes such as national trust, Native American organization, and hackerspace reflect alternative specialized organization types that are unsupported by the evidence. No narrower child classes are specified or justified by the description. The returned list follows a valid decreasing order of specificity from government corporation to broader organizational and abstract categories.\", \"types\": [\"government corporation\", \"state-owned enterprise\", \"corporation\", \"enterprise\", \"organization\", \"corporate body\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 544,
+      "candidatesTokenCount": 133,
+      "totalTokenCount": 1521,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 544
+        }
+      ],
+      "thoughtsTokenCount": 844,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "bC3MaveYBIPR28oPnK6j6Q0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 544,
+    "candidatesTokenCount": 133,
+    "totalTokenCount": 1521,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 544
+      }
+    ],
+    "thoughtsTokenCount": 844,
+    "serviceTier": "standard"
+  }
+}

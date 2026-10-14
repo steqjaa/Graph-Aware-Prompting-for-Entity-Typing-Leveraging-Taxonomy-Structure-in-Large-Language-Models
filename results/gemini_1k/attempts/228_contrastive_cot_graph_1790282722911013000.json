@@ -1,0 +1,160 @@
+{
+  "example_number": 228,
+  "entity_id": "wd:Q5043785",
+  "entity_label": "Carnarvon",
+  "description": "IBRA region in Western Australia",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0228/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0228/metadata.json",
+  "input_hash": "76a9d2d0601ca4a6e57e07f37bf45ec31fe71df4cc69847d43680d80aae4802b",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Carnarvon\nDescription: IBRA region in Western Australia\n\nTaxonomy context:\n- Direct parent classes: natural region\n- Sibling classes: ecoregion, mesoregion, natural region of Germany\n- Direct child classes: biodiversity hotspot\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q5043785",
+    "entity_label": "Carnarvon",
+    "description": "IBRA region in Western Australia",
+    "reference_class_id": "wd:Q2904233",
+    "reference_type": "bioregion",
+    "gold_types": [
+      {
+        "class_id": "wd:Q2904233",
+        "label": "bioregion",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q82794",
+        "label": "geographic region",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q1970725",
+        "label": "natural region",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q26713767",
+        "label": "region of space",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q27096220",
+        "label": "natural geographic entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q27096213",
+        "label": "geographic entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "natural region",
+      "siblings": "ecoregion, mesoregion, natural region of Germany",
+      "children": "biodiversity hotspot"
+    },
+    "oracle_graph_context": {
+      "parents": "natural region",
+      "siblings": "ecoregion, mesoregion, natural region of Germany",
+      "children": "biodiversity hotspot"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 228,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q2904233"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q1970725"
+      ],
+      "siblings": [
+        "wd:Q295469",
+        "wd:Q3491088",
+        "wd:Q553036"
+      ],
+      "children": [
+        "wd:Q864294"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "status": "completed",
+  "predictions": [
+    "IBRA region",
+    "biogeographic region",
+    "natural region",
+    "geographic region",
+    "region",
+    "spatial entity",
+    "entity"
+  ],
+  "timestamp_utc": "2026-09-24T20:45:14.222522+00:00",
+  "response": "{\"explanation\": \"The description identifies Carnarvon as an 'IBRA region in Western Australia', supporting 'IBRA region' and 'biogeographic region' as the most specific types. The taxonomy places 'natural region' as a direct parent class. Sibling classes like 'mesoregion' and 'natural region of Germany' are geographically inapplicable, while 'ecoregion' is a related but distinct concept under natural region. The child class 'biodiversity hotspot' is rejected because the description lacks evidence that this specific IBRA region holds that designation. The remaining types generalize logically up to the most abstract categories.\", \"types\": [\"IBRA region\", \"biogeographic region\", \"natural region\", \"geographic region\", \"region\", \"spatial entity\", \"entity\"]}",
+  "explanation": "The description identifies Carnarvon as an 'IBRA region in Western Australia', supporting 'IBRA region' and 'biogeographic region' as the most specific types. The taxonomy places 'natural region' as a direct parent class. Sibling classes like 'mesoregion' and 'natural region of Germany' are geographically inapplicable, while 'ecoregion' is a related but distinct concept under natural region. The child class 'biodiversity hotspot' is rejected because the description lacks evidence that this specific IBRA region holds that designation. The remaining types generalize logically up to the most abstract categories.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies Carnarvon as an 'IBRA region in Western Australia', supporting 'IBRA region' and 'biogeographic region' as the most specific types. The taxonomy places 'natural region' as a direct parent class. Sibling classes like 'mesoregion' and 'natural region of Germany' are geographically inapplicable, while 'ecoregion' is a related but distinct concept under natural region. The child class 'biodiversity hotspot' is rejected because the description lacks evidence that this specific IBRA region holds that designation. The remaining types generalize logically up to the most abstract categories.\", \"types\": [\"IBRA region\", \"biogeographic region\", \"natural region\", \"geographic region\", \"region\", \"spatial entity\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 556,
+      "candidatesTokenCount": 157,
+      "totalTokenCount": 2601,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 556
+        }
+      ],
+      "thoughtsTokenCount": 1888,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "2ou1apzRG9TrvdIPu5HTuQc"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 556,
+    "candidatesTokenCount": 157,
+    "totalTokenCount": 2601,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 556
+      }
+    ],
+    "thoughtsTokenCount": 1888,
+    "serviceTier": "standard"
+  }
+}

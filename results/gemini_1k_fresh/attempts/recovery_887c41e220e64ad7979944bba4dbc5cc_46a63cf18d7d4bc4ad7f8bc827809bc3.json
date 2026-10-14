@@ -1,0 +1,147 @@
+{
+  "example_number": 831,
+  "entity_id": "wd:Q2342683",
+  "entity_label": "Buurtwegen Atlas",
+  "description": "atlas in Belgium",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0831/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0831/metadata.json",
+  "input_hash": "cb0f3f01c2428ea85ba05669eedd0f0f525d73a7cd49e4420dceeff1254af8e7",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Buurtwegen Atlas\nDescription: atlas in Belgium\n\nTaxonomy context:\n- Direct parent classes: book\n- Sibling classes: album, audiobook, wasōbon\n- Direct child classes: star atlas, historical atlas\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q2342683",
+    "entity_label": "Buurtwegen Atlas",
+    "description": "atlas in Belgium",
+    "reference_class_id": "wd:Q162827",
+    "reference_type": "atlas",
+    "gold_types": [
+      {
+        "class_id": "wd:Q162827",
+        "label": "atlas",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q571",
+        "label": "book",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q2424752",
+        "label": "product",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "book",
+      "siblings": "album, audiobook, wasōbon",
+      "children": "star atlas, historical atlas"
+    },
+    "oracle_graph_context": {
+      "parents": "book",
+      "siblings": "album, audiobook, wasōbon",
+      "children": "star atlas, historical atlas"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 831,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q162827"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q571"
+      ],
+      "siblings": [
+        "wd:Q10666342",
+        "wd:Q106833",
+        "wd:Q1072884"
+      ],
+      "children": [
+        "wd:Q11025270",
+        "wd:Q460214"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "atlas",
+    "book",
+    "publication",
+    "document",
+    "written work",
+    "creative work",
+    "object",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:09:36.298910+00:00",
+  "response": "{\"explanation\": \"The description identifies the entity as an \\\"atlas in Belgium\\\", directly supporting atlas as the most specific type. In the taxonomy, book is the direct parent class providing the broader scope. Sibling classes under book, such as album, audiobook, and wasōbon, describe different media formats or cultural book traditions and are not supported. Direct child classes of atlas, like star atlas and historical atlas, add specialized domain-specific constraints not evidenced by the general description \\\"atlas in Belgium\\\". The inferred types are ordered from the most specific verified type (atlas) to progressively broader categories.\", \"types\": [\"atlas\", \"book\", \"publication\", \"document\", \"written work\", \"creative work\", \"object\", \"entity\"]}",
+  "explanation": "The description identifies the entity as an \"atlas in Belgium\", directly supporting atlas as the most specific type. In the taxonomy, book is the direct parent class providing the broader scope. Sibling classes under book, such as album, audiobook, and wasōbon, describe different media formats or cultural book traditions and are not supported. Direct child classes of atlas, like star atlas and historical atlas, add specialized domain-specific constraints not evidenced by the general description \"atlas in Belgium\". The inferred types are ordered from the most specific verified type (atlas) to progressively broader categories.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies the entity as an \\\"atlas in Belgium\\\", directly supporting atlas as the most specific type. In the taxonomy, book is the direct parent class providing the broader scope. Sibling classes under book, such as album, audiobook, and wasōbon, describe different media formats or cultural book traditions and are not supported. Direct child classes of atlas, like star atlas and historical atlas, add specialized domain-specific constraints not evidenced by the general description \\\"atlas in Belgium\\\". The inferred types are ordered from the most specific verified type (atlas) to progressively broader categories.\", \"types\": [\"atlas\", \"book\", \"publication\", \"document\", \"written work\", \"creative work\", \"object\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 550,
+      "candidatesTokenCount": 148,
+      "totalTokenCount": 1282,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 550
+        }
+      ],
+      "thoughtsTokenCount": 584,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "oJ-1au_KIMidvdIP14miyAk"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 550,
+    "candidatesTokenCount": 148,
+    "totalTokenCount": 1282,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 550
+      }
+    ],
+    "thoughtsTokenCount": 584,
+    "serviceTier": "standard"
+  }
+}

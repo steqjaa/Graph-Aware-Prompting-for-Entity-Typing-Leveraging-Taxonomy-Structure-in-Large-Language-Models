@@ -1,0 +1,172 @@
+{
+  "example_number": 661,
+  "entity_id": "wd:Q1587050",
+  "entity_label": "Hart",
+  "description": "local government district in Hampshire, England",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0661/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0661/metadata.json",
+  "input_hash": "11b19045f2ee0a909cc279cae056fe46afcb80c2dbdf6a6b71ae59873d1aa1c4",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Hart\nDescription: local government district in Hampshire, England\n\nTaxonomy context:\n- Direct parent classes: district of England\n- Sibling classes: metropolitan borough, borough of London Region\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q1587050",
+    "entity_label": "Hart",
+    "description": "local government district in Hampshire, England",
+    "reference_class_id": "wd:Q1187580",
+    "reference_type": "non-metropolitan district",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1187580",
+        "label": "non-metropolitan district",
+        "depth": 10
+      },
+      {
+        "class_id": "wd:Q349084",
+        "label": "district of England",
+        "depth": 9
+      },
+      {
+        "class_id": "wd:Q1799794",
+        "label": "administrative territorial entity of a specific level",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q56061",
+        "label": "administrative territorial entity",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q15642541",
+        "label": "human-geographic territorial entity",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q4835091",
+        "label": "territory",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q82794",
+        "label": "geographic region",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q26713767",
+        "label": "region of space",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "district of England",
+      "siblings": "metropolitan borough, borough of London Region",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "district of England",
+      "siblings": "metropolitan borough, borough of London Region",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 661,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1187580"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q349084"
+      ],
+      "siblings": [
+        "wd:Q1002812",
+        "wd:Q211690"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "non-metropolitan district",
+    "district of England",
+    "district",
+    "administrative territorial entity",
+    "geographic territory",
+    "spatial entity",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:56:47.240350+00:00",
+  "response": "{\"explanation\": \"The description specifies Hart as a 'local government district in Hampshire, England'. Within the taxonomy, the direct parent class is district of England. Given Hampshire's two-tier county structure, Hart is specifically a non-metropolitan district, contrasting with sibling types such as metropolitan borough (used in metropolitan counties) and borough of London Region (specific to Greater London). There are no direct child classes indicated or supported. The remaining types generalize logically from district of England to broader administrative and spatial categories.\", \"types\": [\"non-metropolitan district\", \"district of England\", \"district\", \"administrative territorial entity\", \"geographic territory\", \"spatial entity\", \"entity\"]}",
+  "explanation": "The description specifies Hart as a 'local government district in Hampshire, England'. Within the taxonomy, the direct parent class is district of England. Given Hampshire's two-tier county structure, Hart is specifically a non-metropolitan district, contrasting with sibling types such as metropolitan borough (used in metropolitan counties) and borough of London Region (specific to Greater London). There are no direct child classes indicated or supported. The remaining types generalize logically from district of England to broader administrative and spatial categories.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description specifies Hart as a 'local government district in Hampshire, England'. Within the taxonomy, the direct parent class is district of England. Given Hampshire's two-tier county structure, Hart is specifically a non-metropolitan district, contrasting with sibling types such as metropolitan borough (used in metropolitan counties) and borough of London Region (specific to Greater London). There are no direct child classes indicated or supported. The remaining types generalize logically from district of England to broader administrative and spatial categories.\", \"types\": [\"non-metropolitan district\", \"district of England\", \"district\", \"administrative territorial entity\", \"geographic territory\", \"spatial entity\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 549,
+      "candidatesTokenCount": 136,
+      "totalTokenCount": 1594,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 549
+        }
+      ],
+      "thoughtsTokenCount": 909,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "n5y1aubZHd-JvdIPhue5mQw"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 549,
+    "candidatesTokenCount": 136,
+    "totalTokenCount": 1594,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 549
+      }
+    ],
+    "thoughtsTokenCount": 909,
+    "serviceTier": "standard"
+  }
+}

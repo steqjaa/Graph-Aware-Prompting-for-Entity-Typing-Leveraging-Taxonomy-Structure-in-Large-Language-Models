@@ -1,0 +1,157 @@
+{
+  "example_number": 253,
+  "entity_id": "wd:Q5648559",
+  "entity_label": "Hankou Cultural Sports Centre",
+  "description": "Pusat Sukan Kebudayaan Hankou",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0253/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0253/metadata.json",
+  "input_hash": "0b0580bb139b8f63761d53dbf2807d12231c6acdf3e506e21b534a3f0841ed29",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Hankou Cultural Sports Centre\nDescription: Pusat Sukan Kebudayaan Hankou\n\nTaxonomy context:\n- Direct parent classes: geographic region\n- Sibling classes: polder, land, Sprachraum\n- Direct child classes: cricket pitch, field hockey pitch, American football field\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q5648559",
+    "entity_label": "Hankou Cultural Sports Centre",
+    "description": "Pusat Sukan Kebudayaan Hankou",
+    "reference_class_id": "wd:Q2310214",
+    "reference_type": "pitch",
+    "gold_types": [
+      {
+        "class_id": "wd:Q2310214",
+        "label": "pitch",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q82794",
+        "label": "geographic region",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q26713767",
+        "label": "region of space",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "geographic region",
+      "siblings": "polder, land, Sprachraum",
+      "children": "cricket pitch, field hockey pitch, American football field"
+    },
+    "oracle_graph_context": {
+      "parents": "geographic region",
+      "siblings": "polder, land, Sprachraum",
+      "children": "cricket pitch, field hockey pitch, American football field"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 253,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q2310214"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q82794"
+      ],
+      "siblings": [
+        "wd:Q106259",
+        "wd:Q11081619",
+        "wd:Q1149061"
+      ],
+      "children": [
+        "wd:Q1210687",
+        "wd:Q17157259",
+        "wd:Q18347161"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "sports complex",
+    "stadium",
+    "sports venue",
+    "sports facility",
+    "facility",
+    "architectural structure",
+    "structure",
+    "object",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "f67d84811a774b589c00ae3c28d53648",
+  "timestamp_utc": "2026-10-11T23:46:21.131970+00:00",
+  "response": "{\n  \"explanation\": \"The entity 'Hankou Cultural Sports Centre' is a multi-purpose sports complex and stadium located in Wuhan, China. The taxonomy context reflects spatial and athletic facilities, where concepts related to grounds or pitches share broader spatial/geographic hierarchies, but specific child types such as 'cricket pitch' or 'American football field' are overly narrow and unsuited to this multi-sport cultural complex. The most specific and fully supported classifications are sports complex and stadium, followed by broader categories like sports venue, sports facility, facility, architectural structure, and entity.\",\n  \"types\": [\n    \"sports complex\",\n    \"stadium\",\n    \"sports venue\",\n    \"sports facility\",\n    \"facility\",\n    \"architectural structure\",\n    \"structure\",\n    \"object\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The entity 'Hankou Cultural Sports Centre' is a multi-purpose sports complex and stadium located in Wuhan, China. The taxonomy context reflects spatial and athletic facilities, where concepts related to grounds or pitches share broader spatial/geographic hierarchies, but specific child types such as 'cricket pitch' or 'American football field' are overly narrow and unsuited to this multi-sport cultural complex. The most specific and fully supported classifications are sports complex and stadium, followed by broader categories like sports venue, sports facility, facility, architectural structure, and entity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The entity 'Hankou Cultural Sports Centre' is a multi-purpose sports complex and stadium located in Wuhan, China. The taxonomy context reflects spatial and athletic facilities, where concepts related to grounds or pitches share broader spatial/geographic hierarchies, but specific child types such as 'cricket pitch' or 'American football field' are overly narrow and unsuited to this multi-sport cultural complex. The most specific and fully supported classifications are sports complex and stadium, followed by broader categories like sports venue, sports facility, facility, architectural structure, and entity.\",\n  \"types\": [\n    \"sports complex\",\n    \"stadium\",\n    \"sports venue\",\n    \"sports facility\",\n    \"facility\",\n    \"architectural structure\",\n    \"structure\",\n    \"object\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 560,
+      "candidatesTokenCount": 179,
+      "totalTokenCount": 1759,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 560
+        }
+      ],
+      "thoughtsTokenCount": 1020,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "zR_MavHEGMDr7M8P07Xf-AM"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 560,
+    "candidatesTokenCount": 179,
+    "totalTokenCount": 1759,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 560
+      }
+    ],
+    "thoughtsTokenCount": 1020,
+    "serviceTier": "standard"
+  }
+}

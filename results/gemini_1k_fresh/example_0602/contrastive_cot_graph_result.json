@@ -1,0 +1,171 @@
+{
+  "example_number": 602,
+  "entity_id": "wd:Q108822156",
+  "entity_label": "Channi ministry",
+  "description": "ministry of State in India",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0602/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0602/metadata.json",
+  "input_hash": "5cfd648cc8ef18e57c52f0796a79491055ab69bbb1af13c9fa47edc6d3fa6b87",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Channi ministry\nDescription: ministry of State in India\n\nTaxonomy context:\n- Direct parent classes: state government\n- Sibling classes: state government in Germany, county municipality\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q108822156",
+    "entity_label": "Channi ministry",
+    "description": "ministry of State in India",
+    "reference_class_id": "wd:Q3306996",
+    "reference_type": "Government of Punjab",
+    "gold_types": [
+      {
+        "class_id": "wd:Q3306996",
+        "label": "Government of Punjab",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q1802419",
+        "label": "state government",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q895526",
+        "label": "governing body",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "state government",
+      "siblings": "state government in Germany, county municipality",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "state government",
+      "siblings": "state government in Germany, county municipality",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 602,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q3306996"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q1802419"
+      ],
+      "siblings": [
+        "wd:Q314729",
+        "wd:Q5177805"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "state government in India",
+    "state government",
+    "government",
+    "executive branch",
+    "organization",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:52:21.740399+00:00",
+  "response": "{\"explanation\": \"The description specifies a 'ministry of State in India', pointing directly to 'state government in India' as the most specific type. In the taxonomy context, its direct parent is 'state government', which establishes the administrative category. Sibling classes such as 'state government in Germany' and 'county municipality' are rejected due to geographic incompatibility (India vs. Germany) and distinct administrative structures. With no direct child classes indicated, broader valid ancestral types include state government, government, organization, and entity.\", \"types\": [\"state government in India\", \"state government\", \"government\", \"executive branch\", \"organization\", \"entity\"]}",
+  "explanation": "The description specifies a 'ministry of State in India', pointing directly to 'state government in India' as the most specific type. In the taxonomy context, its direct parent is 'state government', which establishes the administrative category. Sibling classes such as 'state government in Germany' and 'county municipality' are rejected due to geographic incompatibility (India vs. Germany) and distinct administrative structures. With no direct child classes indicated, broader valid ancestral types include state government, government, organization, and entity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description specifies a 'ministry of State in India', pointing directly to 'state government in India' as the most specific type. In the taxonomy context, its direct parent is 'state government', which establishes the administrative category. Sibling classes such as 'state government in Germany' and 'county municipality' are rejected due to geographic incompatibility (India vs. Germany) and distinct administrative structures. With no direct child classes indicated, broader valid ancestral types include state government, government, organization, and entity.\", \"types\": [\"state government in India\", \"state government\", \"government\", \"executive branch\", \"organization\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 548,
+      "candidatesTokenCount": 131,
+      "totalTokenCount": 1296,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 548
+        }
+      ],
+      "thoughtsTokenCount": 617,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "lZu1arbIOav3xN8Po5jUuAw"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 548,
+    "candidatesTokenCount": 131,
+    "totalTokenCount": 1296,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 548
+      }
+    ],
+    "thoughtsTokenCount": 617,
+    "serviceTier": "standard"
+  }
+}

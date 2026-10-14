@@ -1,0 +1,176 @@
+{
+  "example_number": 745,
+  "entity_id": "wd:Q88037492",
+  "entity_label": "Paul Moughan",
+  "description": "New Zealand food scientist",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0745/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0745/metadata.json",
+  "input_hash": "d37f903e8641dcb70c63f7d4f0a36d753919c4336ad407f1988df7334519a914",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Paul Moughan\nDescription: New Zealand food scientist\n\nTaxonomy context:\n- Direct parent classes: scientist\n- Sibling classes: military scientist, scientific explorer, astronomer\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q88037492",
+    "entity_label": "Paul Moughan",
+    "description": "New Zealand food scientist",
+    "reference_class_id": "wd:Q12304425",
+    "reference_type": "food scientist",
+    "gold_types": [
+      {
+        "class_id": "wd:Q12304425",
+        "label": "food scientist",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q1650915",
+        "label": "researcher",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q1914017",
+        "label": "knowledge worker",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q901",
+        "label": "scientist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q20826540",
+        "label": "scholar",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q327055",
+        "label": "worker",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "scientist",
+      "siblings": "military scientist, scientific explorer, astronomer",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "scientist",
+      "siblings": "military scientist, scientific explorer, astronomer",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 745,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q12304425"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q901"
+      ],
+      "siblings": [
+        "wd:Q104176943",
+        "wd:Q10498147",
+        "wd:Q11063"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "food scientist",
+    "scientist",
+    "professional",
+    "worker",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:32:28.272949+00:00",
+  "response": "{\"explanation\": \"The description \\\"New Zealand food scientist\\\" directly supports food scientist as the most specific entity type. Under the taxonomy, the direct parent class is scientist, which defines the broader occupational domain. Sibling classes like military scientist, scientific explorer, and astronomer are unsupported by the focus on food science and are therefore rejected. Because there are no listed child classes and no evidence for further specialization, food scientist is the most specific valid type, followed by increasingly broader parent classes.\", \"types\": [\"food scientist\", \"scientist\", \"professional\", \"worker\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The description \"New Zealand food scientist\" directly supports food scientist as the most specific entity type. Under the taxonomy, the direct parent class is scientist, which defines the broader occupational domain. Sibling classes like military scientist, scientific explorer, and astronomer are unsupported by the focus on food science and are therefore rejected. Because there are no listed child classes and no evidence for further specialization, food scientist is the most specific valid type, followed by increasingly broader parent classes.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"New Zealand food scientist\\\" directly supports food scientist as the most specific entity type. Under the taxonomy, the direct parent class is scientist, which defines the broader occupational domain. Sibling classes like military scientist, scientific explorer, and astronomer are unsupported by the focus on food science and are therefore rejected. Because there are no listed child classes and no evidence for further specialization, food scientist is the most specific valid type, followed by increasingly broader parent classes.\", \"types\": [\"food scientist\", \"scientist\", \"professional\", \"worker\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "Es4GCssGAWkUfRM/RI627BHtxJQk6Mot0fDcH3WB0dZzKaiwTDFaC389MyPD3rEMQBCwfz7MmjKnbTSgucsN+xNFOkJrsbhzv8ZLxZZoVJGUbmbP3UQoC+XpnOsDx+lCal9bbbYO6VDLzWOyW1Af2NIPYXKGvIwr5dglFvAolHMCNMFbKgoADdMbT7EF/ef/FIBKjdwYFqNoqHU7KH+bAB1QuUX6+B5CG7eHlnEjESrGbt/1vHBw7sPys9ZfVsy2CWhH96LI8Apm/KQ03tA+fohIvajFgh+4X4jHczg2xhN9FFK+xuz+0Clm08UbRO5eloRQ58lpApxBMmrgo3tamqE269d5UzlCa2Z3x3AIS6VUS9IkGdXf8UV5jJfA/DOji91Sg/GfJSwyDLrXiG/WqweMxqwYtY8rZuPwMgrEygA++DQ19CqgNY6PKyrstFAYezgLQQAEilh1UjJrEdib7R/pmdEQofmcvDG4D4v0yS5iRAtGr9yc2vtz8uctDCDi5jTY3/NlnOmeGsOx1OIie+MGUF8IUZlyOG0aJJCuRMVpfycZWNUc8wyNXcpjqHedkC0/6heUf8HL4x8ZNlzrxd4wzDcGncrqb3BkWRqIsAwsMS7UBegvgRySuumcvd67G/Kd84eOksl2fFhF/xXJCFKl27j9xgyATEeoJqxe1OklVTflgT+VsaIqTq/5UBwQ/haWYyexfwpW4im2tzK37UUVE9qINSZ/8efZOW1QzPPqSWrWNiPQOi0BIr+PYdzBPZ+joeHkroCbCkKKyzcwn4480YGN0tmcFS4XUH30x1fZOsNYbkMubAlXKVtMDsnRwj0OAvHgdogRZOG7LEvCfQYujhfPLipANB8gp+kHylucxKg0tngXU2I1hZ2uNapv9/UGb5smFp/0OqGihMRI+coLtYjoiE7N91i6m/J6cqHEtjfqfm82MOXQ6oAYrOMVANqFUwdnrWWjiSz9SEBRYtw5ROWCbjjrklNbNKRoESBD+0hi9bbI3MBD/lLNIyi9U2lPWElGm6CopmHH4l5zl4y10m/4qwk13eZBJBHoPs2uqHVIJMJRVHUX36PIb/2bdUoFlur0ag+IW5kGEUMta1Ck4H8kfQypap7k+ec3dDIg"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 545,
+      "candidatesTokenCount": 121,
+      "totalTokenCount": 829,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 545
+        }
+      ],
+      "thoughtsTokenCount": 163,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "nCrMaqfAHeqVkdUPxs2akAM"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 545,
+    "candidatesTokenCount": 121,
+    "totalTokenCount": 829,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 545
+      }
+    ],
+    "thoughtsTokenCount": 163,
+    "serviceTier": "standard"
+  }
+}

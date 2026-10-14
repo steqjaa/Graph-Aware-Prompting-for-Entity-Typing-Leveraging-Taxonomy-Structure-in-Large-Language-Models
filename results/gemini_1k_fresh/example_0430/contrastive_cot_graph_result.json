@@ -1,0 +1,155 @@
+{
+  "example_number": 430,
+  "entity_id": "wd:Q26996238",
+  "entity_label": "Enrique Barrau",
+  "description": "Spanish military personnel",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0430/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0430/metadata.json",
+  "input_hash": "f295f00c7061fa71064a751893e52610a09e7e2969479ad7874d879f95d65010",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Enrique Barrau\nDescription: Spanish military personnel\n\nTaxonomy context:\n- Direct parent classes: volunteer\n- Sibling classes: None\n- Direct child classes: Garibaldino\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q26996238",
+    "entity_label": "Enrique Barrau",
+    "description": "Spanish military personnel",
+    "reference_class_id": "wd:Q1454940",
+    "reference_type": "military volunteer",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1454940",
+        "label": "military volunteer",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q24716636",
+        "label": "volunteer",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q327055",
+        "label": "worker",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "volunteer",
+      "siblings": "None",
+      "children": "Garibaldino"
+    },
+    "oracle_graph_context": {
+      "parents": "volunteer",
+      "siblings": "None",
+      "children": "Garibaldino"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 430,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1454940"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q24716636"
+      ],
+      "siblings": [],
+      "children": [
+        "wd:Q3564543"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "military volunteer",
+    "volunteer",
+    "military personnel",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:39:27.692987+00:00",
+  "response": "{\"explanation\": \"The description identifies Enrique Barrau as 'Spanish military personnel', which, taken with the taxonomy context (parent class 'volunteer' and child class 'Garibaldino'), supports 'military volunteer' as the target entity type. The child class 'Garibaldino' is too specific and unevidenced because Barrau is Spanish military personnel rather than a Garibaldian volunteer. Broader valid classes include 'volunteer', 'military personnel', 'person', and 'entity', arranged in decreasing specificity.\", \"types\": [\"military volunteer\", \"volunteer\", \"military personnel\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The description identifies Enrique Barrau as 'Spanish military personnel', which, taken with the taxonomy context (parent class 'volunteer' and child class 'Garibaldino'), supports 'military volunteer' as the target entity type. The child class 'Garibaldino' is too specific and unevidenced because Barrau is Spanish military personnel rather than a Garibaldian volunteer. Broader valid classes include 'volunteer', 'military personnel', 'person', and 'entity', arranged in decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies Enrique Barrau as 'Spanish military personnel', which, taken with the taxonomy context (parent class 'volunteer' and child class 'Garibaldino'), supports 'military volunteer' as the target entity type. The child class 'Garibaldino' is too specific and unevidenced because Barrau is Spanish military personnel rather than a Garibaldian volunteer. Broader valid classes include 'volunteer', 'military personnel', 'person', and 'entity', arranged in decreasing specificity.\", \"types\": [\"military volunteer\", \"volunteer\", \"military personnel\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 541,
+      "candidatesTokenCount": 125,
+      "totalTokenCount": 1365,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 541
+        }
+      ],
+      "thoughtsTokenCount": 699,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "j5i1asTgN5WH28oPoNbIyQ8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 541,
+    "candidatesTokenCount": 125,
+    "totalTokenCount": 1365,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 541
+      }
+    ],
+    "thoughtsTokenCount": 699,
+    "serviceTier": "standard"
+  }
+}

@@ -1,0 +1,184 @@
+{
+  "example_number": 846,
+  "entity_id": "wd:Q775029",
+  "entity_label": "Caribbean Court of Justice",
+  "description": "Law court of the Caribbean Community",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0846/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0846/metadata.json",
+  "input_hash": "6aef99cfc9c6033249c005932f5717783519fc8eb45c7b70664234092655746f",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Caribbean Court of Justice\nDescription: Law court of the Caribbean Community\n\nTaxonomy context:\n- Direct parent classes: court, international organization\n- Sibling classes: lower court, trade bloc, political union\n- Direct child classes: war crimes trial\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q775029",
+    "entity_label": "Caribbean Court of Justice",
+    "description": "Law court of the Caribbean Community",
+    "reference_class_id": "wd:Q1262438",
+    "reference_type": "international court",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1262438",
+        "label": "international court",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q41487",
+        "label": "court",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q484652",
+        "label": "international organization",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q7210356",
+        "label": "political organization",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q895526",
+        "label": "governing body",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "court, international organization",
+      "siblings": "lower court, trade bloc, political union",
+      "children": "war crimes trial"
+    },
+    "oracle_graph_context": {
+      "parents": "court, international organization",
+      "siblings": "lower court, trade bloc, political union",
+      "children": "war crimes trial"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 846,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1262438"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q41487",
+        "wd:Q484652"
+      ],
+      "siblings": [
+        "wd:Q1090817",
+        "wd:Q1129645",
+        "wd:Q1140229"
+      ],
+      "children": [
+        "wd:Q1265353"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "international court",
+    "court",
+    "international organization",
+    "organization",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:10:43.769103+00:00",
+  "response": "{\"explanation\": \"The description \\\"Law court of the Caribbean Community\\\" identifies the entity as an international judicial body serving a regional bloc, directly supporting international court as the most specific type. In the taxonomy, its direct parents are court and international organization, confirming its dual role as a judicial institution and an organ of an intergovernmental body. Sibling classes such as lower court, trade bloc, and political union are rejected because the entity is an apex regional tribunal rather than a domestic trial court or a geopolitical union itself. The child class war crimes trial is rejected because the Caribbean Court of Justice deals with regional treaty interpretation and general appellate civil and criminal jurisdiction, not war crimes. The remaining types are ordered from most specific to broadest.\", \"types\": [\"international court\", \"court\", \"international organization\", \"organization\", \"entity\"]}",
+  "explanation": "The description \"Law court of the Caribbean Community\" identifies the entity as an international judicial body serving a regional bloc, directly supporting international court as the most specific type. In the taxonomy, its direct parents are court and international organization, confirming its dual role as a judicial institution and an organ of an intergovernmental body. Sibling classes such as lower court, trade bloc, and political union are rejected because the entity is an apex regional tribunal rather than a domestic trial court or a geopolitical union itself. The child class war crimes trial is rejected because the Caribbean Court of Justice deals with regional treaty interpretation and general appellate civil and criminal jurisdiction, not war crimes. The remaining types are ordered from most specific to broadest.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"Law court of the Caribbean Community\\\" identifies the entity as an international judicial body serving a regional bloc, directly supporting international court as the most specific type. In the taxonomy, its direct parents are court and international organization, confirming its dual role as a judicial institution and an organ of an intergovernmental body. Sibling classes such as lower court, trade bloc, and political union are rejected because the entity is an apex regional tribunal rather than a domestic trial court or a geopolitical union itself. The child class war crimes trial is rejected because the Caribbean Court of Justice deals with regional treaty interpretation and general appellate civil and criminal jurisdiction, not war crimes. The remaining types are ordered from most specific to broadest.\", \"types\": [\"international court\", \"court\", \"international organization\", \"organization\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 555,
+      "candidatesTokenCount": 165,
+      "totalTokenCount": 1411,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 555
+        }
+      ],
+      "thoughtsTokenCount": 691,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "5J-1asn2AaHsxs0P0-WV6Ag"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 555,
+    "candidatesTokenCount": 165,
+    "totalTokenCount": 1411,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 555
+      }
+    ],
+    "thoughtsTokenCount": 691,
+    "serviceTier": "standard"
+  }
+}

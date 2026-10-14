@@ -1,0 +1,183 @@
+{
+  "example_number": 592,
+  "entity_id": "wd:Q5831132",
+  "entity_label": "Emilio Guinea",
+  "description": "Spanish botanist (1907-1985)",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0592/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0592/metadata.json",
+  "input_hash": "eec4d075d2278f5868c919ae6a5bee0e311990e2f4b549873215d4521e1c1468",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Emilio Guinea\nDescription: Spanish botanist (1907-1985)\n\nTaxonomy context:\n- Direct parent classes: botanist\n- Sibling classes: orchidologist, phycologist, bryologist\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q5831132",
+    "entity_label": "Emilio Guinea",
+    "description": "Spanish botanist (1907-1985)",
+    "reference_class_id": "wd:Q16334509",
+    "reference_type": "pteridologist",
+    "gold_types": [
+      {
+        "class_id": "wd:Q16334509",
+        "label": "pteridologist",
+        "depth": 9
+      },
+      {
+        "class_id": "wd:Q2374149",
+        "label": "botanist",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q1650915",
+        "label": "researcher",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q864503",
+        "label": "biologist",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q1914017",
+        "label": "knowledge worker",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q901",
+        "label": "scientist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q20826540",
+        "label": "scholar",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q327055",
+        "label": "worker",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "botanist",
+      "siblings": "orchidologist, phycologist, bryologist",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "botanist",
+      "siblings": "orchidologist, phycologist, bryologist",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 592,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q16334509"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q2374149"
+      ],
+      "siblings": [
+        "wd:Q118727241",
+        "wd:Q12358881",
+        "wd:Q16334507"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "botanist",
+    "biologist",
+    "scientist",
+    "professional",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:51:36.738419+00:00",
+  "response": "{\"explanation\": \"The description \\\"Spanish botanist (1907-1985)\\\" explicitly supports botanist as the most specific verified type. In the taxonomy, the direct parent context is botanist, while sibling classes such as orchidologist, phycologist, and bryologist denote specialized branches of botany that are not supported by the description. Because no narrower specialization is independently evidenced, these sibling and child alternatives are rejected in favor of the broader, validated parent class. The remaining types reflect valid, increasingly broad taxonomic classifications.\", \"types\": [\"botanist\", \"biologist\", \"scientist\", \"professional\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The description \"Spanish botanist (1907-1985)\" explicitly supports botanist as the most specific verified type. In the taxonomy, the direct parent context is botanist, while sibling classes such as orchidologist, phycologist, and bryologist denote specialized branches of botany that are not supported by the description. Because no narrower specialization is independently evidenced, these sibling and child alternatives are rejected in favor of the broader, validated parent class. The remaining types reflect valid, increasingly broad taxonomic classifications.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"Spanish botanist (1907-1985)\\\" explicitly supports botanist as the most specific verified type. In the taxonomy, the direct parent context is botanist, while sibling classes such as orchidologist, phycologist, and bryologist denote specialized branches of botany that are not supported by the description. Because no narrower specialization is independently evidenced, these sibling and child alternatives are rejected in favor of the broader, validated parent class. The remaining types reflect valid, increasingly broad taxonomic classifications.\", \"types\": [\"botanist\", \"biologist\", \"scientist\", \"professional\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "EopDCodDAWkUfRMpBh7375bSyzNqIf2BdJlwFL+bTFxGxUNLZrMpIPguHRpFtQqFfTkbZhtzud4kS4Q7opvxXQw+kBHPnrcw76YcBI5RLdJua4e0XNjTBaAJB+tVK2fkkzimNbJnB2eaFr4hXoDJIMaIRhWeJz9Of+YgYeovn20STYfsATTg8P6r3zoYv1vAlV2f6CDCq3jSbolramE8xWeBU2EoutjFtGEXlmIBb0orLfhObVtSnNmzmpa0S0tUpD1TRvQI1eQU2t6QLZPuTfjhc5JeFEL9Y1TykFnsIFUSbc6Bdi85y4p5NvgVCz3aRdQ0W84nVW/IxEbwLus555rUnAE+nPKYIzkmvFHYbV5h7s/TnhhHgFHqQCm3NyqTXZmouqWTIA8nWSDUYf3tJWZZ5deWfRUGCqakZzP2+tosfywu/J2Nad7A1qgKJKBzxJ2BPDqGEqHesxFmkaWooJiAF4i53Lta/z5y4PqDvBTY0bGqBWEOET2WkC5VQ9+dlm7OMjfeJrHTkx3+I1M1EOaihCsyoGaMk5Kp9USlNhjrKArC+IgyCVLVeV7hlsld4hRlzONYrivQjnUZtonlwoBC3jJn7x7HikhO8KxC2I98V1cDfMuFG3H/I93wBpsk1cHQ9fqIeIPR+Yjj79SU1tg1rBNvtKqGUPnPIXUbUT2Jow/9KwcGecVhFbGZYC/LRDJEHfkl+QLLc7Kaf+D9G8nJRkeS0+kq20wAnBgrOmUpxkE9+5ldAzgEEs8PLcrVGCt0T12xMsdQpbAhkwAqjPl8jt1OVIn0JuQnnr/SUvL9etxLuuZyE5ih7HFB+NUOT5pAwDlhq2duPYwx9EDjxL8mNBM2k3PJUZbNg2ifgyweRWsfZKaiqrdt+8ZRVt4muDuRffHt6Tk/hNfHLCyBjERoE2UIEKsH0CBEIgAjKe0oAKOco68imw7PuC7Zvh9kdPK0boXtKhLa/ZK6QEMPcfy5xSFNZVFWUMIIeLjp+Kyg8NSJFrZm2owJObrhMSuT2yLzxbaanxmeqkiAvENZRzvwyab2ddCvPFqKOR2gq3gZ51ehD0CrZ9GM1WKNkSh0O50ObwetBtcoYmFsCla3d8GKt6oID7ykrHc5YpUL+HEoA7YbxEubdoQ4e4aU6R9TEKM4DNPq+b+1/uw2UuVQv5isY2HeKtJiruZGF+D46X0g2Y15DpxOMh4JBG8+rP9jRDUdZ6iOqavIIBjX8HCBgKkVL0SMpEczc7C3E6AAlvry0mUs4K029eFX7VEOi9dlGtXZyyJlMrhYkXlAeNHcmQv5kppNYRlk3h/Lx5s+QnYZwD+PSFhZ0ts+Z0WXRhbJimL83L6R8KARjPgUMhcE5dQUbRHd6tcxBvIVXLGuapswrBaCiiehOBrkfEPJaj1oAHoWXJ0kSpDN6/JmYMfuVJcPMA5+tDyYRqZ79vIDb934bSA0J1WJQt6zW4h8pf4e/GhvwHB3d0vgDN1X/dTX3g/f8L1WPYJahSU49LaIinKJDH3HBnkik04wH/Wd3WojEC65p3VaVK2Ij9orsj8B800PKootYNry9UQuuHt7ffsOOGHzY9jEmiNBLFe0Ag2oSxGDQNMjbyERpuNbx1k3yBB+yT6LWeGXT9qqWXsl+kLcZVXb0CohOw5uDy8725p4NEToiW3eP6tOQ33swdsgn8NgRTecc7EykaGTIPZM1aqakt0mj8Oz/uKVOnwzvlTX8R2i/dF4LZco1i9OocLUxXhHMN0AC65FZmhVwiI52fKCY0YzkPsJRN0myyeL0F5RiErFcrfjaOYLun8DAK7oLQgAlwPDwoiVtbwgOGslnhcgcxPqfyZWCk03IXya1/e7oF5VfU57oWcij0bsbkNaMrIrh6fLsXbYYdxGMZQJs0DCRMQsN0LFGH6Y8kzuiwyv+ifo/Mp8OcDfUNXOOP0P8Qtx6VsxWn5qYsNjFSQWT1toFMTtM2veZWDjxMpMREPZvHQjWwCx+TONoCesp5MdYMvabVeGgKzgVyRyQQi5bLEm1XanUsgz4GpxiSgDJV7f62sKNutXwMpI1tWd5M9RzjZSRqLpQKB/lkdvL1hxYMsH0iqiO3zg2c/GbgbWnHyZtGC1OwLWh6yhW9Hclgtg2tKqGYDPulzDIDCv2B8z/yDR//C3g+CPh1M7FX6kAa3PxBxvefgOc3tDLDdi3hSiOS8qeIrjqauxfnbKgEwNXMQerDrHBHYM0MNh0117OecrKsodcRYl2SPkvUX3DD8Fzh9WjrEyEoooNw8L1KiUN+oI4kBZF6je4gY8f87UtJLJoAk/SgXSqE03Lop4L722G1jc/zzBVvz81CygsIZA+LaBxNRm08h9PJU56Cl0PfC3aqqFLXeU7FvxZD5iVANgShAbyHd1XU18lAk3hPZwg72CObFdYAj66DpoKHRu3+aY5u437rha/vefhMZBTaqUAmMgN+zZ1zHRi/YKC/K8ZByVXTio+k0sCm+UunRfSG6ZhLpdg+aaugwJaAsvHXsKxXlgYW+0lvlAkLIwC4pvhJ1d5we1ek8v22rtz5jds1ZV3AUxCmgyqV5uPRAu7PUyCJE/HXVwkIXL9+Ih9rPLXzhobbUMT7M8PLzO0NuKaa1uYkRaN+f1uQ7N6hGSNN27XVcj6hD8QHfwAdadRXRHNhrxStVShDg6PLMndbXVNzMU0kJ/QRvl6rVxMiFPxwA/xIZIyzoTL82jjCZat+sGj8kkel2uPZOn4d3ziQBFmHPXm8a/0bOOzbU4lhhBvfrDVMhK4OaJWKhAxtDj8JPDpgD4SqWlPMDgL5teHXW3jPlsnaJ8ZOsUZC1FsURsx2iglbQEivmrtmq6gP67GNV1DdEmHlkjo1Y2LRdjKGvbV+cpOmmoMg4L3LFdrk5eXfI3guoFpS+tURkTIo/WHIgZ+1z0bZ9kNuExsupdLLNHvGZjq+sXU0zgQTusbxHk9hvlKLpR0lQ6w/VAQQh0uosaATDzOnwuFUMKM+UsogKNcQ8TMI5UueTdFgD1DALnx8hhBudGwpvRbAuiX3Quaj0Ey/rAqNiN28yjB7DwW3cinVuUTCS6tY//SSSngbIEyptY4LDxQXwExgIfWu/k3VcO9hLYiEfELPemhG8HZmTZ6jgFr8vTAwxIE5SrsWULXmXO42lEWx/EFKQ0Lqk7lOnijo4mwUaRWPUsP48Ua8sSubFl2TQuBVL+Y29jerfbwQ/sGIa6HGhyEmzJaTAjnmaiMTw9SPaaOrPUMU7GbjISEA9ug4efii/wJzeLj6MGlLs0nxqRD4e1aTbgigcAoYP/IwPYOxb/f0uXJrl7uF0aOC9OYKXb/IwwTKPJNK2+gWqmIb8Dq0HEBEA+zushCYPUcPqJsHAnjMVRFJLQjvBBDPXxJNDec8QsSv95ArSQootSXtH8NTNMlgqBzD85mMJjACU9NoWIvoF2hJE3kTn1pPc9F0xS5I2xO3eR6dfpY7NCUOd4ZmkhMSCI9wyoyGOs7n0zmy8to4hUQk0Dwyvj2XpPDx+ozv6SR57HSWsNOAQ0f5hD+FwJ9dgUK8PIaWpPD+fElyb4HuAPfDhlJyDFYHxjAHrnECKgLxzYN7QKE5JCrnICvt+AYx2eTvC1DnXDWJkxjWBiSe+8DuVeT1gQmsrdlhyrBKQOUqiqSR5T8SYISII88fFzbTAJYPwKsw1/7VZ4fXFOhdkeD98cN0LisnETt6asrv79trJV4SyXDcMh6HcMgLXVoYNz8AJ82VIvWjUhrrRuv7ezwhLYLY1s89YoM7lv9RUdjCqtX2KL3MmDWkqj5F5t/sm7gOr4S0BVHQq+gC/rj/2eABtzG8Ml/C4u40oH5zu6lQYShqS+nNJtPQq2tXuKBQAzQYUrT7yZFboKaCBp1oZrS9lKR84UKU7C5YW1ysWpi5u0nIqZa5C+Z2TvJdHLB4i8gwXG/z1CyXCbTLNURvP1Ks3B2kMGsB91JNY83wLN8ogF/Svvbj7D6MRzp2RjlKsloq4IMMVm3CUiXlkBrTIRNtPb8T39PEQmABuv1AUHPViPpcp1GlQhfcItWlWzN37btlUw0FuQtKqlxZ4iSWYlkZs4e/AcAIvjSLdgLoMMfUVtOxZ7ueOoLo1HHivjipUWKLykoHIp0k7KwCTxcle+so5PuqHvV7trwo1uyEJkfasR3p8CTEDoTHlaHr2qowFW8SzrH61ahFIoTrpz3CDrEBMtz6GjYXLKZsEv191CQd7XSedFmqfeR+jV+IHYfkxREbtwfhOEcujkC98apS2iZ34goeCWfyxK/t3DJI3zqFS6aL3dv0zAUPukKvaqdMAdA86t7xGe315P6q53T+iir55AC7LCazZUqkn6dgMtdtWgjSWSqaQ2QlL4bEmWSB3tgfw8o+BtIR/vFScRUJ6Vk3gVRkQ0Q3hXjSuHPmWHHNctDAhKnfK9fSGnp8K4ASZnDU36gcRjvYY+UwIgJzCH789+lRVdnhGYSQKKHTgs5Y0//h6MPvnMNH4+FPV8nnkGO9ME644kRMOzHRha/IgcMCdtqC9m36wTah4fVPA04Bg3H17rixesO2ExhhuJIVloCBwkcZVYl+IJB0xp+LhAO8vE3dSLj2N07pJmxyBy83JNJ5WfSFsDE/kHufb/eFiFRucd0GyvET7wK7X75vpvDJMeMTxDypfnQ8WkAd3EOG8C/EDYkfS3IBR8QmFPIcq1YmzheOyIP3524u2sR4dhKxWHNb2CR6ZAIcGy2KRNBJTLH4E1fXsahEdDD+2h3+5H6h5OROEEYRy+XmbTGILP3l02bEatZ0/QWwz6Vkcv4wZ4oCpM53flhOOh1uXhsMOV2cVz7rOYvm4oI2qHE3JZrZ/e7QJP7E2zTS2Ole8ZzEfK2kIE/J9yjRyzpCLi8vjkPO2E1RBkZEVq59hqlMEcuEqvuFZYlPckMzYKoMkytBd3aOSLelij2iBQQZIvJR6b+YYbwn6MO8FFJlZKO8rGG1QF0guDdrtYeTkhCJDASpnmhiHw5c65Tsi3N2HFpCp5G06/xOGfSIEXUNDEaJWtmYmsU+imCsI7WxTRzG7PoiYx8vPJ1xxF9UGE8XAAuD/EmJ1mvlW7K8q6ZU7I8elpf3qCNXaDExcU13Ny0SPMJpv6K/O/tJfzmx+vyxyN92ZON9r/SRyvniuuLkXANCpnIW7/1lbnA6HvkGOTwnHKoUJzUFRsaZo3L/OyzAfbyCvtwU/KUwlUv4iHwMV+tpIoRhU5OYvy2Dmx9nrnlD2hDY1uExu66DjGUlJObSrJrpXDNoIKUSxcPjS81++E/ETlgdjh5E/7jTpNBPSFB82dsRsrE5zOkO8sCr4HwP0Ysrn4KC4syqAo8EVphY3XmEI1fzWkXd9uaGUHwMqHEGXCEzDxgD36FO4jXpZb6noplzJTw7B82YhoLVFmL2OaPH5RyMMn1/ZJ5vjNMTuBmn76bLM+kZC3YMLB9bS+2QlLZuoBJgYAJKbcy+FwvUTFsbzYfs36wLcOI+57s5aODMWafkHWA41DIXSZXinw8Won64LpqH9hLmwnHjVT4K6twmCE87pB4MhwRTeU6wBQeSlT+eJ4nD0AWLecCtESJzULpfYjVXHscWEAlfRIyZulMe4Bp7BrYSecRCpS4aGjBRFLveMc8bw3VhTtTAQbm5QuV1syDoWQF7NiNj/K4VzuLwni9g8sJsYwQtaeI95Ak2Iosb1+flcfRpqX8XQFUvJ/fk6tfzDj4Pep71IJcQSxon+3fk+U6qHaeX3LQTqjODt7ICR5ulPKU00mLYaHWhFmfz2sROo89u0+Sn72EKJmO3vbIq/2kJy1qRL0FP4q6LQgbYui5sPKPcuXuSx2J4E3oWfFlhF0CH0VQWnZndfs+T4hYx2suIjQwjTB0p5yAUV/FDoi74ImFHDksnsmUp7ojLxobvddz6Ta5oiTooDq25TwB0DAHy9oXeKcLCwaDOIHJDoeCDhA5Cw0n0tvBBdj0QwgrxW7hBOWNLFpclGr28D505H438kfTrXDRtK8pkCjtrCkjWeKYeUC7SP2RKQMQ9mzMOdMLuajpfX8EHlQv6G/sXkot8K3LGn5r6JDNfkdD9M3ZXeb6IJXay9LMlmOKPHddglc8pcFhVYR6mWlXNZIMRD/2MjY2AitASqeBAs47Vmj6syUfCznHmnMhBxmEqRErkJWXHJrxUre8oeV2h1aLScFB7WWa01AvPq3/7I88dCDkgDoYJbbUSoSbLiMh2O268baEWiq41D15jl4KNphfcUoCyJpDuKzCkf4PAksyoLXUHMm512S8qTqQjyobKhDxbc9EOs75Z69NiAyZ0fvuO4GXGubKLeyNW+A+k++jYXmkdE4za3VJZ8EGw4MxsHqtfQhkvSveX2XcA1krQkIRFQeKnFAdZqFhqKWCtmKySZUbffr0DhV4wsZcAEF++xzK/Ybwb5/uPEg8piA9eqtHluQ3syfdcsgH/XLkEckMC2304MNjI51TNS3Xp9zdeeIePHURuh35ZV9uwJpd4bYczWvTO9qLsKsjmJ5DwG60wIU0G08SSbBogGLpSvWrCpjuSekgg1Xi307Ksi3wCUeuTqMVp0J48c54ibGPB42FyVDc0omyZz8o0dVdjV7o9Kc7Tc+H6G/Rxp6CTprldXs/dmyd7XHDSRucR7d+HBOOc2TT6tmHtHJrnswsk/49ucaYPmMS9QkMwAB8IXYqgK6ee46WTh98Z6eg7M2OBfY+q4I31T0XYLZn3It/HbCc1H+iNXyaioyRijBfuqsP2neo8yfrde8leyGcZ6GwADXDPjBTrHlrxARKT4sAEE1MhGv//aOhkiuQln1iWpzIdokLdoAQO/yeXZILjSA/1jBt0n5J88QMBAN/laGprQ0vob24vkLVV9jsZBWv5dtBk4CGMmEkZkyBb8FWh64u3ozvVnGTAHBsbVP0aPRvCEXmobwOBIvgaIotuBS8+HzGDk94ycFSb5BtniLv2osVHi9BlPPcNllHg/SmPKxx+LoorzWFomMN2GxWrGZGtshZ1UPb8qPlucnWKIPX9wJUTpWNFjCOlJ6OF3Jntt+O2PfHcfv84iM5LSrWzEeQiDL9DykPvNMlKQlQKEjYfPYRP6NKTPFKCanXeVY4dm3NzduusdliaiNuNcdItfVrsOpz8r98SQTpkSujkrPtSpZ7SzQletxOyxX5ZcQJMvtTx5mulFK6I5EbsRddSacelzXLqqddd2mvS3WZu8u/I/b5oGFnS6/QcAgGT6oK3Rav+5qOFUg3E6INlcuL5uf6JWtdjuMsIRwcNTRA3bJ0JLoJiqeyWYS9gFajd5U2S/d3Im2v/S5MybP/0oP/o/7yurpdbl6f4MJM0A6H7xONinxXw4weZvnZLA0tR2dVq1ZfSY40ruwzcMd3Ab9PL+7iN5t/0CB+9Tklz8Uydr53vsh+dz8z9VT++y3QR0LkIvcG/hjPTHuZKF0o6hUCUPOELQB8gNaaFrNnKQLoeEN37PSU+MqGqkAgUB8yQxVF/2M27odMfhrV5/45YE05wXB4WCp6X8lltejnBavOeXwVR9so9GsZa+Wa35oIJ9hDLe/m8/NCMAYrDwcGcZcSkbHXglWULnTgTMR3am7RRhJZaY8pe8YCEiFqN/NJrqv3C6R95Q659RuFGMIA5TFx4xEj+uB5okdrlGwtOqYT4DWP1nU11bN3YeVjqTqljpWGXSaZOIAwSZ5pmO1GM/e0qV8VbOicPRB2yt4jLkPt/kzHERzd+dYJfgWBCDTuxBd9OQvag4kZ5XX8bYwahRGnAYS3wslOFDjlHxqyEK0YG8q0g/sMsVEylLIcNsYwON9vV58idRKFUpEqeVRvYUFM+hwEmL8bwxyfDeldoAkB9TAmCbH22e2FNcZ8tv61ySPNy1RTHWv7gHYb+C2/cIq0uI3rRQSjKIpwo+ewOGYV/rJS3EDb71MT2Mnvf6gqYcRWctEHyblD8J79h/zDeMQF0h4ZQwWDiLICgrGHa5x2MGW60AqVlYL712hNzS0Oh8yVOVsSI1kVHh4MjaLN162D07TU+dOuFPmiyhSijoL7CnIVReD8nMjlpJr115A5JWpAsM0P6Frn3uu+OLFM5E8/Oii0+VgVpg33pCadjAKGrUXa1ucYNHhYblddBwZhEGR9khWDSvRcsU/gl1AUVfQbutCpqoLfLmo3l+ZefMxl6QJvhU8gwLJOkLZyhmPMsiOZQnEfve1hyCeEEkgQKmQjATL4H4rWyxYh0lXPGY815gVlhSj11L+dout9z7RTtO9opV8X5/M9aVxNRDm84fT8BHVUpLnA7/JF1J7iTVL+5rRUm+6n9cuMwRXzeya6L9+J1/icNueG+ZGbIFOt0jkIqsDITPJ1qla/gJzClML19r4HfgfNgvQDzZXsCBYyKQnqYDUWDr65eBiCMJaxBNRqE5E2AwQOcT1Qw2eCic71uTkWqcOnG5Lyy/vDCPAvhwEuDa/kaVJ2osxsyjPSFFzFaMV+4vmryIhlqSRs9TZq7AP1yKy3orUf1QoQ7qLkaQzuhuIiyfPkjEImpUOtkaop3bdBSeRyOTG/+wcCEIZmM9oE3LIlkVsPv7iVfF3mICVmscbR5fEVz1oRvPciJ4naH2l5oOmOOXYqLR70e78K+gcU3TdnpC5r5q7LwexpuuBBBfeQ0I1Gn+85xGHTaFVY8+6MlDcfm5OkEUv8BruJS0F4bcWxXB9xaGNNgJuYUPRZkvLbP5cS2yCmv3DZkXkKGgEMYn8lwTgY2gqMb2XWgRaTrCGD9GjXS+DQNSsS9VpMcj3F0XJknk2d72CIypLKIO6eomwDaCrO8NENdW1IdfREhHHhKX4lkIO00jhzljbJsguH0C2xgYHILryxQ2r3zkcz19bQ/XmL775ubfSNddefcbZ5/5BOaLX1GbnZzysud9vsz/2YVFX7vvQ1LsynbAP7a4SjV+lsP8GCeIIhTdR3gTVxxq+U1qN0TBw3rMwrQYqv8DWSoesK7OOyPRHVYgQluzLxKrfqxLbj30OkG8qY5mPIHsGpNHPnwCwKOvxCoWY1hCG6LSzNHXnEV0muByNidDFvuN49mydxYJzyhdE8Ue3ZT6s7k116FOdebsIsQdVSGMik+7RDX5D/6es1LLLjfmIzdVRR3BcOcnEFjxy4K0vGZfQwgM/bbc/+8j4KMnuM+bd2R70RvycYwaTgUyUb6U8cixyVCxZ24RL1MBuCMSayVFGqliENnY1zL41ayKpawva9lTDW11Rp0rIVFTc+OFw9w48gRKnfOylzZv/R5FTw71qRJreJLd7KJjYRyodf7Ra07vFztaP5MTs57sMw8ThizOU8xhcTz/OOn3bfXct9AnWywaJk5YRvP4Hk+sJaIbss+vd9JbOHe6mJMw3R1VPJihpchqvqK5LCaMKzruet9dV0ygq0g/I9t+CWDJFkvLrFTo1bzIbhPs1rqRfFR6ypBbnbhz40v9SxREHnWuDb1sZcMrOEJrlT3QVqD5Drc+bL54zcJSvK1f6yhlURrXyTQHp/ZsSfD4OQhX02eQi7knRMNJOCLB+1WeUG9U0SnaQmJG/jSEQ00KiVm/Y5kQPpXd2Y4uUucSibtuwCn+EYNbakXX0hiGw4wEZsNYWJLyc+YPJNKV3u27UhZe//ZSLEoDkNlUJ7VF34joA3QVRuYyoMlggdjeSQX5/AWk5aBblP5rqja5YuwAHzmdoWy8V4KejOQ1CIdPsFzlq3i5YWlgVdPR2jvdCN5V63/QFI6MJ2/cq2PY0X8lO0/Emp2SF7YF5VUXMexjhSS9XrpQpaxoI9zb7/2JUauZW6hYsh1y9e06RlKixpLqwGOn78VL5XVzdyywnunMQBUaJHZa0s3YS+SFP49nYlTZRpRFi+hzPhEI8fdld+sDoYqmvkvxXhHdQgCeo1jF+tlJ0mmBdr5HxagXioWg7TZ4bR+mHaWoBb1NjXbj/+TOvDhuViUHpLkiDiHcpDld3G/Ild0olRs7Slp998ueuOgy5szrYOsZt+Y3xnTsuC8379QFTPp/dJ+xDeEVLIXuj+DGoPuBVeGbzECn8OYsC+Nf/2rqWi/cmnMtsC5mobNCWiOFVoC/FRBrm2GkDuVXi3wCsyIUG1Cfj8xflsuAKInb3IErrdOxalhXwmacyXXlza5fL0OM7CVhAP0GzaR7UmuxaOKbirAfxKUresCDgbpoAVHbBO/Jb1IHwJecf+DE+IQwuXGIAUKm5Y/e8NVDCG+LLi2pqoVjewKhrw0/ppquB0wYaNeIiiaiDHYdSaGoOrm8NVhsfDOaXkxrjUBB6aGMrajsWn+FwCqlLFcciFvClnKVV9IsWSvrVkNHhZu4vfc2vDE0OoDUL6rbimUb6WYFeTqb/jwrnj6mxUIer9+B/gCU3TbzN3fLJMnHYCKr+a4lVfM1GANhNA28mrQeAquOjDjRWTTm8w11D+DnWA/kpTqgznXTVn8JgRlFECarRn97Bnuoy2Ps3z2fEYlYdt0RXfLtxZ8IyRyf0q6MMru8cTowRtXBU37A8lPRRsbhZw+PytmU5K3N0jrAftMYGH0uMNgeKGGte03XvmAWbf5dHT1X2B0QPR6lTfokbZkQrMlUHXl9v7LiQxu0N/cBwCdtIItp7Bqk4g01CuJHQgsH/6x98TEHZmMotKHfcmJWYLVbN3SQAzrDRfHVAtwd/axda36+u/rUsIrgzPalRAS6e0USvi5tuXaA5UfNr4+8kQTu3ELy9TQD1r5YhgFiKRypAIbs+GdXxQ3tCIKpKciYPqDBzF0wj6+A5Oplartso08vsc1Wq9E5nhKJFSwzIC574eoym+dQw6gZEyi/KjTAVwGEv2P7r4hyesdCr0oArABVtC9ilHPD+hZx6BTHJWHDkE8ro87w1mduMqoGnfZ7GVuns3xaWBpRF/hy8pMuN2fBuxr04AsNg/1z7bxW5zwC2RHc9NSJ+i5Ft0DVBP85OysevchJVp/kq4gZ3N+uiJoNbDxHivgR1oOxp/DLUg0syJrokVeXwvaKz7pwF+STVZAIQ/lqhSdA1/BPScHBLGcPddFQGe5xbF+U9vopC+KCpgWFsHrZZ8GwBTISo3Z8CzYeWaq03GMwczgpcFBejR5oTnWViswWNDjP0VSXY7t+fWLrOgMLfSl52296iowxsnSt/18En4xtuAiS+4JJLKqgd8vSNStX+moIziZQFtr+6HY3nV/BT27p/K0571WqBm/vVWAVr+9RJopOtwyPgXkisKAvdL09trEV3lFEWXDOuQjFm+LrBRoj4EN3hNraPBkQilvzcULQjpsUiee2+ruURPVztT5YMpqecssxqrIU98tgy28T653YMbq6T/ggmNVO8Yd9GAr4dsqIBwu2bUf8cYbbzsZdXtI4b/toY5kZYKvLeCycOt0sLLr/ztxTT2bbcDu+WFWDSVbGKDqms7W5DKn7vlrfZe268rbRh"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 558,
+      "candidatesTokenCount": 136,
+      "totalTokenCount": 2682,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 558
+        }
+      ],
+      "thoughtsTokenCount": 1988,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "aJu1arSPO7W0xN8P7OSRqA8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 558,
+    "candidatesTokenCount": 136,
+    "totalTokenCount": 2682,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 558
+      }
+    ],
+    "thoughtsTokenCount": 1988,
+    "serviceTier": "standard"
+  }
+}

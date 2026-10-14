@@ -1,0 +1,149 @@
+{
+  "example_number": 464,
+  "entity_id": "wd:Q8073744",
+  "entity_label": "Zombie Dice",
+  "description": "dice game",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0464/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0464/metadata.json",
+  "input_hash": "ac4ce4a0ad3ac788dfa143887edaca120bd576d1f0d923cea339b7e163f7f48c",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Zombie Dice\nDescription: dice game\n\nTaxonomy context:\n- Direct parent classes: game\n- Sibling classes: play-by-mail game, simulation game, arcade game\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q8073744",
+    "entity_label": "Zombie Dice",
+    "description": "dice game",
+    "reference_class_id": "wd:Q1515156",
+    "reference_type": "dice game",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1515156",
+        "label": "dice game",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q11410",
+        "label": "game",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q17537576",
+        "label": "creative work",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q386724",
+        "label": "work",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "game",
+      "siblings": "play-by-mail game, simulation game, arcade game",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "game",
+      "siblings": "play-by-mail game, simulation game, arcade game",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 464,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1515156"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q11410"
+      ],
+      "siblings": [
+        "wd:Q1129581",
+        "wd:Q1137176",
+        "wd:Q113726751"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "dice game",
+    "tabletop game",
+    "game"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:42:00.696426+00:00",
+  "response": "{\"explanation\": \"The description \\\"dice game\\\" directly supports dice game as the most specific valid type. In the taxonomy, its direct parent is game, defining the broader scope of the entity. Sibling classes under game, such as play-by-mail game, simulation game, and arcade game, are distinct categories that do not fit a physical dice-rolling game. No narrower child classes are specified or supported. The list is ordered from the most specific type (dice game) through intermediate classifications to the broadest valid categories.\", \"types\": [\"dice game\", \"tabletop game\", \"game\"]}",
+  "explanation": "The description \"dice game\" directly supports dice game as the most specific valid type. In the taxonomy, its direct parent is game, defining the broader scope of the entity. Sibling classes under game, such as play-by-mail game, simulation game, and arcade game, are distinct categories that do not fit a physical dice-rolling game. No narrower child classes are specified or supported. The list is ordered from the most specific type (dice game) through intermediate classifications to the broadest valid categories.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"dice game\\\" directly supports dice game as the most specific valid type. In the taxonomy, its direct parent is game, defining the broader scope of the entity. Sibling classes under game, such as play-by-mail game, simulation game, and arcade game, are distinct categories that do not fit a physical dice-rolling game. No narrower child classes are specified or supported. The list is ordered from the most specific type (dice game) through intermediate classifications to the broadest valid categories.\", \"types\": [\"dice game\", \"tabletop game\", \"game\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 548,
+      "candidatesTokenCount": 120,
+      "totalTokenCount": 1079,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 548
+        }
+      ],
+      "thoughtsTokenCount": 411,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "KJm1aqreO-yJvdIPx7zJqQ8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 548,
+    "candidatesTokenCount": 120,
+    "totalTokenCount": 1079,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 548
+      }
+    ],
+    "thoughtsTokenCount": 411,
+    "serviceTier": "standard"
+  }
+}

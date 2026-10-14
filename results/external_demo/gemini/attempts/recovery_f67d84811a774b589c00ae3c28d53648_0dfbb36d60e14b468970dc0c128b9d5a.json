@@ -1,0 +1,162 @@
+{
+  "example_number": 290,
+  "entity_id": "wd:Q6147773",
+  "entity_label": "tobramycin/dexamethasone",
+  "description": "pharmaceutical preparation",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0290/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0290/metadata.json",
+  "input_hash": "3081f68c49058c0142fde561d144c4b8a578d81846869931186103d66a6d92ca",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: tobramycin/dexamethasone\nDescription: pharmaceutical preparation\n\nTaxonomy context:\n- Direct parent classes: medication\n- Sibling classes: illegal drug, peptide therapeutic, hormone\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q6147773",
+    "entity_label": "tobramycin/dexamethasone",
+    "description": "pharmaceutical preparation",
+    "reference_class_id": "wd:Q1779868",
+    "reference_type": "combination drug",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1779868",
+        "label": "combination drug",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q12140",
+        "label": "medication",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q8386",
+        "label": "drug",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q79529",
+        "label": "chemical substance",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q35758",
+        "label": "matter",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q28732711",
+        "label": "physical substance",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q378078",
+        "label": "substance",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "medication",
+      "siblings": "illegal drug, peptide therapeutic, hormone",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "medication",
+      "siblings": "illegal drug, peptide therapeutic, hormone",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 290,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1779868"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q12140"
+      ],
+      "siblings": [
+        "wd:Q10268802",
+        "wd:Q105890643",
+        "wd:Q11364"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "fixed-dose combination",
+    "combination drug",
+    "medication",
+    "pharmaceutical drug",
+    "drug",
+    "chemical substance",
+    "matter",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "f67d84811a774b589c00ae3c28d53648",
+  "timestamp_utc": "2026-10-11T23:49:15.300408+00:00",
+  "response": "{\n  \"explanation\": \"The entity represents a dual-ingredient formulation (an aminoglycoside antibiotic combined with a corticosteroid), which, along with the description \\\"pharmaceutical preparation\\\", identifies it specifically as a fixed-dose combination (combination drug). In the taxonomy, its direct parent class is medication, defining the general pharmacological product category. Sibling classes such as illegal drug, peptide therapeutic, and hormone represent alternative drug classifications; illegal drug is rejected because this is a standard regulated therapeutic product, and peptide therapeutic and hormone are rejected because the active components are an aminoglycoside and a corticosteroid rather than peptide-based therapeutics or purely hormonal agents. Direct child context is None, precluding further narrower sub-specialization. The remaining classes follow a valid decreasing hierarchy of specificity.\",\n  \"types\": [\n    \"fixed-dose combination\",\n    \"combination drug\",\n    \"medication\",\n    \"pharmaceutical drug\",\n    \"drug\",\n    \"chemical substance\",\n    \"matter\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The entity represents a dual-ingredient formulation (an aminoglycoside antibiotic combined with a corticosteroid), which, along with the description \"pharmaceutical preparation\", identifies it specifically as a fixed-dose combination (combination drug). In the taxonomy, its direct parent class is medication, defining the general pharmacological product category. Sibling classes such as illegal drug, peptide therapeutic, and hormone represent alternative drug classifications; illegal drug is rejected because this is a standard regulated therapeutic product, and peptide therapeutic and hormone are rejected because the active components are an aminoglycoside and a corticosteroid rather than peptide-based therapeutics or purely hormonal agents. Direct child context is None, precluding further narrower sub-specialization. The remaining classes follow a valid decreasing hierarchy of specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The entity represents a dual-ingredient formulation (an aminoglycoside antibiotic combined with a corticosteroid), which, along with the description \\\"pharmaceutical preparation\\\", identifies it specifically as a fixed-dose combination (combination drug). In the taxonomy, its direct parent class is medication, defining the general pharmacological product category. Sibling classes such as illegal drug, peptide therapeutic, and hormone represent alternative drug classifications; illegal drug is rejected because this is a standard regulated therapeutic product, and peptide therapeutic and hormone are rejected because the active components are an aminoglycoside and a corticosteroid rather than peptide-based therapeutics or purely hormonal agents. Direct child context is None, precluding further narrower sub-specialization. The remaining classes follow a valid decreasing hierarchy of specificity.\",\n  \"types\": [\n    \"fixed-dose combination\",\n    \"combination drug\",\n    \"medication\",\n    \"pharmaceutical drug\",\n    \"drug\",\n    \"chemical substance\",\n    \"matter\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 547,
+      "candidatesTokenCount": 214,
+      "totalTokenCount": 3090,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 547
+        }
+      ],
+      "thoughtsTokenCount": 2329,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "eyDMaqKXIYnfxs0P4fzxuQo"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 547,
+    "candidatesTokenCount": 214,
+    "totalTokenCount": 3090,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 547
+      }
+    ],
+    "thoughtsTokenCount": 2329,
+    "serviceTier": "standard"
+  }
+}

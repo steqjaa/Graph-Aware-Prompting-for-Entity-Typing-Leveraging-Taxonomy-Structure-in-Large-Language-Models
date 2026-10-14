@@ -1,0 +1,163 @@
+{
+  "example_number": 192,
+  "entity_id": "wd:Q652391",
+  "entity_label": "Shire of Strathbogie",
+  "description": "local government area in Victoria, Australia",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0192/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0192/metadata.json",
+  "input_hash": "679434db8ae44994514f5f497612cd9170f1d4e91b896f1636dada492930fe2d",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Shire of Strathbogie\nDescription: local government area in Victoria, Australia\n\nTaxonomy context:\n- Direct parent classes: local government area of Australia\n- Sibling classes: None\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q652391",
+    "entity_label": "Shire of Strathbogie",
+    "description": "local government area in Victoria, Australia",
+    "reference_class_id": "wd:Q1426035",
+    "reference_type": "local government area of Victoria",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1426035",
+        "label": "local government area of Victoria",
+        "depth": 10
+      },
+      {
+        "class_id": "wd:Q1867183",
+        "label": "local government area of Australia",
+        "depth": 9
+      },
+      {
+        "class_id": "wd:Q3299260",
+        "label": "local government area",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q56061",
+        "label": "administrative territorial entity",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q15642541",
+        "label": "human-geographic territorial entity",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q4835091",
+        "label": "territory",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q82794",
+        "label": "geographic region",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q26713767",
+        "label": "region of space",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "local government area of Australia",
+      "siblings": "None",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "local government area of Australia",
+      "siblings": "None",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 192,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1426035"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q1867183"
+      ],
+      "siblings": [],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "status": "completed",
+  "predictions": [
+    "local government area of Victoria",
+    "local government area of Australia",
+    "local government area",
+    "administrative territorial entity",
+    "geographical region",
+    "entity"
+  ],
+  "timestamp_utc": "2026-09-24T20:42:29.217187+00:00",
+  "response": "{\"explanation\": \"The description specifies the Shire of Strathbogie as a 'local government area in Victoria, Australia', directly establishing 'local government area of Victoria' as the most specific entity type. The direct parent 'local government area of Australia' validates its national scope, which in turn generalizes upward to 'local government area' and broader concepts like 'administrative territorial entity'. No sibling or child classes are specified, avoiding unsupported narrower or lateral classifications.\", \"types\": [\"local government area of Victoria\", \"local government area of Australia\", \"local government area\", \"administrative territorial entity\", \"geographical region\", \"entity\"]}",
+  "explanation": "The description specifies the Shire of Strathbogie as a 'local government area in Victoria, Australia', directly establishing 'local government area of Victoria' as the most specific entity type. The direct parent 'local government area of Australia' validates its national scope, which in turn generalizes upward to 'local government area' and broader concepts like 'administrative territorial entity'. No sibling or child classes are specified, avoiding unsupported narrower or lateral classifications.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description specifies the Shire of Strathbogie as a 'local government area in Victoria, Australia', directly establishing 'local government area of Victoria' as the most specific entity type. The direct parent 'local government area of Australia' validates its national scope, which in turn generalizes upward to 'local government area' and broader concepts like 'administrative territorial entity'. No sibling or child classes are specified, avoiding unsupported narrower or lateral classifications.\", \"types\": [\"local government area of Victoria\", \"local government area of Australia\", \"local government area\", \"administrative territorial entity\", \"geographical region\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 549,
+      "candidatesTokenCount": 125,
+      "totalTokenCount": 1308,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 549
+        }
+      ],
+      "thoughtsTokenCount": 634,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "NYu1arb6G5OOxN8P4qKU4Q0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 549,
+    "candidatesTokenCount": 125,
+    "totalTokenCount": 1308,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 549
+      }
+    ],
+    "thoughtsTokenCount": 634,
+    "serviceTier": "standard"
+  }
+}

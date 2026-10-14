@@ -1,0 +1,164 @@
+{
+  "example_number": 546,
+  "entity_id": "wd:Q7405481",
+  "entity_label": "Salmon-Challis National Forest",
+  "description": "national forest in the US state of Idaho",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0546/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0546/metadata.json",
+  "input_hash": "eceaaf142d4b7c3d3bebe65e426193d251abbabcecf3501d3b6329af098395f2",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Salmon-Challis National Forest\nDescription: national forest in the US state of Idaho\n\nTaxonomy context:\n- Direct parent classes: landscape\n- Sibling classes: massif, garden, cultural landscape\n- Direct child classes: Protected Natural Space, nature reserve, natural monument of Spain\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q7405481",
+    "entity_label": "Salmon-Challis National Forest",
+    "description": "national forest in the US state of Idaho",
+    "reference_class_id": "wd:Q1286517",
+    "reference_type": "natural landscape",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1286517",
+        "label": "natural landscape",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q107425",
+        "label": "landscape",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q4835091",
+        "label": "territory",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q82794",
+        "label": "geographic region",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q26713767",
+        "label": "region of space",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "landscape",
+      "siblings": "massif, garden, cultural landscape",
+      "children": "Protected Natural Space, nature reserve, natural monument of Spain"
+    },
+    "oracle_graph_context": {
+      "parents": "landscape",
+      "siblings": "massif, garden, cultural landscape",
+      "children": "Protected Natural Space, nature reserve, natural monument of Spain"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 546,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1286517"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q107425"
+      ],
+      "siblings": [
+        "wd:Q1061151",
+        "wd:Q1107656",
+        "wd:Q1129474"
+      ],
+      "children": [
+        "wd:Q107692021",
+        "wd:Q179049",
+        "wd:Q26939879"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "United States National Forest",
+    "national forest",
+    "protected area",
+    "forest",
+    "landscape",
+    "geographic location",
+    "physical object",
+    "spatial entity",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:48:09.738637+00:00",
+  "response": "{\"explanation\": \"The description \\\"national forest in the US state of Idaho\\\" explicitly identifies Salmon-Challis National Forest as a United States National Forest, which is a specific kind of national forest and protected area. In the taxonomy context, the parent class landscape bounds the broader spatial category. Sibling classes of protected area like massif, garden, and cultural landscape represent other landscape types, but only protected area fits a designated national forest reserve. The child classes like Protected Natural Space or natural monument of Spain represent narrower or region-specific designations not applicable here. The types are ranked from the most specific designation supported by the text down to broader geographic and physical categories.\", \"types\": [\"United States National Forest\", \"national forest\", \"protected area\", \"forest\", \"landscape\", \"geographic location\", \"physical object\", \"spatial entity\", \"entity\"]}",
+  "explanation": "The description \"national forest in the US state of Idaho\" explicitly identifies Salmon-Challis National Forest as a United States National Forest, which is a specific kind of national forest and protected area. In the taxonomy context, the parent class landscape bounds the broader spatial category. Sibling classes of protected area like massif, garden, and cultural landscape represent other landscape types, but only protected area fits a designated national forest reserve. The child classes like Protected Natural Space or natural monument of Spain represent narrower or region-specific designations not applicable here. The types are ranked from the most specific designation supported by the text down to broader geographic and physical categories.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"national forest in the US state of Idaho\\\" explicitly identifies Salmon-Challis National Forest as a United States National Forest, which is a specific kind of national forest and protected area. In the taxonomy context, the parent class landscape bounds the broader spatial category. Sibling classes of protected area like massif, garden, and cultural landscape represent other landscape types, but only protected area fits a designated national forest reserve. The child classes like Protected Natural Space or natural monument of Spain represent narrower or region-specific designations not applicable here. The types are ranked from the most specific designation supported by the text down to broader geographic and physical categories.\", \"types\": [\"United States National Forest\", \"national forest\", \"protected area\", \"forest\", \"landscape\", \"geographic location\", \"physical object\", \"spatial entity\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 562,
+      "candidatesTokenCount": 170,
+      "totalTokenCount": 1321,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 562
+        }
+      ],
+      "thoughtsTokenCount": 589,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "mZq1av-MO5eMvdIP1Iv5iAE"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 562,
+    "candidatesTokenCount": 170,
+    "totalTokenCount": 1321,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 562
+      }
+    ],
+    "thoughtsTokenCount": 589,
+    "serviceTier": "standard"
+  }
+}

@@ -1,0 +1,175 @@
+{
+  "example_number": 853,
+  "entity_id": "wd:Q7730130",
+  "entity_label": "The Dickinson Press",
+  "description": "US periodical",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0853/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0853/metadata.json",
+  "input_hash": "2d7188084adbaf36539df54069f516e4502ea3ef02aa42fade159e5ff632637b",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: The Dickinson Press\nDescription: US periodical\n\nTaxonomy context:\n- Direct parent classes: serial, temporal entity\n- Sibling classes: occurrence, time interval, point in time\n- Direct child classes: newspaper, semimonthly, Sunday edition\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q7730130",
+    "entity_label": "The Dickinson Press",
+    "description": "US periodical",
+    "reference_class_id": "wd:Q1002697",
+    "reference_type": "periodical",
+    "gold_types": [
+      {
+        "class_id": "wd:Q2217301",
+        "label": "serial",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q7725310",
+        "label": "series of creative works",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q1002697",
+        "label": "periodical",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q17537576",
+        "label": "creative work",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q26907166",
+        "label": "temporal entity",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q386724",
+        "label": "work",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "serial, temporal entity",
+      "siblings": "occurrence, time interval, point in time",
+      "children": "newspaper, semimonthly, Sunday edition"
+    },
+    "oracle_graph_context": {
+      "parents": "serial, temporal entity",
+      "siblings": "occurrence, time interval, point in time",
+      "children": "newspaper, semimonthly, Sunday edition"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 853,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1002697"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q2217301",
+        "wd:Q26907166"
+      ],
+      "siblings": [
+        "wd:Q1190554",
+        "wd:Q186081",
+        "wd:Q186408"
+      ],
+      "children": [
+        "wd:Q11032",
+        "wd:Q2903810",
+        "wd:Q3402495"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "periodical",
+    "serial",
+    "publication",
+    "written work",
+    "work",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:40:45.877436+00:00",
+  "response": "{\n  \"explanation\": \"The description \\\"US periodical\\\" directly supports periodical as the most specific evidenced type. In the taxonomy context, serial serves as a broader parent class defining its publication scope. Sibling classes such as occurrence, time interval, and point in time represent non-publication temporal concepts and are not applicable to a published work. The child classes newspaper, semimonthly, and Sunday edition offer narrower types, but they are not independently supported by the concise description \\\"US periodical\\\". Thus, periodical is chosen as the most specific type, followed by broader categories such as serial, publication, written work, and entity.\",\n  \"types\": [\n    \"periodical\",\n    \"serial\",\n    \"publication\",\n    \"written work\",\n    \"work\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The description \"US periodical\" directly supports periodical as the most specific evidenced type. In the taxonomy context, serial serves as a broader parent class defining its publication scope. Sibling classes such as occurrence, time interval, and point in time represent non-publication temporal concepts and are not applicable to a published work. The child classes newspaper, semimonthly, and Sunday edition offer narrower types, but they are not independently supported by the concise description \"US periodical\". Thus, periodical is chosen as the most specific type, followed by broader categories such as serial, publication, written work, and entity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The description \\\"US periodical\\\" directly supports periodical as the most specific evidenced type. In the taxonomy context, serial serves as a broader parent class defining its publication scope. Sibling classes such as occurrence, time interval, and point in time represent non-publication temporal concepts and are not applicable to a published work. The child classes newspaper, semimonthly, and Sunday edition offer narrower types, but they are not independently supported by the concise description \\\"US periodical\\\". Thus, periodical is chosen as the most specific type, followed by broader categories such as serial, publication, written work, and entity.\",\n  \"types\": [\n    \"periodical\",\n    \"serial\",\n    \"publication\",\n    \"written work\",\n    \"work\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 554,
+      "candidatesTokenCount": 170,
+      "totalTokenCount": 1449,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 554
+        }
+      ],
+      "thoughtsTokenCount": 725,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "jizMaqyNBYWVkdUPraKF6Q8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 554,
+    "candidatesTokenCount": 170,
+    "totalTokenCount": 1449,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 554
+      }
+    ],
+    "thoughtsTokenCount": 725,
+    "serviceTier": "standard"
+  }
+}

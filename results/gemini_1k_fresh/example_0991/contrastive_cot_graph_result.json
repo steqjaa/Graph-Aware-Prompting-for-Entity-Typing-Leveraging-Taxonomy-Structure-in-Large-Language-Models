@@ -1,0 +1,178 @@
+{
+  "example_number": 991,
+  "entity_id": "wd:Q3429270",
+  "entity_label": "Huazhong Agricultural University",
+  "description": "multi-disciplinary comprehensive university in Wuhan",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0991/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0991/metadata.json",
+  "input_hash": "d38be867e48c009478d9e1f22f7f869bd84c2f5b45300ca2b549f726ce4b2c47",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Huazhong Agricultural University\nDescription: multi-disciplinary comprehensive university in Wuhan\n\nTaxonomy context:\n- Direct parent classes: higher education institution\n- Sibling classes: ministry-owned university, business school, escuela técnica superior\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q3429270",
+    "entity_label": "Huazhong Agricultural University",
+    "description": "multi-disciplinary comprehensive university in Wuhan",
+    "reference_class_id": "wd:Q98658352",
+    "reference_type": "higher education institution directly under Ministry of Education of the People’s Republic of China",
+    "gold_types": [
+      {
+        "class_id": "wd:Q98658352",
+        "label": "higher education institution directly under Ministry of Education of the People’s Republic of China",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q38723",
+        "label": "higher education institution",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q4671277",
+        "label": "academic institution",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q5341295",
+        "label": "educational organization",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "higher education institution",
+      "siblings": "ministry-owned university, business school, escuela técnica superior",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "higher education institution",
+      "siblings": "ministry-owned university, business school, escuela técnica superior",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 991,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q98658352"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q38723"
+      ],
+      "siblings": [
+        "wd:Q10875128",
+        "wd:Q1143635",
+        "wd:Q118496730"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "university",
+    "higher education institution",
+    "educational institution",
+    "institution",
+    "organization",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:21:37.930467+00:00",
+  "response": "{\"explanation\": \"The description identifies Huazhong Agricultural University as a \\\"multi-disciplinary comprehensive university in Wuhan\\\", supporting university as the most specific entity type. Under the direct parent higher education institution, university accurately captures its full institutional status, whereas sibling classes like business school or escuela técnica superior denote specific types of colleges or technical schools not supported as the primary type, and ministry-owned university represents a specific administrative affiliation rather than its primary institutional classification. The hierarchy then broadens to higher education institution, educational institution, organization, and entity.\", \"types\": [\"university\", \"higher education institution\", \"educational institution\", \"institution\", \"organization\", \"agent\", \"entity\"]}",
+  "explanation": "The description identifies Huazhong Agricultural University as a \"multi-disciplinary comprehensive university in Wuhan\", supporting university as the most specific entity type. Under the direct parent higher education institution, university accurately captures its full institutional status, whereas sibling classes like business school or escuela técnica superior denote specific types of colleges or technical schools not supported as the primary type, and ministry-owned university represents a specific administrative affiliation rather than its primary institutional classification. The hierarchy then broadens to higher education institution, educational institution, organization, and entity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies Huazhong Agricultural University as a \\\"multi-disciplinary comprehensive university in Wuhan\\\", supporting university as the most specific entity type. Under the direct parent higher education institution, university accurately captures its full institutional status, whereas sibling classes like business school or escuela técnica superior denote specific types of colleges or technical schools not supported as the primary type, and ministry-owned university represents a specific administrative affiliation rather than its primary institutional classification. The hierarchy then broadens to higher education institution, educational institution, organization, and entity.\", \"types\": [\"university\", \"higher education institution\", \"educational institution\", \"institution\", \"organization\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "EusSCugSAWkUfRPDr7xn3u+CCuXdqoc+aMi/mFqnL2i1LP3amMewunRpR0YtDLvDZXJRY11pr4j/urhPEVfEYNX5+K2eTX8NFUQbJIcTbX6aNM1iWSQPlapqP1oJVUiysMKPynxm7itziLL6+nd1Z5DxqkUx65dhLsijPQgX89LD6yGNIDXXjiwtahbwyr9aTANj3sld29MPv1FJkkBRIHFZ12aJCKxEVINkWlAcCl0O+dlMCfqzAQ7HapUfJqstQiOx+S+wWY9CwCeiMaapbVDkBjNapgBPgIQtLZZrAp9GhLSQwfaz+p07ZCErZJ52X4ibAMDuZfXQ5sdfuDXB9f3fqqbudioq0oiwhTo2oouE9eOWwo9DEyttJIFojHtpT5Wnvhdv5aYpM+fIEnuiDQaO62PQ0y6VmAwwQ6wAj0c1lGXAhM8o7f5KvwZUBfsjQVoeYz8K6aaGpbUPlL1Ar4TXDPOSny0+UE0tVsva5chqx4b9ARpUXJfpX4D6O8rekf4WPHLdwhvtn1lvk6NIEM0AP3/F+pfWXSU4BlDXUtVcAeR5NtbX0gsrJFcXyji0a/Zl+V1CGI8Q1q8WMVCDypSBkIA3rLEBYZIyndE3TNqfyrTCZ9I5TJA83Rdq59CQZ2Le8C30AR7mzrZGyUtGtXr1Da3LgXpTnmOhl64fB3kG4gbJeXqIaJ3l3Ke0oL9aqVm/YYa4qEKx/wqQbKld5Lepg6y1bOuz9JEsw5jp4X7ttFoDeLOH53yhzu/qpANHSt+dsE8ds75pVmH4Q/SFAH66+bmcshaGmzSWWGTAQkaiAgiMKTVsxoZm6OE0+2CGszGJc8JW//Nrv4fXax7vRsQEf8XxfkihBg+8GDEBXBRoootCtMrZHuxH14c6NXA/poTlCQCoiVNE3kuY9sJu3t01eDvrXiQutrW927kBvv9NhTAC1I/JhgxXpZIvxJ8JnPPDT1nJbX85pY9n6nuh8ibh1RaAp2dFTvBboAn4Yi0m/dUYpyZtIM7WF8L4LdxfEO/IEGLYrlIGUe0F3wPiyI+2kzeAFs+qMJbCDtZQj/bci7YW/Cs+gfG+kXMJLFsUxOvpIReRkWtQR7UNcXWgpLQpuN5w/FL1F1aYVLTHwIafmUTh8srfGDeC4e005Ml69UGq9S7CBVuoEaTLZLpR+OIKCcI29q37tCVL3IFuEmmplAua5cADGteevpz+XdLN7gvE4s0Su5C9/8wAQglNb4NheRN0NtGEqbqL2EBi0HBTal7PZqsDBu9RG0mzS+TfPj8mkUMgSHf+0Lb5ER55aV9SkQGxRrrGPY/fg2JRVeQE85DkbfoQtU81osadj1H88zXFuMLfqFBj/m1jjgyo+XgbUTM9MROlximPQhk2d6gc4vHigSELFuBpukuZbRbZQsk8bAnCf8IsOxSOv+I/O32mm13RVdT7QX4dwqZ0Kb1NqMD0SNRtZCSB6MP3RZjCF6Kp+btgAiqUuNkhM+3jZSPRfccbj6E4go33jDDEMTHlI04MEbWQMl+QCBI+XI5yc0uIp6P0IfA9wXcH4TEJtjmZ8jwVdXjBloKVlFLt+Uj8UDviDXbEYIOevOQnM3G3e38Lk3kKt/HXt/JXsKDCEjnJbpcl3Dj/iBfYKKCzbFfD2+738cDc0hkXL6Sgwh8uq4NQnDSWfkAN5B2VNLUX8srAGyflB6FHsvDlBuTxtWG2RVRsWJxUEFNwim31ddi5wyHV94LKKyqEgcw8DulDCIxKNB4qeTjA/86E953S7gtIhu/chK5CzksJddy2u6Xr4+Wxnui4A3UqXQ9whELdJ11Ey6ZvCJik+tTsk8Ugy/HADQnl6ex5zysM83tO0x8XPqB33ZULNFnJyRxTDuRZG/Xe6n6mvJ6E8VoewXAWOmwOeybckZo0SN94iPIpSKd9/Hddzgv1WJFh4vyY2DbrjAE/TcHivdcZ/ASNHqmAtFdRwQgoWvUYRuWw21GS3RVJrFCeVu08M2i3pnblXQoAaz29LrPm2r9+rlWPh2qq8p058xiA0Jq1/fGuhchljy2SUupfKVpDZtp3LTsajHl7R19cNq0AU7QE/i3jQ6rrsyZ7LsSVjDZconZh5Qn6ILCGFQ0/Y+lx1YADAiaEp6j2lsQiOfk6Wd7KjZpy/HXTDMjFZN+5ypqsCLDEX/7eOMGFaf8wpn40OnyQjZKdnsWnhgGi77D6vhIlulPRzFAJtLjHOqk42VVDfMTJMkQ4vWWFXymyDzEoau6vEHNgm3IBMNa5EpLqrDNnM3xxFKe5xi7CDlxey/Qz4k6wq228+aRzHDjVG2g509XKeTzU72tsNqYOy5n+ssSVLHrlSeX21Z0gdu82Wxfmbu3bEz0KDC6FRgEd9JjD2ajjeSEzpVXTdV6nCefF6yKTrCWR1aGUJHCXDqz/7csDdNWoYAOR5kMFDE6ZWNBjW+JTVzYDS9YVI0Q0+vvZ04hner9aUL2ES5Uvphwi4+QvcEXbGt9y89r60YGGIm9UvmbM17T3OmtOUrmmsveaoFv1/67Rg3rkQD2NGWiOcm8+EWvms3JHE6zMr3bIxpBe8bYo3/IKaTqzmz9e7rLw9wt1jvUcA7GWrUV44au/5SGtXsBMXZNHGbmR4pIBBS0WDYDgUlZqSiIW9yxCGAf+OMqpAzmh4ku+4f9CMjcMVHymMMD2nMecAMyeJ5oFjo/PvIKW8LTc1Mo/zNu3wkt4fxDz9aeOl+dScrSbecTTrZ+DMIJ5G4RdoIkUFb3T3/SbGVuDF4UQDsbhLLqXwYAsy3chreEAf9mgKURgvnCuka2tPJigzqELeXmhlWPHO8kTbI/VzDypdYdHp04MVqcB4aeRq33R4bpRK7hhT3d3n/F6zWx9CfVNThWwKqivj26PH8DARSmRVKeaWwNpV0q68M0K4DeZNq5nuLb3VI/uH9hioc9yC5uuQMiiRm2tR0y1KW/xKOWFXo/ikhWyG1y7M88Uv7bzvM1Z9Of6/lMbIGkPs4kLRlRMuHuUV0JENYEIUztm5IyfEZvf/AkGb//Ey0MiV5ElKkDWi8mK0SFT1P9mJ/UiXaj6A5+F8Ejf1fNxrd539vNE8ZSaDvTvL7oarG2sn+9IoFH7CqLB8Dc9jQJT7ZfGGxiepICxp7JkAH5yUKzTcSERIZ/wgsC0hcl+C3XZla/erJ6+AszDoP2LyTedgmcXlKX4T/ObJyBXerEnMsLdA98pIW8="
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 557,
+      "candidatesTokenCount": 135,
+      "totalTokenCount": 1162,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 557
+        }
+      ],
+      "thoughtsTokenCount": 470,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "cqK1apSLDeyJvdIPx7zJqQ8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 557,
+    "candidatesTokenCount": 135,
+    "totalTokenCount": 1162,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 557
+      }
+    ],
+    "thoughtsTokenCount": 470,
+    "serviceTier": "standard"
+  }
+}

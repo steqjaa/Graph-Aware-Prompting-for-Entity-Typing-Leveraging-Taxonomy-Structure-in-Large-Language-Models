@@ -1,0 +1,153 @@
+{
+  "example_number": 878,
+  "entity_id": "wd:Q16729077",
+  "entity_label": "Wendy Francis",
+  "description": "lobbyist",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0878/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0878/metadata.json",
+  "input_hash": "66fbfcc4f2337a71727b6143f9ef1fc8a88fa5c365e8897b9ab8d88b6478a71b",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Wendy Francis\nDescription: lobbyist\n\nTaxonomy context:\n- Direct parent classes: activist\n- Sibling classes: humanist, political activist, cypherpunk\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q16729077",
+    "entity_label": "Wendy Francis",
+    "description": "lobbyist",
+    "reference_class_id": "wd:Q11986654",
+    "reference_type": "lobbyist",
+    "gold_types": [
+      {
+        "class_id": "wd:Q11986654",
+        "label": "lobbyist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q15253558",
+        "label": "activist",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "activist",
+      "siblings": "humanist, political activist, cypherpunk",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "activist",
+      "siblings": "humanist, political activist, cypherpunk",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 878,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q11986654"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q15253558"
+      ],
+      "siblings": [
+        "wd:Q10527030",
+        "wd:Q11499147",
+        "wd:Q1434323"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "lobbyist",
+    "activist",
+    "professional",
+    "worker",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:13:07.766137+00:00",
+  "response": "{\"explanation\": \"The description \\\"lobbyist\\\" directly supports lobbyist as the most specific entity type. Under the provided taxonomy, its direct parent is activist, establishing the broader functional domain. Sibling classes like humanist, political activist, and cypherpunk designate other forms of activism not directly specified or warranted by the evidence, while child classes are None. Broader types are then ordered by decreasing specificity from activist up to general entity concepts.\", \"types\": [\"lobbyist\", \"activist\", \"professional\", \"worker\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The description \"lobbyist\" directly supports lobbyist as the most specific entity type. Under the provided taxonomy, its direct parent is activist, establishing the broader functional domain. Sibling classes like humanist, political activist, and cypherpunk designate other forms of activism not directly specified or warranted by the evidence, while child classes are None. Broader types are then ordered by decreasing specificity from activist up to general entity concepts.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"lobbyist\\\" directly supports lobbyist as the most specific entity type. Under the provided taxonomy, its direct parent is activist, establishing the broader functional domain. Sibling classes like humanist, political activist, and cypherpunk designate other forms of activism not directly specified or warranted by the evidence, while child classes are None. Broader types are then ordered by decreasing specificity from activist up to general entity concepts.\", \"types\": [\"lobbyist\", \"activist\", \"professional\", \"worker\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 544,
+      "candidatesTokenCount": 114,
+      "totalTokenCount": 1138,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 544
+        }
+      ],
+      "thoughtsTokenCount": 480,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "dKC1apGtBMmUvdIP-rme-Q0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 544,
+    "candidatesTokenCount": 114,
+    "totalTokenCount": 1138,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 544
+      }
+    ],
+    "thoughtsTokenCount": 480,
+    "serviceTier": "standard"
+  }
+}

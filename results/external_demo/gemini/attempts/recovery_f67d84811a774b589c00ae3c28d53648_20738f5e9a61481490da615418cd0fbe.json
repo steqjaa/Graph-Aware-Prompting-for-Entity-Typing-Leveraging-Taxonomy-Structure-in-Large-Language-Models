@@ -1,0 +1,158 @@
+{
+  "example_number": 149,
+  "entity_id": "wd:Q1312146",
+  "entity_label": "Brühl train disaster",
+  "description": "train wreck",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0149/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0149/metadata.json",
+  "input_hash": "3cc7507df2341c9778ccd803f5dabbcf4e87751e5d46a0070a98cc931d93407e",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Brühl train disaster\nDescription: train wreck\n\nTaxonomy context:\n- Direct parent classes: incident\n- Sibling classes: aviation accident or incident, international incident, friendly fire\n- Direct child classes: train collision, derailment\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q1312146",
+    "entity_label": "Brühl train disaster",
+    "description": "train wreck",
+    "reference_class_id": "wd:Q1078765",
+    "reference_type": "train wreck",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1078765",
+        "label": "train wreck",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q12890393",
+        "label": "incident",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q1190554",
+        "label": "occurrence",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q26907166",
+        "label": "temporal entity",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "incident",
+      "siblings": "aviation accident or incident, international incident, friendly fire",
+      "children": "train collision, derailment"
+    },
+    "oracle_graph_context": {
+      "parents": "incident",
+      "siblings": "aviation accident or incident, international incident, friendly fire",
+      "children": "train collision, derailment"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 149,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1078765"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q12890393"
+      ],
+      "siblings": [
+        "wd:Q108284447",
+        "wd:Q1227249",
+        "wd:Q1303061"
+      ],
+      "children": [
+        "wd:Q11396408",
+        "wd:Q1331380"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "railway accident",
+    "transport accident",
+    "accident",
+    "incident",
+    "event",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "f67d84811a774b589c00ae3c28d53648",
+  "timestamp_utc": "2026-10-11T23:37:48.050391+00:00",
+  "response": "{\"explanation\": \"The description \\\"train wreck\\\" directly supports railway accident (or train accident) as the most specific inferred type. In the taxonomy, its direct parent is incident, alongside transport- and event-related sibling classes such as aviation accident or incident, international incident, and friendly fire. Direct child classes include derailment and train collision; although the Brühl train disaster historically involved a derailment, the provided description (\\\"train wreck\\\") does not explicitly identify whether it was a derailment or a collision, so those narrower child classes are rejected to avoid unsupported specificity. Broader valid classes are then arranged in decreasing specificity.\", \"types\": [\"railway accident\", \"transport accident\", \"accident\", \"incident\", \"event\", \"entity\"]}",
+  "explanation": "The description \"train wreck\" directly supports railway accident (or train accident) as the most specific inferred type. In the taxonomy, its direct parent is incident, alongside transport- and event-related sibling classes such as aviation accident or incident, international incident, and friendly fire. Direct child classes include derailment and train collision; although the Brühl train disaster historically involved a derailment, the provided description (\"train wreck\") does not explicitly identify whether it was a derailment or a collision, so those narrower child classes are rejected to avoid unsupported specificity. Broader valid classes are then arranged in decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"train wreck\\\" directly supports railway accident (or train accident) as the most specific inferred type. In the taxonomy, its direct parent is incident, alongside transport- and event-related sibling classes such as aviation accident or incident, international incident, and friendly fire. Direct child classes include derailment and train collision; although the Brühl train disaster historically involved a derailment, the provided description (\\\"train wreck\\\") does not explicitly identify whether it was a derailment or a collision, so those narrower child classes are rejected to avoid unsupported specificity. Broader valid classes are then arranged in decreasing specificity.\", \"types\": [\"railway accident\", \"transport accident\", \"accident\", \"incident\", \"event\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 550,
+      "candidatesTokenCount": 149,
+      "totalTokenCount": 1562,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 550
+        }
+      ],
+      "thoughtsTokenCount": 863,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "zB3MaomvD6zxnsEP1fNB"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 550,
+    "candidatesTokenCount": 149,
+    "totalTokenCount": 1562,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 550
+      }
+    ],
+    "thoughtsTokenCount": 863,
+    "serviceTier": "standard"
+  }
+}

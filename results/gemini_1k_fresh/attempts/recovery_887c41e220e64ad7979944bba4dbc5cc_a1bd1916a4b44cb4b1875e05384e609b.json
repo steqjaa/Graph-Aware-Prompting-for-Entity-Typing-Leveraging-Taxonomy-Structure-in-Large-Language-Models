@@ -1,0 +1,168 @@
+{
+  "example_number": 271,
+  "entity_id": "wd:Q23817378",
+  "entity_label": "Meydan TV",
+  "description": "berlin-based Azerbaijani non-profit media organization",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0271/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0271/metadata.json",
+  "input_hash": "7edf4a70a61a39adbd3b460d4ea12cf811c5c07870302447ffb6fedfbc372bbf",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Meydan TV\nDescription: berlin-based Azerbaijani non-profit media organization\n\nTaxonomy context:\n- Direct parent classes: organization\n- Sibling classes: national trust, Native American organization, hackerspace\n- Direct child classes: news program, written news media, news agency\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q23817378",
+    "entity_label": "Meydan TV",
+    "description": "berlin-based Azerbaijani non-profit media organization",
+    "reference_class_id": "wd:Q1193236",
+    "reference_type": "news media",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1193236",
+        "label": "news media",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "organization",
+      "siblings": "national trust, Native American organization, hackerspace",
+      "children": "news program, written news media, news agency"
+    },
+    "oracle_graph_context": {
+      "parents": "organization",
+      "siblings": "national trust, Native American organization, hackerspace",
+      "children": "news program, written news media, news agency"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 271,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1193236"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q43229"
+      ],
+      "siblings": [
+        "wd:Q1006283",
+        "wd:Q100731037",
+        "wd:Q1032372"
+      ],
+      "children": [
+        "wd:Q1358344",
+        "wd:Q17172633",
+        "wd:Q192283"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "non-profit media organization",
+    "news organization",
+    "media organization",
+    "non-profit organization",
+    "organization",
+    "corporate body",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:27:31.695407+00:00",
+  "response": "{\"explanation\": \"The description specifies that Meydan TV is a 'berlin-based Azerbaijani non-profit media organization', which best supports media organization (or news organization) as the most specific type. Its direct parent in the taxonomy is organization, bounding its broader category. Sibling classes under organization, such as national trust, Native American organization, and hackerspace, represent unrelated functional or cultural organizational types and are refuted by the description. The child classes (news program, written news media, news agency) are too narrow or mischaracterize the entity, as Meydan TV is an overarching media organization rather than solely a news program or wire agency. The remaining valid classes follow in decreasing order of specificity.\", \"types\": [\"non-profit media organization\", \"news organization\", \"media organization\", \"non-profit organization\", \"organization\", \"corporate body\", \"agent\", \"entity\"]}",
+  "explanation": "The description specifies that Meydan TV is a 'berlin-based Azerbaijani non-profit media organization', which best supports media organization (or news organization) as the most specific type. Its direct parent in the taxonomy is organization, bounding its broader category. Sibling classes under organization, such as national trust, Native American organization, and hackerspace, represent unrelated functional or cultural organizational types and are refuted by the description. The child classes (news program, written news media, news agency) are too narrow or mischaracterize the entity, as Meydan TV is an overarching media organization rather than solely a news program or wire agency. The remaining valid classes follow in decreasing order of specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description specifies that Meydan TV is a 'berlin-based Azerbaijani non-profit media organization', which best supports media organization (or news organization) as the most specific type. Its direct parent in the taxonomy is organization, bounding its broader category. Sibling classes under organization, such as national trust, Native American organization, and hackerspace, represent unrelated functional or cultural organizational types and are refuted by the description. The child classes (news program, written news media, news agency) are too narrow or mischaracterize the entity, as Meydan TV is an overarching media organization rather than solely a news program or wire agency. The remaining valid classes follow in decreasing order of specificity.\", \"types\": [\"non-profit media organization\", \"news organization\", \"media organization\", \"non-profit organization\", \"organization\", \"corporate body\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 561,
+      "candidatesTokenCount": 179,
+      "totalTokenCount": 1964,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 561
+        }
+      ],
+      "thoughtsTokenCount": 1224,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "w5W1apTCO-2FkdUPgtju8Q4"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 561,
+    "candidatesTokenCount": 179,
+    "totalTokenCount": 1964,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 561
+      }
+    ],
+    "thoughtsTokenCount": 1224,
+    "serviceTier": "standard"
+  }
+}

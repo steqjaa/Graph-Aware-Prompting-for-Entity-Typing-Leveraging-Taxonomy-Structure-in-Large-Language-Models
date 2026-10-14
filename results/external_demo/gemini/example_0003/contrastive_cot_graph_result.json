@@ -1,0 +1,155 @@
+{
+  "example_number": 3,
+  "entity_id": "wd:Q1892930",
+  "entity_label": "Trabocchi Coast",
+  "description": "place in Abruzzo, Italy",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0003/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0003/metadata.json",
+  "input_hash": "98a1aa70a931287aea02ba2a731c4f4cbe04c4e89fd441c8534b65021d6ff80a",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Trabocchi Coast\nDescription: place in Abruzzo, Italy\n\nTaxonomy context:\n- Direct parent classes: shore\n- Sibling classes: bank, beach, littoral zone\n- Direct child classes: cape, intertidal zone, cliffed coast\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q1892930",
+    "entity_label": "Trabocchi Coast",
+    "description": "place in Abruzzo, Italy",
+    "reference_class_id": "wd:Q93352",
+    "reference_type": "coast",
+    "gold_types": [
+      {
+        "class_id": "wd:Q93352",
+        "label": "coast",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q468756",
+        "label": "shore",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q20719696",
+        "label": "physico-geographical object",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q4406616",
+        "label": "concrete object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "shore",
+      "siblings": "bank, beach, littoral zone",
+      "children": "cape, intertidal zone, cliffed coast"
+    },
+    "oracle_graph_context": {
+      "parents": "shore",
+      "siblings": "bank, beach, littoral zone",
+      "children": "cape, intertidal zone, cliffed coast"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 3,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q93352"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q468756"
+      ],
+      "siblings": [
+        "wd:Q2897058",
+        "wd:Q40080",
+        "wd:Q506894"
+      ],
+      "children": [
+        "wd:Q185113",
+        "wd:Q421069",
+        "wd:Q6502866"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "coast",
+    "shore",
+    "coastal landform",
+    "landform",
+    "geographic location",
+    "physical object",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "f67d84811a774b589c00ae3c28d53648",
+  "timestamp_utc": "2026-10-11T23:26:19.761254+00:00",
+  "response": "{\"explanation\": \"The description identifies Trabocchi Coast as a coastal place in Abruzzo, Italy, supporting coast as the most specific type. In the taxonomy, its direct parent is shore, establishing the general boundary between land and water. Sibling classes such as beach, bank, and littoral zone are either narrower landforms or specific zones rather than an extended coastal region. Child classes such as cape, intertidal zone, and cliffed coast represent specific features or sub-types not independently warranted for the entire stretch of coast. The valid types are ordered from most specific to broadest.\", \"types\": [\"coast\", \"shore\", \"coastal landform\", \"landform\", \"geographic location\", \"physical object\", \"entity\"]}",
+  "explanation": "The description identifies Trabocchi Coast as a coastal place in Abruzzo, Italy, supporting coast as the most specific type. In the taxonomy, its direct parent is shore, establishing the general boundary between land and water. Sibling classes such as beach, bank, and littoral zone are either narrower landforms or specific zones rather than an extended coastal region. Child classes such as cape, intertidal zone, and cliffed coast represent specific features or sub-types not independently warranted for the entire stretch of coast. The valid types are ordered from most specific to broadest.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies Trabocchi Coast as a coastal place in Abruzzo, Italy, supporting coast as the most specific type. In the taxonomy, its direct parent is shore, establishing the general boundary between land and water. Sibling classes such as beach, bank, and littoral zone are either narrower landforms or specific zones rather than an extended coastal region. Child classes such as cape, intertidal zone, and cliffed coast represent specific features or sub-types not independently warranted for the entire stretch of coast. The valid types are ordered from most specific to broadest.\", \"types\": [\"coast\", \"shore\", \"coastal landform\", \"landform\", \"geographic location\", \"physical object\", \"entity\"]}",
+              "thoughtSignature": "EskSCsYSAWkUfRPoYfxDPPVOueIZB44F8NkaH5Rrb/AbT9f9z4QMTHSX8Hs4qAGXZTU4yGqhNT6+YvoiPZm3/6h7gMqPTViAz2nstJ49Bkk3kmg9Yfb70Y5V96AYPYvGk0apgc0CsZmjA3Ad/HYir7MeakteE3nhg8/PfVZhSMDE+JCbImCbGuUWsNtDVJoGE42FwplCrhZQ/0zI9/N2n0+vHoT57B30LMtiZmm8wZYDXSj93V+crNIDw/RKNDaL2UbClWqazostw6K0z9wYIWjbDUANZIFdLvYQ9oZ9DQFHKXDp7fJxGcxOaYozM4YuH9DBygeIhP65dsO7j/NEbPRTMISk8+whgnaxRyVRoQ7V5bHn3oJ01VJMLrYSKpgqHFONYGE+W5xGJgQfNbNrvKuJTqkh0VDAFfPcgMB9np+b6yUQjOzzY0TU2K9SeTQnOuUpTxYafRu78DVonlp1y2C/QRUmMQI22+iAe/DEbsb9RLQKd4SDoDtbpCN6viRlNegamJQfNV4K+nUUkrPSKq3/N9VlMrkWKV20ls1XubsKGxz5DwN+quoD7zu/uht8GRGDhTrraRDTUPVcoOaQPc5tyG4KbRcq8SCBCgL0ziZhaqiWffhIzA8lhR1A2+lWVxY7xay/yt381nMl2fZgmF49b1NSlg5o36wjuHJRg0LNC5yef81rxhnyTxH8e8HXxZ8CivGbrn0lkKq7q79Fu25tNCFg8QTeiB7r81NwQEbqYVCQJS1/9EZNtSlyzG6z0CG+KUtiZujNtn30U5gNqNchV5faCXtYUBz6e/Ur+mlzyM7Mwr8hHtYgmEa+tvTRUD3tbnnfsN2VPxIeBAuB0D4J7KVa9iixXn7Xf97VCZl6+aXKmtQlbvyMkbE7jgSsev3me1Mzj8hZ4NuPvlYy8DHTgSVL3emfKJqxnvGfQxalb2vKcLFk+enUGbHniQp4XpJBFwO3Qz82uORSkhcz+LteOnZ315i6p050/pF3QBSlmnWfLouYyhQz/2ku9otYLYEANpGMDN35lwiYcu2LzK2n8ZjRRUOEwMb/WaCkiOoLfE+vDqPtzqO6nkbWVxjLESOW0KuWmgZXOOjvGFinZMYUS6Ir66x87dfUs1JxoGZhSwkouHwgDboFfTVsvWtBnsklqipnTwcJ4Y9VLHFBxddzkA8ge86EnZLWV+gMRvLDqOXD5PfOcwQ9glTtglkyb/CRXgCK8YL1nfq1t2BOksO4Ta70Q6uElHpmVYj3QUXY25K/+A9/a+TqqP+Y39cJh8F9M6aO/yybdyQ97eWrOvX3aST+zpE9T5N5+4cbQeIU3JBjsa8ou/RYR/2FrkJgXqm1zIm4SHq9fJMHHknO0yhIwTH2/cYvMWZY4fEdOeFkgj0D39LO7n/Bl/lNoBpSzReoTaQOX7rjF48lO5HJfjyj936fNrCg8InvuiaPUIcJjeiJq1NGj4sRCNOvCXxzzKYuOb7u0TBbG0I760PZq6gZehoqYe6D3hkfMFECZ4Qu+1Wo4/vyhCa1Ej4y46ERUemVqnOab0XVYlARBScp2bbkWBvoV/NYJugIRNwSHmkd1hvYg6jesg3TW5JOsV7+2A67ykCgqutfepwhnlOv5fzpfmH+KOvFI5Ae7ZbhMA2KooPzSM4y9imF6vqareekQopiHSl96WpYXC1UKg5LOgELuAFHY6+NDWzuhmpjafpeWI14ZCgZmcV0cKc8t0mVcXsT82NN6DA9P7OkeJHzGYAn4FbNKS0Kbn1pEf1BtUbC2V/gCVeKXTDTZoAVEWD7JV1VPNJEI+b2gVEW8sPDoVA/AL3BDS0kA3MYR7JGgVTbtMvnnoNGMd1ekH1xypwtGpET1EFjRXJVBhB+kjum4YCseSjCrs/RqlowOl5hLZH52PoVEXyr4xurEiCceaVY4CgOUc0lxeOendqFjJRVMOPksFT5g9KRK41SiRBYXDgYutp9U7k2T8M9pv3hxfClGD6CAuu6+91LF2uO3FNYwAPzZSz5InF7qAlFoukuqZSE23lR9L/gCeKvfs0rrqQASHQglNABr4s+X3jXpASV9O4BoLacOyCPrnTuW38hF3B3Fpc09zMt6v12NdNhpKiMqe8aQv7nyDNbGip2INE8ZKgdiqBMeoqGldhuBFKg6sP9gbGh9sGFK5fDvFVgbR39SHkBrATy6GDpugSLDVgWp9bowyGVDRp5hbcNDB0d7hsY2nRH9oCqsjMcMY3GElw0R+7gE1EFZuKuDoNF9Cc5bTp5BmktDRVZ05aP5IQAFE+hQTgmrRgWbHBDxDQOgWSmTGw2BNzgMXuTrWbnFGtWC4i9VELsHXvWVy0n/K9ibtvWsiFFOYYArrEAm3WUN3g1DOBW/1mMglc1Vm1mt2FL/pBdZVYL3ds80FIDBC/BgEasJBdio+LQZh6yVKixfYULlYfuC56MmSiltdHORGZRSQwLDt2+gfTnYao53daSesFlmEqZWvctT51uCgx79jr9lBXUkIJYntR6pZEezx+Ou1pMbOlmuYPB5VBsfpS4qjkp6aWbBiGqgFgtO0iNL1lM5sE6RlY1uOGRpFokb7jY3W8mJC47d4pmeUxFtsYaUYcA3oNR1UKau7ThRoQP6srZaBi/Ze7hotc9TRcEDr8J1JNqFKV+zKhjGHT1x9XAU4yIhaAV2XAH0FWEts3KmypH95RUgcm97FgQ9XcTXXO8RRzhFI0F/7ZLzaGC7QMeRehsknjg0zTpoLbpxNeTjt9s3OcDfACbIqI5I8e1DIQBz3KKXG2vUY4abNQdS1d1sy0M5TPmZOoCKmCGjXe40ZSKQ73dwOiC3e5/BgJATHsKpD3vVReSfEXKsfSq9ovgp72tfF9qCFhf8BYZ7FONmgbV63pKo2g4daT3BdMtd2b7MMsTf0Pq44peMXp5B2rU76npppWhT6uRFMCM3qFZKPeu2FJJ3pbdXGL5JuzLSQDRmkLWJnFeQwl34Hr3DuI3jNp6pAKvbiKkgzG84W9rXSPFdhp1I0h2S3dLYY/mbbuYTdWAtWDdu/d2/aCKjAtL4YUeTurA3QZTAK7XEG4G4fbshDQ7PIxlzFv314cKvVs9WSHMYaFq90vRLtBRhExQ8Ml9qKBzBTheEWqhe1PZS/nkAbbLfEbeuwtbgIoCz/4N0VtoRkfjmUoBtz4lRw=="
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 553,
+      "candidatesTokenCount": 146,
+      "totalTokenCount": 1258,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 553
+        }
+      ],
+      "thoughtsTokenCount": 559,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "HBvMary2AYDY7M8P_-OYgA0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 553,
+    "candidatesTokenCount": 146,
+    "totalTokenCount": 1258,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 553
+      }
+    ],
+    "thoughtsTokenCount": 559,
+    "serviceTier": "standard"
+  }
+}

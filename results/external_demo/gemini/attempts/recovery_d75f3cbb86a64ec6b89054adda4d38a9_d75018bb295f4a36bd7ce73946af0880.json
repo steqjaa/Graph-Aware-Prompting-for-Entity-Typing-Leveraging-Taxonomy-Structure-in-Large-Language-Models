@@ -1,0 +1,177 @@
+{
+  "example_number": 982,
+  "entity_id": "wd:Q2451612",
+  "entity_label": "Wadi Zered",
+  "description": "also called Wadi Hasa, a wadi in Jordan",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0982/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0982/metadata.json",
+  "input_hash": "e77cc1673fb614bac66b4816fc91a7e2030759a81dfdc325b48fdc35c5c4eea9",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Wadi Zered\nDescription: also called Wadi Hasa, a wadi in Jordan\n\nTaxonomy context:\n- Direct parent classes: watercourse\n- Sibling classes: burn, channel, river mouth\n- Direct child classes: rivulet, urban stream, mountain stream\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q2451612",
+    "entity_label": "Wadi Zered",
+    "description": "also called Wadi Hasa, a wadi in Jordan",
+    "reference_class_id": "wd:Q47521",
+    "reference_type": "stream",
+    "gold_types": [
+      {
+        "class_id": "wd:Q47521",
+        "label": "stream",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q355304",
+        "label": "watercourse",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q15324",
+        "label": "body of water",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q82794",
+        "label": "geographic region",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q20719696",
+        "label": "physico-geographical object",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q26713767",
+        "label": "region of space",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q4406616",
+        "label": "concrete object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "watercourse",
+      "siblings": "burn, channel, river mouth",
+      "children": "rivulet, urban stream, mountain stream"
+    },
+    "oracle_graph_context": {
+      "parents": "watercourse",
+      "siblings": "burn, channel, river mouth",
+      "children": "rivulet, urban stream, mountain stream"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 982,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q47521"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q355304"
+      ],
+      "siblings": [
+        "wd:Q1016714",
+        "wd:Q1210950",
+        "wd:Q1233637"
+      ],
+      "children": [
+        "wd:Q15842515",
+        "wd:Q24175194",
+        "wd:Q2570370"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "wadi",
+    "stream",
+    "watercourse",
+    "body of water",
+    "geographic feature",
+    "natural physical object",
+    "physical object",
+    "spatial entity",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:50:29.390926+00:00",
+  "response": "{\n  \"explanation\": \"The description specifies that Wadi Zered is 'a wadi in Jordan', directly supporting wadi as the most specific valid type. Within the taxonomy context, the parent class watercourse defines the overarching domain. The sibling classes (such as burn, channel, and river mouth) represent alternative watercourse classifications that are not supported by the evidence. The child classes (rivulet, urban stream, mountain stream) represent specific stream types not justified by the description. Ascending from wadi, broader supported types include stream, watercourse, body of water, and geographic feature.\",\n  \"types\": [\"wadi\", \"stream\", \"watercourse\", \"body of water\", \"geographic feature\", \"natural physical object\", \"physical object\", \"spatial entity\", \"entity\"]\n}",
+  "explanation": "The description specifies that Wadi Zered is 'a wadi in Jordan', directly supporting wadi as the most specific valid type. Within the taxonomy context, the parent class watercourse defines the overarching domain. The sibling classes (such as burn, channel, and river mouth) represent alternative watercourse classifications that are not supported by the evidence. The child classes (rivulet, urban stream, mountain stream) represent specific stream types not justified by the description. Ascending from wadi, broader supported types include stream, watercourse, body of water, and geographic feature.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The description specifies that Wadi Zered is 'a wadi in Jordan', directly supporting wadi as the most specific valid type. Within the taxonomy context, the parent class watercourse defines the overarching domain. The sibling classes (such as burn, channel, and river mouth) represent alternative watercourse classifications that are not supported by the evidence. The child classes (rivulet, urban stream, mountain stream) represent specific stream types not justified by the description. Ascending from wadi, broader supported types include stream, watercourse, body of water, and geographic feature.\",\n  \"types\": [\"wadi\", \"stream\", \"watercourse\", \"body of water\", \"geographic feature\", \"natural physical object\", \"physical object\", \"spatial entity\", \"entity\"]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 557,
+      "candidatesTokenCount": 163,
+      "totalTokenCount": 1818,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 557
+        }
+      ],
+      "thoughtsTokenCount": 1098,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "1S7MaoL2JbCh28oP4J2z4QU"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 557,
+    "candidatesTokenCount": 163,
+    "totalTokenCount": 1818,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 557
+      }
+    ],
+    "thoughtsTokenCount": 1098,
+    "serviceTier": "standard"
+  }
+}

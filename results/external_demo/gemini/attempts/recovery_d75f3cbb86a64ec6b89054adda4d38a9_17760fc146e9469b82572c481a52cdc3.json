@@ -1,0 +1,147 @@
+{
+  "example_number": 404,
+  "entity_id": "wd:Q123690212",
+  "entity_label": "Toi Tū Toi Ora: Contemporary Māori Art",
+  "description": "2020–2021 art exhibition in Auckland, New Zealand",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0404/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0404/metadata.json",
+  "input_hash": "21c9f98525af13d738a7659bd8e49e4fa5c7c6f240c4a4a1e9995664cbfdf234",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Toi Tū Toi Ora: Contemporary Māori Art\nDescription: 2020–2021 art exhibition in Auckland, New Zealand\n\nTaxonomy context:\n- Direct parent classes: exhibition\n- Sibling classes: museum exhibition, fashion show, auto show\n- Direct child classes: solo show, temporary art exhibition\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q123690212",
+    "entity_label": "Toi Tū Toi Ora: Contemporary Māori Art",
+    "description": "2020–2021 art exhibition in Auckland, New Zealand",
+    "reference_class_id": "wd:Q667276",
+    "reference_type": "art exhibition",
+    "gold_types": [
+      {
+        "class_id": "wd:Q667276",
+        "label": "art exhibition",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q464980",
+        "label": "exhibition",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "exhibition",
+      "siblings": "museum exhibition, fashion show, auto show",
+      "children": "solo show, temporary art exhibition"
+    },
+    "oracle_graph_context": {
+      "parents": "exhibition",
+      "siblings": "museum exhibition, fashion show, auto show",
+      "children": "solo show, temporary art exhibition"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 404,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q667276"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q464980"
+      ],
+      "siblings": [
+        "wd:Q115156410",
+        "wd:Q1153401",
+        "wd:Q1156329"
+      ],
+      "children": [
+        "wd:Q3433300",
+        "wd:Q59861107"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "temporary art exhibition",
+    "art exhibition",
+    "exhibition",
+    "event",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:06:36.909672+00:00",
+  "response": "{\"explanation\": \"The description specifies '2020–2021 art exhibition in Auckland, New Zealand', directly supporting 'temporary art exhibition' and 'art exhibition' as the most specific types. In the taxonomy, the direct parent is 'exhibition'. Among the child classes, 'temporary art exhibition' fits because the exhibition was held over a finite period (2020–2021), whereas 'solo show' is rejected because the title and description denote a broad survey of contemporary Māori art rather than a single artist's work. Irrelevant siblings like 'fashion show' and 'auto show' are unsupported. The remaining labels reflect increasingly broader valid categories.\", \"types\": [\"temporary art exhibition\", \"art exhibition\", \"exhibition\", \"event\", \"entity\"]}",
+  "explanation": "The description specifies '2020–2021 art exhibition in Auckland, New Zealand', directly supporting 'temporary art exhibition' and 'art exhibition' as the most specific types. In the taxonomy, the direct parent is 'exhibition'. Among the child classes, 'temporary art exhibition' fits because the exhibition was held over a finite period (2020–2021), whereas 'solo show' is rejected because the title and description denote a broad survey of contemporary Māori art rather than a single artist's work. Irrelevant siblings like 'fashion show' and 'auto show' are unsupported. The remaining labels reflect increasingly broader valid categories.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description specifies '2020–2021 art exhibition in Auckland, New Zealand', directly supporting 'temporary art exhibition' and 'art exhibition' as the most specific types. In the taxonomy, the direct parent is 'exhibition'. Among the child classes, 'temporary art exhibition' fits because the exhibition was held over a finite period (2020–2021), whereas 'solo show' is rejected because the title and description denote a broad survey of contemporary Māori art rather than a single artist's work. Irrelevant siblings like 'fashion show' and 'auto show' are unsupported. The remaining labels reflect increasingly broader valid categories.\", \"types\": [\"temporary art exhibition\", \"art exhibition\", \"exhibition\", \"event\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 571,
+      "candidatesTokenCount": 162,
+      "totalTokenCount": 1165,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 571
+        }
+      ],
+      "thoughtsTokenCount": 432,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "jSTMas_ECvjDvdIP2-ye2QM"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 571,
+    "candidatesTokenCount": 162,
+    "totalTokenCount": 1165,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 571
+      }
+    ],
+    "thoughtsTokenCount": 432,
+    "serviceTier": "standard"
+  }
+}

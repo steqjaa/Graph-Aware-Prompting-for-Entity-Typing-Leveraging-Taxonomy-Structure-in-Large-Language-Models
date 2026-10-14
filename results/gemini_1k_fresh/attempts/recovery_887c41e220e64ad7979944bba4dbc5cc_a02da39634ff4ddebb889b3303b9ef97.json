@@ -1,0 +1,169 @@
+{
+  "example_number": 169,
+  "entity_id": "wd:Q95262139",
+  "entity_label": "Antony Unwin",
+  "description": "Statistician, software developer",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0169/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0169/metadata.json",
+  "input_hash": "abe9608b4f4f2e82dfe565ca373c76e5e39bd45394564907090e5c3259ff0407",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Antony Unwin\nDescription: Statistician, software developer\n\nTaxonomy context:\n- Direct parent classes: technology specialist\n- Sibling classes: data engineer, database administrator, IT consultant\n- Direct child classes: research software engineer, site reliability engineer, webmaster\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q95262139",
+    "entity_label": "Antony Unwin",
+    "description": "Statistician, software developer",
+    "reference_class_id": "wd:Q1709010",
+    "reference_type": "software engineer",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1709010",
+        "label": "software engineer",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q5157565",
+        "label": "technology specialist",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q702269",
+        "label": "professional",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q327055",
+        "label": "worker",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "technology specialist",
+      "siblings": "data engineer, database administrator, IT consultant",
+      "children": "research software engineer, site reliability engineer, webmaster"
+    },
+    "oracle_graph_context": {
+      "parents": "technology specialist",
+      "siblings": "data engineer, database administrator, IT consultant",
+      "children": "research software engineer, site reliability engineer, webmaster"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 169,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1709010"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q5157565"
+      ],
+      "siblings": [
+        "wd:Q104659813",
+        "wd:Q1078262",
+        "wd:Q20031249"
+      ],
+      "children": [
+        "wd:Q106268090",
+        "wd:Q24963057",
+        "wd:Q41674"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "software developer",
+    "statistician",
+    "technology specialist",
+    "scientist",
+    "professional",
+    "worker",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:19:45.038295+00:00",
+  "response": "{\n  \"explanation\": \"The description \\\"Statistician, software developer\\\" explicitly identifies the entity as a software developer and statistician. Within the taxonomy, software developer is the missing target class under technology specialist. Sibling classes such as data engineer, database administrator, and IT consultant represent distinct IT roles not grounded in the description. Direct children such as research software engineer, site reliability engineer, and webmaster are overly specific without explicit textual support. Broader valid classes encompass technology specialist, professional, person, and entity.\",\n  \"types\": [\n    \"software developer\",\n    \"statistician\",\n    \"technology specialist\",\n    \"scientist\",\n    \"professional\",\n    \"worker\",\n    \"person\",\n    \"agent\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The description \"Statistician, software developer\" explicitly identifies the entity as a software developer and statistician. Within the taxonomy, software developer is the missing target class under technology specialist. Sibling classes such as data engineer, database administrator, and IT consultant represent distinct IT roles not grounded in the description. Direct children such as research software engineer, site reliability engineer, and webmaster are overly specific without explicit textual support. Broader valid classes encompass technology specialist, professional, person, and entity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The description \\\"Statistician, software developer\\\" explicitly identifies the entity as a software developer and statistician. Within the taxonomy, software developer is the missing target class under technology specialist. Sibling classes such as data engineer, database administrator, and IT consultant represent distinct IT roles not grounded in the description. Direct children such as research software engineer, site reliability engineer, and webmaster are overly specific without explicit textual support. Broader valid classes encompass technology specialist, professional, person, and entity.\",\n  \"types\": [\n    \"software developer\",\n    \"statistician\",\n    \"technology specialist\",\n    \"scientist\",\n    \"professional\",\n    \"worker\",\n    \"person\",\n    \"agent\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 557,
+      "candidatesTokenCount": 164,
+      "totalTokenCount": 1252,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 557
+        }
+      ],
+      "thoughtsTokenCount": 531,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "8ZO1apLPFLa1xN8P7P6o2Q8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 557,
+    "candidatesTokenCount": 164,
+    "totalTokenCount": 1252,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 557
+      }
+    ],
+    "thoughtsTokenCount": 531,
+    "serviceTier": "standard"
+  }
+}

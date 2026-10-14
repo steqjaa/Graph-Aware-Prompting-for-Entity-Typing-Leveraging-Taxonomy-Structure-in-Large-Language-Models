@@ -1,0 +1,182 @@
+{
+  "example_number": 701,
+  "entity_id": "wd:Q6251687",
+  "entity_label": "John P. Rogan",
+  "description": "American archaeologist",
+  "condition": "cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0701/cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0701/metadata.json",
+  "input_hash": "13410914402d48b76c62333bf8c47b7aa7d4438f87eecd9589c91c17d9cf76a8",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nNow classify:\n\nEntity: John P. Rogan\nDescription: American archaeologist\n\nTaxonomy context:\n- Direct parent classes: social scientist\n- Sibling classes: social work scholar, pedagogue, ethnographer\n- Direct child classes: biological anthropologist, ethnologist, cultural anthropologist\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q6251687",
+    "entity_label": "John P. Rogan",
+    "description": "American archaeologist",
+    "reference_class_id": "wd:Q4773904",
+    "reference_type": "anthropologist",
+    "gold_types": [
+      {
+        "class_id": "wd:Q4773904",
+        "label": "anthropologist",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q15319501",
+        "label": "social scientist",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q1650915",
+        "label": "researcher",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q1914017",
+        "label": "knowledge worker",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q901",
+        "label": "scientist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q20826540",
+        "label": "scholar",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q327055",
+        "label": "worker",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "social scientist",
+      "siblings": "social work scholar, pedagogue, ethnographer",
+      "children": "biological anthropologist, ethnologist, cultural anthropologist"
+    },
+    "oracle_graph_context": {
+      "parents": "social scientist",
+      "siblings": "social work scholar, pedagogue, ethnographer",
+      "children": "biological anthropologist, ethnologist, cultural anthropologist"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 701,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q4773904"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q15319501"
+      ],
+      "siblings": [
+        "wd:Q109936222",
+        "wd:Q1231865",
+        "wd:Q12347522"
+      ],
+      "children": [
+        "wd:Q102123287",
+        "wd:Q1371378",
+        "wd:Q30131998"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "archaeologist",
+    "anthropologist",
+    "social scientist",
+    "scientist",
+    "scholar",
+    "person",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:59:46.243662+00:00",
+  "response": "{\"explanation\": \"The description \\\"American archaeologist\\\" directly establishes archaeologist as the most specific type. The taxonomy context features social scientist as a parent, with sibling classes like ethnographer and child classes like cultural anthropologist and biological anthropologist, identifying anthropologist as the encompassing intermediate discipline. The specific children (such as ethnologist or cultural anthropologist) are unsupported by the evidence, while sibling classes like pedagogue are inapplicable. Broader valid classifications then proceed through scientist and person up to entity.\", \"types\": [\"archaeologist\", \"anthropologist\", \"social scientist\", \"scientist\", \"scholar\", \"person\", \"entity\"]}",
+  "explanation": "The description \"American archaeologist\" directly establishes archaeologist as the most specific type. The taxonomy context features social scientist as a parent, with sibling classes like ethnographer and child classes like cultural anthropologist and biological anthropologist, identifying anthropologist as the encompassing intermediate discipline. The specific children (such as ethnologist or cultural anthropologist) are unsupported by the evidence, while sibling classes like pedagogue are inapplicable. Broader valid classifications then proceed through scientist and person up to entity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"American archaeologist\\\" directly establishes archaeologist as the most specific type. The taxonomy context features social scientist as a parent, with sibling classes like ethnographer and child classes like cultural anthropologist and biological anthropologist, identifying anthropologist as the encompassing intermediate discipline. The specific children (such as ethnologist or cultural anthropologist) are unsupported by the evidence, while sibling classes like pedagogue are inapplicable. Broader valid classifications then proceed through scientist and person up to entity.\", \"types\": [\"archaeologist\", \"anthropologist\", \"social scientist\", \"scientist\", \"scholar\", \"person\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 445,
+      "candidatesTokenCount": 122,
+      "totalTokenCount": 1926,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 445
+        }
+      ],
+      "thoughtsTokenCount": 1359,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "Up21avnAHKLoxN8PnKnJgAE"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 445,
+    "candidatesTokenCount": 122,
+    "totalTokenCount": 1926,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 445
+      }
+    ],
+    "thoughtsTokenCount": 1359,
+    "serviceTier": "standard"
+  }
+}

@@ -1,0 +1,173 @@
+{
+  "example_number": 927,
+  "entity_id": "wd:Q108235722",
+  "entity_label": "Abdul Qahar Balkhi",
+  "description": "Taliban leader, and member of the Cultural Commission",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0927/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0927/metadata.json",
+  "input_hash": "27c747e480f5b50407f601e9e7ef10841038a96e0a375284e2ea23a23591e88c",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Abdul Qahar Balkhi\nDescription: Taliban leader, and member of the Cultural Commission\n\nTaxonomy context:\n- Direct parent classes: translator-interpreter\n- Sibling classes: translator\n- Direct child classes: sign language interpreter\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q108235722",
+    "entity_label": "Abdul Qahar Balkhi",
+    "description": "Taliban leader, and member of the Cultural Commission",
+    "reference_class_id": "wd:Q11085831",
+    "reference_type": "interpreter",
+    "gold_types": [
+      {
+        "class_id": "wd:Q11085831",
+        "label": "interpreter",
+        "depth": 10
+      },
+      {
+        "class_id": "wd:Q1790480",
+        "label": "translator-interpreter",
+        "depth": 9
+      },
+      {
+        "class_id": "wd:Q14467526",
+        "label": "linguist",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q13418253",
+        "label": "philologist",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q16727193",
+        "label": "humanities scholar",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q20826540",
+        "label": "scholar",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "translator-interpreter",
+      "siblings": "translator",
+      "children": "sign language interpreter"
+    },
+    "oracle_graph_context": {
+      "parents": "translator-interpreter",
+      "siblings": "translator",
+      "children": "sign language interpreter"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 927,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q11085831"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q1790480"
+      ],
+      "siblings": [
+        "wd:Q333634"
+      ],
+      "children": [
+        "wd:Q10691728"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "interpreter",
+    "translator-interpreter",
+    "language professional",
+    "professional",
+    "worker",
+    "person",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:16:49.436385+00:00",
+  "response": "{\n  \"explanation\": \"The taxonomy context indicates that the omitted target type is situated directly beneath 'translator-interpreter', as a sibling to 'translator', and as a parent to 'sign language interpreter', which identifies the target class as 'interpreter'. Abdul Qahar Balkhi is prominently known for serving as an official English-language interpreter for Taliban press conferences and officials. The sibling alternative 'translator' specifically denotes written text translation rather than oral interpretation, whereas 'interpreter' precisely captures oral language mediation. The child class 'sign language interpreter' is overly specific and unsupported by evidence. Broader classes like 'translator-interpreter', 'professional', and 'person' follow in decreasing specificity.\",\n  \"types\": [\n    \"interpreter\",\n    \"translator-interpreter\",\n    \"language professional\",\n    \"professional\",\n    \"worker\",\n    \"person\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The taxonomy context indicates that the omitted target type is situated directly beneath 'translator-interpreter', as a sibling to 'translator', and as a parent to 'sign language interpreter', which identifies the target class as 'interpreter'. Abdul Qahar Balkhi is prominently known for serving as an official English-language interpreter for Taliban press conferences and officials. The sibling alternative 'translator' specifically denotes written text translation rather than oral interpretation, whereas 'interpreter' precisely captures oral language mediation. The child class 'sign language interpreter' is overly specific and unsupported by evidence. Broader classes like 'translator-interpreter', 'professional', and 'person' follow in decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The taxonomy context indicates that the omitted target type is situated directly beneath 'translator-interpreter', as a sibling to 'translator', and as a parent to 'sign language interpreter', which identifies the target class as 'interpreter'. Abdul Qahar Balkhi is prominently known for serving as an official English-language interpreter for Taliban press conferences and officials. The sibling alternative 'translator' specifically denotes written text translation rather than oral interpretation, whereas 'interpreter' precisely captures oral language mediation. The child class 'sign language interpreter' is overly specific and unsupported by evidence. Broader classes like 'translator-interpreter', 'professional', and 'person' follow in decreasing specificity.\",\n  \"types\": [\n    \"interpreter\",\n    \"translator-interpreter\",\n    \"language professional\",\n    \"professional\",\n    \"worker\",\n    \"person\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 551,
+      "candidatesTokenCount": 187,
+      "totalTokenCount": 1772,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 551
+        }
+      ],
+      "thoughtsTokenCount": 1034,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "UaG1atDEK9-JvdIPhue5mQw"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 551,
+    "candidatesTokenCount": 187,
+    "totalTokenCount": 1772,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 551
+      }
+    ],
+    "thoughtsTokenCount": 1034,
+    "serviceTier": "standard"
+  }
+}

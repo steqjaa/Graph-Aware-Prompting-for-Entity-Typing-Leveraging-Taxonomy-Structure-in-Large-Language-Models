@@ -1,0 +1,165 @@
+{
+  "example_number": 794,
+  "entity_id": "wd:Q3470259",
+  "entity_label": "Salto de Roldán",
+  "description": "rocky structure",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0794/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0794/metadata.json",
+  "input_hash": "22476955746e2573fcfae9dcd18a6607046623cbbbb397340924bdd0919c657d",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Salto de Roldán\nDescription: rocky structure\n\nTaxonomy context:\n- Direct parent classes: natural geographic object\n- Sibling classes: table land, river mouth, spring\n- Direct child classes: rocking stone, tor, rock\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q3470259",
+    "entity_label": "Salto de Roldán",
+    "description": "rocky structure",
+    "reference_class_id": "wd:Q631305",
+    "reference_type": "rock formation",
+    "gold_types": [
+      {
+        "class_id": "wd:Q631305",
+        "label": "rock formation",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q16686022",
+        "label": "natural physical object",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q35145263",
+        "label": "natural geographic object",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1970309",
+        "label": "natural object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q27096220",
+        "label": "natural geographic entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q4406616",
+        "label": "concrete object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q27096213",
+        "label": "geographic entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "natural geographic object",
+      "siblings": "table land, river mouth, spring",
+      "children": "rocking stone, tor, rock"
+    },
+    "oracle_graph_context": {
+      "parents": "natural geographic object",
+      "siblings": "table land, river mouth, spring",
+      "children": "rocking stone, tor, rock"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 794,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q631305"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q35145263"
+      ],
+      "siblings": [
+        "wd:Q11668898",
+        "wd:Q1233637",
+        "wd:Q124714"
+      ],
+      "children": [
+        "wd:Q1061002",
+        "wd:Q1343179",
+        "wd:Q1404150"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "rock formation",
+    "natural geographic object",
+    "geographical feature",
+    "physical object",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:06:45.747819+00:00",
+  "response": "{\"explanation\": \"The description \\\"rocky structure\\\" specifically points to rock formation as the most specific entity type. Its direct parent in the taxonomy, natural geographic object, establishes the general domain of natural physical features. Sibling classes such as table land, river mouth, and spring represent different geological or hydrological landforms that conflict with or do not match the \\\"rocky structure\\\" description. Direct children like rocking stone and tor represent specialized geological features that lack independent evidence in the brief description. Thus, the types progress from rock formation to broader geographic and physical categories.\", \"types\": [\"rock formation\", \"natural geographic object\", \"geographical feature\", \"physical object\", \"entity\"]}",
+  "explanation": "The description \"rocky structure\" specifically points to rock formation as the most specific entity type. Its direct parent in the taxonomy, natural geographic object, establishes the general domain of natural physical features. Sibling classes such as table land, river mouth, and spring represent different geological or hydrological landforms that conflict with or do not match the \"rocky structure\" description. Direct children like rocking stone and tor represent specialized geological features that lack independent evidence in the brief description. Thus, the types progress from rock formation to broader geographic and physical categories.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"rocky structure\\\" specifically points to rock formation as the most specific entity type. Its direct parent in the taxonomy, natural geographic object, establishes the general domain of natural physical features. Sibling classes such as table land, river mouth, and spring represent different geological or hydrological landforms that conflict with or do not match the \\\"rocky structure\\\" description. Direct children like rocking stone and tor represent specialized geological features that lack independent evidence in the brief description. Thus, the types progress from rock formation to broader geographic and physical categories.\", \"types\": [\"rock formation\", \"natural geographic object\", \"geographical feature\", \"physical object\", \"entity\"]}",
+              "thoughtSignature": "EpggCpUgAWkUfRO78qsAX8jeM6v/HFLC/4k+q5GW/AQllzZzujNgUrF4/iMJ/AzdSf/pzRPtraX/WpPvU/JVHaoyR06pJAFJ8o7j56dWiDw1w5XGZ1siJpdplBWV2AiOQee3cZ31XLSDZcwhae8qmTSK8J9kMcP/YZ9MlS/QMwNSs4KmoCIWo1p2KvQ6GEskPIJrQRDyd2URvLS6nvw0yfAYBQSzPGtgyE71Rv35HHC+ErPpdCyBnwyZnm2O1rj3Vib7/78vggfOZpHkXe4E7pPUOPVCntsxQYgtbn4n1RBgQlAuu1BxRVUWB14sjUXl8/KGXYQuDR+pXklNDVdslUcH2jmU+ciPpBOWumb3EUaA8No9/nEcnUEjimWoceRX8PoQqmqVItCuvMoqA5aPwlO0Nh+QPlOB/D3YpWD1W4Ko06QNan0dihp0ep0O8My0x/+BAi02lOMB5pCj+OvI0B3Hd8EF+UWT0FgydW8j9ETFn+uC72TPuOmKRkazTipcmMbdHt0pO+zYQfbn57vY/PEz/JvCqp8l1Sp3ovnqOd6P0IytOmVzkivmBcNiOVvgOqJkfCnfuq/R7jYAF5tSOQI9jKTA0bQnrKM8DJ+baTohaEigzwOal+ue+hs3dqG4U9uA1jeAKH1mLOtxcsbJnKu759uG3CxNO5c195LaCasCztSUxnBIO8bzCS3v6QX3fifggfDa52Vxba4jlYLmChKzh63pGn7C29UEJiZdLyNcXXSLnfCy8U+rk6jG8yEnyssdls/3uxW3s7OhjcVh9+FHBFhQaCkt62Zx8y9dNdKZKnegtJs0xe6vODWchPrw+4K73WD8K9S27zTXWP3CsewC3RTtm8ss+LkiXDOzT+K5encd1BOzLh3CdpIzeMLUTasLsg1KZHEBW5mTNlt0x1ZpcaCVLY46fRcb2nckGwreObUFln+7dvncKj8VgMEghDN2FMEvMbzlzLVGEvXFukXIMzEOehn4rWJcWws+iXdSZsIq0HxDDxJJpeqLi2spw5P9i5Vlswvc+MFrSCysnHW30VSh9avtlZ56GMMcdAdifMkK/kjwayZtgaBaCtQnfEsuZQNDToBZ3fK/96xRbFXL8V27FcJI5m6PJZtO2xgKi2/xQyHsxKd/uZ9VSFHZs5PxqGHOTRNdhHiczs7K6CUrnDZ/oBzyUii0N3bLt/kKBA5WmTjPucFnh68dh1gcTWZA1qEz5gvscaubna7iM9OriCaVjugXQwaZsB6HUuvqDnfiER3iPZ23sPc1/Mq2ps0azs81detEc5mQLwp5JQ4CRkUnrVdONYdijr51j2b1ehIFg6dG6qKQGuyaOeTvETdiV8G/LBrNhCeY3UJF+xcC51OashjTUpoCRo12+b0tTVfZZ47H8uSzCq8oJA1j4vj6nY5Vk7uiC9YQccgYjyt+kgW9Dnj9eir7GhKlQb/R1y9gfIqVgTJQaZiPgyUrUhe5aIivbF21fy4mp+wvYY2f2bufxV+9Mx2YcEF3z4xYLTjRes+BbzJbfEwsQEiz6/azplYI7LEssnnsD6EcFQ4chBG2TL7FPVDOMVSf4QZwFHX0DM2F4NR9CexjOl+50wZJo0aQb94lILcSiMowsCpy6SuGcLCEaivgGCFOAKE61A2j5Ksva082Cony14QV5eMyLfa50H/1+dxQw5rW1FCKedS12C1IA1MC7FGARV55GvpiJN7F7MtK3RAF9As86xCXjc591uLdq2VjmsCRZonyQZzPl6oKBKIcWgzH1XXKpsphHaR2e2L+9tBQjPc6ULIrCUBRiCaH9QCO63oKZ7S1wFeOpH13/wQuSq70utztHh3wK1XZuFPuCy63HxXCSI6wHguuXf/PXpfAODwsNKdQnOWJXl9V2WILIJUZbZW9Am5HWak3X8pyTpOM7+7mLYLDAPdQnUjyPJHGmNr3u31DrFs3TAd8w4m+nkKteV1nNreQphZX4jHibVxckiytVN4w5fCZQTVs7mNx1+buuVougHuUpwdRgWQ4Si8JdaIvWFiCGWz9vYazZODqYnD1IaZfFFuPLrZAr0CI5ATl84bnfyLavhyP7b84RPlrfb308a29rjL1Vi7tqknguPyUOJG8Nxa7KIxjXpZ84uZMw966dFquF0TiOrR56C46G8eeIv1akXBlJv2Zr+lu1dxBBoER5o3Lbq8rfAX5XVW9F3TOEflvPr871OOoj95M9Q6Nw5U5LuW0PTy9vEbQ2ClQY66iDUYbxa3jxO/AHelU5g3buj8rCgGFZydurdfSvang9IQ0zoBtEaoCmQH7QSxlshCHZhlohkQt5wgjjJeQoHv8X3g0zWTyFk8oGfFcsZbs2ly/QblNQfovx2CeHloNnfXrBgnUi5Xjeh9A4LqtqNrIWjWB+cCTWdY7lWkRbCF1Gj+aajTKtS53ns1grIupSDfV4QA3P/67oHcs/bwNqXp1dA+mLpzTbCcfcHMvMU7sxtUMOMboajxHggP2hCQDWicKhz5FF2vMBWEmBinmLER3IcWgJS1JopJL49Zj7WLhKLsynWl/ihOIXIPl6ilLzqlxnpb6WIT/MTIJZrLneE59cw4szcpHqzYDd9jFZAKdwIeAizuQSOI5Ybpx6OH9RkxIQE+tvqOdb4ANdksg6p4b+ZRpGJ1PjO2dTTeqJO1wPKQDBMf8mMQcWBWQeK0XOOBK0B8i/cWYoHWfPP3nYaet/mJ3sHny/DOOKWiMUNV6s1HpS2tGjFH8oJpp9moDf9XmSBxCSt53AaGdwlt1SOLn6m40JJPAdqPxpjqkz2woyYtfXyvgAeyVWeV4nQj6ZXcUw4HaefSyZzSvn3oTe/kakxQl1X27RBfECJ5wajXImFbgxnvLnyGW3sl6ZZ5BWmnLqbBmiAE9+fkoV6SYC1eT29BERbyGLJ93O9/fuo29Eij+0X/W+pYp8DWFmgadG7Z0laQCjwMJUrOqSZ5pz+RrNFoY15/BkqEvUlOzfliD5M+Y5ZBj+H5BewJUO1mABNP5YUTq9LloTngSwXsnTnzkegYkJP3EO39a+yxB8WLGcUzj7s4uQqPQMyvJy7821i70XvcW796VlGgYVUzyhtYzw9SONQG6UeriRY2nSzvLegVAj3LbrA95zOIzblmBSOnG+lzeP1cQWEIFb/1OJZhY5LprdFqS97xqjWVsYeJ029QLUqTMsZn7wBIGT4a71D02yJWk9czd2XdXp/Llq70kqHfPJ05QrcatvZ3PB8dmTzDq9jGTBwRJ5gHzOwIW11eoJewc+f1Alax5uFQDzCO+y26wuN9ZrLetqn6eY2eIG0xrnPO4s5M2Oe9BKspwyMGqQgPBKBog8rji80Epj9Cqag/R5DmNBiAVn0jH8wWNM0YnTbeFjFUL0J7liMRk33IVszNc1S8ATIQWUUZxBPksJO7z7YcAGiiV7gZEtrnUZYWpc38dqYjZVKSx56h/09zDeSwSvaJtWTZxOe3eN30/1sOTuhCUJkiOO/QjMi4PBPcLJ/AolLvHGUbo+85TyD5sfaEL7hO7f9B8H6oHDkBY2yaMh2PawmzQu1Gp/9d5FmzMuN2CW9xE3l/CCwApwQStySkM7BKjwgAbrkVp8LRA0IKwENRZbCdB3yNrQxStNGHRYQwZPjGf2d8KFAlZMQ3TZcYSf6BO73MQi3zM12bwIPFi4KilVivR6RzWI6Ncr1MpoOTHezikIm+My/ulviP7dfpfe/OVQopZTWk9fJfPJ0ctTx1DYyh3JeN3gBCkZ4S4ANH6ORHz7XtLRZsZuzNo2U7ekMcWvDer3PHyBzX8FDvAhgMhVr3Kds5WHdmbCzBfdCttGECzxsRqz7is6HRuzNFrFwhtLbq0En+p0Ze22lgXK+o32QPcdzh418jngkTPG7CBHwCsI4soc7YyTvJQQQd1neyIMKwJH0RuPMaQPPMsbGEHQshqXgydHXuOTlpOd0HTd9gOJgySnfXsiEon0oD4oJ813JedbnDptN3A0aCZ6EGiC00R0wPgAPTEQVLXpagJCzQQ/ZwRo1mk6hFoTSWHfZRFOSGQJ2j7J8e2GWeqYMJR6+NqmZLwlj3BNhx5qc67gNRCQMuIWeugwIm2E8sGUvi59XFtzpVtKIC/fAvaIt37biG4CdmHZaIQkS47qAnYp+HWhd2o43ZjctIFBFY6WcCJ7pjJxZ7zuXbDgrN9mBmZDPNsrsfe6Vaid45ug6zmtnbwlSZLToc1YjX/We7UkTux41fVlG8YxJjchIpweYN2qGnyph38o21iO/0KQ0PEo7TD/p7BegJxbfgd6l/Z0fIkEMWoqQhrCieRAh69LE6K+OcUCedxnip3bo/euXsNDZzncpl/aQTFcWe/FCW907H8Iw98EHMVcTHgAo3Spqy82tKBTAASLsTjRLMfCa25do2/rzpHz4nago43z2mMdodY7IBXa3PyvQRFxm6+vhRQnHFJCeXc/KLAvgTnBek9YUNE7wLWWUHGsA07qMqXm8CwZb5mamG/6PK2EAk6MC+s9T6PtiBqCIsfstNw+48ckCGr7D+JOpE1LnFsuU2D60CVpYPeThUxGuGKgip3SNkVvc5gY689hEflQS9A/eB1rJPHi+qW4PNF14tjU/HoGsjO+6CnjIfti4sXBcLq4Ke8NOmyjK+ju//mdqSEIxGLUvkre7nbCFdUCdwMNgXfN07td/Oth+EIJWO3aMq0hmz1GLE7D+DbDmNZZn/xnUIevJpjtY3QzDmGaS1i41rA/6AsoigEs6B8bqvJamPs69BOyZXeT9hx8lAT/rjIRRM8yEdOpU+qqMkhPFQdU5ercBDo1pJztTbveE5kjiTnKdHRo0aq8i3lNm5y5VTSCAzSyxrEqKsUeM3Dog/l5TPVzIvn5Zjzbq1iVeBmHqYv+o3WZhLlfK0lJnTs6NJOvFR/5mf6gCbVy6t+ZZJsnkf5pTwpTSgfErCW2vj4EQUgPYRTOhZXDqd9fjQ9np0kyO7TZws8/nrOAtcTo1afQL5ca1I5St+nBRexC3CiU1dVRnCuteE5DU6GgvyzuSzP+THA/DzOKLaJkxGZB111omtQs2LoBt7fE47JTRwk5XyuK0BSIjExL0ccqIUot/JGEqTm3a6KvN+olCrJbWeV9WaptslR6ldxy38QVaVVWrzlpfE/ZtSQfk/0jwV+moOtBYOt4Y8V0rfHS2zAZz9K46eSCwtWGHq9f67NPlqr8KaTfKwCL5neKA/J5D06dS+euMsPktVlwMEzklRpFmozf3YliqbEwi00A7Ae2DL7bkoatJ/n5mmao2jdYQZ4ohXSbIVkaPsS7lmgfforcLJWvTVO3o4TfDrwuDpLSvar0LnXFvvzaLbXUoH1ZheGOX9/aKdsvsD0GySWy5udlMVJGI5cyiWJw4DhN8mA8OhxqI/5I7Lvddh74RL7koNLFVS6XXDnQAb2mttxHCx43Ldobz/AFJXz+5FfyfqGzFnpN+7qupq6njbKhKdwHJnFmMg0rGJnpAzSaw=="
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 554,
+      "candidatesTokenCount": 137,
+      "totalTokenCount": 1681,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 554
+        }
+      ],
+      "thoughtsTokenCount": 990,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "9Z61aoawO_O7vdIPtZOkCQ"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 554,
+    "candidatesTokenCount": 137,
+    "totalTokenCount": 1681,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 554
+      }
+    ],
+    "thoughtsTokenCount": 990,
+    "serviceTier": "standard"
+  }
+}

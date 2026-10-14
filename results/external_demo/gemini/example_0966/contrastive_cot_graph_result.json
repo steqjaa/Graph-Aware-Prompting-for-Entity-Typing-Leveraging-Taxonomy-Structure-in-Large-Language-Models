@@ -1,0 +1,163 @@
+{
+  "example_number": 966,
+  "entity_id": "wd:Q106604171",
+  "entity_label": "Ludmila Stovbchataya",
+  "description": "gymnast born 1974",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0966/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0966/metadata.json",
+  "input_hash": "dd19f318b02792a63a11b87169329cfc50cc6dfcae198a546f78d6da0395a559",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Ludmila Stovbchataya\nDescription: gymnast born 1974\n\nTaxonomy context:\n- Direct parent classes: athlete\n- Sibling classes: competition climber, tennis player, field hockey player\n- Direct child classes: artistic gymnast, trampoline gymnast\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q106604171",
+    "entity_label": "Ludmila Stovbchataya",
+    "description": "gymnast born 1974",
+    "reference_class_id": "wd:Q16947675",
+    "reference_type": "gymnast",
+    "gold_types": [
+      {
+        "class_id": "wd:Q16947675",
+        "label": "gymnast",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q2066131",
+        "label": "athlete",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q50995749",
+        "label": "sportsperson",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "athlete",
+      "siblings": "competition climber, tennis player, field hockey player",
+      "children": "artistic gymnast, trampoline gymnast"
+    },
+    "oracle_graph_context": {
+      "parents": "athlete",
+      "siblings": "competition climber, tennis player, field hockey player",
+      "children": "artistic gymnast, trampoline gymnast"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 966,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q16947675"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q2066131"
+      ],
+      "siblings": [
+        "wd:Q107690317",
+        "wd:Q10833314",
+        "wd:Q10843263"
+      ],
+      "children": [
+        "wd:Q13381572",
+        "wd:Q23892384"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "gymnast",
+    "athlete",
+    "sportsperson",
+    "person",
+    "organism",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:49:17.387641+00:00",
+  "response": "{\n  \"explanation\": \"The description \\\"gymnast born 1974\\\" directly supports gymnast as the most specific type. In the taxonomy, its direct parent is athlete, establishing the broader sporting domain. Sibling classes under athlete, such as competition climber, tennis player, and field hockey player, represent other sports and are ruled out by the description. Direct child classes such as artistic gymnast and trampoline gymnast are narrower disciplines not independently supported by the concise description, making them overly specific. The remaining types are valid broader categories ordered by decreasing specificity.\",\n  \"types\": [\n    \"gymnast\",\n    \"athlete\",\n    \"sportsperson\",\n    \"person\",\n    \"organism\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The description \"gymnast born 1974\" directly supports gymnast as the most specific type. In the taxonomy, its direct parent is athlete, establishing the broader sporting domain. Sibling classes under athlete, such as competition climber, tennis player, and field hockey player, represent other sports and are ruled out by the description. Direct child classes such as artistic gymnast and trampoline gymnast are narrower disciplines not independently supported by the concise description, making them overly specific. The remaining types are valid broader categories ordered by decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The description \\\"gymnast born 1974\\\" directly supports gymnast as the most specific type. In the taxonomy, its direct parent is athlete, establishing the broader sporting domain. Sibling classes under athlete, such as competition climber, tennis player, and field hockey player, represent other sports and are ruled out by the description. Direct child classes such as artistic gymnast and trampoline gymnast are narrower disciplines not independently supported by the concise description, making them overly specific. The remaining types are valid broader categories ordered by decreasing specificity.\",\n  \"types\": [\n    \"gymnast\",\n    \"athlete\",\n    \"sportsperson\",\n    \"person\",\n    \"organism\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 557,
+      "candidatesTokenCount": 157,
+      "totalTokenCount": 1737,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 557
+        }
+      ],
+      "thoughtsTokenCount": 1023,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "jS7MarHjJq2qnsEPyK7YgAI"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 557,
+    "candidatesTokenCount": 157,
+    "totalTokenCount": 1737,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 557
+      }
+    ],
+    "thoughtsTokenCount": 1023,
+    "serviceTier": "standard"
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "example_number": 767,
+  "entity_id": "wd:Q935510",
+  "entity_label": "Joe F. Edwards",
+  "description": "American astronaut",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0767/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0767/metadata.json",
+  "input_hash": "d99d30efad1f03652f7e807ac9db304001f1d2f82922a2763defb05761c74749",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Joe F. Edwards\nDescription: American astronaut\n\nTaxonomy context:\n- Direct parent classes: crew member, scientist\n- Sibling classes: flight attendant, military scientist, scientific explorer\n- Direct child classes: science astronaut, commercial astronaut\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q935510",
+    "entity_label": "Joe F. Edwards",
+    "description": "American astronaut",
+    "reference_class_id": "wd:Q11631",
+    "reference_type": "astronaut",
+    "gold_types": [
+      {
+        "class_id": "wd:Q11631",
+        "label": "astronaut",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q1650915",
+        "label": "researcher",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q1914017",
+        "label": "knowledge worker",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q5184855",
+        "label": "crew member",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q901",
+        "label": "scientist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q20826540",
+        "label": "scholar",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q327055",
+        "label": "worker",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "crew member, scientist",
+      "siblings": "flight attendant, military scientist, scientific explorer",
+      "children": "science astronaut, commercial astronaut"
+    },
+    "oracle_graph_context": {
+      "parents": "crew member, scientist",
+      "siblings": "flight attendant, military scientist, scientific explorer",
+      "children": "science astronaut, commercial astronaut"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 767,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q11631"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q5184855",
+        "wd:Q901"
+      ],
+      "siblings": [
+        "wd:Q101539",
+        "wd:Q104176943",
+        "wd:Q10498147"
+      ],
+      "children": [
+        "wd:Q1351804",
+        "wd:Q2868586"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "astronaut",
+    "crew member",
+    "scientist",
+    "professional",
+    "person",
+    "agent",
+    "object",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:34:08.532455+00:00",
+  "response": "{\n  \"explanation\": \"The description \\\"American astronaut\\\" supports astronaut as the most specific type. In the taxonomy, its direct parents are crew member and scientist, defining the broader operational and professional scope. Sibling classes such as flight attendant, military scientist, and scientific explorer represent alternative crew or research roles but are less directly fitted than astronaut. The direct child classes, science astronaut and commercial astronaut, are rejected because the brief description provides no evidence for those narrower specializations. Broader valid classes are ordered by decreasing specificity.\",\n  \"types\": [\n    \"astronaut\",\n    \"crew member\",\n    \"scientist\",\n    \"professional\",\n    \"person\",\n    \"agent\",\n    \"object\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The description \"American astronaut\" supports astronaut as the most specific type. In the taxonomy, its direct parents are crew member and scientist, defining the broader operational and professional scope. Sibling classes such as flight attendant, military scientist, and scientific explorer represent alternative crew or research roles but are less directly fitted than astronaut. The direct child classes, science astronaut and commercial astronaut, are rejected because the brief description provides no evidence for those narrower specializations. Broader valid classes are ordered by decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The description \\\"American astronaut\\\" supports astronaut as the most specific type. In the taxonomy, its direct parents are crew member and scientist, defining the broader operational and professional scope. Sibling classes such as flight attendant, military scientist, and scientific explorer represent alternative crew or research roles but are less directly fitted than astronaut. The direct child classes, science astronaut and commercial astronaut, are rejected because the brief description provides no evidence for those narrower specializations. Broader valid classes are ordered by decreasing specificity.\",\n  \"types\": [\n    \"astronaut\",\n    \"crew member\",\n    \"scientist\",\n    \"professional\",\n    \"person\",\n    \"agent\",\n    \"object\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 551,
+      "candidatesTokenCount": 158,
+      "totalTokenCount": 1240,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 551
+        }
+      ],
+      "thoughtsTokenCount": 531,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "ACvMapTILZiBxs0PxqrN0Ag"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 551,
+    "candidatesTokenCount": 158,
+    "totalTokenCount": 1240,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 551
+      }
+    ],
+    "thoughtsTokenCount": 531,
+    "serviceTier": "standard"
+  }
+}

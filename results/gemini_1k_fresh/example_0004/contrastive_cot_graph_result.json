@@ -1,0 +1,160 @@
+{
+  "example_number": 4,
+  "entity_id": "wd:Q75688679",
+  "entity_label": "Motokazu Mori",
+  "description": "Japanese surgeon and tanka poet",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0004/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0004/metadata.json",
+  "input_hash": "f308f98dd93fd6fd4e3800c93d753916000867ef1bc94d4d17c8644757fdbedf",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Motokazu Mori\nDescription: Japanese surgeon and tanka poet\n\nTaxonomy context:\n- Direct parent classes: poet\n- Sibling classes: woman poet, haiku poet, poetaster\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q75688679",
+    "entity_label": "Motokazu Mori",
+    "description": "Japanese surgeon and tanka poet",
+    "reference_class_id": "wd:Q11122954",
+    "reference_type": "waka poet",
+    "gold_types": [
+      {
+        "class_id": "wd:Q11122954",
+        "label": "waka poet",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q49757",
+        "label": "poet",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q2500638",
+        "label": "creator",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "poet",
+      "siblings": "woman poet, haiku poet, poetaster",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "poet",
+      "siblings": "woman poet, haiku poet, poetaster",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 4,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q11122954"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q49757"
+      ],
+      "siblings": [
+        "wd:Q107230508",
+        "wd:Q11386386",
+        "wd:Q12901590"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "tanka poet",
+    "poet",
+    "writer",
+    "artist",
+    "creator",
+    "professional",
+    "person",
+    "organism",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:07:12.212676+00:00",
+  "response": "{\n  \"explanation\": \"The description \\\"Japanese surgeon and tanka poet\\\" directly supports tanka poet as the most specific type. In the taxonomy, its direct parent is poet, which defines the broader professional and artistic category. Sibling classes like haiku poet, woman poet, and poetaster represent alternative categories of poets, which are rejected because the text explicitly specifies tanka poetry. The direct child classes are None, so no narrower subtype is warranted. The remaining types reflect valid, increasingly broad classifications.\",\n  \"types\": [\n    \"tanka poet\",\n    \"poet\",\n    \"writer\",\n    \"artist\",\n    \"creator\",\n    \"professional\",\n    \"person\",\n    \"organism\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The description \"Japanese surgeon and tanka poet\" directly supports tanka poet as the most specific type. In the taxonomy, its direct parent is poet, which defines the broader professional and artistic category. Sibling classes like haiku poet, woman poet, and poetaster represent alternative categories of poets, which are rejected because the text explicitly specifies tanka poetry. The direct child classes are None, so no narrower subtype is warranted. The remaining types reflect valid, increasingly broad classifications.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The description \\\"Japanese surgeon and tanka poet\\\" directly supports tanka poet as the most specific type. In the taxonomy, its direct parent is poet, which defines the broader professional and artistic category. Sibling classes like haiku poet, woman poet, and poetaster represent alternative categories of poets, which are rejected because the text explicitly specifies tanka poetry. The direct child classes are None, so no narrower subtype is warranted. The remaining types reflect valid, increasingly broad classifications.\",\n  \"types\": [\n    \"tanka poet\",\n    \"poet\",\n    \"writer\",\n    \"artist\",\n    \"creator\",\n    \"professional\",\n    \"person\",\n    \"organism\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 551,
+      "candidatesTokenCount": 163,
+      "totalTokenCount": 2206,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 551
+        }
+      ],
+      "thoughtsTokenCount": 1492,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "AJG1aqHFHvWJxN8PvfeWkAc"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 551,
+    "candidatesTokenCount": 163,
+    "totalTokenCount": 2206,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 551
+      }
+    ],
+    "thoughtsTokenCount": 1492,
+    "serviceTier": "standard"
+  }
+}

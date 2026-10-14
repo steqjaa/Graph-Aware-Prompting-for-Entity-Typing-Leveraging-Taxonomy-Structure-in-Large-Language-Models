@@ -1,0 +1,146 @@
+{
+  "example_number": 330,
+  "entity_id": "wd:Q4155216",
+  "entity_label": "Dau",
+  "description": "art-project",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0330/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0330/metadata.json",
+  "input_hash": "68cc678693b461b5eb00c7bccb7c94af1fc3ae4e282d28d3a56ce5ecaa8d8635",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Dau\nDescription: art-project\n\nTaxonomy context:\n- Direct parent classes: temporal entity\n- Sibling classes: periodical, occurrence, time interval\n- Direct child classes: kyū, irrigation, Data exchange\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q4155216",
+    "entity_label": "Dau",
+    "description": "art-project",
+    "reference_class_id": "wd:Q3249551",
+    "reference_type": "process",
+    "gold_types": [
+      {
+        "class_id": "wd:Q3249551",
+        "label": "process",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q26907166",
+        "label": "temporal entity",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "temporal entity",
+      "siblings": "periodical, occurrence, time interval",
+      "children": "kyū, irrigation, Data exchange"
+    },
+    "oracle_graph_context": {
+      "parents": "temporal entity",
+      "siblings": "periodical, occurrence, time interval",
+      "children": "kyū, irrigation, Data exchange"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 330,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q3249551"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q26907166"
+      ],
+      "siblings": [
+        "wd:Q1002697",
+        "wd:Q1190554",
+        "wd:Q186081"
+      ],
+      "children": [
+        "wd:Q1131276",
+        "wd:Q11453",
+        "wd:Q1172338"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "art project",
+    "collaborative project",
+    "project",
+    "process",
+    "temporal entity",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:31:57.695747+00:00",
+  "response": "{\"explanation\": \"The entity Dau is explicitly described as an art-project, supporting art project as the most specific entity type, followed by project. In the taxonomy context, the omitted target category lies under temporal entity, which sets the broad spatio-temporal scope. Sibling classes like occurrence, time interval, and periodical define parallel ontological categories, while child classes such as irrigation or Data exchange represent narrower technical or domain-specific processes that are not supported by the art-project description. Broader classes like process, temporal entity, and entity encompass projects as planned activities extended in time.\", \"types\": [\"art project\", \"collaborative project\", \"project\", \"process\", \"temporal entity\", \"entity\"]}",
+  "explanation": "The entity Dau is explicitly described as an art-project, supporting art project as the most specific entity type, followed by project. In the taxonomy context, the omitted target category lies under temporal entity, which sets the broad spatio-temporal scope. Sibling classes like occurrence, time interval, and periodical define parallel ontological categories, while child classes such as irrigation or Data exchange represent narrower technical or domain-specific processes that are not supported by the art-project description. Broader classes like process, temporal entity, and entity encompass projects as planned activities extended in time.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The entity Dau is explicitly described as an art-project, supporting art project as the most specific entity type, followed by project. In the taxonomy context, the omitted target category lies under temporal entity, which sets the broad spatio-temporal scope. Sibling classes like occurrence, time interval, and periodical define parallel ontological categories, while child classes such as irrigation or Data exchange represent narrower technical or domain-specific processes that are not supported by the art-project description. Broader classes like process, temporal entity, and entity encompass projects as planned activities extended in time.\", \"types\": [\"art project\", \"collaborative project\", \"project\", \"process\", \"temporal entity\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 549,
+      "candidatesTokenCount": 143,
+      "totalTokenCount": 2080,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 549
+        }
+      ],
+      "thoughtsTokenCount": 1388,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "zZa1auiSPN-JvdIPhue5mQw"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 549,
+    "candidatesTokenCount": 143,
+    "totalTokenCount": 2080,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 549
+      }
+    ],
+    "thoughtsTokenCount": 1388,
+    "serviceTier": "standard"
+  }
+}

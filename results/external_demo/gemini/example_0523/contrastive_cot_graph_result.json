@@ -1,0 +1,164 @@
+{
+  "example_number": 523,
+  "entity_id": "wd:Q8028287",
+  "entity_label": "Withrow",
+  "description": "hamlet in Alberta, Canada",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0523/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0523/metadata.json",
+  "input_hash": "d742dac092b305cccb903478f2b668577129ba3cbeed71da3441463a7cf0f19f",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Withrow\nDescription: hamlet in Alberta, Canada\n\nTaxonomy context:\n- Direct parent classes: human settlement\n- Sibling classes: seaside resort, rural settlement, historical settlement\n- Direct child classes: unincorporated community in the United States, gore, compact rural community\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q8028287",
+    "entity_label": "Withrow",
+    "description": "hamlet in Alberta, Canada",
+    "reference_class_id": "wd:Q269528",
+    "reference_type": "unincorporated area",
+    "gold_types": [
+      {
+        "class_id": "wd:Q269528",
+        "label": "unincorporated area",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q486972",
+        "label": "human settlement",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q123964505",
+        "label": "populated place",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q27096235",
+        "label": "artificial geographic entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q27096213",
+        "label": "geographic entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "human settlement",
+      "siblings": "seaside resort, rural settlement, historical settlement",
+      "children": "unincorporated community in the United States, gore, compact rural community"
+    },
+    "oracle_graph_context": {
+      "parents": "human settlement",
+      "siblings": "seaside resort, rural settlement, historical settlement",
+      "children": "unincorporated community in the United States, gore, compact rural community"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 523,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q269528"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q486972"
+      ],
+      "siblings": [
+        "wd:Q1021711",
+        "wd:Q10354598",
+        "wd:Q106626840"
+      ],
+      "children": [
+        "wd:Q17343829",
+        "wd:Q5586091",
+        "wd:Q56885310"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "hamlet",
+    "rural settlement",
+    "human settlement",
+    "populated place",
+    "geographic location",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:15:41.185878+00:00",
+  "response": "{\"explanation\": \"The description identifies Withrow as a 'hamlet in Alberta, Canada', directly supporting 'hamlet' as the most specific entity type. In the taxonomy, its direct parent is 'human settlement', defining the broader category. Among sibling classes, 'rural settlement' is directly applicable and valid, while 'seaside resort' and 'historical settlement' are unsupported by the evidence. Direct child classes such as 'unincorporated community in the United States' and 'gore' are rejected because Withrow is located in Canada and neither matches the geography or administrative status. The types are ordered from the most specific verified class ('hamlet') to progressively broader geographic settlement classes.\", \"types\": [\"hamlet\", \"rural settlement\", \"human settlement\", \"populated place\", \"geographic location\", \"entity\"]}",
+  "explanation": "The description identifies Withrow as a 'hamlet in Alberta, Canada', directly supporting 'hamlet' as the most specific entity type. In the taxonomy, its direct parent is 'human settlement', defining the broader category. Among sibling classes, 'rural settlement' is directly applicable and valid, while 'seaside resort' and 'historical settlement' are unsupported by the evidence. Direct child classes such as 'unincorporated community in the United States' and 'gore' are rejected because Withrow is located in Canada and neither matches the geography or administrative status. The types are ordered from the most specific verified class ('hamlet') to progressively broader geographic settlement classes.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies Withrow as a 'hamlet in Alberta, Canada', directly supporting 'hamlet' as the most specific entity type. In the taxonomy, its direct parent is 'human settlement', defining the broader category. Among sibling classes, 'rural settlement' is directly applicable and valid, while 'seaside resort' and 'historical settlement' are unsupported by the evidence. Direct child classes such as 'unincorporated community in the United States' and 'gore' are rejected because Withrow is located in Canada and neither matches the geography or administrative status. The types are ordered from the most specific verified class ('hamlet') to progressively broader geographic settlement classes.\", \"types\": [\"hamlet\", \"rural settlement\", \"human settlement\", \"populated place\", \"geographic location\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 557,
+      "candidatesTokenCount": 162,
+      "totalTokenCount": 1206,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 557
+        }
+      ],
+      "thoughtsTokenCount": 487,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "rSbMapqNG_iAkdUPh6fa0Q8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 557,
+    "candidatesTokenCount": 162,
+    "totalTokenCount": 1206,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 557
+      }
+    ],
+    "thoughtsTokenCount": 487,
+    "serviceTier": "standard"
+  }
+}

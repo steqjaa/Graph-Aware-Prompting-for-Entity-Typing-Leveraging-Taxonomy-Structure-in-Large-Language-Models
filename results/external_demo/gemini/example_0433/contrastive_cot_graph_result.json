@@ -1,0 +1,147 @@
+{
+  "example_number": 433,
+  "entity_id": "wd:Q5328227",
+  "entity_label": "East Devon Way",
+  "description": "long-distance footpath in England",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0433/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0433/metadata.json",
+  "input_hash": "914c152350c5c033a7c5536e3918fea64c027c89e3385e6222dfa05a18588c16",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: East Devon Way\nDescription: long-distance footpath in England\n\nTaxonomy context:\n- Direct parent classes: hiking trail\n- Sibling classes: long-distance nature trail (Japan), themed walk, Circular path\n- Direct child classes: European long-distance path\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q5328227",
+    "entity_label": "East Devon Way",
+    "description": "long-distance footpath in England",
+    "reference_class_id": "wd:Q13405588",
+    "reference_type": "long-distance trail",
+    "gold_types": [
+      {
+        "class_id": "wd:Q13405588",
+        "label": "long-distance trail",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q2143825",
+        "label": "hiking trail",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1322323",
+        "label": "itinerary",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q15989253",
+        "label": "part (piece)",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "hiking trail",
+      "siblings": "long-distance nature trail (Japan), themed walk, Circular path",
+      "children": "European long-distance path"
+    },
+    "oracle_graph_context": {
+      "parents": "hiking trail",
+      "siblings": "long-distance nature trail (Japan), themed walk, Circular path",
+      "children": "European long-distance path"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 433,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q13405588"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q2143825"
+      ],
+      "siblings": [
+        "wd:Q109376893",
+        "wd:Q1702970",
+        "wd:Q2974115"
+      ],
+      "children": [
+        "wd:Q849854"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "long-distance footpath",
+    "hiking trail",
+    "trail",
+    "footpath",
+    "path",
+    "route"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:08:52.897219+00:00",
+  "response": "{\"explanation\": \"The description specifies the East Devon Way as a 'long-distance footpath in England', establishing 'long-distance footpath' as the most specific valid type. In the taxonomy, its direct parent is 'hiking trail', which defines the overall scope as a pedestrian recreational route. Sibling classes like 'long-distance nature trail (Japan)', 'themed walk', and 'Circular path' are inappropriate because this trail is located in England, is linear rather than circular, and is not a Japanese or themed trail. The child class 'European long-distance path' is rejected because the East Devon Way is a regional British trail, not a designated trans-European E-path. The inferred types are arranged in descending order of specificity.\", \"types\": [\"long-distance footpath\", \"hiking trail\", \"trail\", \"footpath\", \"path\", \"route\"]}",
+  "explanation": "The description specifies the East Devon Way as a 'long-distance footpath in England', establishing 'long-distance footpath' as the most specific valid type. In the taxonomy, its direct parent is 'hiking trail', which defines the overall scope as a pedestrian recreational route. Sibling classes like 'long-distance nature trail (Japan)', 'themed walk', and 'Circular path' are inappropriate because this trail is located in England, is linear rather than circular, and is not a Japanese or themed trail. The child class 'European long-distance path' is rejected because the East Devon Way is a regional British trail, not a designated trans-European E-path. The inferred types are arranged in descending order of specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description specifies the East Devon Way as a 'long-distance footpath in England', establishing 'long-distance footpath' as the most specific valid type. In the taxonomy, its direct parent is 'hiking trail', which defines the overall scope as a pedestrian recreational route. Sibling classes like 'long-distance nature trail (Japan)', 'themed walk', and 'Circular path' are inappropriate because this trail is located in England, is linear rather than circular, and is not a Japanese or themed trail. The child class 'European long-distance path' is rejected because the East Devon Way is a regional British trail, not a designated trans-European E-path. The inferred types are arranged in descending order of specificity.\", \"types\": [\"long-distance footpath\", \"hiking trail\", \"trail\", \"footpath\", \"path\", \"route\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 557,
+      "candidatesTokenCount": 175,
+      "totalTokenCount": 1317,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 557
+        }
+      ],
+      "thoughtsTokenCount": 585,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "FSXMar2lCtudvdIP1MmVgQo"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 557,
+    "candidatesTokenCount": 175,
+    "totalTokenCount": 1317,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 557
+      }
+    ],
+    "thoughtsTokenCount": 585,
+    "serviceTier": "standard"
+  }
+}

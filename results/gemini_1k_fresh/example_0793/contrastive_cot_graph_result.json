@@ -1,0 +1,162 @@
+{
+  "example_number": 793,
+  "entity_id": "wd:Q4901413",
+  "entity_label": "Bhatiyar",
+  "description": "Hindustani raga",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0793/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0793/metadata.json",
+  "input_hash": "408e065a8df74039c4f08384ba3b65f45b04ea427f0fcf46cbac7be632b8c148",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Bhatiyar\nDescription: Hindustani raga\n\nTaxonomy context:\n- Direct parent classes: art music\n- Sibling classes: mugham, classical music\n- Direct child classes: Janya raga, Sampurna raga\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q4901413",
+    "entity_label": "Bhatiyar",
+    "description": "Hindustani raga",
+    "reference_class_id": "wd:Q216926",
+    "reference_type": "raga",
+    "gold_types": [
+      {
+        "class_id": "wd:Q216926",
+        "label": "raga",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q1583807",
+        "label": "art music",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q173799",
+        "label": "entertainment",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q1914636",
+        "label": "activity",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q3249551",
+        "label": "process",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q26907166",
+        "label": "temporal entity",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "art music",
+      "siblings": "mugham, classical music",
+      "children": "Janya raga, Sampurna raga"
+    },
+    "oracle_graph_context": {
+      "parents": "art music",
+      "siblings": "mugham, classical music",
+      "children": "Janya raga, Sampurna raga"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 793,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q216926"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q1583807"
+      ],
+      "siblings": [
+        "wd:Q1474372",
+        "wd:Q9730"
+      ],
+      "children": [
+        "wd:Q3534390",
+        "wd:Q7410264"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "raga",
+    "art music",
+    "musical mode",
+    "music"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:06:41.254352+00:00",
+  "response": "{\"explanation\": \"The description identifies Bhatiyar as a 'Hindustani raga', establishing raga as the most direct and accurate type. In the taxonomy, raga is situated under art music alongside sibling traditions like mugham and classical music, which represent alternative modal or classical musical traditions rather than Hindustani ragas. The child classes Janya raga and Sampurna raga represent narrower structural classifications that are not explicitly evidenced by the brief description, so selecting them would be unsupported. The broader valid types follow in decreasing specificity.\", \"types\": [\"raga\", \"art music\", \"musical mode\", \"music\"]}",
+  "explanation": "The description identifies Bhatiyar as a 'Hindustani raga', establishing raga as the most direct and accurate type. In the taxonomy, raga is situated under art music alongside sibling traditions like mugham and classical music, which represent alternative modal or classical musical traditions rather than Hindustani ragas. The child classes Janya raga and Sampurna raga represent narrower structural classifications that are not explicitly evidenced by the brief description, so selecting them would be unsupported. The broader valid types follow in decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies Bhatiyar as a 'Hindustani raga', establishing raga as the most direct and accurate type. In the taxonomy, raga is situated under art music alongside sibling traditions like mugham and classical music, which represent alternative modal or classical musical traditions rather than Hindustani ragas. The child classes Janya raga and Sampurna raga represent narrower structural classifications that are not explicitly evidenced by the brief description, so selecting them would be unsupported. The broader valid types follow in decreasing specificity.\", \"types\": [\"raga\", \"art music\", \"musical mode\", \"music\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 553,
+      "candidatesTokenCount": 125,
+      "totalTokenCount": 1736,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 553
+        }
+      ],
+      "thoughtsTokenCount": 1058,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "8Z61apaZHMuOxN8P6aH0uA8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 553,
+    "candidatesTokenCount": 125,
+    "totalTokenCount": 1736,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 553
+      }
+    ],
+    "thoughtsTokenCount": 1058,
+    "serviceTier": "standard"
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "example_number": 200,
+  "entity_id": "wd:Q115858835",
+  "entity_label": "Meet Yourself",
+  "description": "2022 Chinese series",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0200/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0200/metadata.json",
+  "input_hash": "e449db2792742b3a47301a8d56ff5a02c9b9e37882f02d3e06c8f6d448b384c3",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Meet Yourself\nDescription: 2022 Chinese series\n\nTaxonomy context:\n- Direct parent classes: drama television series\n- Sibling classes: Thai television soap opera, soap opera, telenovela\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q115858835",
+    "entity_label": "Meet Yourself",
+    "description": "2022 Chinese series",
+    "reference_class_id": "wd:Q28195059",
+    "reference_type": "Chinese television drama",
+    "gold_types": [
+      {
+        "class_id": "wd:Q28195059",
+        "label": "Chinese television drama",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q1366112",
+        "label": "drama television series",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q5398426",
+        "label": "television series",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q7725310",
+        "label": "series of creative works",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q17537576",
+        "label": "creative work",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q386724",
+        "label": "work",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "drama television series",
+      "siblings": "Thai television soap opera, soap opera, telenovela",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "drama television series",
+      "siblings": "Thai television soap opera, soap opera, telenovela",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 200,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q28195059"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q1366112"
+      ],
+      "siblings": [
+        "wd:Q1658957",
+        "wd:Q23739",
+        "wd:Q23745"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "status": "completed",
+  "predictions": [
+    "Chinese television drama",
+    "drama television series",
+    "television series",
+    "television show",
+    "audiovisual work",
+    "work",
+    "entity"
+  ],
+  "timestamp_utc": "2026-09-24T20:43:05.221502+00:00",
+  "response": "{\n  \"explanation\": \"The description \\\"2022 Chinese series\\\" along with the taxonomy context indicates that the omitted target type is Chinese television drama (or Chinese drama series). Its direct parent class is drama television series, which defines its broader format and genre. Sibling classes sharing this parent include soap opera, telenovela, and Thai television soap opera; while related as serial broadcast television formats, they represent distinct cultural or structural genres and are rejected in favor of the Chinese-specific drama series. Since no direct child classes are provided or evidenced, more specific subtypes are omitted, and broader supported categories follow in order of decreasing specificity.\",\n  \"types\": [\n    \"Chinese television drama\",\n    \"drama television series\",\n    \"television series\",\n    \"television show\",\n    \"audiovisual work\",\n    \"work\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The description \"2022 Chinese series\" along with the taxonomy context indicates that the omitted target type is Chinese television drama (or Chinese drama series). Its direct parent class is drama television series, which defines its broader format and genre. Sibling classes sharing this parent include soap opera, telenovela, and Thai television soap opera; while related as serial broadcast television formats, they represent distinct cultural or structural genres and are rejected in favor of the Chinese-specific drama series. Since no direct child classes are provided or evidenced, more specific subtypes are omitted, and broader supported categories follow in order of decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The description \\\"2022 Chinese series\\\" along with the taxonomy context indicates that the omitted target type is Chinese television drama (or Chinese drama series). Its direct parent class is drama television series, which defines its broader format and genre. Sibling classes sharing this parent include soap opera, telenovela, and Thai television soap opera; while related as serial broadcast television formats, they represent distinct cultural or structural genres and are rejected in favor of the Chinese-specific drama series. Since no direct child classes are provided or evidenced, more specific subtypes are omitted, and broader supported categories follow in order of decreasing specificity.\",\n  \"types\": [\n    \"Chinese television drama\",\n    \"drama television series\",\n    \"television series\",\n    \"television show\",\n    \"audiovisual work\",\n    \"work\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 553,
+      "candidatesTokenCount": 184,
+      "totalTokenCount": 2075,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 553
+        }
+      ],
+      "thoughtsTokenCount": 1338,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "WYu1aqWpGpr6vdIP_bje4Qk"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 553,
+    "candidatesTokenCount": 184,
+    "totalTokenCount": 2075,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 553
+      }
+    ],
+    "thoughtsTokenCount": 1338,
+    "serviceTier": "standard"
+  }
+}

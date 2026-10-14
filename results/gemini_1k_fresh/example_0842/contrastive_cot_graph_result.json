@@ -1,0 +1,185 @@
+{
+  "example_number": 842,
+  "entity_id": "wd:Q3315386",
+  "entity_label": "Ministry of Finance",
+  "description": "ministry of the government of Quebec",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0842/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0842/metadata.json",
+  "input_hash": "8f9bd0cc63467cd6ed32e43313498ca68f72ca08388a52fdb9b9f5fa5540a4c6",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Ministry of Finance\nDescription: ministry of the government of Quebec\n\nTaxonomy context:\n- Direct parent classes: ministry\n- Sibling classes: federal ministry, ministry of Italy, ministry of Spain\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q3315386",
+    "entity_label": "Ministry of Finance",
+    "description": "ministry of the government of Quebec",
+    "reference_class_id": "wd:Q3315493",
+    "reference_type": "ministry of Quebec",
+    "gold_types": [
+      {
+        "class_id": "wd:Q3315493",
+        "label": "ministry of Quebec",
+        "depth": 9
+      },
+      {
+        "class_id": "wd:Q192350",
+        "label": "ministry",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q327333",
+        "label": "government agency",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q2659904",
+        "label": "government organization",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q7210356",
+        "label": "political organization",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "ministry",
+      "siblings": "federal ministry, ministry of Italy, ministry of Spain",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "ministry",
+      "siblings": "federal ministry, ministry of Italy, ministry of Spain",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 842,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q3315493"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q192350"
+      ],
+      "siblings": [
+        "wd:Q1006365",
+        "wd:Q1112537",
+        "wd:Q11221827"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "ministry of finance",
+    "provincial ministry",
+    "ministry",
+    "government department",
+    "government agency",
+    "public administration",
+    "organization",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:10:25.769966+00:00",
+  "response": "{\"explanation\": \"The entity name 'Ministry of Finance' and description 'ministry of the government of Quebec' support 'ministry of finance' as the most specific type, alongside 'provincial ministry'. In the taxonomy, the direct parent class is 'ministry', defining its scope as an executive government body. Sibling classes such as 'federal ministry', 'ministry of Italy', and 'ministry of Spain' are rejected because Quebec is a subnational Canadian province rather than a federal state or an Italian/Spanish jurisdiction. There are no supported child classes. Broader valid types are ordered by decreasing specificity.\", \"types\": [\"ministry of finance\", \"provincial ministry\", \"ministry\", \"government department\", \"government agency\", \"public administration\", \"organization\", \"agent\", \"entity\"]}",
+  "explanation": "The entity name 'Ministry of Finance' and description 'ministry of the government of Quebec' support 'ministry of finance' as the most specific type, alongside 'provincial ministry'. In the taxonomy, the direct parent class is 'ministry', defining its scope as an executive government body. Sibling classes such as 'federal ministry', 'ministry of Italy', and 'ministry of Spain' are rejected because Quebec is a subnational Canadian province rather than a federal state or an Italian/Spanish jurisdiction. There are no supported child classes. Broader valid types are ordered by decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The entity name 'Ministry of Finance' and description 'ministry of the government of Quebec' support 'ministry of finance' as the most specific type, alongside 'provincial ministry'. In the taxonomy, the direct parent class is 'ministry', defining its scope as an executive government body. Sibling classes such as 'federal ministry', 'ministry of Italy', and 'ministry of Spain' are rejected because Quebec is a subnational Canadian province rather than a federal state or an Italian/Spanish jurisdiction. There are no supported child classes. Broader valid types are ordered by decreasing specificity.\", \"types\": [\"ministry of finance\", \"provincial ministry\", \"ministry\", \"government department\", \"government agency\", \"public administration\", \"organization\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 551,
+      "candidatesTokenCount": 164,
+      "totalTokenCount": 1296,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 551
+        }
+      ],
+      "thoughtsTokenCount": 581,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "0p-1ap3PBIGJxN8PvKzhuA8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 551,
+    "candidatesTokenCount": 164,
+    "totalTokenCount": 1296,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 551
+      }
+    ],
+    "thoughtsTokenCount": 581,
+    "serviceTier": "standard"
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "example_number": 113,
+  "entity_id": "wd:Q96367185",
+  "entity_label": "1991 Interstate 5 dust storm",
+  "description": "U.S. interstate highway disaster",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0113/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0113/metadata.json",
+  "input_hash": "583d1af5bd3aa3c219473da8bb1cf4e05497637534de17695c48e8d0da694b05",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: 1991 Interstate 5 dust storm\nDescription: U.S. interstate highway disaster\n\nTaxonomy context:\n- Direct parent classes: sky phenomenon\n- Sibling classes: electrometeor, precipitation, atmospheric optical phenomenon\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q96367185",
+    "entity_label": "1991 Interstate 5 dust storm",
+    "description": "U.S. interstate highway disaster",
+    "reference_class_id": "wd:Q1779287",
+    "reference_type": "lithometeor",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1779287",
+        "label": "lithometeor",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q10524141",
+        "label": "sky phenomenon",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1322005",
+        "label": "natural phenomenon",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q30241068",
+        "label": "observable entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "sky phenomenon",
+      "siblings": "electrometeor, precipitation, atmospheric optical phenomenon",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "sky phenomenon",
+      "siblings": "electrometeor, precipitation, atmospheric optical phenomenon",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 113,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1779287"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q10524141"
+      ],
+      "siblings": [
+        "wd:Q1779241",
+        "wd:Q25257",
+        "wd:Q29564129"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "dust storm",
+    "lithometeor",
+    "sky phenomenon",
+    "atmospheric phenomenon",
+    "natural disaster",
+    "disaster",
+    "event"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:15:26.208011+00:00",
+  "response": "{\n  \"explanation\": \"The entity '1991 Interstate 5 dust storm' was a severe dust storm that triggered a major vehicular disaster. In meteorological taxonomy under 'sky phenomenon' (meteors), the primary subdivisions alongside electrometeor, precipitation (hydrometeor), and atmospheric optical phenomenon (photometeor) are lithometeors, which encompass suspended particulate phenomena like dust storms. The description and context firmly support 'dust storm' as the most specific entity type, followed by 'lithometeor', 'sky phenomenon', 'natural disaster', and general event classes.\",\n  \"types\": [\n    \"dust storm\",\n    \"lithometeor\",\n    \"sky phenomenon\",\n    \"atmospheric phenomenon\",\n    \"natural disaster\",\n    \"disaster\",\n    \"event\"\n  ]\n}",
+  "explanation": "The entity '1991 Interstate 5 dust storm' was a severe dust storm that triggered a major vehicular disaster. In meteorological taxonomy under 'sky phenomenon' (meteors), the primary subdivisions alongside electrometeor, precipitation (hydrometeor), and atmospheric optical phenomenon (photometeor) are lithometeors, which encompass suspended particulate phenomena like dust storms. The description and context firmly support 'dust storm' as the most specific entity type, followed by 'lithometeor', 'sky phenomenon', 'natural disaster', and general event classes.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The entity '1991 Interstate 5 dust storm' was a severe dust storm that triggered a major vehicular disaster. In meteorological taxonomy under 'sky phenomenon' (meteors), the primary subdivisions alongside electrometeor, precipitation (hydrometeor), and atmospheric optical phenomenon (photometeor) are lithometeors, which encompass suspended particulate phenomena like dust storms. The description and context firmly support 'dust storm' as the most specific entity type, followed by 'lithometeor', 'sky phenomenon', 'natural disaster', and general event classes.\",\n  \"types\": [\n    \"dust storm\",\n    \"lithometeor\",\n    \"sky phenomenon\",\n    \"atmospheric phenomenon\",\n    \"natural disaster\",\n    \"disaster\",\n    \"event\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 558,
+      "candidatesTokenCount": 174,
+      "totalTokenCount": 1884,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 558
+        }
+      ],
+      "thoughtsTokenCount": 1152,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "7pK1auH_GrW0xN8P7OSRqA8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 558,
+    "candidatesTokenCount": 174,
+    "totalTokenCount": 1884,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 558
+      }
+    ],
+    "thoughtsTokenCount": 1152,
+    "serviceTier": "standard"
+  }
+}

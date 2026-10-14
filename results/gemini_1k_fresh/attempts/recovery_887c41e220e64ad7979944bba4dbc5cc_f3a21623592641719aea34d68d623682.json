@@ -1,0 +1,153 @@
+{
+  "example_number": 35,
+  "entity_id": "wd:Q4824618",
+  "entity_label": "Australian Road Rules",
+  "description": "road rules in Australia",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0035/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0035/metadata.json",
+  "input_hash": "a587898778e14e688b9b5a37f5d24e1af9c7b9c7fd4eee3cc20d6a76884ec85d",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Australian Road Rules\nDescription: road rules in Australia\n\nTaxonomy context:\n- Direct parent classes: regulation\n- Sibling classes: municipal governance in India, honor system, financial regulation\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q4824618",
+    "entity_label": "Australian Road Rules",
+    "description": "road rules in Australia",
+    "reference_class_id": "wd:Q3074",
+    "reference_type": "traffic code",
+    "gold_types": [
+      {
+        "class_id": "wd:Q3074",
+        "label": "traffic code",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q428148",
+        "label": "regulation",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q3249551",
+        "label": "process",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q26907166",
+        "label": "temporal entity",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "regulation",
+      "siblings": "municipal governance in India, honor system, financial regulation",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "regulation",
+      "siblings": "municipal governance in India, honor system, financial regulation",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 35,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q3074"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q428148"
+      ],
+      "siblings": [
+        "wd:Q16861604",
+        "wd:Q17084335",
+        "wd:Q281095"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "traffic regulation",
+    "regulation",
+    "law",
+    "rule",
+    "norm",
+    "abstract entity",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:09:34.710041+00:00",
+  "response": "{\"explanation\": \"The description 'road rules in Australia' explicitly supports traffic regulation (or road rules) as the most specific type. In the taxonomy context, the direct parent class is regulation, which defines the general category of prescribed rules or authoritative directions. Sibling classes such as municipal governance in India, honor system, and financial regulation address unrelated domains or jurisdictions and are excluded. With no narrower direct child classes listed, broader supported classifications progressively encompass law, rule, norm, and abstract entity.\", \"types\": [\"traffic regulation\", \"regulation\", \"law\", \"rule\", \"norm\", \"abstract entity\", \"entity\"]}",
+  "explanation": "The description 'road rules in Australia' explicitly supports traffic regulation (or road rules) as the most specific type. In the taxonomy context, the direct parent class is regulation, which defines the general category of prescribed rules or authoritative directions. Sibling classes such as municipal governance in India, honor system, and financial regulation address unrelated domains or jurisdictions and are excluded. With no narrower direct child classes listed, broader supported classifications progressively encompass law, rule, norm, and abstract entity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description 'road rules in Australia' explicitly supports traffic regulation (or road rules) as the most specific type. In the taxonomy context, the direct parent class is regulation, which defines the general category of prescribed rules or authoritative directions. Sibling classes such as municipal governance in India, honor system, and financial regulation address unrelated domains or jurisdictions and are excluded. With no narrower direct child classes listed, broader supported classifications progressively encompass law, rule, norm, and abstract entity.\", \"types\": [\"traffic regulation\", \"regulation\", \"law\", \"rule\", \"norm\", \"abstract entity\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 549,
+      "candidatesTokenCount": 125,
+      "totalTokenCount": 1186,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 549
+        }
+      ],
+      "thoughtsTokenCount": 512,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "j5G1asKKAeu1xN8Pu-yb2Q0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 549,
+    "candidatesTokenCount": 125,
+    "totalTokenCount": 1186,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 549
+      }
+    ],
+    "thoughtsTokenCount": 512,
+    "serviceTier": "standard"
+  }
+}

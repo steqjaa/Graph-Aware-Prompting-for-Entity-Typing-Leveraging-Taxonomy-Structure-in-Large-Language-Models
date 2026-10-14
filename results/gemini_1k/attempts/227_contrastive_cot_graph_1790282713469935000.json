@@ -1,0 +1,163 @@
+{
+  "example_number": 227,
+  "entity_id": "wd:Q4966455",
+  "entity_label": "Bridge of the Americas",
+  "description": "Bridge connecting the Mexican state of Chihuahua with the U.S. state of Texas",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0227/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0227/metadata.json",
+  "input_hash": "5d37bc90740ac70915d0e305682985ebd5b71c22d07537e57839b00cd4abaad0",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Bridge of the Americas\nDescription: Bridge connecting the Mexican state of Chihuahua with the U.S. state of Texas\n\nTaxonomy context:\n- Direct parent classes: architectural structure\n- Sibling classes: ghat, altar, henge\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q4966455",
+    "entity_label": "Bridge of the Americas",
+    "description": "Bridge connecting the Mexican state of Chihuahua with the U.S. state of Texas",
+    "reference_class_id": "wd:Q25297630",
+    "reference_type": "international bridge",
+    "gold_types": [
+      {
+        "class_id": "wd:Q25297630",
+        "label": "international bridge",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q811979",
+        "label": "architectural structure",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q15710813",
+        "label": "physical structure",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q8205328",
+        "label": "artificial physical object",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q4406616",
+        "label": "concrete object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q6671777",
+        "label": "structure",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "architectural structure",
+      "siblings": "ghat, altar, henge",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "architectural structure",
+      "siblings": "ghat, altar, henge",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 227,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q25297630"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q811979"
+      ],
+      "siblings": [
+        "wd:Q1010155",
+        "wd:Q101687",
+        "wd:Q1035294"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "status": "completed",
+  "predictions": [
+    "international bridge",
+    "bridge",
+    "architectural structure",
+    "structure",
+    "artificial physical object",
+    "physical object",
+    "entity"
+  ],
+  "timestamp_utc": "2026-09-24T20:45:09.718598+00:00",
+  "response": "{\"explanation\": \"The description specifies that the entity is a \\\"Bridge connecting the Mexican state of Chihuahua with the U.S. state of Texas\\\", establishing international bridge and bridge as the most specific supported types. In the taxonomy context, architectural structure serves as the direct parent, delineating the broader physical and engineered category. Sibling classes such as ghat, altar, and henge represent other types of structures but are inapplicable given the entity's functional transport nature. No direct child classes are provided, but the description directly justifies international bridge and bridge, followed by broader ancestral types in decreasing specificity.\", \"types\": [\"international bridge\", \"bridge\", \"architectural structure\", \"structure\", \"artificial physical object\", \"physical object\", \"entity\"]}",
+  "explanation": "The description specifies that the entity is a \"Bridge connecting the Mexican state of Chihuahua with the U.S. state of Texas\", establishing international bridge and bridge as the most specific supported types. In the taxonomy context, architectural structure serves as the direct parent, delineating the broader physical and engineered category. Sibling classes such as ghat, altar, and henge represent other types of structures but are inapplicable given the entity's functional transport nature. No direct child classes are provided, but the description directly justifies international bridge and bridge, followed by broader ancestral types in decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description specifies that the entity is a \\\"Bridge connecting the Mexican state of Chihuahua with the U.S. state of Texas\\\", establishing international bridge and bridge as the most specific supported types. In the taxonomy context, architectural structure serves as the direct parent, delineating the broader physical and engineered category. Sibling classes such as ghat, altar, and henge represent other types of structures but are inapplicable given the entity's functional transport nature. No direct child classes are provided, but the description directly justifies international bridge and bridge, followed by broader ancestral types in decreasing specificity.\", \"types\": [\"international bridge\", \"bridge\", \"architectural structure\", \"structure\", \"artificial physical object\", \"physical object\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 559,
+      "candidatesTokenCount": 149,
+      "totalTokenCount": 1156,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 559
+        }
+      ],
+      "thoughtsTokenCount": 448,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "1Yu1at2UOrXNvdIPlfCwkAs"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 559,
+    "candidatesTokenCount": 149,
+    "totalTokenCount": 1156,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 559
+      }
+    ],
+    "thoughtsTokenCount": 448,
+    "serviceTier": "standard"
+  }
+}

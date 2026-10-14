@@ -1,0 +1,166 @@
+{
+  "example_number": 705,
+  "entity_id": "wd:Q55614567",
+  "entity_label": "Internet of Battle Things Collaborative Research Alliance",
+  "description": "collaborative research alliance",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0705/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0705/metadata.json",
+  "input_hash": "d17772b35a9fe952c9139805f1dad92100076fe951514445965c098315bc7101",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Internet of Battle Things Collaborative Research Alliance\nDescription: collaborative research alliance\n\nTaxonomy context:\n- Direct parent classes: organization\n- Sibling classes: national trust, Native American organization, hackerspace\n- Direct child classes: university research group\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q55614567",
+    "entity_label": "Internet of Battle Things Collaborative Research Alliance",
+    "description": "collaborative research alliance",
+    "reference_class_id": "wd:Q1241025",
+    "reference_type": "research group",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1241025",
+        "label": "research group",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "organization",
+      "siblings": "national trust, Native American organization, hackerspace",
+      "children": "university research group"
+    },
+    "oracle_graph_context": {
+      "parents": "organization",
+      "siblings": "national trust, Native American organization, hackerspace",
+      "children": "university research group"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 705,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1241025"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q43229"
+      ],
+      "siblings": [
+        "wd:Q1006283",
+        "wd:Q100731037",
+        "wd:Q1032372"
+      ],
+      "children": [
+        "wd:Q28863779"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "collaborative research alliance",
+    "research alliance",
+    "research consortium",
+    "research organization",
+    "organization",
+    "corporate body",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:00:05.246838+00:00",
+  "response": "{\"explanation\": \"The description \\\"collaborative research alliance\\\" directly supports research alliance (or research consortium) and research organization as the most specific appropriate types. Within the taxonomy, the direct parent class organization establishes the broader structural scope. Sibling classes such as national trust, Native American organization, and hackerspace represent distinct types of organizations that are incompatible with a collaborative defense/scientific research alliance. The direct child class university research group is overly specific, as the alliance spans multiple institutions beyond a single university group. Broader classes like organization and entity follow in decreasing specificity.\", \"types\": [\"collaborative research alliance\", \"research alliance\", \"research consortium\", \"research organization\", \"organization\", \"corporate body\", \"agent\", \"entity\"]}",
+  "explanation": "The description \"collaborative research alliance\" directly supports research alliance (or research consortium) and research organization as the most specific appropriate types. Within the taxonomy, the direct parent class organization establishes the broader structural scope. Sibling classes such as national trust, Native American organization, and hackerspace represent distinct types of organizations that are incompatible with a collaborative defense/scientific research alliance. The direct child class university research group is overly specific, as the alliance spans multiple institutions beyond a single university group. Broader classes like organization and entity follow in decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"collaborative research alliance\\\" directly supports research alliance (or research consortium) and research organization as the most specific appropriate types. Within the taxonomy, the direct parent class organization establishes the broader structural scope. Sibling classes such as national trust, Native American organization, and hackerspace represent distinct types of organizations that are incompatible with a collaborative defense/scientific research alliance. The direct child class university research group is overly specific, as the alliance spans multiple institutions beyond a single university group. Broader classes like organization and entity follow in decreasing specificity.\", \"types\": [\"collaborative research alliance\", \"research alliance\", \"research consortium\", \"research organization\", \"organization\", \"corporate body\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 553,
+      "candidatesTokenCount": 147,
+      "totalTokenCount": 1650,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 553
+        }
+      ],
+      "thoughtsTokenCount": 950,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "ZZ21apbWG-DRvdIPyceZ0Q8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 553,
+    "candidatesTokenCount": 147,
+    "totalTokenCount": 1650,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 553
+      }
+    ],
+    "thoughtsTokenCount": 950,
+    "serviceTier": "standard"
+  }
+}

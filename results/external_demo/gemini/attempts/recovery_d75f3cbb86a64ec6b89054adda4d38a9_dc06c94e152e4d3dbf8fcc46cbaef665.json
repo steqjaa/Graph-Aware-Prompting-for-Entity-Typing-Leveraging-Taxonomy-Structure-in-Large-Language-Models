@@ -1,0 +1,176 @@
+{
+  "example_number": 629,
+  "entity_id": "wd:Q203403",
+  "entity_label": "Saint John",
+  "description": "city in New Brunswick, Canada",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0629/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0629/metadata.json",
+  "input_hash": "9048eb8493f0202201ef546e2fc66d86da1ba2d4d1ed4235284fb775c6a229c7",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Saint John\nDescription: city in New Brunswick, Canada\n\nTaxonomy context:\n- Direct parent classes: administrative territorial entity of Canada\n- Sibling classes: regional municipality in Canada, parish in New Brunswick, Local service district\n- Direct child classes: local municipality of Quebec, municipality of Ontario, town of Newfoundland and Labrador\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q203403",
+    "entity_label": "Saint John",
+    "description": "city in New Brunswick, Canada",
+    "reference_class_id": "wd:Q3788231",
+    "reference_type": "municipal government in Canada",
+    "gold_types": [
+      {
+        "class_id": "wd:Q3788231",
+        "label": "municipal government in Canada",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q3750285",
+        "label": "administrative territorial entity of Canada",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "administrative territorial entity of Canada",
+      "siblings": "regional municipality in Canada, parish in New Brunswick, Local service district",
+      "children": "local municipality of Quebec, municipality of Ontario, town of Newfoundland and Labrador"
+    },
+    "oracle_graph_context": {
+      "parents": "administrative territorial entity of Canada",
+      "siblings": "regional municipality in Canada, parish in New Brunswick, Local service district",
+      "children": "local municipality of Quebec, municipality of Ontario, town of Newfoundland and Labrador"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 629,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q3788231"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q3750285"
+      ],
+      "siblings": [
+        "wd:Q1388464",
+        "wd:Q3252927",
+        "wd:Q48834786"
+      ],
+      "children": [
+        "wd:Q3327873",
+        "wd:Q3327899",
+        "wd:Q44529188"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "city",
+    "municipality of Canada",
+    "administrative territorial entity of Canada",
+    "municipality",
+    "administrative territorial entity",
+    "populated place",
+    "geographic location",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:23:44.376527+00:00",
+  "response": "{\n  \"explanation\": \"The description identifies Saint John as a \\\"city in New Brunswick, Canada\\\", supporting 'city' and 'municipality of Canada' as precise types. The taxonomy context's parent, 'administrative territorial entity of Canada', frames its broader scope. Child classes like 'local municipality of Quebec', 'municipality of Ontario', and 'town of Newfoundland and Labrador' are rejected because Saint John is located in New Brunswick, not those provinces. Sibling classes such as 'parish in New Brunswick' and 'Local service district' are rejected because Saint John is an incorporated city municipality rather than a parish or local service district. Broader valid classes follow in decreasing specificity.\",\n  \"types\": [\n    \"city\",\n    \"municipality of Canada\",\n    \"administrative territorial entity of Canada\",\n    \"municipality\",\n    \"administrative territorial entity\",\n    \"populated place\",\n    \"geographic location\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The description identifies Saint John as a \"city in New Brunswick, Canada\", supporting 'city' and 'municipality of Canada' as precise types. The taxonomy context's parent, 'administrative territorial entity of Canada', frames its broader scope. Child classes like 'local municipality of Quebec', 'municipality of Ontario', and 'town of Newfoundland and Labrador' are rejected because Saint John is located in New Brunswick, not those provinces. Sibling classes such as 'parish in New Brunswick' and 'Local service district' are rejected because Saint John is an incorporated city municipality rather than a parish or local service district. Broader valid classes follow in decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The description identifies Saint John as a \\\"city in New Brunswick, Canada\\\", supporting 'city' and 'municipality of Canada' as precise types. The taxonomy context's parent, 'administrative territorial entity of Canada', frames its broader scope. Child classes like 'local municipality of Quebec', 'municipality of Ontario', and 'town of Newfoundland and Labrador' are rejected because Saint John is located in New Brunswick, not those provinces. Sibling classes such as 'parish in New Brunswick' and 'Local service district' are rejected because Saint John is an incorporated city municipality rather than a parish or local service district. Broader valid classes follow in decreasing specificity.\",\n  \"types\": [\n    \"city\",\n    \"municipality of Canada\",\n    \"administrative territorial entity of Canada\",\n    \"municipality\",\n    \"administrative territorial entity\",\n    \"populated place\",\n    \"geographic location\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 568,
+      "candidatesTokenCount": 207,
+      "totalTokenCount": 2204,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 568
+        }
+      ],
+      "thoughtsTokenCount": 1429,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "kCjMavXOKKP_vdIP9P7h8A0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 568,
+    "candidatesTokenCount": 207,
+    "totalTokenCount": 2204,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 568
+      }
+    ],
+    "thoughtsTokenCount": 1429,
+    "serviceTier": "standard"
+  }
+}

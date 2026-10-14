@@ -1,0 +1,200 @@
+{
+  "example_number": 968,
+  "entity_id": "wd:Q2984234",
+  "entity_label": "Colonial Pipeline",
+  "description": "pipeline network in the United States",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0968/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0968/metadata.json",
+  "input_hash": "99cfb38eca313876c879f9aa96e8de4de605d38b8dac4521ee8e097539ebdb9f",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Colonial Pipeline\nDescription: pipeline network in the United States\n\nTaxonomy context:\n- Direct parent classes: piping, thoroughfare\n- Sibling classes: gas pipeline, waterway, cut\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q2984234",
+    "entity_label": "Colonial Pipeline",
+    "description": "pipeline network in the United States",
+    "reference_class_id": "wd:Q1262090",
+    "reference_type": "oil pipeline",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1262090",
+        "label": "oil pipeline",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q1322402",
+        "label": "nonbuilding structure",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q3679502",
+        "label": "piping",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q83620",
+        "label": "thoroughfare",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q15710813",
+        "label": "physical structure",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1826691",
+        "label": "linear construction",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q8205328",
+        "label": "artificial physical object",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q994895",
+        "label": "technical system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q35145743",
+        "label": "artificial geographic object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q4406616",
+        "label": "concrete object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q6671777",
+        "label": "structure",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "piping, thoroughfare",
+      "siblings": "gas pipeline, waterway, cut",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "piping, thoroughfare",
+      "siblings": "gas pipeline, waterway, cut",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 968,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1262090"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q3679502",
+        "wd:Q83620"
+      ],
+      "siblings": [
+        "wd:Q1262712",
+        "wd:Q1267889",
+        "wd:Q1308978"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "pipeline network",
+    "pipeline",
+    "piping",
+    "thoroughfare",
+    "infrastructure",
+    "structure",
+    "object",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:19:53.931142+00:00",
+  "response": "{\n  \"explanation\": \"The description \\\"pipeline network in the United States\\\" directly supports pipeline network and pipeline as the most specific entity types. Taxonomy parents piping and thoroughfare establish the broader functional categories of conduits and transport routes. Sibling classes like gas pipeline, waterway, and cut are rejected because the description specifies a pipeline network without indicating gas conveyance or watercourses. Broader valid classes then ascend through physical infrastructure, structure, object, and entity.\",\n  \"types\": [\n    \"pipeline network\",\n    \"pipeline\",\n    \"piping\",\n    \"thoroughfare\",\n    \"infrastructure\",\n    \"structure\",\n    \"object\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The description \"pipeline network in the United States\" directly supports pipeline network and pipeline as the most specific entity types. Taxonomy parents piping and thoroughfare establish the broader functional categories of conduits and transport routes. Sibling classes like gas pipeline, waterway, and cut are rejected because the description specifies a pipeline network without indicating gas conveyance or watercourses. Broader valid classes then ascend through physical infrastructure, structure, object, and entity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The description \\\"pipeline network in the United States\\\" directly supports pipeline network and pipeline as the most specific entity types. Taxonomy parents piping and thoroughfare establish the broader functional categories of conduits and transport routes. Sibling classes like gas pipeline, waterway, and cut are rejected because the description specifies a pipeline network without indicating gas conveyance or watercourses. Broader valid classes then ascend through physical infrastructure, structure, object, and entity.\",\n  \"types\": [\n    \"pipeline network\",\n    \"pipeline\",\n    \"piping\",\n    \"thoroughfare\",\n    \"infrastructure\",\n    \"structure\",\n    \"object\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 549,
+      "candidatesTokenCount": 147,
+      "totalTokenCount": 2184,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 549
+        }
+      ],
+      "thoughtsTokenCount": 1488,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "CqK1arf1DeDRvdIPyceZ0Q8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 549,
+    "candidatesTokenCount": 147,
+    "totalTokenCount": 2184,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 549
+      }
+    ],
+    "thoughtsTokenCount": 1488,
+    "serviceTier": "standard"
+  }
+}

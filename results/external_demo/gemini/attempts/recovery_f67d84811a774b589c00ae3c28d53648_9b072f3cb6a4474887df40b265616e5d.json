@@ -1,0 +1,169 @@
+{
+  "example_number": 297,
+  "entity_id": "wd:Q2077416",
+  "entity_label": "Peter Pakesch",
+  "description": "Austrian curator and artistic director",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0297/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0297/metadata.json",
+  "input_hash": "63fb466e78b9c415b700a64458ade4e301888ec78a11ef1e128e0fb79fcabbde",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Peter Pakesch\nDescription: Austrian curator and artistic director\n\nTaxonomy context:\n- Direct parent classes: expert, curator\n- Sibling classes: tohunga, oenologist, expert witness\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q2077416",
+    "entity_label": "Peter Pakesch",
+    "description": "Austrian curator and artistic director",
+    "reference_class_id": "wd:Q780596",
+    "reference_type": "exhibition curator",
+    "gold_types": [
+      {
+        "class_id": "wd:Q674426",
+        "label": "curator",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q780596",
+        "label": "exhibition curator",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q327055",
+        "label": "worker",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q381160",
+        "label": "expert",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "expert, curator",
+      "siblings": "tohunga, oenologist, expert witness",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "expert, curator",
+      "siblings": "tohunga, oenologist, expert witness",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 297,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q780596"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q381160",
+        "wd:Q674426"
+      ],
+      "siblings": [
+        "wd:Q1975214",
+        "wd:Q3542795",
+        "wd:Q663272"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "art curator",
+    "curator",
+    "artistic director",
+    "director",
+    "expert",
+    "professional",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "f67d84811a774b589c00ae3c28d53648",
+  "timestamp_utc": "2026-10-11T23:49:47.772009+00:00",
+  "response": "{\n  \"explanation\": \"The description identifies Peter Pakesch as an 'Austrian curator and artistic director', which directly supports art curator (or exhibition curator) as the most specific type, spanning both curatorial practice and artistic direction. In the taxonomy context, expert and curator serve as direct parent classes that establish the professional scope. Sibling classes under expert (such as tohunga, oenologist, and expert witness) represent specialized cultural or technical domains unsupported by Pakesch's background in the visual arts. With no narrower child classes indicated in the context, art curator and curator lead the sequence, followed by broader professional, human, and ontological types.\",\n  \"types\": [\n    \"art curator\",\n    \"curator\",\n    \"artistic director\",\n    \"director\",\n    \"expert\",\n    \"professional\",\n    \"person\",\n    \"agent\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The description identifies Peter Pakesch as an 'Austrian curator and artistic director', which directly supports art curator (or exhibition curator) as the most specific type, spanning both curatorial practice and artistic direction. In the taxonomy context, expert and curator serve as direct parent classes that establish the professional scope. Sibling classes under expert (such as tohunga, oenologist, and expert witness) represent specialized cultural or technical domains unsupported by Pakesch's background in the visual arts. With no narrower child classes indicated in the context, art curator and curator lead the sequence, followed by broader professional, human, and ontological types.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The description identifies Peter Pakesch as an 'Austrian curator and artistic director', which directly supports art curator (or exhibition curator) as the most specific type, spanning both curatorial practice and artistic direction. In the taxonomy context, expert and curator serve as direct parent classes that establish the professional scope. Sibling classes under expert (such as tohunga, oenologist, and expert witness) represent specialized cultural or technical domains unsupported by Pakesch's background in the visual arts. With no narrower child classes indicated in the context, art curator and curator lead the sequence, followed by broader professional, human, and ontological types.\",\n  \"types\": [\n    \"art curator\",\n    \"curator\",\n    \"artistic director\",\n    \"director\",\n    \"expert\",\n    \"professional\",\n    \"person\",\n    \"agent\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 550,
+      "candidatesTokenCount": 196,
+      "totalTokenCount": 2310,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 550
+        }
+      ],
+      "thoughtsTokenCount": 1564,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "nCDMaqndBM39nsEPpZiWAQ"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 550,
+    "candidatesTokenCount": 196,
+    "totalTokenCount": 2310,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 550
+      }
+    ],
+    "thoughtsTokenCount": 1564,
+    "serviceTier": "standard"
+  }
+}

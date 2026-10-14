@@ -1,0 +1,163 @@
+{
+  "example_number": 585,
+  "entity_id": "wd:Q28924846",
+  "entity_label": "Gergely Kovács",
+  "description": "president of the Hungarian Two-tailed Dog Party",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0585/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0585/metadata.json",
+  "input_hash": "cf2e4bcb22b58d43ae9baa8ab6bf4af690f448effa034df59a8614a6fa29197a",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Gergely Kovács\nDescription: president of the Hungarian Two-tailed Dog Party\n\nTaxonomy context:\n- Direct parent classes: designer\n- Sibling classes: industrial designer, furniture designer, theatre designer\n- Direct child classes: postage stamp designer, type designer, poster artist\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q28924846",
+    "entity_label": "Gergely Kovács",
+    "description": "president of the Hungarian Two-tailed Dog Party",
+    "reference_class_id": "wd:Q627325",
+    "reference_type": "graphic designer",
+    "gold_types": [
+      {
+        "class_id": "wd:Q627325",
+        "label": "graphic designer",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q5322166",
+        "label": "designer",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q2500638",
+        "label": "creator",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "designer",
+      "siblings": "industrial designer, furniture designer, theatre designer",
+      "children": "postage stamp designer, type designer, poster artist"
+    },
+    "oracle_graph_context": {
+      "parents": "designer",
+      "siblings": "industrial designer, furniture designer, theatre designer",
+      "children": "postage stamp designer, type designer, poster artist"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 585,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q627325"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q5322166"
+      ],
+      "siblings": [
+        "wd:Q11287574",
+        "wd:Q11455387",
+        "wd:Q11613590"
+      ],
+      "children": [
+        "wd:Q2000124",
+        "wd:Q354034",
+        "wd:Q739437"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "graphic designer",
+    "designer",
+    "artist",
+    "professional",
+    "creator",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:51:05.240664+00:00",
+  "response": "{\n  \"explanation\": \"The context surrounds the omitted target type graphic designer, for which Gergely Kovács is known alongside his role as founder and president of the Hungarian Two-tailed Dog Party (a parody party rooted in graphic design and street art). In the taxonomy, the direct parent class is designer, defining the general scope. Sibling classes such as industrial designer, furniture designer, and theatre designer are alternative design specializations not applicable here. Direct child classes including postage stamp designer, type designer, and poster artist represent narrower specializations not independently supported by the description. The remaining classes follow a chain of increasing generality.\",\n  \"types\": [\n    \"graphic designer\",\n    \"designer\",\n    \"artist\",\n    \"professional\",\n    \"creator\",\n    \"person\",\n    \"agent\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The context surrounds the omitted target type graphic designer, for which Gergely Kovács is known alongside his role as founder and president of the Hungarian Two-tailed Dog Party (a parody party rooted in graphic design and street art). In the taxonomy, the direct parent class is designer, defining the general scope. Sibling classes such as industrial designer, furniture designer, and theatre designer are alternative design specializations not applicable here. Direct child classes including postage stamp designer, type designer, and poster artist represent narrower specializations not independently supported by the description. The remaining classes follow a chain of increasing generality.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The context surrounds the omitted target type graphic designer, for which Gergely Kovács is known alongside his role as founder and president of the Hungarian Two-tailed Dog Party (a parody party rooted in graphic design and street art). In the taxonomy, the direct parent class is designer, defining the general scope. Sibling classes such as industrial designer, furniture designer, and theatre designer are alternative design specializations not applicable here. Direct child classes including postage stamp designer, type designer, and poster artist represent narrower specializations not independently supported by the description. The remaining classes follow a chain of increasing generality.\",\n  \"types\": [\n    \"graphic designer\",\n    \"designer\",\n    \"artist\",\n    \"professional\",\n    \"creator\",\n    \"person\",\n    \"agent\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 562,
+      "candidatesTokenCount": 179,
+      "totalTokenCount": 2437,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 562
+        }
+      ],
+      "thoughtsTokenCount": 1696,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "SZu1aoDbHMzzvdIPsdGbiQ4"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 562,
+    "candidatesTokenCount": 179,
+    "totalTokenCount": 2437,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 562
+      }
+    ],
+    "thoughtsTokenCount": 1696,
+    "serviceTier": "standard"
+  }
+}

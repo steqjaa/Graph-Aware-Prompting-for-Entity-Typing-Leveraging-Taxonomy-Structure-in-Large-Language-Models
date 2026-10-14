@@ -1,0 +1,185 @@
+{
+  "example_number": 95,
+  "entity_id": "wd:Q55303062",
+  "entity_label": "Russell Stothard",
+  "description": "medical parasitologist",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0095/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0095/metadata.json",
+  "input_hash": "6a9ac5e09b200d7d9b5d46915e2306dcca6c9c7333047e1732ee161098090be5",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Russell Stothard\nDescription: medical parasitologist\n\nTaxonomy context:\n- Direct parent classes: zoologist\n- Sibling classes: hippologist, heteropterist, coleopterist\n- Direct child classes: helminthologist\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q55303062",
+    "entity_label": "Russell Stothard",
+    "description": "medical parasitologist",
+    "reference_class_id": "wd:Q12773412",
+    "reference_type": "parasitologist",
+    "gold_types": [
+      {
+        "class_id": "wd:Q12773412",
+        "label": "parasitologist",
+        "depth": 9
+      },
+      {
+        "class_id": "wd:Q350979",
+        "label": "zoologist",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q1650915",
+        "label": "researcher",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q864503",
+        "label": "biologist",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q1914017",
+        "label": "knowledge worker",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q901",
+        "label": "scientist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q20826540",
+        "label": "scholar",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q327055",
+        "label": "worker",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "zoologist",
+      "siblings": "hippologist, heteropterist, coleopterist",
+      "children": "helminthologist"
+    },
+    "oracle_graph_context": {
+      "parents": "zoologist",
+      "siblings": "hippologist, heteropterist, coleopterist",
+      "children": "helminthologist"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 95,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q12773412"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q350979"
+      ],
+      "siblings": [
+        "wd:Q10524313",
+        "wd:Q11709698",
+        "wd:Q11741162"
+      ],
+      "children": [
+        "wd:Q27497422"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "medical parasitologist",
+    "parasitologist",
+    "zoologist",
+    "biologist",
+    "scientist",
+    "person",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:14:05.208506+00:00",
+  "response": "{\"explanation\": \"The description 'medical parasitologist' directly supports medical parasitologist and parasitologist as the most specific types. In the taxonomy, parasitologist sits under the direct parent zoologist alongside sibling classes such as hippologist, heteropterist, and coleopterist, which specialize in other animal groups and are thus rejected. The child class helminthologist is rejected because the description does not specifically mention helminths or worms, failing the requirement of independent textual support for narrower children. The broader valid classes are then arranged in decreasing order of specificity.\", \"types\": [\"medical parasitologist\", \"parasitologist\", \"zoologist\", \"biologist\", \"scientist\", \"person\", \"entity\"]}",
+  "explanation": "The description 'medical parasitologist' directly supports medical parasitologist and parasitologist as the most specific types. In the taxonomy, parasitologist sits under the direct parent zoologist alongside sibling classes such as hippologist, heteropterist, and coleopterist, which specialize in other animal groups and are thus rejected. The child class helminthologist is rejected because the description does not specifically mention helminths or worms, failing the requirement of independent textual support for narrower children. The broader valid classes are then arranged in decreasing order of specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description 'medical parasitologist' directly supports medical parasitologist and parasitologist as the most specific types. In the taxonomy, parasitologist sits under the direct parent zoologist alongside sibling classes such as hippologist, heteropterist, and coleopterist, which specialize in other animal groups and are thus rejected. The child class helminthologist is rejected because the description does not specifically mention helminths or worms, failing the requirement of independent textual support for narrower children. The broader valid classes are then arranged in decreasing order of specificity.\", \"types\": [\"medical parasitologist\", \"parasitologist\", \"zoologist\", \"biologist\", \"scientist\", \"person\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 553,
+      "candidatesTokenCount": 142,
+      "totalTokenCount": 1101,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 553
+        }
+      ],
+      "thoughtsTokenCount": 406,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "nZK1aqi4HPWJxN8PvfeWkAc"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 553,
+    "candidatesTokenCount": 142,
+    "totalTokenCount": 1101,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 553
+      }
+    ],
+    "thoughtsTokenCount": 406,
+    "serviceTier": "standard"
+  }
+}

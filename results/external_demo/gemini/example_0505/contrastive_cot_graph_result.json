@@ -1,0 +1,184 @@
+{
+  "example_number": 505,
+  "entity_id": "wd:Q91125",
+  "entity_label": "Karl Suessenguth",
+  "description": "German botanist and university teacher (1893-1955)",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0505/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0505/metadata.json",
+  "input_hash": "9a964a974f976402dfefcd4416fc7a377a1750533e0885bab61a749d3662115b",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Karl Suessenguth\nDescription: German botanist and university teacher (1893-1955)\n\nTaxonomy context:\n- Direct parent classes: biologist\n- Sibling classes: hydrobiologist, immunologist, computational biologist\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q91125",
+    "entity_label": "Karl Suessenguth",
+    "description": "German botanist and university teacher (1893-1955)",
+    "reference_class_id": "wd:Q1907198",
+    "reference_type": "taxonomist",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1907198",
+        "label": "taxonomist",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q1650915",
+        "label": "researcher",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q864503",
+        "label": "biologist",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q1914017",
+        "label": "knowledge worker",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q901",
+        "label": "scientist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q20826540",
+        "label": "scholar",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q327055",
+        "label": "worker",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "biologist",
+      "siblings": "hydrobiologist, immunologist, computational biologist",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "biologist",
+      "siblings": "hydrobiologist, immunologist, computational biologist",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 505,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1907198"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q864503"
+      ],
+      "siblings": [
+        "wd:Q11710359",
+        "wd:Q12119633",
+        "wd:Q15709480"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "botanist",
+    "biologist",
+    "scientist",
+    "university teacher",
+    "academic",
+    "scholar",
+    "professional",
+    "person",
+    "organism",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:14:19.984398+00:00",
+  "response": "{\"explanation\": \"The description \\\"German botanist and university teacher (1893-1955)\\\" directly supports botanist as the primary, most specific classification, alongside university teacher. In the taxonomy, its direct parent is biologist, which sets the broader biological science category. Sibling classes like hydrobiologist, immunologist, and computational biologist are rejected because the evidence explicitly designates botany rather than those disciplines. No narrower child classes are specified in the taxonomy context or text. The inferred types are arranged from most specific to broader categories supported by taxonomy and world knowledge.\", \"types\": [\"botanist\", \"biologist\", \"scientist\", \"university teacher\", \"academic\", \"scholar\", \"professional\", \"person\", \"organism\", \"entity\"]}",
+  "explanation": "The description \"German botanist and university teacher (1893-1955)\" directly supports botanist as the primary, most specific classification, alongside university teacher. In the taxonomy, its direct parent is biologist, which sets the broader biological science category. Sibling classes like hydrobiologist, immunologist, and computational biologist are rejected because the evidence explicitly designates botany rather than those disciplines. No narrower child classes are specified in the taxonomy context or text. The inferred types are arranged from most specific to broader categories supported by taxonomy and world knowledge.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"German botanist and university teacher (1893-1955)\\\" directly supports botanist as the primary, most specific classification, alongside university teacher. In the taxonomy, its direct parent is biologist, which sets the broader biological science category. Sibling classes like hydrobiologist, immunologist, and computational biologist are rejected because the evidence explicitly designates botany rather than those disciplines. No narrower child classes are specified in the taxonomy context or text. The inferred types are arranged from most specific to broader categories supported by taxonomy and world knowledge.\", \"types\": [\"botanist\", \"biologist\", \"scientist\", \"university teacher\", \"academic\", \"scholar\", \"professional\", \"person\", \"organism\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 561,
+      "candidatesTokenCount": 155,
+      "totalTokenCount": 1448,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 561
+        }
+      ],
+      "thoughtsTokenCount": 732,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "XCbMauqeEeOpnsEP1tXjuAE"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 561,
+    "candidatesTokenCount": 155,
+    "totalTokenCount": 1448,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 561
+      }
+    ],
+    "thoughtsTokenCount": 732,
+    "serviceTier": "standard"
+  }
+}

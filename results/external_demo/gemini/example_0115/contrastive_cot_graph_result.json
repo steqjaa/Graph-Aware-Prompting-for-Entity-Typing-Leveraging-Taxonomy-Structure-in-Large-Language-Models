@@ -1,0 +1,168 @@
+{
+  "example_number": 115,
+  "entity_id": "wd:Q12430357",
+  "entity_label": "Guðlaugur Friðþórsson",
+  "description": "fisherman",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0115/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0115/metadata.json",
+  "input_hash": "504e3c5fa85308974bca88a666db202091d3683a2e9d946bb90292cf23891d46",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Guðlaugur Friðþórsson\nDescription: fisherman\n\nTaxonomy context:\n- Direct parent classes: laborer\n- Sibling classes: barber, assembly line worker, stevedore\n- Direct child classes: ama\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q12430357",
+    "entity_label": "Guðlaugur Friðþórsson",
+    "description": "fisherman",
+    "reference_class_id": "wd:Q331432",
+    "reference_type": "fisher",
+    "gold_types": [
+      {
+        "class_id": "wd:Q331432",
+        "label": "fisher",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q12713481",
+        "label": "laborer",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q703534",
+        "label": "employee",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q327055",
+        "label": "worker",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "laborer",
+      "siblings": "barber, assembly line worker, stevedore",
+      "children": "ama"
+    },
+    "oracle_graph_context": {
+      "parents": "laborer",
+      "siblings": "barber, assembly line worker, stevedore",
+      "children": "ama"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 115,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q331432"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q12713481"
+      ],
+      "siblings": [
+        "wd:Q107198",
+        "wd:Q11010088",
+        "wd:Q1537445"
+      ],
+      "children": [
+        "wd:Q1577970"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "fisherman",
+    "laborer",
+    "worker",
+    "person",
+    "organism",
+    "physical entity",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "f67d84811a774b589c00ae3c28d53648",
+  "timestamp_utc": "2026-10-11T23:34:49.602922+00:00",
+  "response": "{\"explanation\": \"The description identifies Guðlaugur Friðþórsson directly as a fisherman, making fisherman the most specific supported type. In the taxonomy, the direct parent class laborer defines the broad category of manual workers. Sibling classes like barber, assembly line worker, and stevedore represent other occupations under laborer but are not supported by the description. The direct child class ama denotes traditional Japanese free divers and lacks supporting evidence for an Icelandic fisherman, so it is excluded. Broader classes like laborer, worker, person, and entity correctly generalize the entity in decreasing order of specificity.\", \"types\": [\"fisherman\", \"laborer\", \"worker\", \"person\", \"organism\", \"physical entity\", \"entity\"]}",
+  "explanation": "The description identifies Guðlaugur Friðþórsson directly as a fisherman, making fisherman the most specific supported type. In the taxonomy, the direct parent class laborer defines the broad category of manual workers. Sibling classes like barber, assembly line worker, and stevedore represent other occupations under laborer but are not supported by the description. The direct child class ama denotes traditional Japanese free divers and lacks supporting evidence for an Icelandic fisherman, so it is excluded. Broader classes like laborer, worker, person, and entity correctly generalize the entity in decreasing order of specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies Guðlaugur Friðþórsson directly as a fisherman, making fisherman the most specific supported type. In the taxonomy, the direct parent class laborer defines the broad category of manual workers. Sibling classes like barber, assembly line worker, and stevedore represent other occupations under laborer but are not supported by the description. The direct child class ama denotes traditional Japanese free divers and lacks supporting evidence for an Icelandic fisherman, so it is excluded. Broader classes like laborer, worker, person, and entity correctly generalize the entity in decreasing order of specificity.\", \"types\": [\"fisherman\", \"laborer\", \"worker\", \"person\", \"organism\", \"physical entity\", \"entity\"]}",
+              "thoughtSignature": "EocLCoQLAWkUfRNqJQDTw/K2hBs/CGVREC3UWAQgUsTfa72vXD26EMejkG0OXCsw8tBYduqP4UwGESbzS6RxLe7yCw3UguJT2YQfYWImiEgR2HFiT3B/dE+H/3aLs7LWP50Nc4MzugrLUrLj+LDiVysAFz7gv8bu94vmeunGdXnXvycrFU5smow0GW3U7AZoeLda9gszLhUCwx2ulqxJdtZ+Xa/mjFU7DX8eolsmVAUptz+ZD8/C6LyzZ0yJCLIQo6rM6SIpb1aLDaG+0nr+M5dryp1/bAbkBIHHyqUgwtnYcjVdHuzcfZaA2FXjgn/DnVkYthDqS0tl3rIyASQwn9Fb51K2W+acgkzMDcdceKifnZ3rK+NFBcpRdU2h2WoTCLOs1dnOVATvfTbCiGbuL2LE3vd0Q8+GLWCnJK3B2E7tn8umagsNXkXWfhPBXpKI+QqVtnghGuuuvZZs59FSUctKWO8CIZW7x+di8CT2cWLQaW8csQxM8Z3goyhxdcKwZx9M/cShYc6z0ntmUOsqizY/gb7toBBaMTTMTC+r8UQ/5sOpAeA308x+KKyG2HRMSGzwhqGg+8XilWOVRQN9PE5e4JMn8e45H5UjP+oHjp7k7qjxE0OCuxBGPqdiQ+MKrj+5lrb7B3ub6suya3o1p/fVCcH/qkctgi1inB+XV9VymHurqbXNmBAot3onfQzyjd6OEaHhbQLGs5gFePFrsPoJ6dHFDBgCOaGW0YvkmAa7BfQkhc4clJbKHoaP1PTqVB9CJpRoabDw80CVCda7fg+D6F0aY7U8bpfG+hBAGttV7pF5koCf9i+ibaPeQfGN6jzRB2UVNhnlJtN5LAv2NQDCe9mHdVxcG/z0k9vLxPbLR71kfqUYHt+lIV5xlvsLSYzwwhrUL5JSPrLt9mNiveZfXut/Y38ZAiCjKA3UUfrUvrIZ9lKOpS83Fz9OCLYDrO+EboaNzgZK80Z9TLNKCZq4u20ud4LaC9zRTMf4vMeNK1e2maCii5ot1e5Fkmix+Q/H50wDOJzHNHhWenePCgL+3Jp88h4JBx1r5RYOPx/Hqz4nuZsVxkWMOYY9137rcjXlmaXwQzPnGWGtS9M4G2DccIA9SKLY6LTaHzlNdz9DAMXl4xjTiidOcTqdP30kZZkZAu1I2xmBP9qP3jWVKBggZuTn3kmv5gh+fNsgEZEp/5xrWc1iOIs0emvY38EqM2VNDIfIpQIeWH2/rln5VoXJ2V9TA5PDgMOI0oWIt5h7d0Ytj55ZEM8rl4TKeUScMTLqtqbavdd3fZ6hquYwEVekXKpF4RUtDrx+IdARFbzwOPB0jO0DyFWsDlZvGXKl0Z3GAUAASsOA28Er6Ozo/omJJdybrmPMtYN4LVU4XCc0RhnjPPPAqFPIPupOQcPD5Ruwon0VQYtqB5rk2oYfrx1HUelcI8fFQ0EhFgOF1AflEMM9Bh80Yq9Uvz1/rBea91nNZrj/oDof/I1sRJVZ25aRYTp+077JXerADUQ6Zkv5pEl2HpyIqTHQj8T7TUSB91Lz5adlMnqon3uDYr2BCZE0DQDwni2r8m7gdeLP3H6Fr9gryk7Mr446WDAatA8jhBt4yhCLN6oI7ejysffYM8p47BXUfbiA92ZGVBjz8vFBw/bkQdYDed7sDdEGPgJHBM5KEgaFvnD90mSeICHZ1k9UDvBx/wk0TkMoYwNpvYO0mxWyfKwja19a8CgmG/hKP0lir8Gtxi5PlcpfU46io4GASw82Zp/1qXs0iBIB9kpVlZWVPs4FDR655Hf8AHKrJUJjnUMVpBIHWb/Q6UwoSXYtasVfAKD6wXQAs/WK8KUSQey3l4FaSSSIxAXshdC+Zgm6TYZDN617zVLQ3KnJ8a9gC7zusHqo3FQ="
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 549,
+      "candidatesTokenCount": 146,
+      "totalTokenCount": 997,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 549
+        }
+      ],
+      "thoughtsTokenCount": 302,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "GR3MavD3MKOlkdUPhOyJmAw"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 549,
+    "candidatesTokenCount": 146,
+    "totalTokenCount": 997,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 549
+      }
+    ],
+    "thoughtsTokenCount": 302,
+    "serviceTier": "standard"
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "example_number": 235,
+  "entity_id": "wd:Q63873549",
+  "entity_label": "Kathryn H Schmitz",
+  "description": "American exercise physiologist",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0235/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0235/metadata.json",
+  "input_hash": "57b609b48626307fe0979974445c345074e9cadf7ebd4f7834e36b1189c6cdaa",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Kathryn H Schmitz\nDescription: American exercise physiologist\n\nTaxonomy context:\n- Direct parent classes: knowledge worker\n- Sibling classes: None\n- Direct child classes: theatrologist, postdoctoral researcher, discoverer\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q63873549",
+    "entity_label": "Kathryn H Schmitz",
+    "description": "American exercise physiologist",
+    "reference_class_id": "wd:Q1650915",
+    "reference_type": "researcher",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1650915",
+        "label": "researcher",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q1914017",
+        "label": "knowledge worker",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q327055",
+        "label": "worker",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "knowledge worker",
+      "siblings": "None",
+      "children": "theatrologist, postdoctoral researcher, discoverer"
+    },
+    "oracle_graph_context": {
+      "parents": "knowledge worker",
+      "siblings": "None",
+      "children": "theatrologist, postdoctoral researcher, discoverer"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 235,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1650915"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q1914017"
+      ],
+      "siblings": [],
+      "children": [
+        "wd:Q10379007",
+        "wd:Q1125292",
+        "wd:Q1344452"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "exercise physiologist",
+    "physiologist",
+    "scientist",
+    "researcher",
+    "knowledge worker",
+    "professional",
+    "person",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "f67d84811a774b589c00ae3c28d53648",
+  "timestamp_utc": "2026-10-11T23:44:35.110707+00:00",
+  "response": "{\"explanation\": \"The description \\\"American exercise physiologist\\\" directly supports exercise physiologist as the most specific type, followed by physiologist, scientist, and researcher. In the taxonomy context, researcher falls under knowledge worker, which establishes the broader occupational category. Child classes such as theatrologist, postdoctoral researcher, and discoverer represent overly specific or unrelated subcategories unsupported by the text. The remaining labels follow a specific-to-broad hierarchy up through knowledge worker, professional, and person.\", \"types\": [\"exercise physiologist\", \"physiologist\", \"scientist\", \"researcher\", \"knowledge worker\", \"professional\", \"person\", \"entity\"]}",
+  "explanation": "The description \"American exercise physiologist\" directly supports exercise physiologist as the most specific type, followed by physiologist, scientist, and researcher. In the taxonomy context, researcher falls under knowledge worker, which establishes the broader occupational category. Child classes such as theatrologist, postdoctoral researcher, and discoverer represent overly specific or unrelated subcategories unsupported by the text. The remaining labels follow a specific-to-broad hierarchy up through knowledge worker, professional, and person.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"American exercise physiologist\\\" directly supports exercise physiologist as the most specific type, followed by physiologist, scientist, and researcher. In the taxonomy context, researcher falls under knowledge worker, which establishes the broader occupational category. Child classes such as theatrologist, postdoctoral researcher, and discoverer represent overly specific or unrelated subcategories unsupported by the text. The remaining labels follow a specific-to-broad hierarchy up through knowledge worker, professional, and person.\", \"types\": [\"exercise physiologist\", \"physiologist\", \"scientist\", \"researcher\", \"knowledge worker\", \"professional\", \"person\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 546,
+      "candidatesTokenCount": 130,
+      "totalTokenCount": 1292,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 546
+        }
+      ],
+      "thoughtsTokenCount": 616,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "Yx_MapqmFcW1vdIPzeLb8AM"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 546,
+    "candidatesTokenCount": 130,
+    "totalTokenCount": 1292,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 546
+      }
+    ],
+    "thoughtsTokenCount": 616,
+    "serviceTier": "standard"
+  }
+}

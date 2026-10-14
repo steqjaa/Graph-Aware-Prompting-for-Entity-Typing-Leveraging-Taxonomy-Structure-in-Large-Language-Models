@@ -1,0 +1,163 @@
+{
+  "example_number": 706,
+  "entity_id": "wd:Q15989096",
+  "entity_label": "Harold F. Dvorak",
+  "description": "American pathologist",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0706/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0706/metadata.json",
+  "input_hash": "43bd5cce5db149f7822144778b5563ffdc567436b410397be1b148256ca235a1",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Harold F. Dvorak\nDescription: American pathologist\n\nTaxonomy context:\n- Direct parent classes: medical specialist\n- Sibling classes: infectious disease physician, ophthalmologist, venereologist\n- Direct child classes: neuropathologist, forensic pathologist, histologist\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q15989096",
+    "entity_label": "Harold F. Dvorak",
+    "description": "American pathologist",
+    "reference_class_id": "wd:Q3368718",
+    "reference_type": "pathologist",
+    "gold_types": [
+      {
+        "class_id": "wd:Q3368718",
+        "label": "pathologist",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q3332438",
+        "label": "medical specialist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q39631",
+        "label": "physician",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q11974939",
+        "label": "health professional",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "medical specialist",
+      "siblings": "infectious disease physician, ophthalmologist, venereologist",
+      "children": "neuropathologist, forensic pathologist, histologist"
+    },
+    "oracle_graph_context": {
+      "parents": "medical specialist",
+      "siblings": "infectious disease physician, ophthalmologist, venereologist",
+      "children": "neuropathologist, forensic pathologist, histologist"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 706,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q3368718"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q3332438"
+      ],
+      "siblings": [
+        "wd:Q11494960",
+        "wd:Q12013238",
+        "wd:Q13167731"
+      ],
+      "children": [
+        "wd:Q15839237",
+        "wd:Q16062414",
+        "wd:Q2552072"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "pathologist",
+    "medical specialist",
+    "physician",
+    "health professional",
+    "scientist",
+    "professional",
+    "person",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:00:09.746887+00:00",
+  "response": "{\"explanation\": \"The description \\\"American pathologist\\\" specifically identifies the entity as a pathologist. The taxonomy context provides medical specialist as a direct parent, establishing the broader scope. Sibling classes such as infectious disease physician, ophthalmologist, and venereologist represent alternative medical specialties not indicated by the text. Direct child classes including neuropathologist, forensic pathologist, and histologist are narrower sub-specialties that lack explicit support in the description and are therefore excluded. The resulting types follow a strictly ordered chain from most specific to broadest based on the taxonomy and evidence.\", \"types\": [\"pathologist\", \"medical specialist\", \"physician\", \"health professional\", \"scientist\", \"professional\", \"person\", \"entity\"]}",
+  "explanation": "The description \"American pathologist\" specifically identifies the entity as a pathologist. The taxonomy context provides medical specialist as a direct parent, establishing the broader scope. Sibling classes such as infectious disease physician, ophthalmologist, and venereologist represent alternative medical specialties not indicated by the text. Direct child classes including neuropathologist, forensic pathologist, and histologist are narrower sub-specialties that lack explicit support in the description and are therefore excluded. The resulting types follow a strictly ordered chain from most specific to broadest based on the taxonomy and evidence.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"American pathologist\\\" specifically identifies the entity as a pathologist. The taxonomy context provides medical specialist as a direct parent, establishing the broader scope. Sibling classes such as infectious disease physician, ophthalmologist, and venereologist represent alternative medical specialties not indicated by the text. Direct child classes including neuropathologist, forensic pathologist, and histologist are narrower sub-specialties that lack explicit support in the description and are therefore excluded. The resulting types follow a strictly ordered chain from most specific to broadest based on the taxonomy and evidence.\", \"types\": [\"pathologist\", \"medical specialist\", \"physician\", \"health professional\", \"scientist\", \"professional\", \"person\", \"entity\"]}",
+              "thoughtSignature": "EoQKCoEKAWkUfRMxk8kJdv7ddRBzOp3gw67gpwvI9FkOdbnbgxH04QeOVkLQ8eds+KT8FebQFIGleWihZHxPhRvzA6bh5BH0ugp5y8itiSbEgceYOXHfWPNtNm7hGV5EOvNplZAKbBYngZ1qNORBwY/R/UMrmI8lG0uUllFEEA/A7EZyatOODxXxHnPVeH239+0ncFo/JvIPX/Rjo+SJJ42ltjyS8qq8ksKzgv4aIu/GwprpP0Cxaz0/PZnjJJo7mlks5XlaxebyJz332uQCu0rAf7RwV2KLhwq/pRR+23xtQChidM1pPUpKJP1k2V34eZZgttHo4VTUycBKOcYt0AROv7ZC1XoZfw8p8X5ppMxKa+OwJECiMFg2KimlREQnOBBTN9b1oKCPB2C7cMAgS5SBsrUphYutG13XZMHIoGBnu1p5o79nC4pZFAPnEvJhS15vw2knfdHXVZYuKdyvqs2yAd6cMdUTiy634G0oyS9HWrvIYIwHK46b/OomhVsW3qL8AQsDlNHItoIaJBGRD9CCVXR596CtiuJtMaUq4OkxB43NiYAg9FYLArAsSmFY6GdICHc5ifWU31twIlxc/boFXgk9bpFBXhGEUSWCD/960JMTgqruurdqGvliF41EzEa9VBhPU8BrhTuEcgDJp9/B0vGq1NbrjEdKasa4KC/o4+OX8XPO1Ufm63APgGNjKA4vMwE1Ew0Gor1d7UjGcR/DszEDSOvS6gZwdUU02HGPOaSyDlEsHLk55A+xbWMoyTXK/A8MhnTGJplkKosFO17RzXrqnPtsjeGfqUeIFFewz1KmmM48zJldjYe5D437ue87McGEqRzwTfgD5MeNUM+ztTRWm/1st5Z7MnVchXtxOW5c98UhRtfnYbJr5UyNscRK7a/OSPMA/QI0sMVYE1RTct0nSnrYBW1xhmI5FQCulA/22aP7EdbG7NXSh6SWwniasVf6g64Upt66nCKcmJRE4PlFI6yFudAbk5da2ZuJb3osSumTuZaZH8/6Yhm2gefDtk/9SN87POzB9WS3VkG/TqIw1j9/HOdggj1EY93UorkGo9SwwUoGek+8XfBqRfJKiTPmPsgaNGbn6s3h+Rufyp/fyZxAYfPR/S6+XNc5P3Z76T1ieyNrYABYYHpoddYSWjd2lLbbd1DRlcZ6QnJDRwX8nm9Ka5rlRABb18AvHN5rpiQ0X29b8Czs4DiIo4khMqxWzy3n8+JaPu9ft/WblL0zM5qY82nIOEfrRfotN1nMGwMmV5kDoqbbJS2E4rZp1AN1jFNlr4OYhGxtBa8YOWKjlKZpjaCLp2xDWYGDJNt2iYkXCJvYCJN/BtKxCz7oSGLkRouQTkO0Di7Bjdd/G0M9YZseQF2rWyrtOOJ0h0AaCz81c2XzluHF9sX2SyjX8Gd1KVBwtY23Ng3JHwdpxoSFCHMa8WLEaxaG8ntDhI3qRKkn91x33sZ50dyB6NW+O+wTKAQveUYvZESTt8wXTL1a8sCLNOR3+5nTREIamPad9e3vLMQRR4wAFhWsqnEnum8dFwYS5krnYvhug5hUlisvho6tZLu3yMSNhCJZMz31037m1d1/VXtJaEp04teESWpHkcYfVPKNM6LzGG09fr7AQqoirAUANticjp7ialUYpb44PkWqfn/ujryDT6wjAJtIy0N+bWbc+G9u32i0UDxLNCqab8usPnp815tLFJvEwSC+"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 558,
+      "candidatesTokenCount": 142,
+      "totalTokenCount": 927,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 558
+        }
+      ],
+      "thoughtsTokenCount": 227,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "aZ21aoSwPJWH28oPoNbIyQ8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 558,
+    "candidatesTokenCount": 142,
+    "totalTokenCount": 927,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 558
+      }
+    ],
+    "thoughtsTokenCount": 227,
+    "serviceTier": "standard"
+  }
+}

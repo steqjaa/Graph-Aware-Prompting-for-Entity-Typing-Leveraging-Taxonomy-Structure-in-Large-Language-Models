@@ -1,0 +1,162 @@
+{
+  "example_number": 808,
+  "entity_id": "wd:Q7367705",
+  "entity_label": "Rose Dugdale",
+  "description": "Irish Republican",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0808/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0808/metadata.json",
+  "input_hash": "36c5b7a0ee9f3f79390c0aa3102fc951b8c32e8ab768a4ef4b769486bfc591f7",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Rose Dugdale\nDescription: Irish Republican\n\nTaxonomy context:\n- Direct parent classes: criminal\n- Sibling classes: con artist, robber, war criminal\n- Direct child classes: burglar\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q7367705",
+    "entity_label": "Rose Dugdale",
+    "description": "Irish Republican",
+    "reference_class_id": "wd:Q3562775",
+    "reference_type": "thief",
+    "gold_types": [
+      {
+        "class_id": "wd:Q3562775",
+        "label": "thief",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q2159907",
+        "label": "criminal",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q1938980",
+        "label": "wrongdoer",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "criminal",
+      "siblings": "con artist, robber, war criminal",
+      "children": "burglar"
+    },
+    "oracle_graph_context": {
+      "parents": "criminal",
+      "siblings": "con artist, robber, war criminal",
+      "children": "burglar"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 808,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q3562775"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q2159907"
+      ],
+      "siblings": [
+        "wd:Q10591707",
+        "wd:Q10659189",
+        "wd:Q11075015"
+      ],
+      "children": [
+        "wd:Q52169820"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "thief",
+    "criminal",
+    "offender",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:37:14.382822+00:00",
+  "response": "{\n  \"explanation\": \"The taxonomy context positions the omitted target type under the direct parent class criminal and as the parent of burglar, with siblings such as con artist, robber, and war criminal, identifying the target class as thief. Rose Dugdale's historical criminal actions involve theft in connection with republican activity. The parent criminal defines the general scope. Sibling classes like con artist and war criminal represent different criminal activities not supported here, while robber denotes theft by force. The child class burglar is overly specific because the description 'Irish Republican' does not independently substantiate burglary. The inferred type thief and its broader valid ancestors are ranked from most specific to broadest.\",\n  \"types\": [\n    \"thief\",\n    \"criminal\",\n    \"offender\",\n    \"person\",\n    \"agent\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The taxonomy context positions the omitted target type under the direct parent class criminal and as the parent of burglar, with siblings such as con artist, robber, and war criminal, identifying the target class as thief. Rose Dugdale's historical criminal actions involve theft in connection with republican activity. The parent criminal defines the general scope. Sibling classes like con artist and war criminal represent different criminal activities not supported here, while robber denotes theft by force. The child class burglar is overly specific because the description 'Irish Republican' does not independently substantiate burglary. The inferred type thief and its broader valid ancestors are ranked from most specific to broadest.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The taxonomy context positions the omitted target type under the direct parent class criminal and as the parent of burglar, with siblings such as con artist, robber, and war criminal, identifying the target class as thief. Rose Dugdale's historical criminal actions involve theft in connection with republican activity. The parent criminal defines the general scope. Sibling classes like con artist and war criminal represent different criminal activities not supported here, while robber denotes theft by force. The child class burglar is overly specific because the description 'Irish Republican' does not independently substantiate burglary. The inferred type thief and its broader valid ancestors are ranked from most specific to broadest.\",\n  \"types\": [\n    \"thief\",\n    \"criminal\",\n    \"offender\",\n    \"person\",\n    \"agent\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 542,
+      "candidatesTokenCount": 176,
+      "totalTokenCount": 3698,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 542
+        }
+      ],
+      "thoughtsTokenCount": 2980,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "uivMatSaJrmIvdIPvqS2kAc"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 542,
+    "candidatesTokenCount": 176,
+    "totalTokenCount": 3698,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 542
+      }
+    ],
+    "thoughtsTokenCount": 2980,
+    "serviceTier": "standard"
+  }
+}

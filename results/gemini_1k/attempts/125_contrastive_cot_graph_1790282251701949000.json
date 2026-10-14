@@ -1,0 +1,174 @@
+{
+  "example_number": 125,
+  "entity_id": "wd:Q3950425",
+  "entity_label": "2012 Sarasota Open",
+  "description": "tennis tournament",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0125/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0125/metadata.json",
+  "input_hash": "13a95311c5dea7c52ad6161b35945b386ef0a71c27801452f6e6d53aaa47dcf8",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: 2012 Sarasota Open\nDescription: tennis tournament\n\nTaxonomy context:\n- Direct parent classes: sports competition\n- Sibling classes: Japan Women's Open, WTA Abu Dhabi, defunct sports competition\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q3950425",
+    "entity_label": "2012 Sarasota Open",
+    "description": "tennis tournament",
+    "reference_class_id": "wd:Q1960810",
+    "reference_type": "Sarasota Open",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1960810",
+        "label": "Sarasota Open",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q13406554",
+        "label": "sports competition",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q23807345",
+        "label": "competition",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q476300",
+        "label": "competition",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q1656682",
+        "label": "event",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q1914636",
+        "label": "activity",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q1190554",
+        "label": "occurrence",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q3249551",
+        "label": "process",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q26907166",
+        "label": "temporal entity",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "sports competition",
+      "siblings": "Japan Women's Open, WTA Abu Dhabi, defunct sports competition",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "sports competition",
+      "siblings": "Japan Women's Open, WTA Abu Dhabi, defunct sports competition",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 125,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1960810"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q13406554"
+      ],
+      "siblings": [
+        "wd:Q1032130",
+        "wd:Q104550106",
+        "wd:Q105855428"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "status": "completed",
+  "predictions": [
+    "tennis tournament",
+    "sports tournament",
+    "tennis competition",
+    "sports competition",
+    "competition",
+    "sporting event",
+    "event",
+    "entity"
+  ],
+  "timestamp_utc": "2026-09-24T20:37:27.715842+00:00",
+  "response": "{\"explanation\": \"The description \\\"tennis tournament\\\" directly identifies the entity as a tennis tournament. In the taxonomy, its direct parent is sports competition, establishing the general domain of competitive sporting events. Sibling classes such as Japan Women's Open and WTA Abu Dhabi represent distinct specific tennis tournaments, while defunct sports competition is an orthogonal classification lacking evidence in the description. There are no listed direct child classes to consider. The resulting types are ordered from most specific (tennis tournament) to increasingly broader classes.\", \"types\": [\"tennis tournament\", \"sports tournament\", \"tennis competition\", \"sports competition\", \"competition\", \"sporting event\", \"event\", \"entity\"]}",
+  "explanation": "The description \"tennis tournament\" directly identifies the entity as a tennis tournament. In the taxonomy, its direct parent is sports competition, establishing the general domain of competitive sporting events. Sibling classes such as Japan Women's Open and WTA Abu Dhabi represent distinct specific tennis tournaments, while defunct sports competition is an orthogonal classification lacking evidence in the description. There are no listed direct child classes to consider. The resulting types are ordered from most specific (tennis tournament) to increasingly broader classes.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"tennis tournament\\\" directly identifies the entity as a tennis tournament. In the taxonomy, its direct parent is sports competition, establishing the general domain of competitive sporting events. Sibling classes such as Japan Women's Open and WTA Abu Dhabi represent distinct specific tennis tournaments, while defunct sports competition is an orthogonal classification lacking evidence in the description. There are no listed direct child classes to consider. The resulting types are ordered from most specific (tennis tournament) to increasingly broader classes.\", \"types\": [\"tennis tournament\", \"sports tournament\", \"tennis competition\", \"sports competition\", \"competition\", \"sporting event\", \"event\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 555,
+      "candidatesTokenCount": 133,
+      "totalTokenCount": 1044,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 555
+        }
+      ],
+      "thoughtsTokenCount": 356,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "CIq1avixCrXNvdIPlfCwkAs"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 555,
+    "candidatesTokenCount": 133,
+    "totalTokenCount": 1044,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 555
+      }
+    ],
+    "thoughtsTokenCount": 356,
+    "serviceTier": "standard"
+  }
+}

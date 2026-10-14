@@ -1,0 +1,144 @@
+{
+  "example_number": 862,
+  "entity_id": "wd:Q421793",
+  "entity_label": "Glucose-6-phosphate dehydrogenase",
+  "description": "mammalian protein found in Homo sapiens",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0862/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0862/metadata.json",
+  "input_hash": "bbd747486325aeda7f2a28fa7fb609fd64b387e09d3695cade8ec003179edfca",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Glucose-6-phosphate dehydrogenase\nDescription: mammalian protein found in Homo sapiens\n\nTaxonomy context:\n- Direct parent classes: particle\n- Sibling classes: neutrino\n- Direct child classes: functional group, divalent, biomarker\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q421793",
+    "entity_label": "Glucose-6-phosphate dehydrogenase",
+    "description": "mammalian protein found in Homo sapiens",
+    "reference_class_id": "wd:Q2393187",
+    "reference_type": "molecular entity",
+    "gold_types": [
+      {
+        "class_id": "wd:Q2393187",
+        "label": "molecular entity",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q1621273",
+        "label": "particle",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q4406616",
+        "label": "concrete object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "particle",
+      "siblings": "neutrino",
+      "children": "functional group, divalent, biomarker"
+    },
+    "oracle_graph_context": {
+      "parents": "particle",
+      "siblings": "neutrino",
+      "children": "functional group, divalent, biomarker"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 862,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q2393187"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q1621273"
+      ],
+      "siblings": [
+        "wd:Q2126"
+      ],
+      "children": [
+        "wd:Q170409",
+        "wd:Q5283814",
+        "wd:Q864574"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "enzyme",
+    "protein",
+    "macromolecule",
+    "biomolecule",
+    "molecule",
+    "particle"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:11:55.768582+00:00",
+  "response": "{\"explanation\": \"The description \\\"mammalian protein found in Homo sapiens\\\" identifies Glucose-6-phosphate dehydrogenase as a protein and metabolic enzyme. The taxonomy context provides particle as a broad parent class defining its physical and chemical scope. Sibling classes such as neutrino are incompatible with a biological macromolecule and are rejected. The child classes functional group, divalent, and biomarker are unsupported by the description alone and are excluded. The valid types are ordered from most specific to broadest.\", \"types\": [\"enzyme\", \"protein\", \"macromolecule\", \"biomolecule\", \"molecule\", \"particle\"]}",
+  "explanation": "The description \"mammalian protein found in Homo sapiens\" identifies Glucose-6-phosphate dehydrogenase as a protein and metabolic enzyme. The taxonomy context provides particle as a broad parent class defining its physical and chemical scope. Sibling classes such as neutrino are incompatible with a biological macromolecule and are rejected. The child classes functional group, divalent, and biomarker are unsupported by the description alone and are excluded. The valid types are ordered from most specific to broadest.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"mammalian protein found in Homo sapiens\\\" identifies Glucose-6-phosphate dehydrogenase as a protein and metabolic enzyme. The taxonomy context provides particle as a broad parent class defining its physical and chemical scope. Sibling classes such as neutrino are incompatible with a biological macromolecule and are rejected. The child classes functional group, divalent, and biomarker are unsupported by the description alone and are excluded. The valid types are ordered from most specific to broadest.\", \"types\": [\"enzyme\", \"protein\", \"macromolecule\", \"biomolecule\", \"molecule\", \"particle\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 550,
+      "candidatesTokenCount": 122,
+      "totalTokenCount": 2374,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 550
+        }
+      ],
+      "thoughtsTokenCount": 1702,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "LKC1at2BA5LOsALVu6mRDg"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 550,
+    "candidatesTokenCount": 122,
+    "totalTokenCount": 2374,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 550
+      }
+    ],
+    "thoughtsTokenCount": 1702,
+    "serviceTier": "standard"
+  }
+}

@@ -1,0 +1,171 @@
+{
+  "example_number": 121,
+  "entity_id": "wd:Q1045048",
+  "entity_label": "Carrier Air Wing Five",
+  "description": "United States Navy aviation wing",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0121/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0121/metadata.json",
+  "input_hash": "37cf2efd977b7e8888a7c3b4006da3bb15948278d88dc3e785bbeba2a0c1f64b",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Carrier Air Wing Five\nDescription: United States Navy aviation wing\n\nTaxonomy context:\n- Direct parent classes: wing\n- Sibling classes: Jagdgeschwader\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q1045048",
+    "entity_label": "Carrier Air Wing Five",
+    "description": "United States Navy aviation wing",
+    "reference_class_id": "wd:Q477983",
+    "reference_type": "carrier air wing",
+    "gold_types": [
+      {
+        "class_id": "wd:Q477983",
+        "label": "carrier air wing",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q45364",
+        "label": "wing",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q176799",
+        "label": "military unit",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q15627509",
+        "label": "military organization",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "wing",
+      "siblings": "Jagdgeschwader",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "wing",
+      "siblings": "Jagdgeschwader",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 121,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q477983"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q45364"
+      ],
+      "siblings": [
+        "wd:Q1678285"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "status": "completed",
+  "predictions": [
+    "carrier air wing",
+    "air wing",
+    "wing",
+    "military aviation unit",
+    "military unit",
+    "military organization",
+    "organization"
+  ],
+  "timestamp_utc": "2026-09-24T20:37:09.719442+00:00",
+  "response": "{\"explanation\": \"The description \\\"United States Navy aviation wing\\\" together with the entity name \\\"Carrier Air Wing Five\\\" establishes carrier air wing (or air wing) as the most specific type. In the taxonomy, the direct parent class is wing, which defines the general military aviation formation. Sibling classes like Jagdgeschwader specifically apply to historical German fighter units and are rejected for a US Navy unit. The direct child context is None. The broader types trace upward from military aviation unit and military unit to military organization and organization.\", \"types\": [\"carrier air wing\", \"air wing\", \"wing\", \"military aviation unit\", \"military unit\", \"military organization\", \"organization\"]}",
+  "explanation": "The description \"United States Navy aviation wing\" together with the entity name \"Carrier Air Wing Five\" establishes carrier air wing (or air wing) as the most specific type. In the taxonomy, the direct parent class is wing, which defines the general military aviation formation. Sibling classes like Jagdgeschwader specifically apply to historical German fighter units and are rejected for a US Navy unit. The direct child context is None. The broader types trace upward from military aviation unit and military unit to military organization and organization.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"United States Navy aviation wing\\\" together with the entity name \\\"Carrier Air Wing Five\\\" establishes carrier air wing (or air wing) as the most specific type. In the taxonomy, the direct parent class is wing, which defines the general military aviation formation. Sibling classes like Jagdgeschwader specifically apply to historical German fighter units and are rejected for a US Navy unit. The direct child context is None. The broader types trace upward from military aviation unit and military unit to military organization and organization.\", \"types\": [\"carrier air wing\", \"air wing\", \"wing\", \"military aviation unit\", \"military unit\", \"military organization\", \"organization\"]}",
+              "thoughtSignature": "Es8LCswLAWkUfRPCPHM+pJ6FtsYO/Ao/ArdTTGG0Bi7nLVY1YsiU5nwtAwhAXS86ge6CPE4SiSu8Z+hLR9QAWXBRxu41QcaSmk9rBV01NYGEP+cxYyRIY8DP1jtRFqE2uz9IXv2QpH1zpqcngWgEOiegwkop4w5eA94LrwlwcfA5U0hJFewE/80Hm6muGgo/MnHsH2MK/tGOb51IIHDU1XpYz0CQga0Eq1KTeG0GT0LXEbzpmxAeFQxm0ZJCtN0CzVDRa5U+tvCpmrSOiU7ve9HND+57GosG+G9ECyqiP3tG50NHMx3x0oFlWufA92FzEBpaoznP/iX+gV6x0bigWLiZ28nr2W9/bxy0ttXiTq0JvRh6syD23jOUbsm1TvQLulA/YQ266pgRxpS35a+cp5/IEdf9uisgKyIoWLBjDcDgbbcD4tm7haa8O0umuTeOpj13u9U/YnKCSduV/i4ZaJSdbU5eEUikyl1K9iyUvJr/D5Lp/6VegoH6B0Cte0Xl9aAAapDbeA7mODz/5ek87VtXncRUcx0BYyq+/Gb6euqk8i+TqK4e11LL86kTsvFYLyL7USzHMyelhZ+ZByEwA/icx5Tbtb4XSu2zwV9O0WDCFXxyWAojK8bJNlfRz/Y74I1CgQ5zvs5vXApL5HShQXKJcuQblXeKYqxIuHJIIJx1V3pvOUjBdNpvrjE9l6kCND+xYF/dJ6wQ7T1eyundmF+cCDnyZaUfykuwXDsJ1v1cPn2a2W4mPaRVrZWrVLY6WLwVOtHrksMQklAmaffg1EyrxeDJ3Y9GJUwVoi4nnqQN4mum61gypGX24TgEFs5I00VT2dkEjPRUvWXQvi/8vusrqhg5x9M/OajEHwZieJADoqH7VHhDFf4RxGfOCCNahsA9GRHMoMxiXHliUd+R3FncoLMhTRUY50y2fkLbdr/I7eRootSvmlY7eGMxfdf6EUePwsj0lEBCOCvPd0TRV3WtCGfwK+wTTQTAuvl6Xcsm0oNPkXs/Dba6ZWBOpyWVsdf/ApWmDtP82Sh4k8/VoESOsq8ShrfzT+hXcHzCtwqMT9yoys4hhzEq5QfNlifV2LwoQIIbk7Qm8AZ9sdZ8VFd3ReFWz6OKw5Bck+dS4NrlLe1xElhG5vEVBGcJVTz9gUOhznT5wXke+oqjn1sNv9eRc8WixdLuGFfDToQ7VL6kb2pxGaxz81FsiHKDAhZOJrk45O3A4i0uPhtEkXXXr55SsL9lV8HheTCTyi5VGaPOhrCf/ndQ6kb/IRJzg3W5uRtdbBhqay3W701xmU0xInZDiKQSPihjcUcDAQ7AD8lSKQ3aaGgsd726kQeainfBo/HPsBtvycZmMIWJ35QnMiH8tyMKO9XdyUuKRsUL+kGfIr3DYgCdm8tGi4Qc60op0snprRUiJb3LqqdkhhKcvSXKgPrpKuUITz5a/8pSai8ZGhsyt6YAn23g7PQH5LWJQKAlNvAwZRGquG0ID2Yah3OAS7FuD6vGBiHJYXbUjWvwa1acIGFO0+ETGyxb1Vrw3w8Lhhr4Jj+n2v3lFOnbeMaWvxhAnr+XnLRaocm2GQwRNbQE37ropB99zWbZik7Z2hEtvPytYnP4OWV8oxWIa0mm5DZL9PgcV8ydybHglc+evGxhfZnC+i0ykF5OHPlICbOoA0f0H/5jwMNMSS1WGbDA/YhRl+TsT+7UGbl9qJD+fvbqt7iy0/dJlNpSMF9PstQe97mMbeBlw6Fu0PlZUzybT9TVfSKwALXzK8JoOr9ck6Z2XXWcKHWhNwYk6EI1TqJ+grkuR2IAMBxa0WMYWWzKdSEWc92ASFLe0hhQ4PHDeAUWvwDh3ChK5hqXgQ2/9CCxp9qfWym1tNQ0E3qVwPBhlZT4xCg44d4xNeLSlA/1gl4T2O3b4KVTY8drqx5SJ7QWMe3HdoiPqabS9aSryJet3WqbwHbKvvfDYQLmk+XK2I6AaMNUakDEWfhVTdwcals="
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 546,
+      "candidatesTokenCount": 139,
+      "totalTokenCount": 1003,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 546
+        }
+      ],
+      "thoughtsTokenCount": 318,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "9Ym1aszyO8-GxN8P77uK-A0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 546,
+    "candidatesTokenCount": 139,
+    "totalTokenCount": 1003,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 546
+      }
+    ],
+    "thoughtsTokenCount": 318,
+    "serviceTier": "standard"
+  }
+}

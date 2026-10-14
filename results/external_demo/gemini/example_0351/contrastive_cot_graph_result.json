@@ -1,0 +1,145 @@
+{
+  "example_number": 351,
+  "entity_id": "wd:Q7119397",
+  "entity_label": "PIM2",
+  "description": "scoring system",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0351/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0351/metadata.json",
+  "input_hash": "7c3516f652f98871f8ccc04357b05d8995a3c9f25c537f25d85935ad048fc197",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: PIM2\nDescription: scoring system\n\nTaxonomy context:\n- Direct parent classes: measurement scale\n- Sibling classes: ordinal scale, temperature scale, compactness measure of a shape\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q7119397",
+    "entity_label": "PIM2",
+    "description": "scoring system",
+    "reference_class_id": "wd:Q2260567",
+    "reference_type": "medical scale",
+    "gold_types": [
+      {
+        "class_id": "wd:Q2260567",
+        "label": "medical scale",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q1370617",
+        "label": "measurement scale",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1413749",
+        "label": "scale",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q7048977",
+        "label": "abstract entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "measurement scale",
+      "siblings": "ordinal scale, temperature scale, compactness measure of a shape",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "measurement scale",
+      "siblings": "ordinal scale, temperature scale, compactness measure of a shape",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 351,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q2260567"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q1370617"
+      ],
+      "siblings": [
+        "wd:Q1719931",
+        "wd:Q2394680",
+        "wd:Q5155340"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "scoring system",
+    "measurement scale",
+    "scale",
+    "system",
+    "abstract entity",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "f67d84811a774b589c00ae3c28d53648",
+  "timestamp_utc": "2026-10-11T23:53:51.925301+00:00",
+  "response": "{\"explanation\": \"The description \\\"scoring system\\\" directly supports scoring system as the most specific type. In the taxonomy context, its direct parent is measurement scale, confirming the semantic domain of evaluation and measurement metrics. Sibling classes like ordinal scale, temperature scale, and compactness measure of a shape represent other specialized scales, but are not explicitly justified by the broad description \\\"scoring system\\\". There are no child classes indicated. The remaining broader classes are ordered by decreasing specificity.\", \"types\": [\"scoring system\", \"measurement scale\", \"scale\", \"system\", \"abstract entity\", \"entity\"]}",
+  "explanation": "The description \"scoring system\" directly supports scoring system as the most specific type. In the taxonomy context, its direct parent is measurement scale, confirming the semantic domain of evaluation and measurement metrics. Sibling classes like ordinal scale, temperature scale, and compactness measure of a shape represent other specialized scales, but are not explicitly justified by the broad description \"scoring system\". There are no child classes indicated. The remaining broader classes are ordered by decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"scoring system\\\" directly supports scoring system as the most specific type. In the taxonomy context, its direct parent is measurement scale, confirming the semantic domain of evaluation and measurement metrics. Sibling classes like ordinal scale, temperature scale, and compactness measure of a shape represent other specialized scales, but are not explicitly justified by the broad description \\\"scoring system\\\". There are no child classes indicated. The remaining broader classes are ordered by decreasing specificity.\", \"types\": [\"scoring system\", \"measurement scale\", \"scale\", \"system\", \"abstract entity\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 547,
+      "candidatesTokenCount": 116,
+      "totalTokenCount": 1205,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 547
+        }
+      ],
+      "thoughtsTokenCount": 542,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "kCHMat-2C6zxnsEP1fNB"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 547,
+    "candidatesTokenCount": 116,
+    "totalTokenCount": 1205,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 547
+      }
+    ],
+    "thoughtsTokenCount": 542,
+    "serviceTier": "standard"
+  }
+}

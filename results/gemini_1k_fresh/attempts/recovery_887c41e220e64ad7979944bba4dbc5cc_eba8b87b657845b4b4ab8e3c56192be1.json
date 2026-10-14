@@ -1,0 +1,165 @@
+{
+  "example_number": 228,
+  "entity_id": "wd:Q5043785",
+  "entity_label": "Carnarvon",
+  "description": "IBRA region in Western Australia",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0228/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0228/metadata.json",
+  "input_hash": "76a9d2d0601ca4a6e57e07f37bf45ec31fe71df4cc69847d43680d80aae4802b",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Carnarvon\nDescription: IBRA region in Western Australia\n\nTaxonomy context:\n- Direct parent classes: natural region\n- Sibling classes: ecoregion, mesoregion, natural region of Germany\n- Direct child classes: biodiversity hotspot\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q5043785",
+    "entity_label": "Carnarvon",
+    "description": "IBRA region in Western Australia",
+    "reference_class_id": "wd:Q2904233",
+    "reference_type": "bioregion",
+    "gold_types": [
+      {
+        "class_id": "wd:Q2904233",
+        "label": "bioregion",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q82794",
+        "label": "geographic region",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q1970725",
+        "label": "natural region",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q26713767",
+        "label": "region of space",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q27096220",
+        "label": "natural geographic entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q27096213",
+        "label": "geographic entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "natural region",
+      "siblings": "ecoregion, mesoregion, natural region of Germany",
+      "children": "biodiversity hotspot"
+    },
+    "oracle_graph_context": {
+      "parents": "natural region",
+      "siblings": "ecoregion, mesoregion, natural region of Germany",
+      "children": "biodiversity hotspot"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 228,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q2904233"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q1970725"
+      ],
+      "siblings": [
+        "wd:Q295469",
+        "wd:Q3491088",
+        "wd:Q553036"
+      ],
+      "children": [
+        "wd:Q864294"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "IBRA region",
+    "biogeographic region",
+    "natural region",
+    "geographic region",
+    "region",
+    "spatial entity",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:24:10.538516+00:00",
+  "response": "{\"explanation\": \"The description specifies that Carnarvon is an \\\"IBRA region in Western Australia\\\", identifying \\\"IBRA region\\\" as its most specific type. In biogeographic taxonomies, an IBRA region is a type of biogeographic region (bioregion), which falls under the broader category of natural region. Sibling concepts under natural region, such as natural region of Germany or mesoregion, are geographically or taxonomically inappropriate, while ecoregion is a closely related sibling concept. Narrower child categories like biodiversity hotspot require specific criteria of threat and endemism not directly supported by the description. The types are organized from most specific to broadest.\", \"types\": [\"IBRA region\", \"biogeographic region\", \"natural region\", \"geographic region\", \"region\", \"spatial entity\", \"entity\"]}",
+  "explanation": "The description specifies that Carnarvon is an \"IBRA region in Western Australia\", identifying \"IBRA region\" as its most specific type. In biogeographic taxonomies, an IBRA region is a type of biogeographic region (bioregion), which falls under the broader category of natural region. Sibling concepts under natural region, such as natural region of Germany or mesoregion, are geographically or taxonomically inappropriate, while ecoregion is a closely related sibling concept. Narrower child categories like biodiversity hotspot require specific criteria of threat and endemism not directly supported by the description. The types are organized from most specific to broadest.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description specifies that Carnarvon is an \\\"IBRA region in Western Australia\\\", identifying \\\"IBRA region\\\" as its most specific type. In biogeographic taxonomies, an IBRA region is a type of biogeographic region (bioregion), which falls under the broader category of natural region. Sibling concepts under natural region, such as natural region of Germany or mesoregion, are geographically or taxonomically inappropriate, while ecoregion is a closely related sibling concept. Narrower child categories like biodiversity hotspot require specific criteria of threat and endemism not directly supported by the description. The types are organized from most specific to broadest.\", \"types\": [\"IBRA region\", \"biogeographic region\", \"natural region\", \"geographic region\", \"region\", \"spatial entity\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 556,
+      "candidatesTokenCount": 165,
+      "totalTokenCount": 1883,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 556
+        }
+      ],
+      "thoughtsTokenCount": 1162,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "-pS1avfGMMmUvdIP-rme-Q0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 556,
+    "candidatesTokenCount": 165,
+    "totalTokenCount": 1883,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 556
+      }
+    ],
+    "thoughtsTokenCount": 1162,
+    "serviceTier": "standard"
+  }
+}

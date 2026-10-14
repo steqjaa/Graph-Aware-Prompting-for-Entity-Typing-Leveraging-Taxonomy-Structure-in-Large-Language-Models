@@ -1,0 +1,147 @@
+{
+  "example_number": 426,
+  "entity_id": "wd:Q527825",
+  "entity_label": "Mountain States",
+  "description": "region of the United States",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0426/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0426/metadata.json",
+  "input_hash": "bebfc22d0ddeabe57646e149894c6124a0a3796c79cb45e642cbcc354a758155",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Mountain States\nDescription: region of the United States\n\nTaxonomy context:\n- Direct parent classes: geographic region\n- Sibling classes: polder, land, Sprachraum\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q527825",
+    "entity_label": "Mountain States",
+    "description": "region of the United States",
+    "reference_class_id": "wd:Q123615496",
+    "reference_type": "U.S. region",
+    "gold_types": [
+      {
+        "class_id": "wd:Q123615496",
+        "label": "U.S. region",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q82794",
+        "label": "geographic region",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q26713767",
+        "label": "region of space",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "geographic region",
+      "siblings": "polder, land, Sprachraum",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "geographic region",
+      "siblings": "polder, land, Sprachraum",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 426,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q123615496"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q82794"
+      ],
+      "siblings": [
+        "wd:Q106259",
+        "wd:Q11081619",
+        "wd:Q1149061"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "region of the United States",
+    "geographic region",
+    "region",
+    "geographic entity",
+    "spatial entity",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:39:09.701203+00:00",
+  "response": "{\"explanation\": \"The description identifies Mountain States as a 'region of the United States', making 'region of the United States' the most specific supported type. Its direct parent in the taxonomy is 'geographic region', which confirms its nature as a regional spatial category. Sibling classes such as 'polder' (reclaimed body of land), 'land', and 'Sprachraum' (language region) are inapplicable based on the evidence. There are no child classes to introduce unsupported specificity. The types are ordered from most specific to broadest based on this taxonomy.\", \"types\": [\"region of the United States\", \"geographic region\", \"region\", \"geographic entity\", \"spatial entity\", \"entity\"]}",
+  "explanation": "The description identifies Mountain States as a 'region of the United States', making 'region of the United States' the most specific supported type. Its direct parent in the taxonomy is 'geographic region', which confirms its nature as a regional spatial category. Sibling classes such as 'polder' (reclaimed body of land), 'land', and 'Sprachraum' (language region) are inapplicable based on the evidence. There are no child classes to introduce unsupported specificity. The types are ordered from most specific to broadest based on this taxonomy.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies Mountain States as a 'region of the United States', making 'region of the United States' the most specific supported type. Its direct parent in the taxonomy is 'geographic region', which confirms its nature as a regional spatial category. Sibling classes such as 'polder' (reclaimed body of land), 'land', and 'Sprachraum' (language region) are inapplicable based on the evidence. There are no child classes to introduce unsupported specificity. The types are ordered from most specific to broadest based on this taxonomy.\", \"types\": [\"region of the United States\", \"geographic region\", \"region\", \"geographic entity\", \"spatial entity\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 547,
+      "candidatesTokenCount": 141,
+      "totalTokenCount": 1213,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 547
+        }
+      ],
+      "thoughtsTokenCount": 525,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "fZi1at3rPJaFvdIPp9fW4Q0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 547,
+    "candidatesTokenCount": 141,
+    "totalTokenCount": 1213,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 547
+      }
+    ],
+    "thoughtsTokenCount": 525,
+    "serviceTier": "standard"
+  }
+}

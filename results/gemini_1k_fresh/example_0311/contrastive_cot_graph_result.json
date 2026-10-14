@@ -1,0 +1,155 @@
+{
+  "example_number": 311,
+  "entity_id": "wd:Q5177883",
+  "entity_label": "HD 163145",
+  "description": "star",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0311/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0311/metadata.json",
+  "input_hash": "b10021037c9ce878d013a6cd3779a891a54c8809a1afc3120f54ff0ab41af94e",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: HD 163145\nDescription: star\n\nTaxonomy context:\n- Direct parent classes: astronomical object\n- Sibling classes: interstellar cloud, galaxy filament, galaxy group or cluster\n- Direct child classes: luminous infrared galaxy, near-IR source\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q5177883",
+    "entity_label": "HD 163145",
+    "description": "star",
+    "reference_class_id": "wd:Q67206691",
+    "reference_type": "infrared source",
+    "gold_types": [
+      {
+        "class_id": "wd:Q67206691",
+        "label": "infrared source",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q6999",
+        "label": "astronomical object",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q16686022",
+        "label": "natural physical object",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1970309",
+        "label": "natural object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q4406616",
+        "label": "concrete object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "astronomical object",
+      "siblings": "interstellar cloud, galaxy filament, galaxy group or cluster",
+      "children": "luminous infrared galaxy, near-IR source"
+    },
+    "oracle_graph_context": {
+      "parents": "astronomical object",
+      "siblings": "interstellar cloud, galaxy filament, galaxy group or cluster",
+      "children": "luminous infrared galaxy, near-IR source"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 311,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q67206691"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q6999"
+      ],
+      "siblings": [
+        "wd:Q1054444",
+        "wd:Q1133705",
+        "wd:Q14515149"
+      ],
+      "children": [
+        "wd:Q1565388",
+        "wd:Q67206785"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "star",
+    "celestial body",
+    "astronomical object",
+    "physical object",
+    "object",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:30:32.193293+00:00",
+  "response": "{\"explanation\": \"The description specifies that HD 163145 is a \\\"star\\\", which directly supports star as the most specific entity type. Under the broader parent astronomical object, sibling classes like interstellar cloud, galaxy filament, and galaxy group or cluster represent diffuse interstellar media or galactic structures rather than stellar objects. Direct child classes such as luminous infrared galaxy and near-IR source are rejected because the entity is a star rather than a galaxy, and the description does not provide evidence of infrared categorization. The broader categories ascend from star to celestial body, astronomical object, physical object, and entity.\", \"types\": [\"star\", \"celestial body\", \"astronomical object\", \"physical object\", \"object\", \"entity\"]}",
+  "explanation": "The description specifies that HD 163145 is a \"star\", which directly supports star as the most specific entity type. Under the broader parent astronomical object, sibling classes like interstellar cloud, galaxy filament, and galaxy group or cluster represent diffuse interstellar media or galactic structures rather than stellar objects. Direct child classes such as luminous infrared galaxy and near-IR source are rejected because the entity is a star rather than a galaxy, and the description does not provide evidence of infrared categorization. The broader categories ascend from star to celestial body, astronomical object, physical object, and entity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description specifies that HD 163145 is a \\\"star\\\", which directly supports star as the most specific entity type. Under the broader parent astronomical object, sibling classes like interstellar cloud, galaxy filament, and galaxy group or cluster represent diffuse interstellar media or galactic structures rather than stellar objects. Direct child classes such as luminous infrared galaxy and near-IR source are rejected because the entity is a star rather than a galaxy, and the description does not provide evidence of infrared categorization. The broader categories ascend from star to celestial body, astronomical object, physical object, and entity.\", \"types\": [\"star\", \"celestial body\", \"astronomical object\", \"physical object\", \"object\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 559,
+      "candidatesTokenCount": 148,
+      "totalTokenCount": 1083,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 559
+        }
+      ],
+      "thoughtsTokenCount": 376,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "eJa1asD6HJCXvdIPh_7N0A0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 559,
+    "candidatesTokenCount": 148,
+    "totalTokenCount": 1083,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 559
+      }
+    ],
+    "thoughtsTokenCount": 376,
+    "serviceTier": "standard"
+  }
+}

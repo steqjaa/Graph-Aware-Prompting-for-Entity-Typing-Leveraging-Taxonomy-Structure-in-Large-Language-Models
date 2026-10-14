@@ -1,0 +1,160 @@
+{
+  "example_number": 190,
+  "entity_id": "wd:Q741327",
+  "entity_label": "Eyvindr skáldaspillir",
+  "description": "Norwegian poet and author",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0190/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0190/metadata.json",
+  "input_hash": "beb2e511439dab94bf37b093a696125aba86bdff1fc5d07125429607bf11de4a",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Eyvindr skáldaspillir\nDescription: Norwegian poet and author\n\nTaxonomy context:\n- Direct parent classes: poet\n- Sibling classes: woman poet, waka poet, haiku poet\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q741327",
+    "entity_label": "Eyvindr skáldaspillir",
+    "description": "Norwegian poet and author",
+    "reference_class_id": "wd:Q947305",
+    "reference_type": "skald",
+    "gold_types": [
+      {
+        "class_id": "wd:Q947305",
+        "label": "skald",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q49757",
+        "label": "poet",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q2500638",
+        "label": "creator",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "poet",
+      "siblings": "woman poet, waka poet, haiku poet",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "poet",
+      "siblings": "woman poet, waka poet, haiku poet",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 190,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q947305"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q49757"
+      ],
+      "siblings": [
+        "wd:Q107230508",
+        "wd:Q11122954",
+        "wd:Q11386386"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "skald",
+    "poet",
+    "author",
+    "writer",
+    "artist",
+    "creator",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:21:19.536585+00:00",
+  "response": "{\"explanation\": \"The description 'Norwegian poet and author' alongside the subject's historical identity as a 10th-century Norse court poet identifies 'skald' as the most specific type under the parent 'poet'. Sibling classes like 'woman poet', 'waka poet', and 'haiku poet' are rejected because they represent distinct demographics or non-Norse poetic traditions. With no narrower child classes supported, the ordering proceeds from 'skald' to broader valid categories like 'poet', 'author', 'writer', and 'person'.\", \"types\": [\"skald\", \"poet\", \"author\", \"writer\", \"artist\", \"creator\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The description 'Norwegian poet and author' alongside the subject's historical identity as a 10th-century Norse court poet identifies 'skald' as the most specific type under the parent 'poet'. Sibling classes like 'woman poet', 'waka poet', and 'haiku poet' are rejected because they represent distinct demographics or non-Norse poetic traditions. With no narrower child classes supported, the ordering proceeds from 'skald' to broader valid categories like 'poet', 'author', 'writer', and 'person'.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description 'Norwegian poet and author' alongside the subject's historical identity as a 10th-century Norse court poet identifies 'skald' as the most specific type under the parent 'poet'. Sibling classes like 'woman poet', 'waka poet', and 'haiku poet' are rejected because they represent distinct demographics or non-Norse poetic traditions. With no narrower child classes supported, the ordering proceeds from 'skald' to broader valid categories like 'poet', 'author', 'writer', and 'person'.\", \"types\": [\"skald\", \"poet\", \"author\", \"writer\", \"artist\", \"creator\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "EskLCsYLAWkUfRPCG8iXeeLnkNZaXUekJlaFM9n9nnoxEu69ZgeoTGj3H2Uz8kXwuXDQwWQ5s+buxBMzJYAyCXyqEtdLn9Xj+AhOTRMlWYUzF9+/sAq7wUTPEsZYZrRCBrNGPU2wbbVV/C7jU1RjSbKB9RqKJpUu6Ik+YOT4CHuMEOuIHZo5zUz2jIrP/e6adLsgS66QyflsW6/hJlHjV1iC3H/oOj2kVHt1lPbMt44Aqjnn/q6yr+inXeF+mhDsVDQDdRroh0GL23P1AuN0LNfG8dnbI6ZWOA7kE64de7ZwAWoAbPkT8Lfe+8q2EbIBm800r/k1noyN0/rs2h024HAXfPS4zLqolqR8HV50uDB2Zj8GbFtTmQlhrVZx+bgckgtUKeck+yxw2lrNRHFLnjlPr7G0Ympq6Msdxh+3z18HAOS4hgi6YRm6j01qqlZeZAgq52JpGKUPFqED9gFKZZuYZ1OBUTgVJDHddms7QhT6OYfwV2hKrrRzgUAAY84qIE0h0+sWTg/Fwpc9+e2TIly3/WPqhpTzR4i+dAO+VOO1pXi251sVFmfteCuBd0e7nApD9T1NYCgDQkUta3+1pZZJ/z7QjUtP/zULbH7Sw93HvLOIAlxBVxRDBI6dh8RbTaMC7O8ieGNfcgkqaj0OKjuSgk6z3OgCIPKEiUibs8sjSdtdjkZGuu71sT18OAvqUzupScQ2F2dLVm1Djodn8z4G92jvS8rpCnVfgkhSmnYfKNGymrgYHT7oofz/36QGMY0GpB6umJGRmt5yLlInR8G+hSqAVCkLNJyxkGTE8S6kjHRLVgvUT6yLLeO4MRo1hepRJc4RC3qLhP6GEqPgZtd08CyAsQcUFL496teS+xpzlCxG8vbv1cyY5ejCyUSBelssyvKlYaf33pgwB/KJPaVjyZqxFtJNku1/OMBbYo8xbWwinKum94QRljmz2P/hBlKaGF3AqTpMBmieJhShSfdgasZtXEFpw1qzxcTVP5rSZLGQeskCg+/9EB1LrWQx6AmhRpqiBHKKT9pCHUObV+eEdvjv6EUD5dgnD98eA+R+F+GFilyE+JGC4O2+X7oHZtYLzoxrngrBZr7iQyi660pL4EIAIoHEtzfYMVw4t23soOgc3OvHKyVKLt5bl4zeyUO4Eie+yrGHxXfoQCMhROqIKdj2p5HVfvsU8/LT0MT9ZvhbKRG8vXCgOt0F3qhCxUuPhJ8FXhXCz9jyWrzpYCatD4YYnPJmqTSH+KvcoANLMnj8U6Kj/7YJVxwSdqx9PzW/jf/1v61e5iWoM0RCPaZHbS29eJVXR5kOR+iUu2dUVeX1y3Wyxn7pNlaJSuxx/xN4IqMwXP8o+ZG6xmWWlqRprdMrstOW9EQDtSgDQG7zfWCvppPdCReVdU937fa68AsB2vO4YDO+oZiU1NjwXdnUjV8wA+fH6HMSTZ3TJgfiapN7LukqHA+XADhnksy8E6vTyYYHYhHYI5SoFN56XmWyT1no/pigHH9XHzdz6C8RoEHuD33L0TqinA8zW9U4py4aZ4pipADMxKwoS/vGpr8R74DCTJn5+XdfTMyeId/HCKICyFrjwyq/rg8o5jU+JKQ2PtCGO021O+xm4HPAc2iyq0khCTxx1YEF8wAZaULgYbD6X3RomMzj3JIAb8WZ9buQnfU7sdPRDOLkiA/cy5RfOnI2UVNzbIJIDOuZPTECj57cTeWtyH2GSmII8srz5KF05U9XziAsIHcSVwfBVw8Ay/F0TTnP+Lm3cIrgUQbVKDXw+6S8ZY7kxuDj/K6OBdOhg5ptg1ICdorws4hJnMrN1wN3YU7vjWtcWuQbZY7gMtkTsXpGu1nh3tb6RBUAsvfWzxQ2SKigyO9CSdo+w4K4AxIrk7pAnFdjYps28PaZSonn5KFzEFImuKx5UstqTytJvcOH3UDnhMIc3wr0UN0bb5aehZemQVTXlYj89c8sNOFBFiEAOoDJjfQ="
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 555,
+      "candidatesTokenCount": 148,
+      "totalTokenCount": 1113,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 555
+        }
+      ],
+      "thoughtsTokenCount": 410,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "T5S1atupMZmb_uMPnI27-Qo"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 555,
+    "candidatesTokenCount": 148,
+    "totalTokenCount": 1113,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 555
+      }
+    ],
+    "thoughtsTokenCount": 410,
+    "serviceTier": "standard"
+  }
+}

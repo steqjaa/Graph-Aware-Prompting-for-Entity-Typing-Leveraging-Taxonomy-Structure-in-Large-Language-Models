@@ -1,0 +1,171 @@
+{
+  "example_number": 167,
+  "entity_id": "wd:Q55648751",
+  "entity_label": "Voice and Speech Trainers Association",
+  "description": "non-profit organization",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0167/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0167/metadata.json",
+  "input_hash": "fb47c54b0852c87b03065217941d6ccf9364b07f8e389167e65a15ddabf44686",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Voice and Speech Trainers Association\nDescription: non-profit organization\n\nTaxonomy context:\n- Direct parent classes: voluntary association\n- Sibling classes: community action group, cultural association, booster club\n- Direct child classes: medical association, guild\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q55648751",
+    "entity_label": "Voice and Speech Trainers Association",
+    "description": "non-profit organization",
+    "reference_class_id": "wd:Q829080",
+    "reference_type": "professional association",
+    "gold_types": [
+      {
+        "class_id": "wd:Q829080",
+        "label": "professional association",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q48204",
+        "label": "voluntary association",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "voluntary association",
+      "siblings": "community action group, cultural association, booster club",
+      "children": "medical association, guild"
+    },
+    "oracle_graph_context": {
+      "parents": "voluntary association",
+      "siblings": "community action group, cultural association, booster club",
+      "children": "medical association, guild"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 167,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q829080"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q48204"
+      ],
+      "siblings": [
+        "wd:Q1021128",
+        "wd:Q10549978",
+        "wd:Q1238998"
+      ],
+      "children": [
+        "wd:Q10729872",
+        "wd:Q939871"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "professional association",
+    "voluntary association",
+    "association",
+    "non-profit organization",
+    "organization",
+    "corporate body",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:19:36.038181+00:00",
+  "response": "{\"explanation\": \"The description and entity context support professional association as the most specific inferred type. In the taxonomy, its direct parent is voluntary association, which constrains the broader semantic category of member-driven non-profit entities. Sibling classes such as community action group, cultural association, and booster club represent different non-profit missions, whereas an association for trainers represents a professional association. Child classes such as medical association and guild represent narrower professional domains that are not supported by voice and speech training. The remaining returned types are valid broader classes ordered by decreasing specificity.\", \"types\": [\"professional association\", \"voluntary association\", \"association\", \"non-profit organization\", \"organization\", \"corporate body\", \"entity\"]}",
+  "explanation": "The description and entity context support professional association as the most specific inferred type. In the taxonomy, its direct parent is voluntary association, which constrains the broader semantic category of member-driven non-profit entities. Sibling classes such as community action group, cultural association, and booster club represent different non-profit missions, whereas an association for trainers represents a professional association. Child classes such as medical association and guild represent narrower professional domains that are not supported by voice and speech training. The remaining returned types are valid broader classes ordered by decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description and entity context support professional association as the most specific inferred type. In the taxonomy, its direct parent is voluntary association, which constrains the broader semantic category of member-driven non-profit entities. Sibling classes such as community action group, cultural association, and booster club represent different non-profit missions, whereas an association for trainers represents a professional association. Child classes such as medical association and guild represent narrower professional domains that are not supported by voice and speech training. The remaining returned types are valid broader classes ordered by decreasing specificity.\", \"types\": [\"professional association\", \"voluntary association\", \"association\", \"non-profit organization\", \"organization\", \"corporate body\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 554,
+      "candidatesTokenCount": 143,
+      "totalTokenCount": 1131,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 554
+        }
+      ],
+      "thoughtsTokenCount": 434,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "6JO1auP2GJWrkdUP0umn6A0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 554,
+    "candidatesTokenCount": 143,
+    "totalTokenCount": 1131,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 554
+      }
+    ],
+    "thoughtsTokenCount": 434,
+    "serviceTier": "standard"
+  }
+}

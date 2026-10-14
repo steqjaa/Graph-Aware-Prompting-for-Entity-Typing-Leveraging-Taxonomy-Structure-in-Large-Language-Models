@@ -1,0 +1,165 @@
+{
+  "example_number": 45,
+  "entity_id": "wd:Q11858291",
+  "entity_label": "Erkki Heikkilä",
+  "description": "Finnish journalist, pesäpallo player and sports journalist (1924-2000)",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0045/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0045/metadata.json",
+  "input_hash": "39467c9d8967d68956a0fa368d06976a5991577a00c95f3aac6e9495a23e7c6f",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Erkki Heikkilä\nDescription: Finnish journalist, pesäpallo player and sports journalist (1924-2000)\n\nTaxonomy context:\n- Direct parent classes: competitive player, athlete\n- Sibling classes: competition climber, tennis player, field hockey player\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q11858291",
+    "entity_label": "Erkki Heikkilä",
+    "description": "Finnish journalist, pesäpallo player and sports journalist (1924-2000)",
+    "reference_class_id": "wd:Q18667447",
+    "reference_type": "pesäpallo player",
+    "gold_types": [
+      {
+        "class_id": "wd:Q18667447",
+        "label": "pesäpallo player",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q18536342",
+        "label": "competitive player",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q2066131",
+        "label": "athlete",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q4197743",
+        "label": "player",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q50995749",
+        "label": "sportsperson",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "competitive player, athlete",
+      "siblings": "competition climber, tennis player, field hockey player",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "competitive player, athlete",
+      "siblings": "competition climber, tennis player, field hockey player",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 45,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q18667447"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q18536342",
+        "wd:Q2066131"
+      ],
+      "siblings": [
+        "wd:Q107690317",
+        "wd:Q10833314",
+        "wd:Q10843263"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "status": "completed",
+  "predictions": [
+    "pesäpallo player",
+    "sports journalist",
+    "journalist",
+    "athlete",
+    "competitive player",
+    "professional",
+    "person",
+    "entity"
+  ],
+  "timestamp_utc": "2026-09-24T20:31:27.738552+00:00",
+  "response": "{\"explanation\": \"The description \\\"Finnish journalist, pesäpallo player and sports journalist (1924-2000)\\\" directly supports pesäpallo player and sports journalist as the most specific types. In the taxonomy, the direct parents competitive player and athlete establish the broader athletic domain. Sibling classes such as tennis player, field hockey player, and competition climber represent distinct athletic disciplines and are rejected in favor of pesäpallo player. There are no child classes to evaluate. The remaining types generalize cleanly from specific roles to broad professional and ontological categories.\", \"types\": [\"pesäpallo player\", \"sports journalist\", \"journalist\", \"athlete\", \"competitive player\", \"professional\", \"person\", \"entity\"]}",
+  "explanation": "The description \"Finnish journalist, pesäpallo player and sports journalist (1924-2000)\" directly supports pesäpallo player and sports journalist as the most specific types. In the taxonomy, the direct parents competitive player and athlete establish the broader athletic domain. Sibling classes such as tennis player, field hockey player, and competition climber represent distinct athletic disciplines and are rejected in favor of pesäpallo player. There are no child classes to evaluate. The remaining types generalize cleanly from specific roles to broad professional and ontological categories.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"Finnish journalist, pesäpallo player and sports journalist (1924-2000)\\\" directly supports pesäpallo player and sports journalist as the most specific types. In the taxonomy, the direct parents competitive player and athlete establish the broader athletic domain. Sibling classes such as tennis player, field hockey player, and competition climber represent distinct athletic disciplines and are rejected in favor of pesäpallo player. There are no child classes to evaluate. The remaining types generalize cleanly from specific roles to broad professional and ontological categories.\", \"types\": [\"pesäpallo player\", \"sports journalist\", \"journalist\", \"athlete\", \"competitive player\", \"professional\", \"person\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 571,
+      "candidatesTokenCount": 151,
+      "totalTokenCount": 1469,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 571
+        }
+      ],
+      "thoughtsTokenCount": 747,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "n4i1aq2cObPyvdIP_dKP6Ao"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 571,
+    "candidatesTokenCount": 151,
+    "totalTokenCount": 1469,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 571
+      }
+    ],
+    "thoughtsTokenCount": 747,
+    "serviceTier": "standard"
+  }
+}

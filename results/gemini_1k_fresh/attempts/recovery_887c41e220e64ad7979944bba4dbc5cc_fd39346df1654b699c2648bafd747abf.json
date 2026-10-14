@@ -1,0 +1,183 @@
+{
+  "example_number": 569,
+  "entity_id": "wd:Q65882",
+  "entity_label": "Karl Jordan",
+  "description": "German entomologist (1861-1959)",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0569/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0569/metadata.json",
+  "input_hash": "dc7f1b5a43684ebdcce2f90dd3bee961c3b8e280ba5ec26a1da50b309ef9f837",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Karl Jordan\nDescription: German entomologist (1861-1959)\n\nTaxonomy context:\n- Direct parent classes: zoologist\n- Sibling classes: hippologist, heteropterist, coleopterist\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q65882",
+    "entity_label": "Karl Jordan",
+    "description": "German entomologist (1861-1959)",
+    "reference_class_id": "wd:Q497294",
+    "reference_type": "lepidopterist",
+    "gold_types": [
+      {
+        "class_id": "wd:Q497294",
+        "label": "lepidopterist",
+        "depth": 9
+      },
+      {
+        "class_id": "wd:Q350979",
+        "label": "zoologist",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q1650915",
+        "label": "researcher",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q864503",
+        "label": "biologist",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q1914017",
+        "label": "knowledge worker",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q901",
+        "label": "scientist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q20826540",
+        "label": "scholar",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q327055",
+        "label": "worker",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "zoologist",
+      "siblings": "hippologist, heteropterist, coleopterist",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "zoologist",
+      "siblings": "hippologist, heteropterist, coleopterist",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 569,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q497294"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q350979"
+      ],
+      "siblings": [
+        "wd:Q10524313",
+        "wd:Q11709698",
+        "wd:Q11741162"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "entomologist",
+    "zoologist",
+    "biologist",
+    "scientist",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:49:53.239797+00:00",
+  "response": "{\"explanation\": \"The description \\\"German entomologist (1861-1959)\\\" directly supports entomologist as the most specific valid type. Within the taxonomy context, its direct parent class is zoologist, indicating its broader domain of animal biology. Sibling classes such as hippologist, heteropterist, and coleopterist represent specific zoological/entomological sub-specializations that are not specified in the primary description. There are no direct child classes listed to consider for further narrowing. The remaining types generalize logically in descending order of specificity.\", \"types\": [\"entomologist\", \"zoologist\", \"biologist\", \"scientist\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The description \"German entomologist (1861-1959)\" directly supports entomologist as the most specific valid type. Within the taxonomy context, its direct parent class is zoologist, indicating its broader domain of animal biology. Sibling classes such as hippologist, heteropterist, and coleopterist represent specific zoological/entomological sub-specializations that are not specified in the primary description. There are no direct child classes listed to consider for further narrowing. The remaining types generalize logically in descending order of specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"German entomologist (1861-1959)\\\" directly supports entomologist as the most specific valid type. Within the taxonomy context, its direct parent class is zoologist, indicating its broader domain of animal biology. Sibling classes such as hippologist, heteropterist, and coleopterist represent specific zoological/entomological sub-specializations that are not specified in the primary description. There are no direct child classes listed to consider for further narrowing. The remaining types generalize logically in descending order of specificity.\", \"types\": [\"entomologist\", \"zoologist\", \"biologist\", \"scientist\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "EukHCuYHAWkUfROflZ1oP57rN9uhzed8EqK8NE3XhgbtCSDykMXDloZ6l8n840pjzPaM+ASQeE6FcwvSkiZI0Z9nz4qfA9SN2D1ck31dKY694irlCBtaSYsNCO5jutG365HP2VfOgxUwWp+ANVY9VNKhYp8AkU+vOHQLDKUxumeMcE3QiUxEGxF8eOcVJCldE+iJsEzbsJbeeTIHq49qVWnhRyMXUCBkFuOp+YTa9wzeBA0SUhL9tJWiFDPzuw4mSp9du/9BWdA81lOjHewSssTGzAkKXG5cSbJBikBxquvi4aH3nwd9UFDFpCpL3MwbKd8hKmbykPqz9bfsea06e47IpYY8mAlB+VyoQ7zWiT5/1h5xZ4ufHE8+Enm3VgcNEl0iG3WWEfnsHqLLCGZO7Ld4Qt/4bXG5SQIjFT87dex+m9I3InWPzQgWdkFRlSHrhucmm+q+I9Oei5vlkETEDGJO4AvAtupTi8oP0PvgZ/XYWG2JJYu+DJP85l+TbYB37r2W1O34JxN+38HpdXv3Tb+U5H3o5/kOu0aeKc9aY+ERrkJWj//8Ikeq9/+XhT9SP7n4dwefsGRyZba8lF3VbIKR5cQnoypeeyxyM9IsG/Ne4PIDPtS38ne+cgJ+2VXweXSUv1Qjg4IuLUO1raSlVGDdODwU9ZQq16cA65nucea9im9XvVqSibezoT/2kZ+0lc6XzuWlLmjGBMFsBWbpes/RDmRpeSmgwGJ5Y5g+k7em9lQljtxgLDmmiyFF2TAythScP1ijWQSi2vifEwMCLHjaObhZ8jpPcP+cBBgm0e85BQFaQzR166Sp36/ySi/MFI4VaL3YC2+eJQcvSNe20VwXHznSOzBiqQVJ7eoBCqIwLuTq98tEmUAxWpAPiagInta+a/pcRcXMbMPIO4i/E0jKN3JtTb1L+WSfoytHLepkKA2uHK3iTY9bGZKCWUhRKT6h2huoQUXTd319J17yN2ZNrE7tnkRQ9MYBli1JQOWysjurswgkCbk5LmWtwoZbdoP0NKExB/6G4cE+A5xG6aGpXF+gtIy9V3fKIlvS3MGmwWLsPhqxthmVkoz7lIJfTuCuGrq3sp5WC84phzKzrsSYb07WbjeUsmWj8+Tp3FnSKKqTX868wlYmF2NR7eTGdGJoRSFfIhxg/TqahITQX5MqI9Ygl8bsyLhn1EDJ/2Dfo2Zp4gGfV4bby0VX6WBBnKaA8Uo161ruBcFioq1L2AC1/NDqRm+YnMUIZd3M1lPX5GAVQTFRJ39NxW79GGrWOg7VWNFaz7U6yP6a/kUDnRiLlTSmj/oH/C817hWB7NDhn/HLMAE3HB7B5hs="
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 559,
+      "candidatesTokenCount": 143,
+      "totalTokenCount": 920,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 559
+        }
+      ],
+      "thoughtsTokenCount": 218,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "AZu1aoHrHaKvxN8PqLPjkA0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 559,
+    "candidatesTokenCount": 143,
+    "totalTokenCount": 920,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 559
+      }
+    ],
+    "thoughtsTokenCount": 218,
+    "serviceTier": "standard"
+  }
+}

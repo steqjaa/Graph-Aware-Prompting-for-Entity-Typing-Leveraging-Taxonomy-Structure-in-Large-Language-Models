@@ -1,0 +1,162 @@
+{
+  "example_number": 696,
+  "entity_id": "wd:Q24302",
+  "entity_label": "Ron Chernow",
+  "description": "American writer and historian (born 1949)",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0696/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0696/metadata.json",
+  "input_hash": "06742358b12f5ec7fb5fbb30972bfba97fcf477424c05ced9545de0e74c67aa9",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Ron Chernow\nDescription: American writer and historian (born 1949)\n\nTaxonomy context:\n- Direct parent classes: non-fiction writer\n- Sibling classes: technical writer, political writer, travel writer\n- Direct child classes: hagiographer\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q24302",
+    "entity_label": "Ron Chernow",
+    "description": "American writer and historian (born 1949)",
+    "reference_class_id": "wd:Q864380",
+    "reference_type": "biographer",
+    "gold_types": [
+      {
+        "class_id": "wd:Q864380",
+        "label": "biographer",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q15980158",
+        "label": "non-fiction writer",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q2500638",
+        "label": "creator",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "non-fiction writer",
+      "siblings": "technical writer, political writer, travel writer",
+      "children": "hagiographer"
+    },
+    "oracle_graph_context": {
+      "parents": "non-fiction writer",
+      "siblings": "technical writer, political writer, travel writer",
+      "children": "hagiographer"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 696,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q864380"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q15980158"
+      ],
+      "siblings": [
+        "wd:Q1568338",
+        "wd:Q15958642",
+        "wd:Q3579035"
+      ],
+      "children": [
+        "wd:Q17166634"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "biographer",
+    "historian",
+    "non-fiction writer",
+    "writer",
+    "author",
+    "creator",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:59:24.746343+00:00",
+  "response": "{\"explanation\": \"The description identifies Ron Chernow as an American writer and historian, known specifically for non-fiction life narratives. In the taxonomy, the omitted target class has non-fiction writer as its direct parent and hagiographer as a direct child class, which precisely points to biographer. Siblings such as technical writer, political writer, and travel writer do not align with Chernow's primary body of work or the specific taxonomy node, and the child hagiographer is overly specific and unsupported by the text. Therefore, biographer is the most specific inferred type, followed by broader categories such as historian, non-fiction writer, writer, and person.\", \"types\": [\"biographer\", \"historian\", \"non-fiction writer\", \"writer\", \"author\", \"creator\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The description identifies Ron Chernow as an American writer and historian, known specifically for non-fiction life narratives. In the taxonomy, the omitted target class has non-fiction writer as its direct parent and hagiographer as a direct child class, which precisely points to biographer. Siblings such as technical writer, political writer, and travel writer do not align with Chernow's primary body of work or the specific taxonomy node, and the child hagiographer is overly specific and unsupported by the text. Therefore, biographer is the most specific inferred type, followed by broader categories such as historian, non-fiction writer, writer, and person.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies Ron Chernow as an American writer and historian, known specifically for non-fiction life narratives. In the taxonomy, the omitted target class has non-fiction writer as its direct parent and hagiographer as a direct child class, which precisely points to biographer. Siblings such as technical writer, political writer, and travel writer do not align with Chernow's primary body of work or the specific taxonomy node, and the child hagiographer is overly specific and unsupported by the text. Therefore, biographer is the most specific inferred type, followed by broader categories such as historian, non-fiction writer, writer, and person.\", \"types\": [\"biographer\", \"historian\", \"non-fiction writer\", \"writer\", \"author\", \"creator\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "EpsPCpgPAWkUfRPk5U8JkNpmOoPdqJo9dVV/kFuhxyvzFEoCVs7Xd43UNd4BzGjgAfQQQtrg9EEiM1tdQCxKfGUyzUBjAJ9Jh+bHy3opD8EpTulruPsP05VXf0K7pTBwZt6zEJtToW1XFp/Oz0NF0PY9S/x32F2Sr+1pHLsMFLfH9ZjNqUGwmvHtV1JKUWNVjHqqdydkp/aRId0ecdacpuAlc3iG6EPpmPvi0sGGS3h/oBY/puo8198jp7KA3JuFaDNACe/PR/8wdLEmuDl07slPtYPaPwIGa/rz3icsq6TXG+1h7vBTt6gMx4pURMybEtZ6SYhEMpBPFPJ1TrR44lDffP0vMuiH6Jm+E5lllhvRbYUGrjCTbBq3X8c6bRGqlBVpB4KfCSUEN9XqwliNad8BTKAvPKdpGUMDgGcoooeeQBMzQQVm2u7CRUEPoUfFsIOBEFFvLjCQ91IPT3h7f2voXPjwhoA+pvjuEmlij+KeYnouMHInXvr3ZOvycfSqkL+7zA1Q7dQMmifJhKFQaseCpNBkco5tuaYwNhiWpVyC/hgtl2uWxrkYYkoOZQCwZk2vpy1yl4qbzbIAIJktoj8CJDWSZOsMAPHjNDo35gHtin5HyTGFRPlzZ0aPVYwfEhhUIOZDFn6tYyRmpVxRr68gb3PLpIWB5omG24e0pSJ7HguJ14iuWLGze96ktEK4dUVSVzD1e5G+Ya41QRpgmYHmBazPZzVECrRi9aQ70PuNoK1BFPlD8L1xMP8INvjWR2GIE4VWaJLRLklAeUdpnZb8F9haS4cU+rNSZix+yDLbuaiq3NgRXgbrKPtveqZXKhh3JFAUCxZ2FeYA3ivfh0lY3noJs0PTodgBWRanZ/Dy/7BNWGL1P4qAvynLUYyc4zPtNocx+NfDnLk4kUJtGjfor9JVvXcw+41IqyygXmruuHGG+ZwmVe4i7ui2z6zENTvcRAJ94z4Zb14ocoP6/SCTQNUxKQsou/TCnGMI8gM5YfP61sO/ALrpE029wQbYWSF2v+9ehQChH+arosKKRW85g+wX8AET7fL5a2h8GwESKlSXXIyQy8I7Msj5Nq3pu4s8Utf4jWPks+0/tkPkclr80dEMwuJq0qjLfgimk5FgcQbuLj4mcvzrQGpehx0UJvRxapDk7zFT3IoC1qtG47U8bYjO2Rqr1AOsnvuIF473mfk3tOA3dFge0K8y1qJ1zOlMTiKEdtVnac7vP0kiq1eFdEQ4P20dI0KvHtFrbWz3rQWurkYDogtJC/Jf1aq6o6RLVLFGV/vU0z3iaQAHNxHqsmoAnfdLdt8YGGG2nOsOQfumXOjktU2CYBDhdbETDuXHVxN/ADGHZTjfEliNwTiMvJpRQvsb2lPOwPeDwo4Lp+mXxDLFHNxGCSaDlaNWf2mu2Ke2hjoi0ezgtY68lpMzIGSVf4b055eqgiEHIvtE50mfaQVkMqwhTieMncmYsjl71ZPwu1fgh9lb9SChKHWDwfdQvZsbnFqpjFhcRmP8Kt0B2UzX1C+Ye/ykzXw5vsHyWN1ScIALMfjsF6mv9F0aVlV7xnYO8rIchtU7q63SjDQt2NxXQlgIdM54d0W1FwYzc3U0JN5KZmUKVc2Bk9YBuGXGkax/LFUhU3AsQG1Y7sf6c6Lo/oYPyn47/I2GXUaZFv3OISQl+K4B3MDAGItCGojEHV6z4z+UJ9haF0aio8FRWLiqLMxkTcE3sv3KovsvCgJj4uO6hhEnwOk2FNEKwcgW0Nrz0k7YMpvLcm+F9lyJ68Za9XvnOmCIxLvDxJEncUjj6y9NaV/7I8hb7i/NkhGR77SSYdARx9GSGdVI7YRPcYN/IRKwW95NpMFvI1pSmQYOLD1LQ53Yu1CJqQC6yfROuKaia+W/lbacmuXCJmXNmc2HbsrTrAJjNM2HMFJaABFCSCLmRUF4YMz0KZ6jYaPD+amyPNzuMQaGHp9WxJ8ZmIHqLYgAPnx+8pUCTGWjlsIf6IqxwqevRMfSmzybFpmpV0R3ynb9fUUpjlzufvetvhUjEamwdBxDs6z0d0qUWw0WM9692trxZHqgrhFLcbYUb9ZwgmYA+t9SzaXU0Sv1CbNAXMtc1Of+phc9ux8L7Y1sk5lm5/8su9J1Adm53kI7VWCp8tY6nSUuLB/ToWgPiFp7GV0W+mldZiiKwh9ra/2JJbVIwJNYurYuw1zaSyjclMVsf4Td7r8T/eOO4/dV+N0bgSrMxysrG7J9SOJdcX56bOGBDydxWtC7oF1aYVN1xZk/pLaUnB08arsm5XMRS/WWYWYDjr3fOu+ixr+Lp7/iB8Nu/fSKiaRupwPzQIDngo+lwclNzJRxIJvLlQX8ktEeFC6Csm60kUUbzVIoO+SlruY2P/n3e/Tb3nj0NrhqRDQ1ECUJ18XiJZ1rdHaShwE3q9bKad5O98lPUiQpr1hTxO+cMR9Es3x/LvM95UUdKm2IC6wBjcBd6viQOzS0Gh4uW3Ql2oMNhMag4BHmL+w8UojQJQ4Sl15/IQWysDOdfihBsaBY/OUpm9cDlMCkay+tTMLFlR5Ttq0fCf9lc8lpVtUhYrGVW5Hygz0fJBmGEFWjDUgmQhtq"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 560,
+      "candidatesTokenCount": 168,
+      "totalTokenCount": 1161,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 560
+        }
+      ],
+      "thoughtsTokenCount": 433,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "PJ21asqHO5OkvdIP6-fEyA4"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 560,
+    "candidatesTokenCount": 168,
+    "totalTokenCount": 1161,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 560
+      }
+    ],
+    "thoughtsTokenCount": 433,
+    "serviceTier": "standard"
+  }
+}

@@ -1,0 +1,157 @@
+{
+  "example_number": 245,
+  "entity_id": "wd:Q89191040",
+  "entity_label": "Serhiy Antonov",
+  "description": "Ukrainian archer",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0245/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0245/metadata.json",
+  "input_hash": "8929ffb510f23465dcfeb23c3ca64424bae36f1fc3e0fe305c9f7d71e118e079",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Serhiy Antonov\nDescription: Ukrainian archer\n\nTaxonomy context:\n- Direct parent classes: athlete\n- Sibling classes: competition climber, tennis player, field hockey player\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q89191040",
+    "entity_label": "Serhiy Antonov",
+    "description": "Ukrainian archer",
+    "reference_class_id": "wd:Q13382355",
+    "reference_type": "archer",
+    "gold_types": [
+      {
+        "class_id": "wd:Q13382355",
+        "label": "archer",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q2066131",
+        "label": "athlete",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q50995749",
+        "label": "sportsperson",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "athlete",
+      "siblings": "competition climber, tennis player, field hockey player",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "athlete",
+      "siblings": "competition climber, tennis player, field hockey player",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 245,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q13382355"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q2066131"
+      ],
+      "siblings": [
+        "wd:Q107690317",
+        "wd:Q10833314",
+        "wd:Q10843263"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "archer",
+    "athlete",
+    "sportsperson",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:25:29.257394+00:00",
+  "response": "{\"explanation\": \"The description \\\"Ukrainian archer\\\" supports archer as the most specific type. In the taxonomy, its direct parent is athlete, which defines the broader professional and competitive athletic category. Sibling classes such as competition climber, tennis player, and field hockey player represent athletes in distinct sports and are rejected based on the specific evidence of archery. Since no child classes are provided, archer is the most specific class supported, followed by broader ancestral types in descending specificity.\", \"types\": [\"archer\", \"athlete\", \"sportsperson\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The description \"Ukrainian archer\" supports archer as the most specific type. In the taxonomy, its direct parent is athlete, which defines the broader professional and competitive athletic category. Sibling classes such as competition climber, tennis player, and field hockey player represent athletes in distinct sports and are rejected based on the specific evidence of archery. Since no child classes are provided, archer is the most specific class supported, followed by broader ancestral types in descending specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"Ukrainian archer\\\" supports archer as the most specific type. In the taxonomy, its direct parent is athlete, which defines the broader professional and competitive athletic category. Sibling classes such as competition climber, tennis player, and field hockey player represent athletes in distinct sports and are rejected based on the specific evidence of archery. Since no child classes are provided, archer is the most specific class supported, followed by broader ancestral types in descending specificity.\", \"types\": [\"archer\", \"athlete\", \"sportsperson\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 548,
+      "candidatesTokenCount": 119,
+      "totalTokenCount": 1339,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 548
+        }
+      ],
+      "thoughtsTokenCount": 672,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "SZW1auS4Ieq3vdIPsbPJsAM"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 548,
+    "candidatesTokenCount": 119,
+    "totalTokenCount": 1339,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 548
+      }
+    ],
+    "thoughtsTokenCount": 672,
+    "serviceTier": "standard"
+  }
+}

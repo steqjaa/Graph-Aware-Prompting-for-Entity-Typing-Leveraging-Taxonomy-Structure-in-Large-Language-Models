@@ -1,0 +1,165 @@
+{
+  "example_number": 660,
+  "entity_id": "wd:Q7971656",
+  "entity_label": "Washington Area Music Association",
+  "description": "organization",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0660/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0660/metadata.json",
+  "input_hash": "ed4efef75bc57bcf4731bb0985c5e4de5025ed077f3852cacac086d82718dfee",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Washington Area Music Association\nDescription: organization\n\nTaxonomy context:\n- Direct parent classes: organization\n- Sibling classes: national trust, Native American organization, hackerspace\n- Direct child classes: philharmonic society, music publishing company, record company\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q7971656",
+    "entity_label": "Washington Area Music Association",
+    "description": "organization",
+    "reference_class_id": "wd:Q32178211",
+    "reference_type": "music organization",
+    "gold_types": [
+      {
+        "class_id": "wd:Q32178211",
+        "label": "music organization",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "organization",
+      "siblings": "national trust, Native American organization, hackerspace",
+      "children": "philharmonic society, music publishing company, record company"
+    },
+    "oracle_graph_context": {
+      "parents": "organization",
+      "siblings": "national trust, Native American organization, hackerspace",
+      "children": "philharmonic society, music publishing company, record company"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 660,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q32178211"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q43229"
+      ],
+      "siblings": [
+        "wd:Q1006283",
+        "wd:Q100731037",
+        "wd:Q1032372"
+      ],
+      "children": [
+        "wd:Q1364157",
+        "wd:Q1917775",
+        "wd:Q2442401"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "music organization",
+    "organization",
+    "corporate body",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:56:42.744474+00:00",
+  "response": "{\"explanation\": \"The context places the target type between the direct parent 'organization' and children like 'philharmonic society', 'music publishing company', and 'record company', identifying it as 'music organization'. The entity name 'Washington Area Music Association' directly supports 'music organization' over unrelated siblings such as 'hackerspace' or 'national trust'. Specific child types like 'record company' or 'music publishing company' are unsupported by the evidence and thus rejected in favor of the broader 'music organization'.\", \"types\": [\"music organization\", \"organization\", \"corporate body\", \"agent\", \"entity\"]}",
+  "explanation": "The context places the target type between the direct parent 'organization' and children like 'philharmonic society', 'music publishing company', and 'record company', identifying it as 'music organization'. The entity name 'Washington Area Music Association' directly supports 'music organization' over unrelated siblings such as 'hackerspace' or 'national trust'. Specific child types like 'record company' or 'music publishing company' are unsupported by the evidence and thus rejected in favor of the broader 'music organization'.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The context places the target type between the direct parent 'organization' and children like 'philharmonic society', 'music publishing company', and 'record company', identifying it as 'music organization'. The entity name 'Washington Area Music Association' directly supports 'music organization' over unrelated siblings such as 'hackerspace' or 'national trust'. Specific child types like 'record company' or 'music publishing company' are unsupported by the evidence and thus rejected in favor of the broader 'music organization'.\", \"types\": [\"music organization\", \"organization\", \"corporate body\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 555,
+      "candidatesTokenCount": 124,
+      "totalTokenCount": 1137,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 555
+        }
+      ],
+      "thoughtsTokenCount": 458,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "mpy1aqP7Oc-Exs0P5JuHoA4"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 555,
+    "candidatesTokenCount": 124,
+    "totalTokenCount": 1137,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 555
+      }
+    ],
+    "thoughtsTokenCount": 458,
+    "serviceTier": "standard"
+  }
+}

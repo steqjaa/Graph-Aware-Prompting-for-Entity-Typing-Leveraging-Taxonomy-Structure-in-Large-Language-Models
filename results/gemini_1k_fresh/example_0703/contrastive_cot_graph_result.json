@@ -1,0 +1,173 @@
+{
+  "example_number": 703,
+  "entity_id": "wd:Q55013106",
+  "entity_label": "Bourbon Iron Works",
+  "description": "historic furnace in Kentucky, USA",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0703/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0703/metadata.json",
+  "input_hash": "3414087221592bb728b076f7cd351fb720225942a6fc85687d99d7824f5533bd",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Bourbon Iron Works\nDescription: historic furnace in Kentucky, USA\n\nTaxonomy context:\n- Direct parent classes: heating furnace\n- Sibling classes: None\n- Direct child classes: bloomery\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q55013106",
+    "entity_label": "Bourbon Iron Works",
+    "description": "historic furnace in Kentucky, USA",
+    "reference_class_id": "wd:Q96384666",
+    "reference_type": "metallurgical furnace",
+    "gold_types": [
+      {
+        "class_id": "wd:Q96384666",
+        "label": "metallurgical furnace",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q1709184",
+        "label": "heating furnace",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q3588251",
+        "label": "heater",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q1183543",
+        "label": "appliance",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q39546",
+        "label": "physical tool",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q8205328",
+        "label": "artificial physical object",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q123691918",
+        "label": "tool",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q4406616",
+        "label": "concrete object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "heating furnace",
+      "siblings": "None",
+      "children": "bloomery"
+    },
+    "oracle_graph_context": {
+      "parents": "heating furnace",
+      "siblings": "None",
+      "children": "bloomery"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 703,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q96384666"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q1709184"
+      ],
+      "siblings": [],
+      "children": [
+        "wd:Q964257"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "blast furnace",
+    "metallurgical furnace",
+    "heating furnace",
+    "furnace",
+    "industrial equipment",
+    "structure",
+    "artificial physical object",
+    "physical object",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:59:56.246713+00:00",
+  "response": "{\"explanation\": \"The description 'historic furnace in Kentucky, USA' identifies Bourbon Iron Works as a historic blast furnace. In the taxonomy, heating furnace serves as the broader parent class, framing the thermal and industrial processing scope. The listed child class bloomery represents an alternative, direct-reduction iron furnace type; because Bourbon Iron Works was constructed and operated as a blast furnace rather than a bloomery, that narrower child is rejected. The valid types are arranged in order from most specific to broadest.\", \"types\": [\"blast furnace\", \"metallurgical furnace\", \"heating furnace\", \"furnace\", \"industrial equipment\", \"structure\", \"artificial physical object\", \"physical object\", \"entity\"]}",
+  "explanation": "The description 'historic furnace in Kentucky, USA' identifies Bourbon Iron Works as a historic blast furnace. In the taxonomy, heating furnace serves as the broader parent class, framing the thermal and industrial processing scope. The listed child class bloomery represents an alternative, direct-reduction iron furnace type; because Bourbon Iron Works was constructed and operated as a blast furnace rather than a bloomery, that narrower child is rejected. The valid types are arranged in order from most specific to broadest.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description 'historic furnace in Kentucky, USA' identifies Bourbon Iron Works as a historic blast furnace. In the taxonomy, heating furnace serves as the broader parent class, framing the thermal and industrial processing scope. The listed child class bloomery represents an alternative, direct-reduction iron furnace type; because Bourbon Iron Works was constructed and operated as a blast furnace rather than a bloomery, that narrower child is rejected. The valid types are arranged in order from most specific to broadest.\", \"types\": [\"blast furnace\", \"metallurgical furnace\", \"heating furnace\", \"furnace\", \"industrial equipment\", \"structure\", \"artificial physical object\", \"physical object\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 544,
+      "candidatesTokenCount": 138,
+      "totalTokenCount": 2363,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 544
+        }
+      ],
+      "thoughtsTokenCount": 1681,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "XJ21au-wHc2SxN8PoISsoQ4"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 544,
+    "candidatesTokenCount": 138,
+    "totalTokenCount": 2363,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 544
+      }
+    ],
+    "thoughtsTokenCount": 1681,
+    "serviceTier": "standard"
+  }
+}

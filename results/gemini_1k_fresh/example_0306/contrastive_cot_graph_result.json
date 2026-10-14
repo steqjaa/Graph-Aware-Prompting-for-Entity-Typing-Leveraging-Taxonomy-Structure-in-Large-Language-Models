@@ -1,0 +1,160 @@
+{
+  "example_number": 306,
+  "entity_id": "wd:Q5407797",
+  "entity_label": "Eugene Tobin",
+  "description": "American RAF World War II pilot",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0306/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0306/metadata.json",
+  "input_hash": "03f1f22ba731fb75bbc0a30353df17ac6ba20bba686c9cddd9fa10aa770bf907",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Eugene Tobin\nDescription: American RAF World War II pilot\n\nTaxonomy context:\n- Direct parent classes: military personnel\n- Sibling classes: military scientist, geographical engineer (military cartographer), veteran\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q5407797",
+    "entity_label": "Eugene Tobin",
+    "description": "American RAF World War II pilot",
+    "reference_class_id": "wd:Q408832",
+    "reference_type": "airman",
+    "gold_types": [
+      {
+        "class_id": "wd:Q408832",
+        "label": "airman",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q47064",
+        "label": "military personnel",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q1414937",
+        "label": "combatant",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "military personnel",
+      "siblings": "military scientist, geographical engineer (military cartographer), veteran",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "military personnel",
+      "siblings": "military scientist, geographical engineer (military cartographer), veteran",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 306,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q408832"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q47064"
+      ],
+      "siblings": [
+        "wd:Q104176943",
+        "wd:Q16643554",
+        "wd:Q193891"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "fighter pilot",
+    "military pilot",
+    "pilot",
+    "aviator",
+    "military personnel",
+    "person",
+    "organism",
+    "physical entity",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:30:09.700582+00:00",
+  "response": "{\"explanation\": \"The description \\\"American RAF World War II pilot\\\" firmly identifies Eugene Tobin as a fighter pilot and military pilot. In the taxonomy, the direct parent class military personnel establishes the broader category. Sibling classes such as military scientist and geographical engineer are rejected as unsupported by his combat flight role; veteran describes a status rather than his specific military aviation function. With no direct child classes listed, fighter pilot and military pilot remain the most accurate, evidence-supported specific types, followed by broader occupational and foundational classes.\", \"types\": [\"fighter pilot\", \"military pilot\", \"pilot\", \"aviator\", \"military personnel\", \"person\", \"organism\", \"physical entity\", \"entity\"]}",
+  "explanation": "The description \"American RAF World War II pilot\" firmly identifies Eugene Tobin as a fighter pilot and military pilot. In the taxonomy, the direct parent class military personnel establishes the broader category. Sibling classes such as military scientist and geographical engineer are rejected as unsupported by his combat flight role; veteran describes a status rather than his specific military aviation function. With no direct child classes listed, fighter pilot and military pilot remain the most accurate, evidence-supported specific types, followed by broader occupational and foundational classes.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"American RAF World War II pilot\\\" firmly identifies Eugene Tobin as a fighter pilot and military pilot. In the taxonomy, the direct parent class military personnel establishes the broader category. Sibling classes such as military scientist and geographical engineer are rejected as unsupported by his combat flight role; veteran describes a status rather than his specific military aviation function. With no direct child classes listed, fighter pilot and military pilot remain the most accurate, evidence-supported specific types, followed by broader occupational and foundational classes.\", \"types\": [\"fighter pilot\", \"military pilot\", \"pilot\", \"aviator\", \"military personnel\", \"person\", \"organism\", \"physical entity\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 552,
+      "candidatesTokenCount": 140,
+      "totalTokenCount": 1541,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 552
+        }
+      ],
+      "thoughtsTokenCount": 849,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "Ypa1au0dquTE3w-1sdbBDQ"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 552,
+    "candidatesTokenCount": 140,
+    "totalTokenCount": 1541,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 552
+      }
+    ],
+    "thoughtsTokenCount": 849,
+    "serviceTier": "standard"
+  }
+}

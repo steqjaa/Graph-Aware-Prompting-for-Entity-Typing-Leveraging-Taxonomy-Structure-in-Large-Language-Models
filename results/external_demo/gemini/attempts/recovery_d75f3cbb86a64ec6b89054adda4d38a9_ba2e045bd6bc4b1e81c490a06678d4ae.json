@@ -1,0 +1,158 @@
+{
+  "example_number": 540,
+  "entity_id": "wd:Q206384",
+  "entity_label": "Joseph Addison",
+  "description": "English essayist, poet, playwright and politician (1672–1719)",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0540/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0540/metadata.json",
+  "input_hash": "7db7c713ec98434484d093c1f23b5716b10e58d6182c260dca349e6c2e1480cc",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Joseph Addison\nDescription: English essayist, poet, playwright and politician (1672–1719)\n\nTaxonomy context:\n- Direct parent classes: creator\n- Sibling classes: crime fiction writer, advertising person, columnist\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q206384",
+    "entity_label": "Joseph Addison",
+    "description": "English essayist, poet, playwright and politician (1672–1719)",
+    "reference_class_id": "wd:Q3589290",
+    "reference_type": "correspondent",
+    "gold_types": [
+      {
+        "class_id": "wd:Q3589290",
+        "label": "correspondent",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q2500638",
+        "label": "creator",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "creator",
+      "siblings": "crime fiction writer, advertising person, columnist",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "creator",
+      "siblings": "crime fiction writer, advertising person, columnist",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 540,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q3589290"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q2500638"
+      ],
+      "siblings": [
+        "wd:Q10297252",
+        "wd:Q10355417",
+        "wd:Q1086863"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "essayist",
+    "poet",
+    "playwright",
+    "writer",
+    "politician",
+    "creator",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:16:58.490714+00:00",
+  "response": "{\"explanation\": \"The description identifies Joseph Addison as an 'English essayist, poet, playwright and politician', directly supporting specific literary roles such as essayist, poet, and playwright, as well as the overarching type writer. The taxonomy places creator as a direct parent, defining the broader artistic and intellectual domain. Sibling classes like crime fiction writer, advertising person, and columnist represent alternative creative specializations that are unsupported by the historical evidence. With no direct child classes indicated, the supported types are ordered from most specific literary and political roles to increasingly broad categories.\", \"types\": [\"essayist\", \"poet\", \"playwright\", \"writer\", \"politician\", \"creator\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The description identifies Joseph Addison as an 'English essayist, poet, playwright and politician', directly supporting specific literary roles such as essayist, poet, and playwright, as well as the overarching type writer. The taxonomy places creator as a direct parent, defining the broader artistic and intellectual domain. Sibling classes like crime fiction writer, advertising person, and columnist represent alternative creative specializations that are unsupported by the historical evidence. With no direct child classes indicated, the supported types are ordered from most specific literary and political roles to increasingly broad categories.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies Joseph Addison as an 'English essayist, poet, playwright and politician', directly supporting specific literary roles such as essayist, poet, and playwright, as well as the overarching type writer. The taxonomy places creator as a direct parent, defining the broader artistic and intellectual domain. Sibling classes like crime fiction writer, advertising person, and columnist represent alternative creative specializations that are unsupported by the historical evidence. With no direct child classes indicated, the supported types are ordered from most specific literary and political roles to increasingly broad categories.\", \"types\": [\"essayist\", \"poet\", \"playwright\", \"writer\", \"politician\", \"creator\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 560,
+      "candidatesTokenCount": 146,
+      "totalTokenCount": 2170,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 560
+        }
+      ],
+      "thoughtsTokenCount": 1464,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "-ibMaqCqLsainsEPhZ730As"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 560,
+    "candidatesTokenCount": 146,
+    "totalTokenCount": 2170,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 560
+      }
+    ],
+    "thoughtsTokenCount": 1464,
+    "serviceTier": "standard"
+  }
+}

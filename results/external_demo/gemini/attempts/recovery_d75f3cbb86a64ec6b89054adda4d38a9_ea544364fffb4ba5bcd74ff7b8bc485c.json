@@ -1,0 +1,169 @@
+{
+  "example_number": 890,
+  "entity_id": "wd:Q21536270",
+  "entity_label": "Charles Gavan Duffy",
+  "description": "Australian public servant (1855-1932)",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0890/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0890/metadata.json",
+  "input_hash": "358bb583658eeb3af70e672e27dbd627239c7c75c2bcbb1a0c3e14146d1dfd6f",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Charles Gavan Duffy\nDescription: Australian public servant (1855-1932)\n\nTaxonomy context:\n- Direct parent classes: government employee\n- Sibling classes: tax collector, probation officer, sysselmann\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q21536270",
+    "entity_label": "Charles Gavan Duffy",
+    "description": "Australian public servant (1855-1932)",
+    "reference_class_id": "wd:Q7246152",
+    "reference_type": "private secretary",
+    "gold_types": [
+      {
+        "class_id": "wd:Q7246152",
+        "label": "private secretary",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q3796928",
+        "label": "government employee",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q703534",
+        "label": "employee",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q327055",
+        "label": "worker",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "government employee",
+      "siblings": "tax collector, probation officer, sysselmann",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "government employee",
+      "siblings": "tax collector, probation officer, sysselmann",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 890,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q7246152"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q3796928"
+      ],
+      "siblings": [
+        "wd:Q1139055",
+        "wd:Q13968",
+        "wd:Q1591359"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "civil servant",
+    "government employee",
+    "employee",
+    "worker",
+    "person",
+    "sentient being",
+    "agent",
+    "living thing",
+    "physical entity",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:43:33.849565+00:00",
+  "response": "{\"explanation\": \"The description \\\"Australian public servant (1855-1932)\\\" directly supports civil servant (or public servant) as the most specific type. In the taxonomy, its direct parent is government employee, which sets the broader employment scope. Sibling classes like tax collector, probation officer, and sysselmann represent specialized administrative or law enforcement roles not indicated by the text. The child context is None, precluding narrower specializations. The remaining classes follow a valid decreasing order of specificity from government worker to physical entity.\", \"types\": [\"civil servant\", \"government employee\", \"employee\", \"worker\", \"person\", \"sentient being\", \"agent\", \"living thing\", \"physical entity\", \"entity\"]}",
+  "explanation": "The description \"Australian public servant (1855-1932)\" directly supports civil servant (or public servant) as the most specific type. In the taxonomy, its direct parent is government employee, which sets the broader employment scope. Sibling classes like tax collector, probation officer, and sysselmann represent specialized administrative or law enforcement roles not indicated by the text. The child context is None, precluding narrower specializations. The remaining classes follow a valid decreasing order of specificity from government worker to physical entity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"Australian public servant (1855-1932)\\\" directly supports civil servant (or public servant) as the most specific type. In the taxonomy, its direct parent is government employee, which sets the broader employment scope. Sibling classes like tax collector, probation officer, and sysselmann represent specialized administrative or law enforcement roles not indicated by the text. The child context is None, precluding narrower specializations. The remaining classes follow a valid decreasing order of specificity from government worker to physical entity.\", \"types\": [\"civil servant\", \"government employee\", \"employee\", \"worker\", \"person\", \"sentient being\", \"agent\", \"living thing\", \"physical entity\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 558,
+      "candidatesTokenCount": 150,
+      "totalTokenCount": 1137,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 558
+        }
+      ],
+      "thoughtsTokenCount": 429,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "Ni3MauCZBcrtxs0Pyoeo0A0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 558,
+    "candidatesTokenCount": 150,
+    "totalTokenCount": 1137,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 558
+      }
+    ],
+    "thoughtsTokenCount": 429,
+    "serviceTier": "standard"
+  }
+}

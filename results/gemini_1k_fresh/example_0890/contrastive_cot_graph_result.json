@@ -1,0 +1,164 @@
+{
+  "example_number": 890,
+  "entity_id": "wd:Q21536270",
+  "entity_label": "Charles Gavan Duffy",
+  "description": "Australian public servant (1855-1932)",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0890/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0890/metadata.json",
+  "input_hash": "a26bed27ee05a9e546a538fe196e55b47c7672cb7199c15ea1d04ae54c1a41ac",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Charles Gavan Duffy\nDescription: Australian public servant (1855-1932)\n\nTaxonomy context:\n- Direct parent classes: government employee\n- Sibling classes: tax collector, probation officer, sysselmann\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q21536270",
+    "entity_label": "Charles Gavan Duffy",
+    "description": "Australian public servant (1855-1932)",
+    "reference_class_id": "wd:Q7246152",
+    "reference_type": "private secretary",
+    "gold_types": [
+      {
+        "class_id": "wd:Q7246152",
+        "label": "private secretary",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q3796928",
+        "label": "government employee",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q703534",
+        "label": "employee",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q327055",
+        "label": "worker",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "government employee",
+      "siblings": "tax collector, probation officer, sysselmann",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "government employee",
+      "siblings": "tax collector, probation officer, sysselmann",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 890,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q7246152"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q3796928"
+      ],
+      "siblings": [
+        "wd:Q1139055",
+        "wd:Q13968",
+        "wd:Q1591359"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "public servant",
+    "civil servant",
+    "government employee",
+    "employee",
+    "worker",
+    "person",
+    "organism",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:14:02.935250+00:00",
+  "response": "{\"explanation\": \"The description \\\"Australian public servant (1855-1932)\\\" directly supports public servant (or civil servant) as the most specific entity type. In the provided taxonomy, the direct parent class is government employee, which defines the broader occupational category. Sibling classes such as tax collector, probation officer, and sysselmann represent specialized roles that are not corroborated by the general description. With no child classes listed, no narrower specialization is justified. The remaining classes follow a clear hierarchy of decreasing specificity.\", \"types\": [\"public servant\", \"civil servant\", \"government employee\", \"employee\", \"worker\", \"person\", \"organism\", \"entity\"]}",
+  "explanation": "The description \"Australian public servant (1855-1932)\" directly supports public servant (or civil servant) as the most specific entity type. In the provided taxonomy, the direct parent class is government employee, which defines the broader occupational category. Sibling classes such as tax collector, probation officer, and sysselmann represent specialized roles that are not corroborated by the general description. With no child classes listed, no narrower specialization is justified. The remaining classes follow a clear hierarchy of decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"Australian public servant (1855-1932)\\\" directly supports public servant (or civil servant) as the most specific entity type. In the provided taxonomy, the direct parent class is government employee, which defines the broader occupational category. Sibling classes such as tax collector, probation officer, and sysselmann represent specialized roles that are not corroborated by the general description. With no child classes listed, no narrower specialization is justified. The remaining classes follow a clear hierarchy of decreasing specificity.\", \"types\": [\"public servant\", \"civil servant\", \"government employee\", \"employee\", \"worker\", \"person\", \"organism\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 560,
+      "candidatesTokenCount": 139,
+      "totalTokenCount": 1527,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 560
+        }
+      ],
+      "thoughtsTokenCount": 828,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "q6C1atayC8-GxN8PxomyuQ4"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 560,
+    "candidatesTokenCount": 139,
+    "totalTokenCount": 1527,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 560
+      }
+    ],
+    "thoughtsTokenCount": 828,
+    "serviceTier": "standard"
+  }
+}

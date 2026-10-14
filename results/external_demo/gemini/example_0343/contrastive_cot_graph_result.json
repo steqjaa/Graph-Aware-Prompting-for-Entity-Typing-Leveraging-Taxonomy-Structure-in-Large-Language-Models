@@ -1,0 +1,165 @@
+{
+  "example_number": 343,
+  "entity_id": "wd:Q5047219",
+  "entity_label": "Carter Stevens",
+  "description": "American pornographic film actor and director",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0343/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0343/metadata.json",
+  "input_hash": "58d3dc530134e1e2b4284a0a121da6c5b68325fe6677b40c2989e100175772ab",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Carter Stevens\nDescription: American pornographic film actor and director\n\nTaxonomy context:\n- Direct parent classes: sex worker\n- Sibling classes: webcam model, stripper, madam\n- Direct child classes: AV idol\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q5047219",
+    "entity_label": "Carter Stevens",
+    "description": "American pornographic film actor and director",
+    "reference_class_id": "wd:Q488111",
+    "reference_type": "pornographic actor",
+    "gold_types": [
+      {
+        "class_id": "wd:Q488111",
+        "label": "pornographic actor",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q852857",
+        "label": "sex worker",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q327055",
+        "label": "worker",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "sex worker",
+      "siblings": "webcam model, stripper, madam",
+      "children": "AV idol"
+    },
+    "oracle_graph_context": {
+      "parents": "sex worker",
+      "siblings": "webcam model, stripper, madam",
+      "children": "AV idol"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 343,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q488111"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q852857"
+      ],
+      "siblings": [
+        "wd:Q1027930",
+        "wd:Q1141526",
+        "wd:Q2011889"
+      ],
+      "children": [
+        "wd:Q1079215"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "pornographic film actor",
+    "pornographic film director",
+    "film director",
+    "actor",
+    "sex worker",
+    "director",
+    "performer",
+    "person",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "f67d84811a774b589c00ae3c28d53648",
+  "timestamp_utc": "2026-10-11T23:53:15.926299+00:00",
+  "response": "{\"explanation\": \"The description identifies Carter Stevens as an 'American pornographic film actor and director'. Given the taxonomy context where the direct parent is sex worker and child is AV idol, the most specific supported type for his performance work is pornographic film actor. Sibling classes under sex worker such as webcam model, stripper, and madam represent different forms of sex work not supported by the evidence. The child class AV idol is specific to the Japanese adult entertainment industry and does not apply to an American performer. Carter Stevens is also explicitly a pornographic film director and film director, followed by broader categories like actor, director, sex worker, and person.\", \"types\": [\"pornographic film actor\", \"pornographic film director\", \"film director\", \"actor\", \"sex worker\", \"director\", \"performer\", \"person\", \"entity\"]}",
+  "explanation": "The description identifies Carter Stevens as an 'American pornographic film actor and director'. Given the taxonomy context where the direct parent is sex worker and child is AV idol, the most specific supported type for his performance work is pornographic film actor. Sibling classes under sex worker such as webcam model, stripper, and madam represent different forms of sex work not supported by the evidence. The child class AV idol is specific to the Japanese adult entertainment industry and does not apply to an American performer. Carter Stevens is also explicitly a pornographic film director and film director, followed by broader categories like actor, director, sex worker, and person.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies Carter Stevens as an 'American pornographic film actor and director'. Given the taxonomy context where the direct parent is sex worker and child is AV idol, the most specific supported type for his performance work is pornographic film actor. Sibling classes under sex worker such as webcam model, stripper, and madam represent different forms of sex work not supported by the evidence. The child class AV idol is specific to the Japanese adult entertainment industry and does not apply to an American performer. Carter Stevens is also explicitly a pornographic film director and film director, followed by broader categories like actor, director, sex worker, and person.\", \"types\": [\"pornographic film actor\", \"pornographic film director\", \"film director\", \"actor\", \"sex worker\", \"director\", \"performer\", \"person\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 547,
+      "candidatesTokenCount": 169,
+      "totalTokenCount": 1139,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 547
+        }
+      ],
+      "thoughtsTokenCount": 423,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "bCHMatbrCsib3boPrLjDCQ"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 547,
+    "candidatesTokenCount": 169,
+    "totalTokenCount": 1139,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 547
+      }
+    ],
+    "thoughtsTokenCount": 423,
+    "serviceTier": "standard"
+  }
+}

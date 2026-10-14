@@ -1,0 +1,149 @@
+{
+  "example_number": 852,
+  "entity_id": "wd:Q6817930",
+  "entity_label": "Meramec Conservation Area",
+  "description": "conservation area in Missouri, US",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0852/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0852/metadata.json",
+  "input_hash": "5c553de0dc5dad7ccab49948268b5f636c8578fe2aac78deae7e28f63616dc76",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Meramec Conservation Area\nDescription: conservation area in Missouri, US\n\nTaxonomy context:\n- Direct parent classes: protected area\n- Sibling classes: Indigenous Protected Area, cultural reserve, wildlife conservation area\n- Direct child classes: Bannwald\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q6817930",
+    "entity_label": "Meramec Conservation Area",
+    "description": "conservation area in Missouri, US",
+    "reference_class_id": "wd:Q936257",
+    "reference_type": "conservation area",
+    "gold_types": [
+      {
+        "class_id": "wd:Q936257",
+        "label": "conservation area",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q473972",
+        "label": "protected area",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q386426",
+        "label": "natural heritage",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q2434238",
+        "label": "heritage",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "protected area",
+      "siblings": "Indigenous Protected Area, cultural reserve, wildlife conservation area",
+      "children": "Bannwald"
+    },
+    "oracle_graph_context": {
+      "parents": "protected area",
+      "siblings": "Indigenous Protected Area, cultural reserve, wildlife conservation area",
+      "children": "Bannwald"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 852,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q936257"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q473972"
+      ],
+      "siblings": [
+        "wd:Q10514237",
+        "wd:Q10550024",
+        "wd:Q108059873"
+      ],
+      "children": [
+        "wd:Q15900779"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "conservation area",
+    "protected area",
+    "geographic location",
+    "location",
+    "spatial entity",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:11:10.768707+00:00",
+  "response": "{\"explanation\": \"The description identifies the entity as a 'conservation area in Missouri, US', directly supporting 'conservation area' as the most specific type. Its direct parent in the taxonomy is 'protected area', which defines the broader category. Sibling classes such as 'Indigenous Protected Area' and 'cultural reserve' are not supported by the context, nor is the child class 'Bannwald' (a specific German forest reserve concept). The inferred types are arranged from most specific to broadest based on this taxonomy.\", \"types\": [\"conservation area\", \"protected area\", \"geographic location\", \"location\", \"spatial entity\", \"entity\"]}",
+  "explanation": "The description identifies the entity as a 'conservation area in Missouri, US', directly supporting 'conservation area' as the most specific type. Its direct parent in the taxonomy is 'protected area', which defines the broader category. Sibling classes such as 'Indigenous Protected Area' and 'cultural reserve' are not supported by the context, nor is the child class 'Bannwald' (a specific German forest reserve concept). The inferred types are arranged from most specific to broadest based on this taxonomy.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies the entity as a 'conservation area in Missouri, US', directly supporting 'conservation area' as the most specific type. Its direct parent in the taxonomy is 'protected area', which defines the broader category. Sibling classes such as 'Indigenous Protected Area' and 'cultural reserve' are not supported by the context, nor is the child class 'Bannwald' (a specific German forest reserve concept). The inferred types are arranged from most specific to broadest based on this taxonomy.\", \"types\": [\"conservation area\", \"protected area\", \"geographic location\", \"location\", \"spatial entity\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 555,
+      "candidatesTokenCount": 128,
+      "totalTokenCount": 1228,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 555
+        }
+      ],
+      "thoughtsTokenCount": 545,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "_5-1avv-Aav3xN8PopjUuAw"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 555,
+    "candidatesTokenCount": 128,
+    "totalTokenCount": 1228,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 555
+      }
+    ],
+    "thoughtsTokenCount": 545,
+    "serviceTier": "standard"
+  }
+}

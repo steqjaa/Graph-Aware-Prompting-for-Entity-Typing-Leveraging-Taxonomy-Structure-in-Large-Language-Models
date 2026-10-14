@@ -1,0 +1,172 @@
+{
+  "example_number": 873,
+  "entity_id": "wd:Q3276252",
+  "entity_label": "DISA A/S",
+  "description": "Danish manufacturing limited company",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0873/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0873/metadata.json",
+  "input_hash": "8fdd3187437b0d59ebb299e7ac392c7493fa499b68209aa0163acb5d4791aa5e",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: DISA A/S\nDescription: Danish manufacturing limited company\n\nTaxonomy context:\n- Direct parent classes: business\n- Sibling classes: art gallery, software company, tea house\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q3276252",
+    "entity_label": "DISA A/S",
+    "description": "Danish manufacturing limited company",
+    "reference_class_id": "wd:Q2538889",
+    "reference_type": "weapons manufacturing company",
+    "gold_types": [
+      {
+        "class_id": "wd:Q2538889",
+        "label": "weapons manufacturing company",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q4830453",
+        "label": "business",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "business",
+      "siblings": "art gallery, software company, tea house",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "business",
+      "siblings": "art gallery, software company, tea house",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 873,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q2538889"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q4830453"
+      ],
+      "siblings": [
+        "wd:Q1007870",
+        "wd:Q1058914",
+        "wd:Q1072166"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "manufacturing company",
+    "company",
+    "business",
+    "commercial enterprise",
+    "organization",
+    "corporate body",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:42:17.346683+00:00",
+  "response": "{\"explanation\": \"The description identifies DISA A/S as a 'Danish manufacturing limited company', supporting 'manufacturing company' as the most specific entity type. Its taxonomy parent 'business' defines the broader scope. Sibling classes like 'art gallery', 'software company', and 'tea house' represent alternative domains of business not supported by the evidence of manufacturing. There are no listed child classes to evaluate. Broader valid classes are arranged in descending order of specificity from manufacturing company to general business, organization, and entity.\", \"types\": [\"manufacturing company\", \"company\", \"business\", \"commercial enterprise\", \"organization\", \"corporate body\", \"agent\", \"entity\"]}",
+  "explanation": "The description identifies DISA A/S as a 'Danish manufacturing limited company', supporting 'manufacturing company' as the most specific entity type. Its taxonomy parent 'business' defines the broader scope. Sibling classes like 'art gallery', 'software company', and 'tea house' represent alternative domains of business not supported by the evidence of manufacturing. There are no listed child classes to evaluate. Broader valid classes are arranged in descending order of specificity from manufacturing company to general business, organization, and entity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies DISA A/S as a 'Danish manufacturing limited company', supporting 'manufacturing company' as the most specific entity type. Its taxonomy parent 'business' defines the broader scope. Sibling classes like 'art gallery', 'software company', and 'tea house' represent alternative domains of business not supported by the evidence of manufacturing. There are no listed child classes to evaluate. Broader valid classes are arranged in descending order of specificity from manufacturing company to general business, organization, and entity.\", \"types\": [\"manufacturing company\", \"company\", \"business\", \"commercial enterprise\", \"organization\", \"corporate body\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 547,
+      "candidatesTokenCount": 136,
+      "totalTokenCount": 1136,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 547
+        }
+      ],
+      "thoughtsTokenCount": 453,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "6SzMat_4JNv7nsEP4Loz"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 547,
+    "candidatesTokenCount": 136,
+    "totalTokenCount": 1136,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 547
+      }
+    ],
+    "thoughtsTokenCount": 453,
+    "serviceTier": "standard"
+  }
+}

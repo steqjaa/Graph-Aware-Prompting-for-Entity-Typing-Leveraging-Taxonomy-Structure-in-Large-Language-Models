@@ -1,0 +1,168 @@
+{
+  "example_number": 102,
+  "entity_id": "wd:Q6517256",
+  "entity_label": "Legacy Museum of African American History",
+  "description": "organization",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0102/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0102/metadata.json",
+  "input_hash": "5d27c86da07284941e3001e3410a744d159520ee7391d1cc0d2f4fee5bccf91f",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Legacy Museum of African American History\nDescription: organization\n\nTaxonomy context:\n- Direct parent classes: museum\n- Sibling classes: memorial museum, archaeological artifact museum, cabinet of curiosities\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q6517256",
+    "entity_label": "Legacy Museum of African American History",
+    "description": "organization",
+    "reference_class_id": "wd:Q54934129",
+    "reference_type": "African-American museum",
+    "gold_types": [
+      {
+        "class_id": "wd:Q54934129",
+        "label": "African-American museum",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q33506",
+        "label": "museum",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "museum",
+      "siblings": "memorial museum, archaeological artifact museum, cabinet of curiosities",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "museum",
+      "siblings": "memorial museum, archaeological artifact museum, cabinet of curiosities",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 102,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q54934129"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q33506"
+      ],
+      "siblings": [
+        "wd:Q105725005",
+        "wd:Q112132548",
+        "wd:Q1146002"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "history museum",
+    "museum",
+    "cultural institution",
+    "institution",
+    "organization",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:14:36.708935+00:00",
+  "response": "{\"explanation\": \"The entity 'Legacy Museum of African American History' specifically represents a history museum dedicated to preserving and interpreting historical heritage. In the taxonomy context, 'museum' is the direct parent class. Sibling classes under museum such as 'memorial museum', 'archaeological artifact museum', and 'cabinet of curiosities' represent alternative museum specializations that are less accurate or lack direct evidence compared to 'history museum'. There are no direct child classes indicated. Therefore, 'history museum' is the most specific justified type, followed by broader taxonomic classes.\", \"types\": [\"history museum\", \"museum\", \"cultural institution\", \"institution\", \"organization\", \"agent\", \"entity\"]}",
+  "explanation": "The entity 'Legacy Museum of African American History' specifically represents a history museum dedicated to preserving and interpreting historical heritage. In the taxonomy context, 'museum' is the direct parent class. Sibling classes under museum such as 'memorial museum', 'archaeological artifact museum', and 'cabinet of curiosities' represent alternative museum specializations that are less accurate or lack direct evidence compared to 'history museum'. There are no direct child classes indicated. Therefore, 'history museum' is the most specific justified type, followed by broader taxonomic classes.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The entity 'Legacy Museum of African American History' specifically represents a history museum dedicated to preserving and interpreting historical heritage. In the taxonomy context, 'museum' is the direct parent class. Sibling classes under museum such as 'memorial museum', 'archaeological artifact museum', and 'cabinet of curiosities' represent alternative museum specializations that are less accurate or lack direct evidence compared to 'history museum'. There are no direct child classes indicated. Therefore, 'history museum' is the most specific justified type, followed by broader taxonomic classes.\", \"types\": [\"history museum\", \"museum\", \"cultural institution\", \"institution\", \"organization\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 550,
+      "candidatesTokenCount": 138,
+      "totalTokenCount": 1290,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 550
+        }
+      ],
+      "thoughtsTokenCount": 602,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "vJK1atvROZOOxN8P4qKU4Q0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 550,
+    "candidatesTokenCount": 138,
+    "totalTokenCount": 1290,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 550
+      }
+    ],
+    "thoughtsTokenCount": 602,
+    "serviceTier": "standard"
+  }
+}

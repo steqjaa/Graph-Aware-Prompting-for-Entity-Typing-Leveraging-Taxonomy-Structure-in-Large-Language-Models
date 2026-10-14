@@ -1,0 +1,154 @@
+{
+  "example_number": 28,
+  "entity_id": "wd:Q811859",
+  "entity_label": "Bauschänzli",
+  "description": "square",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0028/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0028/metadata.json",
+  "input_hash": "3c89ec254221997f76fc41b843cdfee025d66edf2e9fbb9ebe7da603398bb6a6",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Bauschänzli\nDescription: square\n\nTaxonomy context:\n- Direct parent classes: artificial physical object\n- Sibling classes: quilt, two-dimensional visual artwork, clothing\n- Direct child classes: climbing wall, caravanserai, inflatable space structure\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q811859",
+    "entity_label": "Bauschänzli",
+    "description": "square",
+    "reference_class_id": "wd:Q15710804",
+    "reference_type": "built structure",
+    "gold_types": [
+      {
+        "class_id": "wd:Q15710804",
+        "label": "built structure",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q8205328",
+        "label": "artificial physical object",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q4406616",
+        "label": "concrete object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "artificial physical object",
+      "siblings": "quilt, two-dimensional visual artwork, clothing",
+      "children": "climbing wall, caravanserai, inflatable space structure"
+    },
+    "oracle_graph_context": {
+      "parents": "artificial physical object",
+      "siblings": "quilt, two-dimensional visual artwork, clothing",
+      "children": "climbing wall, caravanserai, inflatable space structure"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 28,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q15710804"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q8205328"
+      ],
+      "siblings": [
+        "wd:Q1064538",
+        "wd:Q110304307",
+        "wd:Q11460"
+      ],
+      "children": [
+        "wd:Q1427951",
+        "wd:Q186347",
+        "wd:Q6030150"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "public square",
+    "square",
+    "architectural structure",
+    "structure",
+    "artificial physical object",
+    "physical object",
+    "spatial analysis unit",
+    "object",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:09:02.709545+00:00",
+  "response": "{\n  \"explanation\": \"The entity Bauschänzli is described as a 'square' (town square / public square). In the taxonomy context, the omitted category connecting to the parent 'artificial physical object' is architectural structure, which encompasses built urban and spatial structures such as squares, caravanserais, and climbing walls. Sibling classes like quilt, clothing, and two-dimensional visual artwork represent non-architectural manufactured items and are clearly inappropriate. The listed child classes (climbing wall, caravanserai, inflatable space structure) are specialized architectural forms not supported by the description 'square'. Therefore, public square / square is the most specific valid type, followed by architectural structure and broader physical object categories.\",\n  \"types\": [\n    \"public square\",\n    \"square\",\n    \"architectural structure\",\n    \"structure\",\n    \"artificial physical object\",\n    \"physical object\",\n    \"spatial analysis unit\",\n    \"object\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The entity Bauschänzli is described as a 'square' (town square / public square). In the taxonomy context, the omitted category connecting to the parent 'artificial physical object' is architectural structure, which encompasses built urban and spatial structures such as squares, caravanserais, and climbing walls. Sibling classes like quilt, clothing, and two-dimensional visual artwork represent non-architectural manufactured items and are clearly inappropriate. The listed child classes (climbing wall, caravanserai, inflatable space structure) are specialized architectural forms not supported by the description 'square'. Therefore, public square / square is the most specific valid type, followed by architectural structure and broader physical object categories.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The entity Bauschänzli is described as a 'square' (town square / public square). In the taxonomy context, the omitted category connecting to the parent 'artificial physical object' is architectural structure, which encompasses built urban and spatial structures such as squares, caravanserais, and climbing walls. Sibling classes like quilt, clothing, and two-dimensional visual artwork represent non-architectural manufactured items and are clearly inappropriate. The listed child classes (climbing wall, caravanserai, inflatable space structure) are specialized architectural forms not supported by the description 'square'. Therefore, public square / square is the most specific valid type, followed by architectural structure and broader physical object categories.\",\n  \"types\": [\n    \"public square\",\n    \"square\",\n    \"architectural structure\",\n    \"structure\",\n    \"artificial physical object\",\n    \"physical object\",\n    \"spatial analysis unit\",\n    \"object\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 557,
+      "candidatesTokenCount": 208,
+      "totalTokenCount": 2056,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 557
+        }
+      ],
+      "thoughtsTokenCount": 1291,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "bpG1atugOcWXvdIP8oH5kA0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 557,
+    "candidatesTokenCount": 208,
+    "totalTokenCount": 2056,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 557
+      }
+    ],
+    "thoughtsTokenCount": 1291,
+    "serviceTier": "standard"
+  }
+}

@@ -1,0 +1,163 @@
+{
+  "example_number": 216,
+  "entity_id": "wd:Q7894369",
+  "entity_label": "Universidade Federal Rural do Semi-Árido",
+  "description": "university in Brazil",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0216/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0216/metadata.json",
+  "input_hash": "cdc262eb67c827d2cbb03344089ab8e57adcd9d0de1c6546ba931c8055a0447f",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Universidade Federal Rural do Semi-Árido\nDescription: university in Brazil\n\nTaxonomy context:\n- Direct parent classes: organization\n- Sibling classes: national trust, Native American organization, hackerspace\n- Direct child classes: state school, ministry-owned university, Moroccan public institution\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q7894369",
+    "entity_label": "Universidade Federal Rural do Semi-Árido",
+    "description": "university in Brazil",
+    "reference_class_id": "wd:Q294163",
+    "reference_type": "public institution",
+    "gold_types": [
+      {
+        "class_id": "wd:Q294163",
+        "label": "public institution",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "organization",
+      "siblings": "national trust, Native American organization, hackerspace",
+      "children": "state school, ministry-owned university, Moroccan public institution"
+    },
+    "oracle_graph_context": {
+      "parents": "organization",
+      "siblings": "national trust, Native American organization, hackerspace",
+      "children": "state school, ministry-owned university, Moroccan public institution"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 216,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q294163"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q43229"
+      ],
+      "siblings": [
+        "wd:Q1006283",
+        "wd:Q100731037",
+        "wd:Q1032372"
+      ],
+      "children": [
+        "wd:Q1080794",
+        "wd:Q10875128",
+        "wd:Q121614922"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "status": "completed",
+  "predictions": [
+    "federal university",
+    "public university",
+    "university",
+    "higher education institution",
+    "educational institution",
+    "organization",
+    "corporate body",
+    "entity"
+  ],
+  "timestamp_utc": "2026-09-24T20:44:19.722128+00:00",
+  "response": "{\"explanation\": \"The entity description \\\"university in Brazil\\\" and name \\\"Universidade Federal Rural do Semi-Árido\\\" indicate that it is a federal university and public university. In the taxonomy, organization serves as a broader parent class defining the institutional scope. Sibling classes of the intermediate educational institution categories, such as national trust, Native American organization, or hackerspace, represent unrelated organization categories and are rejected. Direct child classes like state school, ministry-owned university, or Moroccan public institution are either too narrow, geographically specific (Moroccan), or specific administrative forms not explicitly justified over standard public higher education types, though federal university accurately captures its specific status. Broader valid classes follow in descending order of specificity.\", \"types\": [\"federal university\", \"public university\", \"university\", \"higher education institution\", \"educational institution\", \"organization\", \"corporate body\", \"entity\"]}",
+  "explanation": "The entity description \"university in Brazil\" and name \"Universidade Federal Rural do Semi-Árido\" indicate that it is a federal university and public university. In the taxonomy, organization serves as a broader parent class defining the institutional scope. Sibling classes of the intermediate educational institution categories, such as national trust, Native American organization, or hackerspace, represent unrelated organization categories and are rejected. Direct child classes like state school, ministry-owned university, or Moroccan public institution are either too narrow, geographically specific (Moroccan), or specific administrative forms not explicitly justified over standard public higher education types, though federal university accurately captures its specific status. Broader valid classes follow in descending order of specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The entity description \\\"university in Brazil\\\" and name \\\"Universidade Federal Rural do Semi-Árido\\\" indicate that it is a federal university and public university. In the taxonomy, organization serves as a broader parent class defining the institutional scope. Sibling classes of the intermediate educational institution categories, such as national trust, Native American organization, or hackerspace, represent unrelated organization categories and are rejected. Direct child classes like state school, ministry-owned university, or Moroccan public institution are either too narrow, geographically specific (Moroccan), or specific administrative forms not explicitly justified over standard public higher education types, though federal university accurately captures its specific status. Broader valid classes follow in descending order of specificity.\", \"types\": [\"federal university\", \"public university\", \"university\", \"higher education institution\", \"educational institution\", \"organization\", \"corporate body\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 563,
+      "candidatesTokenCount": 178,
+      "totalTokenCount": 1631,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 563
+        }
+      ],
+      "thoughtsTokenCount": 890,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "o4u1asezO9z5xN8Pr_nQkQE"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 563,
+    "candidatesTokenCount": 178,
+    "totalTokenCount": 1631,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 563
+      }
+    ],
+    "thoughtsTokenCount": 890,
+    "serviceTier": "standard"
+  }
+}

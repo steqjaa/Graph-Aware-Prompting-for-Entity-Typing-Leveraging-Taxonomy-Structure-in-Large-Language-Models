@@ -1,0 +1,160 @@
+{
+  "example_number": 979,
+  "entity_id": "wd:Q61828932",
+  "entity_label": "Marco Gavelli",
+  "description": "Italian wrestler",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0979/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0979/metadata.json",
+  "input_hash": "c8e1a44bae97531c068f225a4d1fd1e1cddc046a1bb0470a466331a306ba27e6",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Marco Gavelli\nDescription: Italian wrestler\n\nTaxonomy context:\n- Direct parent classes: athlete\n- Sibling classes: competition climber, tennis player, field hockey player\n- Direct child classes: amateur wrestler, professional wrestler\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q61828932",
+    "entity_label": "Marco Gavelli",
+    "description": "Italian wrestler",
+    "reference_class_id": "wd:Q27978698",
+    "reference_type": "wrestler",
+    "gold_types": [
+      {
+        "class_id": "wd:Q27978698",
+        "label": "wrestler",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q2066131",
+        "label": "athlete",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q50995749",
+        "label": "sportsperson",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "athlete",
+      "siblings": "competition climber, tennis player, field hockey player",
+      "children": "amateur wrestler, professional wrestler"
+    },
+    "oracle_graph_context": {
+      "parents": "athlete",
+      "siblings": "competition climber, tennis player, field hockey player",
+      "children": "amateur wrestler, professional wrestler"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 979,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q27978698"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q2066131"
+      ],
+      "siblings": [
+        "wd:Q107690317",
+        "wd:Q10833314",
+        "wd:Q10843263"
+      ],
+      "children": [
+        "wd:Q12369333",
+        "wd:Q13474373"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "wrestler",
+    "athlete",
+    "contestant",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:20:43.931091+00:00",
+  "response": "{\"explanation\": \"The description \\\"Italian wrestler\\\" directly identifies Marco Gavelli as a wrestler. Under the direct parent class athlete, wrestler represents the most specific category firmly established by the text. While child classes include amateur wrestler and professional wrestler, the brief description does not provide sufficient independent evidence to choose one over the other. Sibling classes such as competition climber, tennis player, and field hockey player represent entirely different sports and are rejected. The inferred types progress from wrestler to broader valid categories including athlete and person.\", \"types\": [\"wrestler\", \"athlete\", \"contestant\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The description \"Italian wrestler\" directly identifies Marco Gavelli as a wrestler. Under the direct parent class athlete, wrestler represents the most specific category firmly established by the text. While child classes include amateur wrestler and professional wrestler, the brief description does not provide sufficient independent evidence to choose one over the other. Sibling classes such as competition climber, tennis player, and field hockey player represent entirely different sports and are rejected. The inferred types progress from wrestler to broader valid categories including athlete and person.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"Italian wrestler\\\" directly identifies Marco Gavelli as a wrestler. Under the direct parent class athlete, wrestler represents the most specific category firmly established by the text. While child classes include amateur wrestler and professional wrestler, the brief description does not provide sufficient independent evidence to choose one over the other. Sibling classes such as competition climber, tennis player, and field hockey player represent entirely different sports and are rejected. The inferred types progress from wrestler to broader valid categories including athlete and person.\", \"types\": [\"wrestler\", \"athlete\", \"contestant\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "EqANCp0NAWkUfRMd3d4f7oOjeJDkfd7ECw7wqe1VeWxo+igFF3oWjQ9mRfAWGm8kv+1tMAC3RMykKQj8abYNk5uEy4vO4pwDXG5E4+Tzm1yWD23tCkxVm7TRECFGex6PYZKFKA3KFmTFCtgR4JJ3OWsCSWv8rgwKkcHCPsh0wDLDCEqeT5QKKFag3CE6DxDI9y8KaLPOXlOQDguJJJbAb9paHrNWpvDGYPaCtZqQ86WBWxz23vGwa25h7plP5lOGnXdKk1ux6LHyXlN+/9osAhlJEQW2CFBW10r1zFo3S/PbA9krE597gS7/dei0AD6Tq+fg9p8Oql98XHRmZw+Bhemm89F9NQxCat7rP0lo8mqmq+aEn+NKstOKSC8/sCmh3rbK9YruwEw6JqwfeP5aFQ7AaiIOsvrwPG1VNP90vNI46sjDfotGAPO6Ixd8D9XoMTGiQXYsuGMnUk6GuQRWRiu8uwh8G+XuddGGItYL7DwkXwwEqekTV7h0/Cec/Om4GwjFBH+1PFFDg78CCO9ivwh0V2+MnhihEK1XRGrje0m7HEDfc5qFmeoMSW/Eoc87TYh/PgnBlBafy6euGUehAdQ0SrBdjMaVafRKO+TgR+6eDaw/d2usuWG9lbN08AkKSPqENNmk7RKoDpmo4j4X+qYlg+HhEOEObexw3U60URPwOCgx51+6+gNwPfrV0jlm0RqomkiIPP7cggc726lc9+68f+0O3BXYSOaOWwCYuyjL+lwgm04QGBi3d2DmVYvUEsmgub1BFcIYJiiH/QyoNlf8A/xJIDIZjftz9kSDBdsLnn4DG1WYy2kB/55SZTYlNSY7CNuFYKXgC6CbEi5pJ+LCz5eFKEOKZojyr5wJCM+ELXsxSEQvTg6v9ZkNpZm2i9kycsPeuCvM0LDz3CPuDNBrMJf7LKcxyJNfFsbqk5MEVjblElTLHX7Eu/xQdPHYPTBvvonOoh+j1vps8b1jswBLVICOn3+10FDoVsF0Ul1z+pfpMoJ1OJQF3OEjIpdAY2MeYgDMtbUh0giSjs0GL9KJVim1gpCC09sShVgsquV914zTGwRtxP4efANuy8hZwiz8t3eZJVY91jKOqj5WIw6XXHbZBDtnMPX7GUj2RQzbO6HQlLR7sN8Zhjeh0QdDAN8lSp/g7MdDOuOcYjc2gYGpdycpGBx81lme/I497iZXqB006iRzl8xDspZO+wu2XEiFodhSUA1asP2pBHKrj4v0BiT7BBDyYVP/jHXJ+xKXC2/UYKe4hvIPmmVAu+FTvU23DC+gvLLjpYQw4NZWRyOfxMZmExRnf8DSi3iCo1eaNK9U/x0IjWAyDWlkAW5+MaJP5yiw+PyTtT9S8R99c6FVFlPy/rQ4LKi7VPPg//jY/UCx15zx0okbW6y1b6orGYnhtxGrQ2yT84YV/RWinL1SqG7zTJRLwiQqpCxlmdDwTvdp+JqiKWBmn10dJ/uIbe8T8yKkrBjGG/aQC5Cy5VJL6oA+27CDCnbdjoBJAxpUqutAKj4Az8Z71s/OTjWuNPbr0vKZIBhqYATJ/eOz+nclOnvR7+zqFQ8GqzxdJj9wSy20F1Si/KPHYYsWz1jYXN+zrxF8qI2phABIawuXUt+zlA8R2sSYNOV31z1QmCC/ApGVyt6WDbhAsD0gXCwM7h5j6Hwcgj0wy2uQ0V079GBMXaT+D7Xd0l2QzXookQfkmcbrZfHQWcTvDv7JGvavW0tyvdZJDeuJIxE3SXr/XuTuxUu9LS6f4eDmekjspP6w3pCvFFUK0d9/AdGbn/qdIXCz4I0h6QSrfqa2druYrPjXpWq7ExF6vvVuy0zGqplPWiNNSg1zsXdV241tKDJbzI7d5RhSTu+kZwX+c2AAaMruELPmWGniDb13nZKpqLPX/2ajqhYEXHq42M9J8hO1Ob154LLABRkmn6Xy4DO1E2vxvEzthf83VMX4TO/gE6DTu/VJafPvRjqxPQRXrxrBy9DLscsBuCZ5Fu8XsbZAhYTUcIMhocVkuQb6Bh1YcvOVPH3XiIEBRdSVhzJZd6lE9Eo/CZOpka1z/aQA9P/pG9vPGrcIm2GlSkPE5oXLcygQXjngmziabpPqNFi+BpJmRH8VFP1rnEtPBPy8Yg2ItHhevvTFHoDd6GX47r2HTYQmofhQAFSsoHTOSBRCU/nVaqMdsNiKDgJ3YsSY91t/4ED/RN1mgL9uG6FJOtmWnYC8vR3wICX9deI2k6tNm7HdNLDY6Am89+KjX3HrFatFErAYxw=="
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 550,
+      "candidatesTokenCount": 126,
+      "totalTokenCount": 1008,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 550
+        }
+      ],
+      "thoughtsTokenCount": 332,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "PKK1ao2AD_GpvdIPk-yjiA8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 550,
+    "candidatesTokenCount": 126,
+    "totalTokenCount": 1008,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 550
+      }
+    ],
+    "thoughtsTokenCount": 332,
+    "serviceTier": "standard"
+  }
+}

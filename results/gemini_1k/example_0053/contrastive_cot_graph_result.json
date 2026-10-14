@@ -1,0 +1,165 @@
+{
+  "example_number": 53,
+  "entity_id": "wd:Q15106264",
+  "entity_label": "103d Aero Squadron",
+  "description": "military unit",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0053/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0053/metadata.json",
+  "input_hash": "8560af213fc8b017d7717ce0741eab5282705ac96ca0e8b641fd5f1d433a3d41",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: 103d Aero Squadron\nDescription: military unit\n\nTaxonomy context:\n- Direct parent classes: military organization\n- Sibling classes: command post, tactical formation\n- Direct child classes: company, group, marine unit\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q15106264",
+    "entity_label": "103d Aero Squadron",
+    "description": "military unit",
+    "reference_class_id": "wd:Q176799",
+    "reference_type": "military unit",
+    "gold_types": [
+      {
+        "class_id": "wd:Q176799",
+        "label": "military unit",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q15627509",
+        "label": "military organization",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "military organization",
+      "siblings": "command post, tactical formation",
+      "children": "company, group, marine unit"
+    },
+    "oracle_graph_context": {
+      "parents": "military organization",
+      "siblings": "command post, tactical formation",
+      "children": "company, group, marine unit"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 53,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q176799"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q15627509"
+      ],
+      "siblings": [
+        "wd:Q1346923",
+        "wd:Q2069238"
+      ],
+      "children": [
+        "wd:Q102538",
+        "wd:Q1040374",
+        "wd:Q10408306"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "status": "completed",
+  "predictions": [
+    "military unit",
+    "military organization",
+    "organization",
+    "social group",
+    "agent",
+    "entity"
+  ],
+  "timestamp_utc": "2026-09-24T20:32:03.738436+00:00",
+  "response": "{\n  \"explanation\": \"The description \\\"military unit\\\" directly supports military unit as the most specific evidence-backed type, matching the omitted target class. Its parent military organization defines the broader institutional scope. Sibling classes such as command post and tactical formation represent operational facilities or temporary arrangements rather than permanent units, making them inappropriate. The direct child classes (such as company, group, or marine unit) have unsupported specificity because the provided description does not supply the narrower organizational echelon or specialized branch. Broader classes follow in decreasing order of specificity.\",\n  \"types\": [\n    \"military unit\",\n    \"military organization\",\n    \"organization\",\n    \"social group\",\n    \"agent\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The description \"military unit\" directly supports military unit as the most specific evidence-backed type, matching the omitted target class. Its parent military organization defines the broader institutional scope. Sibling classes such as command post and tactical formation represent operational facilities or temporary arrangements rather than permanent units, making them inappropriate. The direct child classes (such as company, group, or marine unit) have unsupported specificity because the provided description does not supply the narrower organizational echelon or specialized branch. Broader classes follow in decreasing order of specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The description \\\"military unit\\\" directly supports military unit as the most specific evidence-backed type, matching the omitted target class. Its parent military organization defines the broader institutional scope. Sibling classes such as command post and tactical formation represent operational facilities or temporary arrangements rather than permanent units, making them inappropriate. The direct child classes (such as company, group, or marine unit) have unsupported specificity because the provided description does not supply the narrower organizational echelon or specialized branch. Broader classes follow in decreasing order of specificity.\",\n  \"types\": [\n    \"military unit\",\n    \"military organization\",\n    \"organization\",\n    \"social group\",\n    \"agent\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 552,
+      "candidatesTokenCount": 154,
+      "totalTokenCount": 2131,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 552
+        }
+      ],
+      "thoughtsTokenCount": 1425,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "w4i1aqWvOuu1xN8Pj9HYwAo"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 552,
+    "candidatesTokenCount": 154,
+    "totalTokenCount": 2131,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 552
+      }
+    ],
+    "thoughtsTokenCount": 1425,
+    "serviceTier": "standard"
+  }
+}

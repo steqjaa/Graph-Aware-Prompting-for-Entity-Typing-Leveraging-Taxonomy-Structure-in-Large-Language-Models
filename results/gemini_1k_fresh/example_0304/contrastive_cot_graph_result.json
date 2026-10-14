@@ -1,0 +1,171 @@
+{
+  "example_number": 304,
+  "entity_id": "wd:Q7320807",
+  "entity_label": "Rho Pi Phi",
+  "description": "professional pharmacy fraternity",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0304/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0304/metadata.json",
+  "input_hash": "e443f6500b523330f957ab8890ca5e65bc068787bdf885f50995dac8a14a69d8",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Rho Pi Phi\nDescription: professional pharmacy fraternity\n\nTaxonomy context:\n- Direct parent classes: fraternities and sororities\n- Sibling classes: sorority\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q7320807",
+    "entity_label": "Rho Pi Phi",
+    "description": "professional pharmacy fraternity",
+    "reference_class_id": "wd:Q7248071",
+    "reference_type": "professional fraternities and sororities",
+    "gold_types": [
+      {
+        "class_id": "wd:Q7248071",
+        "label": "professional fraternities and sororities",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q3721",
+        "label": "fraternities and sororities",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q4430243",
+        "label": "social organization",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "fraternities and sororities",
+      "siblings": "sorority",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "fraternities and sororities",
+      "siblings": "sorority",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 304,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q7248071"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q3721"
+      ],
+      "siblings": [
+        "wd:Q18811583"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "professional fraternity",
+    "fraternity",
+    "fraternities and sororities",
+    "student organization",
+    "organization",
+    "corporate body",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:30:00.700637+00:00",
+  "response": "{\"explanation\": \"The description 'professional pharmacy fraternity' directly supports professional fraternity and fraternity as the most specific types. In the taxonomy, its direct parent is fraternities and sororities, which defines the general collegiate Greek-letter organization category. The sibling class sorority is rejected because the entity is specifically identified as a fraternity. The child context is None, precluding unevidenced sub-specializations. Broader valid classes follow in decreasing order of specificity.\", \"types\": [\"professional fraternity\", \"fraternity\", \"fraternities and sororities\", \"student organization\", \"organization\", \"corporate body\", \"entity\"]}",
+  "explanation": "The description 'professional pharmacy fraternity' directly supports professional fraternity and fraternity as the most specific types. In the taxonomy, its direct parent is fraternities and sororities, which defines the general collegiate Greek-letter organization category. The sibling class sorority is rejected because the entity is specifically identified as a fraternity. The child context is None, precluding unevidenced sub-specializations. Broader valid classes follow in decreasing order of specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description 'professional pharmacy fraternity' directly supports professional fraternity and fraternity as the most specific types. In the taxonomy, its direct parent is fraternities and sororities, which defines the general collegiate Greek-letter organization category. The sibling class sorority is rejected because the entity is specifically identified as a fraternity. The child context is None, precluding unevidenced sub-specializations. Broader valid classes follow in decreasing order of specificity.\", \"types\": [\"professional fraternity\", \"fraternity\", \"fraternities and sororities\", \"student organization\", \"organization\", \"corporate body\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 545,
+      "candidatesTokenCount": 128,
+      "totalTokenCount": 1220,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 545
+        }
+      ],
+      "thoughtsTokenCount": 547,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "WZa1atC7BND_nsEPxN6w0Qw"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 545,
+    "candidatesTokenCount": 128,
+    "totalTokenCount": 1220,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 545
+      }
+    ],
+    "thoughtsTokenCount": 547,
+    "serviceTier": "standard"
+  }
+}

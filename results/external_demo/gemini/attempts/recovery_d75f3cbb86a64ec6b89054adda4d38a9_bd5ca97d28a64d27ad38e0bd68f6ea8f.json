@@ -1,0 +1,166 @@
+{
+  "example_number": 463,
+  "entity_id": "wd:Q669330",
+  "entity_label": "Gaspard Laurent Bayle",
+  "description": "French physician (1774-1816)",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0463/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0463/metadata.json",
+  "input_hash": "d8fa902124d08c8cb9b151c756f0e21bd73ab2f34eaa34e635dbaf65c75cdbf7",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Gaspard Laurent Bayle\nDescription: French physician (1774-1816)\n\nTaxonomy context:\n- Direct parent classes: medical specialist\n- Sibling classes: infectious disease physician, ophthalmologist, venereologist\n- Direct child classes: neuropathologist, forensic pathologist, histologist\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q669330",
+    "entity_label": "Gaspard Laurent Bayle",
+    "description": "French physician (1774-1816)",
+    "reference_class_id": "wd:Q3368718",
+    "reference_type": "pathologist",
+    "gold_types": [
+      {
+        "class_id": "wd:Q3368718",
+        "label": "pathologist",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q3332438",
+        "label": "medical specialist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q39631",
+        "label": "physician",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q11974939",
+        "label": "health professional",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "medical specialist",
+      "siblings": "infectious disease physician, ophthalmologist, venereologist",
+      "children": "neuropathologist, forensic pathologist, histologist"
+    },
+    "oracle_graph_context": {
+      "parents": "medical specialist",
+      "siblings": "infectious disease physician, ophthalmologist, venereologist",
+      "children": "neuropathologist, forensic pathologist, histologist"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 463,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q3368718"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q3332438"
+      ],
+      "siblings": [
+        "wd:Q11494960",
+        "wd:Q12013238",
+        "wd:Q13167731"
+      ],
+      "children": [
+        "wd:Q15839237",
+        "wd:Q16062414",
+        "wd:Q2552072"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "pathologist",
+    "medical specialist",
+    "physician",
+    "health professional",
+    "professional",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:11:09.979996+00:00",
+  "response": "{\n  \"explanation\": \"The taxonomy context indicates that the omitted target type situated under medical specialist and having children such as neuropathologist, forensic pathologist, and histologist is pathologist. Gaspard Laurent Bayle was a French physician renowned as a pioneer in pathological anatomy, supporting pathologist as the most specific appropriate type. Sibling classes such as infectious disease physician, ophthalmologist, and venereologist represent alternative medical specializations not warranted by his profile. Child classes such as neuropathologist and forensic pathologist are excessively narrow and lack support in the general description. The subsequent types trace broader valid categories in decreasing specificity.\",\n  \"types\": [\n    \"pathologist\",\n    \"medical specialist\",\n    \"physician\",\n    \"health professional\",\n    \"professional\",\n    \"person\",\n    \"agent\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The taxonomy context indicates that the omitted target type situated under medical specialist and having children such as neuropathologist, forensic pathologist, and histologist is pathologist. Gaspard Laurent Bayle was a French physician renowned as a pioneer in pathological anatomy, supporting pathologist as the most specific appropriate type. Sibling classes such as infectious disease physician, ophthalmologist, and venereologist represent alternative medical specializations not warranted by his profile. Child classes such as neuropathologist and forensic pathologist are excessively narrow and lack support in the general description. The subsequent types trace broader valid categories in decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The taxonomy context indicates that the omitted target type situated under medical specialist and having children such as neuropathologist, forensic pathologist, and histologist is pathologist. Gaspard Laurent Bayle was a French physician renowned as a pioneer in pathological anatomy, supporting pathologist as the most specific appropriate type. Sibling classes such as infectious disease physician, ophthalmologist, and venereologist represent alternative medical specializations not warranted by his profile. Child classes such as neuropathologist and forensic pathologist are excessively narrow and lack support in the general description. The subsequent types trace broader valid categories in decreasing specificity.\",\n  \"types\": [\n    \"pathologist\",\n    \"medical specialist\",\n    \"physician\",\n    \"health professional\",\n    \"professional\",\n    \"person\",\n    \"agent\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 566,
+      "candidatesTokenCount": 176,
+      "totalTokenCount": 1877,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 566
+        }
+      ],
+      "thoughtsTokenCount": 1135,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "niXMauT-ELGxvdIPzv_1iAM"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 566,
+    "candidatesTokenCount": 176,
+    "totalTokenCount": 1877,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 566
+      }
+    ],
+    "thoughtsTokenCount": 1135,
+    "serviceTier": "standard"
+  }
+}

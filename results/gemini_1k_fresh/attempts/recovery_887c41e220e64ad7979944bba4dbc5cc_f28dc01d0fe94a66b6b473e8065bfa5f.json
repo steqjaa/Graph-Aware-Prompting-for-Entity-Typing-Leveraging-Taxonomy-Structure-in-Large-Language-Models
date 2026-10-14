@@ -1,0 +1,163 @@
+{
+  "example_number": 145,
+  "entity_id": "wd:Q1509446",
+  "entity_label": "National Bureau of Statistics of China",
+  "description": "Chinas principal government institution in charge of statistics and census data'",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0145/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0145/metadata.json",
+  "input_hash": "c9a5f21dfc01158dcc24be7b6662c86225bb3cdcb177d12b025a3deec0cf7c99",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: National Bureau of Statistics of China\nDescription: Chinas principal government institution in charge of statistics and census data'\n\nTaxonomy context:\n- Direct parent classes: organization\n- Sibling classes: national trust, Native American organization, hackerspace\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q1509446",
+    "entity_label": "National Bureau of Statistics of China",
+    "description": "Chinas principal government institution in charge of statistics and census data'",
+    "reference_class_id": "wd:Q98675100",
+    "reference_type": "vice-ministerial level institution",
+    "gold_types": [
+      {
+        "class_id": "wd:Q98675100",
+        "label": "vice-ministerial level institution",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "organization",
+      "siblings": "national trust, Native American organization, hackerspace",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "organization",
+      "siblings": "national trust, Native American organization, hackerspace",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 145,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q98675100"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q43229"
+      ],
+      "siblings": [
+        "wd:Q1006283",
+        "wd:Q100731037",
+        "wd:Q1032372"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "national statistical office",
+    "statistical office",
+    "government agency",
+    "government organization",
+    "organization",
+    "corporate body",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:17:57.037959+00:00",
+  "response": "{\"explanation\": \"The description specifies that the entity is \\\"Chinas principal government institution in charge of statistics and census data\\\", directly supporting national statistical office as the most specific type. Under the broader parent organization, sibling classes like national trust, Native American organization, and hackerspace reflect distinct organizational categories that are not supported by the evidence. The remaining types systematically generalize upward through government agency, government organization, and organization.\", \"types\": [\"national statistical office\", \"statistical office\", \"government agency\", \"government organization\", \"organization\", \"corporate body\", \"entity\"]}",
+  "explanation": "The description specifies that the entity is \"Chinas principal government institution in charge of statistics and census data\", directly supporting national statistical office as the most specific type. Under the broader parent organization, sibling classes like national trust, Native American organization, and hackerspace reflect distinct organizational categories that are not supported by the evidence. The remaining types systematically generalize upward through government agency, government organization, and organization.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description specifies that the entity is \\\"Chinas principal government institution in charge of statistics and census data\\\", directly supporting national statistical office as the most specific type. Under the broader parent organization, sibling classes like national trust, Native American organization, and hackerspace reflect distinct organizational categories that are not supported by the evidence. The remaining types systematically generalize upward through government agency, government organization, and organization.\", \"types\": [\"national statistical office\", \"statistical office\", \"government agency\", \"government organization\", \"organization\", \"corporate body\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 560,
+      "candidatesTokenCount": 113,
+      "totalTokenCount": 1334,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 560
+        }
+      ],
+      "thoughtsTokenCount": 661,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "hZO1aoTKFo7gvdIP_c3ssQ8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 560,
+    "candidatesTokenCount": 113,
+    "totalTokenCount": 1334,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 560
+      }
+    ],
+    "thoughtsTokenCount": 661,
+    "serviceTier": "standard"
+  }
+}

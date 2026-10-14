@@ -1,0 +1,147 @@
+{
+  "example_number": 6,
+  "entity_id": "wd:Q3592555",
+  "entity_label": "aider",
+  "description": "piece of aid climbing equipment",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0006/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0006/metadata.json",
+  "input_hash": "2574591b5c8fb816d8f2b5f57300c010bd895d01c794c66d50668c69b4fc2192",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: aider\nDescription: piece of aid climbing equipment\n\nTaxonomy context:\n- Direct parent classes: sports equipment\n- Sibling classes: ice skate, cyclocomputer, stationary bicycle\n- Direct child classes: belay device\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q3592555",
+    "entity_label": "aider",
+    "description": "piece of aid climbing equipment",
+    "reference_class_id": "wd:Q2639207",
+    "reference_type": "rock climbing equipment",
+    "gold_types": [
+      {
+        "class_id": "wd:Q2639207",
+        "label": "rock climbing equipment",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q768186",
+        "label": "sports equipment",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q2184715",
+        "label": "durable good",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q2424752",
+        "label": "product",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "sports equipment",
+      "siblings": "ice skate, cyclocomputer, stationary bicycle",
+      "children": "belay device"
+    },
+    "oracle_graph_context": {
+      "parents": "sports equipment",
+      "siblings": "ice skate, cyclocomputer, stationary bicycle",
+      "children": "belay device"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 6,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q2639207"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q768186"
+      ],
+      "siblings": [
+        "wd:Q108640",
+        "wd:Q1300900",
+        "wd:Q1370818"
+      ],
+      "children": [
+        "wd:Q637982"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "status": "completed",
+  "predictions": [
+    "aid climbing equipment",
+    "climbing equipment",
+    "sports equipment",
+    "equipment",
+    "tool",
+    "implement",
+    "physical object",
+    "object",
+    "entity"
+  ],
+  "timestamp_utc": "2026-09-24T20:28:32.236018+00:00",
+  "response": "{\n  \"explanation\": \"The description specifies that an aider is a \\\"piece of aid climbing equipment\\\", which supports aid climbing equipment and climbing equipment as the most specific valid types. In the taxonomy, the parent class sports equipment establishes the broader category of athletic gear. Sibling classes like ice skate, cyclocomputer, and stationary bicycle share the sports equipment parent but describe unrelated sporting activities. The child class belay device is rejected because an aider functions as a portable webbing ladder/stirrup rather than a friction braking mechanism for belaying. The remaining classes follow a valid specific-to-broad order.\",\n  \"types\": [\n    \"aid climbing equipment\",\n    \"climbing equipment\",\n    \"sports equipment\",\n    \"equipment\",\n    \"tool\",\n    \"implement\",\n    \"physical object\",\n    \"object\",\n    \"entity\"\n  ]\n}",
+  "explanation": "The description specifies that an aider is a \"piece of aid climbing equipment\", which supports aid climbing equipment and climbing equipment as the most specific valid types. In the taxonomy, the parent class sports equipment establishes the broader category of athletic gear. Sibling classes like ice skate, cyclocomputer, and stationary bicycle share the sports equipment parent but describe unrelated sporting activities. The child class belay device is rejected because an aider functions as a portable webbing ladder/stirrup rather than a friction braking mechanism for belaying. The remaining classes follow a valid specific-to-broad order.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"The description specifies that an aider is a \\\"piece of aid climbing equipment\\\", which supports aid climbing equipment and climbing equipment as the most specific valid types. In the taxonomy, the parent class sports equipment establishes the broader category of athletic gear. Sibling classes like ice skate, cyclocomputer, and stationary bicycle share the sports equipment parent but describe unrelated sporting activities. The child class belay device is rejected because an aider functions as a portable webbing ladder/stirrup rather than a friction braking mechanism for belaying. The remaining classes follow a valid specific-to-broad order.\",\n  \"types\": [\n    \"aid climbing equipment\",\n    \"climbing equipment\",\n    \"sports equipment\",\n    \"equipment\",\n    \"tool\",\n    \"implement\",\n    \"physical object\",\n    \"object\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 550,
+      "candidatesTokenCount": 184,
+      "totalTokenCount": 1674,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 550
+        }
+      ],
+      "thoughtsTokenCount": 940,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "8Ie1aozgGbnOvdIPxdTkqQo"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 550,
+    "candidatesTokenCount": 184,
+    "totalTokenCount": 1674,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 550
+      }
+    ],
+    "thoughtsTokenCount": 940,
+    "serviceTier": "standard"
+  }
+}

@@ -1,0 +1,166 @@
+{
+  "example_number": 580,
+  "entity_id": "wd:Q16543347",
+  "entity_label": "Eleanor Patterson",
+  "description": "Australian high jumper",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0580/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0580/metadata.json",
+  "input_hash": "7091bdadce61bd10b8e10e6bb3d47df65319fdde304dc03c87221fcc7dd60e41",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Eleanor Patterson\nDescription: Australian high jumper\n\nTaxonomy context:\n- Direct parent classes: athletics competitor\n- Sibling classes: runner, long jumper, discus thrower\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q16543347",
+    "entity_label": "Eleanor Patterson",
+    "description": "Australian high jumper",
+    "reference_class_id": "wd:Q13382122",
+    "reference_type": "high jumper",
+    "gold_types": [
+      {
+        "class_id": "wd:Q13382122",
+        "label": "high jumper",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q11513337",
+        "label": "athletics competitor",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q2066131",
+        "label": "athlete",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q50995749",
+        "label": "sportsperson",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "athletics competitor",
+      "siblings": "runner, long jumper, discus thrower",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "athletics competitor",
+      "siblings": "runner, long jumper, discus thrower",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 580,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q13382122"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q11513337"
+      ],
+      "siblings": [
+        "wd:Q12803959",
+        "wd:Q13381428",
+        "wd:Q13381689"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "high jumper",
+    "athletics competitor",
+    "athlete",
+    "contestant",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:19:59.276671+00:00",
+  "response": "{\"explanation\": \"The description identifies Eleanor Patterson as an \\\"Australian high jumper\\\", directly supporting high jumper as the most specific type. In the taxonomy, athletics competitor serves as the direct parent class defining the domain. Sibling classes such as runner, long jumper, and discus thrower represent alternative track and field disciplines and are rejected because the evidence specifically restricts her event to the high jump. With no direct child classes, no further specialization is supported. Broader valid classes are arranged from most specific to least specific.\", \"types\": [\"high jumper\", \"athletics competitor\", \"athlete\", \"contestant\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The description identifies Eleanor Patterson as an \"Australian high jumper\", directly supporting high jumper as the most specific type. In the taxonomy, athletics competitor serves as the direct parent class defining the domain. Sibling classes such as runner, long jumper, and discus thrower represent alternative track and field disciplines and are rejected because the evidence specifically restricts her event to the high jump. With no direct child classes, no further specialization is supported. Broader valid classes are arranged from most specific to least specific.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies Eleanor Patterson as an \\\"Australian high jumper\\\", directly supporting high jumper as the most specific type. In the taxonomy, athletics competitor serves as the direct parent class defining the domain. Sibling classes such as runner, long jumper, and discus thrower represent alternative track and field disciplines and are rejected because the evidence specifically restricts her event to the high jump. With no direct child classes, no further specialization is supported. Broader valid classes are arranged from most specific to least specific.\", \"types\": [\"high jumper\", \"athletics competitor\", \"athlete\", \"contestant\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 544,
+      "candidatesTokenCount": 129,
+      "totalTokenCount": 1237,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 544
+        }
+      ],
+      "thoughtsTokenCount": 564,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "ryfMaoDIHqOlkdUPhOyJmAw"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 544,
+    "candidatesTokenCount": 129,
+    "totalTokenCount": 1237,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 544
+      }
+    ],
+    "thoughtsTokenCount": 564,
+    "serviceTier": "standard"
+  }
+}

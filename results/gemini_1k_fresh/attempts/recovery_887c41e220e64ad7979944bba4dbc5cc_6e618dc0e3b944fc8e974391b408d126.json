@@ -1,0 +1,160 @@
+{
+  "example_number": 212,
+  "entity_id": "wd:Q622189",
+  "entity_label": "Alexandrian school",
+  "description": "philosophical school",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0212/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0212/metadata.json",
+  "input_hash": "8854bd3a27a150036ce423a576b07f1bbdbfd8eac2ea219c405b5299068cd3f9",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Alexandrian school\nDescription: philosophical school\n\nTaxonomy context:\n- Direct parent classes: social movement\n- Sibling classes: reform movement, civil rights movement, edit-a-thon\n- Direct child classes: Marxist school of thought, anarchist school of thought, mainstream\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q622189",
+    "entity_label": "Alexandrian school",
+    "description": "philosophical school",
+    "reference_class_id": "wd:Q1387659",
+    "reference_type": "school of thought",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1387659",
+        "label": "school of thought",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q49773",
+        "label": "social movement",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q2305441",
+        "label": "social process",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q3249551",
+        "label": "process",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q26907166",
+        "label": "temporal entity",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q58415929",
+        "label": "spatio-temporal entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "social movement",
+      "siblings": "reform movement, civil rights movement, edit-a-thon",
+      "children": "Marxist school of thought, anarchist school of thought, mainstream"
+    },
+    "oracle_graph_context": {
+      "parents": "social movement",
+      "siblings": "reform movement, civil rights movement, edit-a-thon",
+      "children": "Marxist school of thought, anarchist school of thought, mainstream"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 212,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1387659"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q49773"
+      ],
+      "siblings": [
+        "wd:Q1323572",
+        "wd:Q13406660",
+        "wd:Q16022392"
+      ],
+      "children": [
+        "wd:Q10260870",
+        "wd:Q1278791",
+        "wd:Q18957"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "philosophical school",
+    "school of thought",
+    "intellectual movement",
+    "social movement",
+    "movement"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:22:58.538446+00:00",
+  "response": "{\"explanation\": \"The description 'philosophical school' establishes philosophical school and school of thought as the most specific appropriate types. In the taxonomy, school of thought connects to broader movements like intellectual movement and social movement. Sibling classes under movement such as reform movement, civil rights movement, and edit-a-thon reflect distinct activist or collaborative formats not matching an ancient philosophical tradition. Direct child classes like Marxist school of thought and anarchist school of thought are overly specific ideological doctrines unsupported by this entity. The valid types are arranged from most specific to broadest.\", \"types\": [\"philosophical school\", \"school of thought\", \"intellectual movement\", \"social movement\", \"movement\"]}",
+  "explanation": "The description 'philosophical school' establishes philosophical school and school of thought as the most specific appropriate types. In the taxonomy, school of thought connects to broader movements like intellectual movement and social movement. Sibling classes under movement such as reform movement, civil rights movement, and edit-a-thon reflect distinct activist or collaborative formats not matching an ancient philosophical tradition. Direct child classes like Marxist school of thought and anarchist school of thought are overly specific ideological doctrines unsupported by this entity. The valid types are arranged from most specific to broadest.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description 'philosophical school' establishes philosophical school and school of thought as the most specific appropriate types. In the taxonomy, school of thought connects to broader movements like intellectual movement and social movement. Sibling classes under movement such as reform movement, civil rights movement, and edit-a-thon reflect distinct activist or collaborative formats not matching an ancient philosophical tradition. Direct child classes like Marxist school of thought and anarchist school of thought are overly specific ideological doctrines unsupported by this entity. The valid types are arranged from most specific to broadest.\", \"types\": [\"philosophical school\", \"school of thought\", \"intellectual movement\", \"social movement\", \"movement\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 560,
+      "candidatesTokenCount": 135,
+      "totalTokenCount": 1342,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 560
+        }
+      ],
+      "thoughtsTokenCount": 647,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "spS1asnVMLzPvdIP6rXZiQ0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 560,
+    "candidatesTokenCount": 135,
+    "totalTokenCount": 1342,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 560
+      }
+    ],
+    "thoughtsTokenCount": 647,
+    "serviceTier": "standard"
+  }
+}

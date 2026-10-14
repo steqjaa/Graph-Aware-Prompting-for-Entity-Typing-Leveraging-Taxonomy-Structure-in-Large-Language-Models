@@ -1,0 +1,166 @@
+{
+  "example_number": 499,
+  "entity_id": "wd:Q4648967",
+  "entity_label": "A1 basketball league",
+  "description": "first professional league",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0499/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0499/metadata.json",
+  "input_hash": "55d6ab7df9d52dd094a2dbdb48f7294675956d214a196dcd6fca9d8a9cd8f179",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: A1 basketball league\nDescription: first professional league\n\nTaxonomy context:\n- Direct parent classes: organization\n- Sibling classes: national trust, Native American organization, hackerspace\n- Direct child classes: minor league, association football league\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q4648967",
+    "entity_label": "A1 basketball league",
+    "description": "first professional league",
+    "reference_class_id": "wd:Q623109",
+    "reference_type": "sports league",
+    "gold_types": [
+      {
+        "class_id": "wd:Q623109",
+        "label": "sports league",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "organization",
+      "siblings": "national trust, Native American organization, hackerspace",
+      "children": "minor league, association football league"
+    },
+    "oracle_graph_context": {
+      "parents": "organization",
+      "siblings": "national trust, Native American organization, hackerspace",
+      "children": "minor league, association football league"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 499,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q623109"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q43229"
+      ],
+      "siblings": [
+        "wd:Q1006283",
+        "wd:Q100731037",
+        "wd:Q1032372"
+      ],
+      "children": [
+        "wd:Q1370066",
+        "wd:Q15991303"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "basketball league",
+    "professional sports league",
+    "sports league",
+    "sports organization",
+    "organization",
+    "corporate body",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:44:38.227657+00:00",
+  "response": "{\"explanation\": \"The entity 'A1 basketball league' and description 'first professional league' directly support basketball league and sports league as the most specific valid categories. In the taxonomy, the broader parent class is organization. Sibling categories under organization such as national trust, Native American organization, and hackerspace are completely incompatible with a competitive sports competition body. Direct child classes like association football league and minor league are rejected because the entity represents a primary/first professional basketball competition, not an association football or minor tier league. The final order descends monotonically from the most specific sport-specific league designation to broader organizational concepts.\", \"types\": [\"basketball league\", \"professional sports league\", \"sports league\", \"sports organization\", \"organization\", \"corporate body\", \"entity\"]}",
+  "explanation": "The entity 'A1 basketball league' and description 'first professional league' directly support basketball league and sports league as the most specific valid categories. In the taxonomy, the broader parent class is organization. Sibling categories under organization such as national trust, Native American organization, and hackerspace are completely incompatible with a competitive sports competition body. Direct child classes like association football league and minor league are rejected because the entity represents a primary/first professional basketball competition, not an association football or minor tier league. The final order descends monotonically from the most specific sport-specific league designation to broader organizational concepts.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The entity 'A1 basketball league' and description 'first professional league' directly support basketball league and sports league as the most specific valid categories. In the taxonomy, the broader parent class is organization. Sibling categories under organization such as national trust, Native American organization, and hackerspace are completely incompatible with a competitive sports competition body. Direct child classes like association football league and minor league are rejected because the entity represents a primary/first professional basketball competition, not an association football or minor tier league. The final order descends monotonically from the most specific sport-specific league designation to broader organizational concepts.\", \"types\": [\"basketball league\", \"professional sports league\", \"sports league\", \"sports organization\", \"organization\", \"corporate body\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 553,
+      "candidatesTokenCount": 153,
+      "totalTokenCount": 1423,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 553
+        }
+      ],
+      "thoughtsTokenCount": 717,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "xpm1apyJHs7Zxs0P6tm76A8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 553,
+    "candidatesTokenCount": 153,
+    "totalTokenCount": 1423,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 553
+      }
+    ],
+    "thoughtsTokenCount": 717,
+    "serviceTier": "standard"
+  }
+}

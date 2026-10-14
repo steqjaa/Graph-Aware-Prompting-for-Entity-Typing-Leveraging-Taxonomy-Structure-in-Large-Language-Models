@@ -1,0 +1,178 @@
+{
+  "example_number": 717,
+  "entity_id": "wd:Q115595027",
+  "entity_label": "Willamette Escarpment",
+  "description": "Escarpment in Portland, Oregon, U.S.",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0717/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0717/metadata.json",
+  "input_hash": "e173dd046f6faecd4a680caa869c89f56597799be39e4fdf647cc8e9ab08aef6",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Willamette Escarpment\nDescription: Escarpment in Portland, Oregon, U.S.\n\nTaxonomy context:\n- Direct parent classes: landform\n- Sibling classes: mid-ocean ridge, fumarole, massif\n- Direct child classes: cliff, Steilhang, rocky wall\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q115595027",
+    "entity_label": "Willamette Escarpment",
+    "description": "Escarpment in Portland, Oregon, U.S.",
+    "reference_class_id": "wd:Q1174791",
+    "reference_type": "escarpment",
+    "gold_types": [
+      {
+        "class_id": "wd:Q1174791",
+        "label": "escarpment",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q271669",
+        "label": "landform",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q12766313",
+        "label": "geomorphological unit",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q16686022",
+        "label": "natural physical object",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q35145263",
+        "label": "natural geographic object",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1970309",
+        "label": "natural object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q27096220",
+        "label": "natural geographic entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q4406616",
+        "label": "concrete object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q27096213",
+        "label": "geographic entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "landform",
+      "siblings": "mid-ocean ridge, fumarole, massif",
+      "children": "cliff, Steilhang, rocky wall"
+    },
+    "oracle_graph_context": {
+      "parents": "landform",
+      "siblings": "mid-ocean ridge, fumarole, massif",
+      "children": "cliff, Steilhang, rocky wall"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 717,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q1174791"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q271669"
+      ],
+      "siblings": [
+        "wd:Q104698",
+        "wd:Q105880",
+        "wd:Q1061151"
+      ],
+      "children": [
+        "wd:Q107679",
+        "wd:Q2339413",
+        "wd:Q3895814"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "escarpment",
+    "slope",
+    "landform",
+    "geological feature",
+    "physical geographic feature",
+    "geographic object",
+    "object",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:00:59.242413+00:00",
+  "response": "{\"explanation\": \"The description identifies the entity as an \\\"Escarpment in Portland, Oregon, U.S.\\\", directly supporting escarpment as the most specific type. In the taxonomy, its direct parent class is landform. Sibling landforms such as mid-ocean ridge, fumarole, and massif represent completely different geological features and are rejected. Child classes such as cliff, Steilhang, and rocky wall represent narrower structures that are not explicitly specified by the description. The types are ordered from most specific to broadest based on their taxonomic hierarchy.\", \"types\": [\"escarpment\", \"slope\", \"landform\", \"geological feature\", \"physical geographic feature\", \"geographic object\", \"object\", \"entity\"]}",
+  "explanation": "The description identifies the entity as an \"Escarpment in Portland, Oregon, U.S.\", directly supporting escarpment as the most specific type. In the taxonomy, its direct parent class is landform. Sibling landforms such as mid-ocean ridge, fumarole, and massif represent completely different geological features and are rejected. Child classes such as cliff, Steilhang, and rocky wall represent narrower structures that are not explicitly specified by the description. The types are ordered from most specific to broadest based on their taxonomic hierarchy.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies the entity as an \\\"Escarpment in Portland, Oregon, U.S.\\\", directly supporting escarpment as the most specific type. In the taxonomy, its direct parent class is landform. Sibling landforms such as mid-ocean ridge, fumarole, and massif represent completely different geological features and are rejected. Child classes such as cliff, Steilhang, and rocky wall represent narrower structures that are not explicitly specified by the description. The types are ordered from most specific to broadest based on their taxonomic hierarchy.\", \"types\": [\"escarpment\", \"slope\", \"landform\", \"geological feature\", \"physical geographic feature\", \"geographic object\", \"object\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 566,
+      "candidatesTokenCount": 148,
+      "totalTokenCount": 1392,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 566
+        }
+      ],
+      "thoughtsTokenCount": 678,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "m521aoK6G47uxs0PsYqt0Q8"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 566,
+    "candidatesTokenCount": 148,
+    "totalTokenCount": 1392,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 566
+      }
+    ],
+    "thoughtsTokenCount": 678,
+    "serviceTier": "standard"
+  }
+}

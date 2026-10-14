@@ -1,0 +1,180 @@
+{
+  "example_number": 231,
+  "entity_id": "wd:Q19878916",
+  "entity_label": "James S. Hyde",
+  "description": "American biophysicist",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0231/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0231/metadata.json",
+  "input_hash": "e9c8cb1a514e69ed4f3d2f034bb4fdfa47324b10f2347be4cc42e192f8acaf0c",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: James S. Hyde\nDescription: American biophysicist\n\nTaxonomy context:\n- Direct parent classes: physicist\n- Sibling classes: acoustician, atomic physicist, geophysicist\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q19878916",
+    "entity_label": "James S. Hyde",
+    "description": "American biophysicist",
+    "reference_class_id": "wd:Q14906342",
+    "reference_type": "biophysicist",
+    "gold_types": [
+      {
+        "class_id": "wd:Q14906342",
+        "label": "biophysicist",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q1650915",
+        "label": "researcher",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q169470",
+        "label": "physicist",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q1914017",
+        "label": "knowledge worker",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q901",
+        "label": "scientist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q20826540",
+        "label": "scholar",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q327055",
+        "label": "worker",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "physicist",
+      "siblings": "acoustician, atomic physicist, geophysicist",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "physicist",
+      "siblings": "acoustician, atomic physicist, geophysicist",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 231,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q14906342"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q169470"
+      ],
+      "siblings": [
+        "wd:Q10404150",
+        "wd:Q105627120",
+        "wd:Q12094958"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "biophysicist",
+    "physicist",
+    "scientist",
+    "natural scientist",
+    "researcher",
+    "professional",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:24:24.034144+00:00",
+  "response": "{\"explanation\": \"The description \\\"American biophysicist\\\" directly supports biophysicist as the most specific type. In the taxonomy context, the parent class physicist sets the broader domain. Sibling classes such as acoustician, atomic physicist, and geophysicist denote other subfields of physics that are unsupported by the evidence. Since there are no child classes listed, no more granular classification is warranted. The final ranked list proceeds from biophysicist to increasingly broader valid categories.\", \"types\": [\"biophysicist\", \"physicist\", \"scientist\", \"natural scientist\", \"researcher\", \"professional\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The description \"American biophysicist\" directly supports biophysicist as the most specific type. In the taxonomy context, the parent class physicist sets the broader domain. Sibling classes such as acoustician, atomic physicist, and geophysicist denote other subfields of physics that are unsupported by the evidence. Since there are no child classes listed, no more granular classification is warranted. The final ranked list proceeds from biophysicist to increasingly broader valid categories.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"American biophysicist\\\" directly supports biophysicist as the most specific type. In the taxonomy context, the parent class physicist sets the broader domain. Sibling classes such as acoustician, atomic physicist, and geophysicist denote other subfields of physics that are unsupported by the evidence. Since there are no child classes listed, no more granular classification is warranted. The final ranked list proceeds from biophysicist to increasingly broader valid categories.\", \"types\": [\"biophysicist\", \"physicist\", \"scientist\", \"natural scientist\", \"researcher\", \"professional\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 549,
+      "candidatesTokenCount": 130,
+      "totalTokenCount": 1019,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 549
+        }
+      ],
+      "thoughtsTokenCount": 340,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "CJW1atzfEd_4vdIP_tKP6Q4"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 549,
+    "candidatesTokenCount": 130,
+    "totalTokenCount": 1019,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 549
+      }
+    ],
+    "thoughtsTokenCount": 340,
+    "serviceTier": "standard"
+  }
+}

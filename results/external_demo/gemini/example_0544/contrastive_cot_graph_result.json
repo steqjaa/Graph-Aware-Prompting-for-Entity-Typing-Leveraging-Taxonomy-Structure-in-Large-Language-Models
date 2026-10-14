@@ -1,0 +1,168 @@
+{
+  "example_number": 544,
+  "entity_id": "wd:Q1962569",
+  "entity_label": "ANDOS",
+  "description": "Russian operating system",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0544/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0544/metadata.json",
+  "input_hash": "48bfa6a413c7d610b010f54b49eabb907b33169b2b510be65792cb785530a945",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: ANDOS\nDescription: Russian operating system\n\nTaxonomy context:\n- Direct parent classes: system software\n- Sibling classes: device driver, middleware, operating system shell\n- Direct child classes: hypervisor, embedded operating system, Unix-like operating system\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q1962569",
+    "entity_label": "ANDOS",
+    "description": "Russian operating system",
+    "reference_class_id": "wd:Q9135",
+    "reference_type": "operating system",
+    "gold_types": [
+      {
+        "class_id": "wd:Q9135",
+        "label": "operating system",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q17537576",
+        "label": "creative work",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q676202",
+        "label": "system software",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q386724",
+        "label": "work",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q7397",
+        "label": "software",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q2424752",
+        "label": "product",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "system software",
+      "siblings": "device driver, middleware, operating system shell",
+      "children": "hypervisor, embedded operating system, Unix-like operating system"
+    },
+    "oracle_graph_context": {
+      "parents": "system software",
+      "siblings": "device driver, middleware, operating system shell",
+      "children": "hypervisor, embedded operating system, Unix-like operating system"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 544,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q9135"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q676202"
+      ],
+      "siblings": [
+        "wd:Q1033951",
+        "wd:Q146768",
+        "wd:Q18109"
+      ],
+      "children": [
+        "wd:Q1077480",
+        "wd:Q1139923",
+        "wd:Q14656"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "operating system",
+    "system software",
+    "software",
+    "product",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:17:16.490679+00:00",
+  "response": "{\"explanation\": \"The description identifies ANDOS as a \\\"Russian operating system\\\", directly supporting operating system as the most specific valid type. In the taxonomy, operating system falls under system software, alongside siblings like device driver, middleware, and operating system shell, none of which fully capture an entire operating system. Direct children such as hypervisor, embedded operating system, and Unix-like operating system are rejected because the evidence does not support these narrower classifications. The remaining types generalize from system software to broader software and entity concepts in decreasing order of specificity.\", \"types\": [\"operating system\", \"system software\", \"software\", \"product\", \"entity\"]}",
+  "explanation": "The description identifies ANDOS as a \"Russian operating system\", directly supporting operating system as the most specific valid type. In the taxonomy, operating system falls under system software, alongside siblings like device driver, middleware, and operating system shell, none of which fully capture an entire operating system. Direct children such as hypervisor, embedded operating system, and Unix-like operating system are rejected because the evidence does not support these narrower classifications. The remaining types generalize from system software to broader software and entity concepts in decreasing order of specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies ANDOS as a \\\"Russian operating system\\\", directly supporting operating system as the most specific valid type. In the taxonomy, operating system falls under system software, alongside siblings like device driver, middleware, and operating system shell, none of which fully capture an entire operating system. Direct children such as hypervisor, embedded operating system, and Unix-like operating system are rejected because the evidence does not support these narrower classifications. The remaining types generalize from system software to broader software and entity concepts in decreasing order of specificity.\", \"types\": [\"operating system\", \"system software\", \"software\", \"product\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 555,
+      "candidatesTokenCount": 129,
+      "totalTokenCount": 1232,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 555
+        }
+      ],
+      "thoughtsTokenCount": 548,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "DCfMapHiLJHNkdUPksrm-QM"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 555,
+    "candidatesTokenCount": 129,
+    "totalTokenCount": 1232,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 555
+      }
+    ],
+    "thoughtsTokenCount": 548,
+    "serviceTier": "standard"
+  }
+}

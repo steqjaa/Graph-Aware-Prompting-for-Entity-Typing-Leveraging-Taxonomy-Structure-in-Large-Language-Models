@@ -1,0 +1,163 @@
+{
+  "example_number": 929,
+  "entity_id": "wd:Q16030954",
+  "entity_label": "Henry Copeland",
+  "description": "Politician and miner in Australia",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0929/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0929/metadata.json",
+  "input_hash": "d594d17470fb7158e8ea7b4cf0842f34a5fcb65bc912d96216051d0d255407e4",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Henry Copeland\nDescription: Politician and miner in Australia\n\nTaxonomy context:\n- Direct parent classes: laborer\n- Sibling classes: barber, assembly line worker, stevedore\n- Direct child classes: gold miner\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q16030954",
+    "entity_label": "Henry Copeland",
+    "description": "Politician and miner in Australia",
+    "reference_class_id": "wd:Q820037",
+    "reference_type": "miner",
+    "gold_types": [
+      {
+        "class_id": "wd:Q820037",
+        "label": "miner",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q12713481",
+        "label": "laborer",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q703534",
+        "label": "employee",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q327055",
+        "label": "worker",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "laborer",
+      "siblings": "barber, assembly line worker, stevedore",
+      "children": "gold miner"
+    },
+    "oracle_graph_context": {
+      "parents": "laborer",
+      "siblings": "barber, assembly line worker, stevedore",
+      "children": "gold miner"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 929,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q820037"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q12713481"
+      ],
+      "siblings": [
+        "wd:Q107198",
+        "wd:Q11010088",
+        "wd:Q1537445"
+      ],
+      "children": [
+        "wd:Q19691902"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "miner",
+    "laborer",
+    "worker",
+    "person",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:16:58.435622+00:00",
+  "response": "{\"explanation\": \"The description identifies Henry Copeland as a 'miner', which directly matches the target class situated under the parent class laborer. Sibling classes under laborer, such as barber, assembly line worker, and stevedore, describe distinct manual occupations not supported by the evidence. The child class gold miner represents a narrower specialization that is not explicitly confirmed by the description alone, so it is omitted to avoid unwarranted specificity. The resulting hierarchy orders miner and laborer down through broader valid classifications like worker, person, and entity.\", \"types\": [\"miner\", \"laborer\", \"worker\", \"person\", \"entity\"]}",
+  "explanation": "The description identifies Henry Copeland as a 'miner', which directly matches the target class situated under the parent class laborer. Sibling classes under laborer, such as barber, assembly line worker, and stevedore, describe distinct manual occupations not supported by the evidence. The child class gold miner represents a narrower specialization that is not explicitly confirmed by the description alone, so it is omitted to avoid unwarranted specificity. The resulting hierarchy orders miner and laborer down through broader valid classifications like worker, person, and entity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies Henry Copeland as a 'miner', which directly matches the target class situated under the parent class laborer. Sibling classes under laborer, such as barber, assembly line worker, and stevedore, describe distinct manual occupations not supported by the evidence. The child class gold miner represents a narrower specialization that is not explicitly confirmed by the description alone, so it is omitted to avoid unwarranted specificity. The resulting hierarchy orders miner and laborer down through broader valid classifications like worker, person, and entity.\", \"types\": [\"miner\", \"laborer\", \"worker\", \"person\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 550,
+      "candidatesTokenCount": 123,
+      "totalTokenCount": 1635,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 550
+        }
+      ],
+      "thoughtsTokenCount": 962,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "WqG1aoCQKu74xN8PqZuXgQ0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 550,
+    "candidatesTokenCount": 123,
+    "totalTokenCount": 1635,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 550
+      }
+    ],
+    "thoughtsTokenCount": 962,
+    "serviceTier": "standard"
+  }
+}

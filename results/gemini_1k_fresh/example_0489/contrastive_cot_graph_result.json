@@ -1,0 +1,187 @@
+{
+  "example_number": 489,
+  "entity_id": "wd:Q4642129",
+  "entity_label": "65th Field Artillery Brigade",
+  "description": "military unit",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0489/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0489/metadata.json",
+  "input_hash": "4c33065ca77f3546ea139f2d36684825e366887e7d982429d7fb772ad5ea9e36",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: 65th Field Artillery Brigade\nDescription: military unit\n\nTaxonomy context:\n- Direct parent classes: brigade\n- Sibling classes: jäger brigade, independent mixed brigade, panzerbrigade\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q4642129",
+    "entity_label": "65th Field Artillery Brigade",
+    "description": "military unit",
+    "reference_class_id": "wd:Q4801149",
+    "reference_type": "artillery brigade",
+    "gold_types": [
+      {
+        "class_id": "wd:Q4801149",
+        "label": "artillery brigade",
+        "depth": 9
+      },
+      {
+        "class_id": "wd:Q102356",
+        "label": "brigade",
+        "depth": 8
+      },
+      {
+        "class_id": "wd:Q4005772",
+        "label": "major military unit",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q66736191",
+        "label": "army unit",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q176799",
+        "label": "military unit",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q15627509",
+        "label": "military organization",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q43229",
+        "label": "organization",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q1639378",
+        "label": "social system",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q58778",
+        "label": "system",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q99527517",
+        "label": "collective entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "brigade",
+      "siblings": "jäger brigade, independent mixed brigade, panzerbrigade",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "brigade",
+      "siblings": "jäger brigade, independent mixed brigade, panzerbrigade",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 489,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q4801149"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q102356"
+      ],
+      "siblings": [
+        "wd:Q105569374",
+        "wd:Q16847158",
+        "wd:Q22115622"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "artillery brigade",
+    "brigade",
+    "military unit",
+    "military organization",
+    "organization",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:43:53.196577+00:00",
+  "response": "{\"explanation\": \"The entity's name and description identify it specifically as an artillery brigade. In the taxonomy, brigade serves as the direct parent class. Sibling classes such as jäger brigade, independent mixed brigade, and panzerbrigade represent light infantry, mixed, or armored formations, which are contradicted by the unit's artillery role. The broader types then progress logically from brigade through military unit, military organization, organization, and entity.\", \"types\": [\"artillery brigade\", \"brigade\", \"military unit\", \"military organization\", \"organization\", \"entity\"]}",
+  "explanation": "The entity's name and description identify it specifically as an artillery brigade. In the taxonomy, brigade serves as the direct parent class. Sibling classes such as jäger brigade, independent mixed brigade, and panzerbrigade represent light infantry, mixed, or armored formations, which are contradicted by the unit's artillery role. The broader types then progress logically from brigade through military unit, military organization, organization, and entity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The entity's name and description identify it specifically as an artillery brigade. In the taxonomy, brigade serves as the direct parent class. Sibling classes such as jäger brigade, independent mixed brigade, and panzerbrigade represent light infantry, mixed, or armored formations, which are contradicted by the unit's artillery role. The broader types then progress logically from brigade through military unit, military organization, organization, and entity.\", \"types\": [\"artillery brigade\", \"brigade\", \"military unit\", \"military organization\", \"organization\", \"entity\"]}",
+              "thoughtSignature": "EsIVCr8VAWkUfRP79+U7CQQTqW9+Wk0nV4xhaRyZ0/W89/aLzXZ04X9cUVphd1rxOhyKCZJo3odva0S8LtFrXwWrpP2SUpnYhDaB/Y8d4hPpLvdZADDNVDLxe47DuxJwGkCMiVGcWJPATukP67luKOE+eQoL7UuPjGzLFP5zxLsMKqjIMXuGNI6WDrx3N8bwVy0xI+LZw5TvFHR8YKmYuxUzqXuIpcZlQN1fUvv7SuKMQ5G8eI4xClBxZldYTLI99KTUtMiKqqOb14+WLlEPaxnU9KsYdqpYh0gOkoZ7qLpIHh6OBCa38hPlgzhnEKV0NtbAMCPl2FMJRlF3PeYz3Q2wuIiHC5ppnlfDQ3Ye5NHktB67m6oUylQZAAb21PYCm7kNZYxl++n+DaXDhyYU64D6Y9HXv2z/jCX3VXFuPLmaJj4tcFyNttRfh8czCZV0qlXuHjz82gfYTLHi+5pSsBSeGYtZD1TY8Wdq6cAUGv1koZ1+K2lZDGrzJtCAOuWCl4AdaDRdKftLuZOEQvNq2LISKRAabyUv0VLmEJJDZtUlYak3KImwzN3L2/7PVpuOClBThPJWWO+DImvBnWtf5JGeSEN7kZiaLM1NZdScHY2VHLdG+AxvDjoU+wTtDBflFAy/ynZ+kiHKYZxBimSDZdmcYj7V6KTm8JNfEC/S0ryPRLVXQ7TPLa1jKUQZz12YDV/YeG+LVo4WP9j8mD1GP7MAOrNDVRvb6a4W8N+DG7Lwgk67xqdb/oevxQVANMyvPMvb0/4xYYYjlJQ83JfpB/dOVH8EzPlqr3tJLTKAgeVp3NihUz9zbEtdFfOZ+h4kLoQCF5IM/ZIRpxoEEHzQx433COR6L+JABn6N+br2jpUolCje109QsbsL/O7stzBuvyrwOCJO6Pfv90JATqoivXfNrTijGkbrRBgXOfYQjL0qwbh8wasvn+PJEL6f5Z5mGGE4Smdh9K+Oy7BF8v4tqgAn7HHRrlbADTafKdpK6Wi2MPpnIYqDves52L6F5lvF14MeCge21hzq+jdjUwIyDzdTlSm+5tww/BJc/z9ILTNx6JU9Op8d1CwszOdomeP+vvdc0xtLOOUag5l9oOFp8ueKOiWQWBs7+ViYXDH4vU169kCudzsb4tTwWzL2tdy4rTNP09MfB6WykGf1YzSJSFHA6+4S2iU7WT7uBy7J8UKvlh51XmfJyAP+QgpF0paRegwdNf0mPIESQU3Vl9pEkFJuygTjPlHOPogrJ4hXN4gaQhV7/z81aS/Au/5/C3WSvD7yIwbWkiecz39JdMRZMzk/eRgAXA3lyV9g8rnxHjqhTAY9GGkAJf8dl80BJoNw7oJtScCP3nNNBXWVHmFlLW4RA5psiGi7i2EczguqRAljw/KsCi5BKOQ3zAxLHiIvRb4x83FLLhQnjD8BK1CwaxAWFnigGaIhoeBWkWeAHGCmATebFPNlMKX5zfzqa9xCT/SRm77kNxD6D3erjQI8U/YCvGXCgoMhWcSRhkEGO/zvQHn9qkGw2xkDY6S1VSlgZ33A0RlswtIIVwizdLDqtFAWxBAvkarNHwvbrfZLBAdYP2dmJMMhGld+LCnkyRh3KAcMDLrJ+s8L+WJZ6mmt7aAOThmtQHqT0erXqYPNcwvAT9mv45++iIJyt0Omw6xsWEfaeRrIhYhh9DM/cc7hKDsYKKtdzANRb1ehkPeOpcxvSlLKaIlsVU0F+G51gvn/eKpOjuPd5DYkzL3mcwgVEAe5Olw8aRypM9NXzD91BOuQZM37UQM7TD2GWTqZ2h9RG6wzdSQE7m4SzzDF9bCguWOX/GJSAK4jWv6PX9luRu+nVOuZsOSeicUiafUoXITS9nS7QSxpeSs9AZfK8ng57uS1sUmqsfPcqnuV8kN2qY8IrgqT27hR9M7OYtcXGy/qbElNyNLLqY82xsTAsIt/60xQ4sSRzqSfu/0PgIERU8pnRHGVoDYeHVk//KIRU+GJ3495hlKm4ZqplFe9YdgM39oYJq0B0vJfTESMuq/VL5agmgiP1zFiOSge1DTEJEMtuComWhZeNmhIucejrM+s/f+LK+d28zu0ERPiMjx3sd1CFA96VoI9w62rf0Ohu2QRS6wJBYSTlTOwwjLaNjjqiasSveLiqt+BKCgrTL9uHRR+JPm+G0qTVQTVohn9y1/zCtlr51T7Ho1NyBIk2Bce7LkMy5aw5gsNFXe1+ybvuss/lI8QO6greCFey7AOdcndztrJMmUsYEc70CfC+7U7RTt2LMzQhkNGHBWGvijI9U1rbjitDV5z2PII7gYIbHLz3PCmqXyVjV+YV0q7ffb0tDiv/Z3lSJ5UIvzBd7TD5kSShxaewk+OZzK2HMLJ04jtK+llrA/EV7jCBl6wgaXqddmzB3iIVGAGU64wI4H0wSsSTmuyinP2RgZML8bXvWLX9RsNMLc4G85531lOZDSLQ4+rHKjPAi0Sr40DqOCCsgBkukUOJr7ORXYABP/AkTZALOmsKqiV1bPWmnU+OH/KJr+btb/sg0t8N1O4cWDS4qLRs/YI6eX/9brabywL5jlUsgfWnIyavhaOzFwDlYoGcI4sY1I6j2TKqtgrt8eGMjZnqwMmiH5u3/nacuQmPtdYk3DkiFO2Gs4Z01fqWJsS4+88VkRk3D3g6Qi77goT+T3dky71w63sXhjpNvIhPBMW9x1XnathDLrCCmfvG50wgYRuYwi8T+RA7yDEw3UEMDg32fGdQ3vAyomhII1c9rzJ0PHny3j1uW/6ywxs+CoTKx7zmTrnFxxmQdAtaVgw+fxiZJ3OFN2GgQd8PJcPcy3RSAT368ARYxNviZKzjsKVSCwAL5UGgct1Yb+6RE281I5ETVSUV+nwdsFzZfaTbDhw0VQX2ItWmWgd9KXQP/agWnLDjyMWglhFBWpCHrieCbaVrNVixL0LZcKmvuQp+FFo+FVc/n2bGpB8oeVFmXZFwKHDrSQFTeSsWlKYnoz9vYA30HVJkDzuWlGu6heryeT4yvpV596yotLkfusAgapgjRTBVhSXqqmX2idgb2ObOjzBszgmGu4Mojzi6fUu5dG2FUyAni9KxEwos6ILvMRoK9jgXSYfR+mM/m38qkxinXh9gjOcV1YvHg9JDD+xE9hnX/a6vtD+I0Gfe6jUjkkKo/5YKePPqzE+Rsxw8hx5DaK3XKhOGCfoLbqucfG9dYfi2cgVbWRgWDF6HZULxkZby4BM9n1HqZFcrLQoN8Fob4mHlpv+biXTeCgiF04PnmXJy/cK8dfm2TxMN2SeL7EBpDRZzbDvvQsTGHnXF6Bs4YGwFAYN0QxYZBcYWZRRA+L0+yWBqjK9Id7O6W8a9VCOlRwVu01dhl1d5fkpi9DZtOeX9xC6N+vJYq4EPDosufH8vf8dAj+phSlnEZfyTSfmy1vh0GHP3cQOVll95oVasQOuhYtGWY5jBkGQz79z1LcPq8pp9/EuB69L7UvPeOHo1LHx/fbuJf7gol4jMQRmj7Q31daP1gYm2Xbckdv/0Mjyeoe26PiEBQOrg0rI0LwDg+adCyi02GNkwNv7Bjo9syYEHb1LQMDwmHD0kltAEHekRmKpBMjfLtD44e5OgwQpWkjCaWqeS3N84QpcKAFQ0QtJQmTW7vnAjaTD9k22tA6SjRLoI6Gq+rU6YtOOAa1uLjZmuKiX"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 553,
+      "candidatesTokenCount": 116,
+      "totalTokenCount": 1314,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 553
+        }
+      ],
+      "thoughtsTokenCount": 645,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "mZm1aoW4GuCH28oPs4OmoA4"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 553,
+    "candidatesTokenCount": 116,
+    "totalTokenCount": 1314,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 553
+      }
+    ],
+    "thoughtsTokenCount": 645,
+    "serviceTier": "standard"
+  }
+}

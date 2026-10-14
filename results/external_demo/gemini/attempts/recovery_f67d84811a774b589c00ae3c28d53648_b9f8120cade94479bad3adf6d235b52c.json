@@ -1,0 +1,168 @@
+{
+  "example_number": 89,
+  "entity_id": "wd:Q130230",
+  "entity_label": "Upper Frederick Township",
+  "description": "township in Montgomery County, Pennsylvania",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0089/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0089/metadata.json",
+  "input_hash": "a4b443f6996a89a27effd867053b0e543e295ba3f088129b2d305b56a62dc24a",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Upper Frederick Township\nDescription: township in Montgomery County, Pennsylvania\n\nTaxonomy context:\n- Direct parent classes: civil township\n- Sibling classes: township of Illinois, New England town, township of Minnesota\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q130230",
+    "entity_label": "Upper Frederick Township",
+    "description": "township in Montgomery County, Pennsylvania",
+    "reference_class_id": "wd:Q9035798",
+    "reference_type": "township of Pennsylvania",
+    "gold_types": [
+      {
+        "class_id": "wd:Q9035798",
+        "label": "township of Pennsylvania",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q1394476",
+        "label": "civil township",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q486972",
+        "label": "human settlement",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q123964505",
+        "label": "populated place",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q27096235",
+        "label": "artificial geographic entity",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q27096213",
+        "label": "geographic entity",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "civil township",
+      "siblings": "township of Illinois, New England town, township of Minnesota",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "civil township",
+      "siblings": "township of Illinois, New England town, township of Minnesota",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 89,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q9035798"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q1394476"
+      ],
+      "siblings": [
+        "wd:Q17198545",
+        "wd:Q2154459",
+        "wd:Q42211429"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "township of Pennsylvania",
+    "civil township",
+    "township",
+    "minor civil division",
+    "municipality",
+    "administrative territorial entity",
+    "administrative division",
+    "geographical entity",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "f67d84811a774b589c00ae3c28d53648",
+  "timestamp_utc": "2026-10-11T23:32:51.826642+00:00",
+  "response": "{\"explanation\": \"The description specifies that Upper Frederick Township is a township in Montgomery County, Pennsylvania, directly supporting 'township of Pennsylvania' as the most specific type. In the taxonomy, its direct parent is 'civil township', defining its broader administrative nature. Sibling classes such as 'township of Illinois', 'township of Minnesota', and 'New England town' correspond to minor civil divisions in other U.S. states and regions and are thus rejected. With no child classes indicated, the remaining types progress hierarchically from specific local divisions to broader administrative and geographic classifications.\", \"types\": [\"township of Pennsylvania\", \"civil township\", \"township\", \"minor civil division\", \"municipality\", \"administrative territorial entity\", \"administrative division\", \"geographical entity\", \"entity\"]}",
+  "explanation": "The description specifies that Upper Frederick Township is a township in Montgomery County, Pennsylvania, directly supporting 'township of Pennsylvania' as the most specific type. In the taxonomy, its direct parent is 'civil township', defining its broader administrative nature. Sibling classes such as 'township of Illinois', 'township of Minnesota', and 'New England town' correspond to minor civil divisions in other U.S. states and regions and are thus rejected. With no child classes indicated, the remaining types progress hierarchically from specific local divisions to broader administrative and geographic classifications.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description specifies that Upper Frederick Township is a township in Montgomery County, Pennsylvania, directly supporting 'township of Pennsylvania' as the most specific type. In the taxonomy, its direct parent is 'civil township', defining its broader administrative nature. Sibling classes such as 'township of Illinois', 'township of Minnesota', and 'New England town' correspond to minor civil divisions in other U.S. states and regions and are thus rejected. With no child classes indicated, the remaining types progress hierarchically from specific local divisions to broader administrative and geographic classifications.\", \"types\": [\"township of Pennsylvania\", \"civil township\", \"township\", \"minor civil division\", \"municipality\", \"administrative territorial entity\", \"administrative division\", \"geographical entity\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 551,
+      "candidatesTokenCount": 161,
+      "totalTokenCount": 1122,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 551
+        }
+      ],
+      "thoughtsTokenCount": 410,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "pBzMat-6A4D6xs0PhbnK0Q0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 551,
+    "candidatesTokenCount": 161,
+    "totalTokenCount": 1122,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 551
+      }
+    ],
+    "thoughtsTokenCount": 410,
+    "serviceTier": "standard"
+  }
+}

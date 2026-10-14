@@ -1,0 +1,145 @@
+{
+  "example_number": 509,
+  "entity_id": "wd:Q1315609",
+  "entity_label": "Trophées UNFP du football",
+  "description": "series of football awards",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0509/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0509/metadata.json",
+  "input_hash": "f4890e7fac47add4209133bfa1b34dfb9f893416af6f720eb1f8e491b0299e26",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Trophées UNFP du football\nDescription: series of football awards\n\nTaxonomy context:\n- Direct parent classes: award\n- Sibling classes: design award, Ockham Award, tree of the year\n- Direct child classes: war trophy, badminton award, Sportsperson of the Year\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q1315609",
+    "entity_label": "Trophées UNFP du football",
+    "description": "series of football awards",
+    "reference_class_id": "wd:Q381165",
+    "reference_type": "trophy",
+    "gold_types": [
+      {
+        "class_id": "wd:Q381165",
+        "label": "trophy",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q618779",
+        "label": "award",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q16686448",
+        "label": "artificial object",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "award",
+      "siblings": "design award, Ockham Award, tree of the year",
+      "children": "war trophy, badminton award, Sportsperson of the Year"
+    },
+    "oracle_graph_context": {
+      "parents": "award",
+      "siblings": "design award, Ockham Award, tree of the year",
+      "children": "war trophy, badminton award, Sportsperson of the Year"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 509,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q381165"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q618779"
+      ],
+      "siblings": [
+        "wd:Q1123481",
+        "wd:Q114979077",
+        "wd:Q12056594"
+      ],
+      "children": [
+        "wd:Q1517746",
+        "wd:Q15585661",
+        "wd:Q337330"
+      ]
+    },
+    "children_available": true,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "football award",
+    "sports award",
+    "award",
+    "distinction",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T21:45:23.236297+00:00",
+  "response": "{\"explanation\": \"The description \\\"series of football awards\\\" directly establishes football award (or association football award) and sports award as the most accurate specific types. In the taxonomy, the direct parent class award defines the general domain. Sibling classes like design award, Ockham Award, and tree of the year reflect unrelated fields and are rejected. Among child classes of award, badminton award exemplifies sport-specific awards, supporting the parallel sport-specific specialization football award and its broader parent sports award. The final list orders these classes from most specific to broadest.\", \"types\": [\"football award\", \"sports award\", \"award\", \"distinction\", \"entity\"]}",
+  "explanation": "The description \"series of football awards\" directly establishes football award (or association football award) and sports award as the most accurate specific types. In the taxonomy, the direct parent class award defines the general domain. Sibling classes like design award, Ockham Award, and tree of the year reflect unrelated fields and are rejected. Among child classes of award, badminton award exemplifies sport-specific awards, supporting the parallel sport-specific specialization football award and its broader parent sports award. The final list orders these classes from most specific to broadest.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description \\\"series of football awards\\\" directly establishes football award (or association football award) and sports award as the most accurate specific types. In the taxonomy, the direct parent class award defines the general domain. Sibling classes like design award, Ockham Award, and tree of the year reflect unrelated fields and are rejected. Among child classes of award, badminton award exemplifies sport-specific awards, supporting the parallel sport-specific specialization football award and its broader parent sports award. The final list orders these classes from most specific to broadest.\", \"types\": [\"football award\", \"sports award\", \"award\", \"distinction\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 566,
+      "candidatesTokenCount": 133,
+      "totalTokenCount": 1317,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 566
+        }
+      ],
+      "thoughtsTokenCount": 618,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "85m1atC7HPbaxs0PqfDk4Q0"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 566,
+    "candidatesTokenCount": 133,
+    "totalTokenCount": 1317,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 566
+      }
+    ],
+    "thoughtsTokenCount": 618,
+    "serviceTier": "standard"
+  }
+}

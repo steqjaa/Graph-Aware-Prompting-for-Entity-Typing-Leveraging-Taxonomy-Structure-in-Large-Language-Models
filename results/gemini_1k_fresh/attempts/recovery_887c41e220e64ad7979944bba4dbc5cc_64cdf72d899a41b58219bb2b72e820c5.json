@@ -1,0 +1,157 @@
+{
+  "example_number": 743,
+  "entity_id": "wd:Q17148159",
+  "entity_label": "Spyros Makridakis",
+  "description": "Greek-American sailor and futurologist",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0743/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0743/metadata.json",
+  "input_hash": "e068893df8da2bb6e23b2d1e88ee8e0f09f85db35b3e1ea4349719f0fa305622",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Spyros Makridakis\nDescription: Greek-American sailor and futurologist\n\nTaxonomy context:\n- Direct parent classes: athlete\n- Sibling classes: competition climber, tennis player, field hockey player\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q17148159",
+    "entity_label": "Spyros Makridakis",
+    "description": "Greek-American sailor and futurologist",
+    "reference_class_id": "wd:Q476246",
+    "reference_type": "sailor",
+    "gold_types": [
+      {
+        "class_id": "wd:Q476246",
+        "label": "sailor",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q2066131",
+        "label": "athlete",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q50995749",
+        "label": "sportsperson",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "athlete",
+      "siblings": "competition climber, tennis player, field hockey player",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "athlete",
+      "siblings": "competition climber, tennis player, field hockey player",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 743,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q476246"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q2066131"
+      ],
+      "siblings": [
+        "wd:Q107690317",
+        "wd:Q10833314",
+        "wd:Q10843263"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "predictions": [
+    "sailor",
+    "athlete",
+    "contestant",
+    "person",
+    "agent",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "887c41e220e64ad7979944bba4dbc5cc",
+  "timestamp_utc": "2026-09-24T22:02:56.248735+00:00",
+  "response": "{\"explanation\": \"The description identifies Spyros Makridakis as a 'sailor', and the parent class athlete establishes the domain of competitive sports (Makridakis competed in Olympic sailing). Compared to sibling athletic categories such as competition climber, tennis player, or field hockey player, sailor is the only class directly supported by the description. With no child classes listed, sailor is the most specific valid category, followed by increasingly broader ancestor classes.\", \"types\": [\"sailor\", \"athlete\", \"contestant\", \"person\", \"agent\", \"entity\"]}",
+  "explanation": "The description identifies Spyros Makridakis as a 'sailor', and the parent class athlete establishes the domain of competitive sports (Makridakis competed in Olympic sailing). Compared to sibling athletic categories such as competition climber, tennis player, or field hockey player, sailor is the only class directly supported by the description. With no child classes listed, sailor is the most specific valid category, followed by increasingly broader ancestor classes.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies Spyros Makridakis as a 'sailor', and the parent class athlete establishes the domain of competitive sports (Makridakis competed in Olympic sailing). Compared to sibling athletic categories such as competition climber, tennis player, or field hockey player, sailor is the only class directly supported by the description. With no child classes listed, sailor is the most specific valid category, followed by increasingly broader ancestor classes.\", \"types\": [\"sailor\", \"athlete\", \"contestant\", \"person\", \"agent\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 554,
+      "candidatesTokenCount": 111,
+      "totalTokenCount": 1101,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 554
+        }
+      ],
+      "thoughtsTokenCount": 436,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "EJ61areKHbjAvdIPuLywaA"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 554,
+    "candidatesTokenCount": 111,
+    "totalTokenCount": 1101,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 554
+      }
+    ],
+    "thoughtsTokenCount": 436,
+    "serviceTier": "standard"
+  }
+}

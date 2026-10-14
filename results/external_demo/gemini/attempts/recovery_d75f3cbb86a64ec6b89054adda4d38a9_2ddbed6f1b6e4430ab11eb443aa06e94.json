@@ -1,0 +1,161 @@
+{
+  "example_number": 795,
+  "entity_id": "wd:Q2919639",
+  "entity_label": "Denis Michael Rohan",
+  "description": "Australian criminal",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0795/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0795/metadata.json",
+  "input_hash": "894dc07692925f91cdb6788742919272abf1af6b468ee98217d82696ec4cb242",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Denis Michael Rohan\nDescription: Australian criminal\n\nTaxonomy context:\n- Direct parent classes: criminal\n- Sibling classes: con artist, robber, war criminal\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q2919639",
+    "entity_label": "Denis Michael Rohan",
+    "description": "Australian criminal",
+    "reference_class_id": "wd:Q9008257",
+    "reference_type": "arsonist",
+    "gold_types": [
+      {
+        "class_id": "wd:Q9008257",
+        "label": "arsonist",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q2159907",
+        "label": "criminal",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q1938980",
+        "label": "wrongdoer",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "criminal",
+      "siblings": "con artist, robber, war criminal",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "criminal",
+      "siblings": "con artist, robber, war criminal",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 795,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q9008257"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q2159907"
+      ],
+      "siblings": [
+        "wd:Q10591707",
+        "wd:Q10659189",
+        "wd:Q11075015"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "arsonist",
+    "criminal",
+    "offender",
+    "person",
+    "organism",
+    "physical entity",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "d75f3cbb86a64ec6b89054adda4d38a9",
+  "timestamp_utc": "2026-10-12T00:36:14.534568+00:00",
+  "response": "{\n  \"explanation\": \"Denis Michael Rohan is known as an Australian criminal responsible for the 1969 Al-Aqsa Mosque fire, supporting 'arsonist' as the most specific entity type. In the taxonomy, 'criminal' is the direct parent class defining the broader category of an offender. Sibling classes such as 'con artist', 'robber', and 'war criminal' represent other specific criminal types that are inapplicable because Rohan's offense was deliberate property burning rather than fraud, theft, or war crimes. The child context is None, and no narrower subclass is warranted. The remaining types are ordered by decreasing specificity.\",\n  \"types\": [\n    \"arsonist\",\n    \"criminal\",\n    \"offender\",\n    \"person\",\n    \"organism\",\n    \"physical entity\",\n    \"entity\"\n  ]\n}",
+  "explanation": "Denis Michael Rohan is known as an Australian criminal responsible for the 1969 Al-Aqsa Mosque fire, supporting 'arsonist' as the most specific entity type. In the taxonomy, 'criminal' is the direct parent class defining the broader category of an offender. Sibling classes such as 'con artist', 'robber', and 'war criminal' represent other specific criminal types that are inapplicable because Rohan's offense was deliberate property burning rather than fraud, theft, or war crimes. The child context is None, and no narrower subclass is warranted. The remaining types are ordered by decreasing specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"explanation\": \"Denis Michael Rohan is known as an Australian criminal responsible for the 1969 Al-Aqsa Mosque fire, supporting 'arsonist' as the most specific entity type. In the taxonomy, 'criminal' is the direct parent class defining the broader category of an offender. Sibling classes such as 'con artist', 'robber', and 'war criminal' represent other specific criminal types that are inapplicable because Rohan's offense was deliberate property burning rather than fraud, theft, or war crimes. The child context is None, and no narrower subclass is warranted. The remaining types are ordered by decreasing specificity.\",\n  \"types\": [\n    \"arsonist\",\n    \"criminal\",\n    \"offender\",\n    \"person\",\n    \"organism\",\n    \"physical entity\",\n    \"entity\"\n  ]\n}",
+              "thoughtSignature": "Et9DCtxDAWkUfRPGULRK23DqMo+GBErvl43POfYkv8HzkPaqbo4D9PHx7zeI9VRfHAuiFj9jsW9cs5O/Kg2wsDksEnnI55HDIjstSDw3KsYmXIBy81anH9GwCgXUL/sLw8Y/einmuztUWgQ+3IFgczKc0aahNouv6ggr9/dUI1w/dZUH1IQMBF89rl6LgZoYLFYQwvDxj3wPVGl1Q4Kij/+Jh60H1dhgK+ow3Z8hIzIyjaw3aPPo30jpqkIbxfMQnXmuWqXA+wmmp6668qh1DQ9ZnK8r/MFUHPscIidKkbd/Oeshbr2k2W5SbSvj/pZEeBtMJ/Oax8Ow2UY9qWT+ELhVd0MZlxXgZEPEZZ2X1RyNMemjtV2d4kgFGmiAcOLoHlF8MU2aLq8iN0LUkXzvHDuVtjMLAfEw1GXyCQJ7qJoWxHGCHOdZZ/gvYC4igJeDYvkdrRsQfhtoa13gVV/772uuKZ2/6+05RQRJEsaqxO4Kus+o+5GHHF02CyefcUKIqb9cunhnHwsJP++PoF2ZYs5k+UvJB8oehwZoOZvDzNEcbnx83jEQdtrpCU6p061Ssui35XTQzO/prj5oPRt7Yhbd036Hr7dPt1QzbWFg034yIXThcwnfwcdMDxlhT94tm+FpxJ5oFMGRcknKJmFm5l48Yz9wtZoxecAtLpwdOiqK6ZRDMGQK+gS+XZiH69gMJrqmCR/WSN/9Su8POHYgR1xSQU4O0t26s+lP7gUuSiu6UwOTqxjoeNYh71fsl8JUNqj+RarBpZdf18ysbRJ1uSlAV5zRe9iB7RwN+g7h0Cg4q2t+47pgpPFqXmeyhMICP0ivDMq8GRoHLT/XeHaobfRhkCx//venPzQG4XqeNmQ1Lj/GvkhaJpgupLu+FWBrS3FvNbcQ2cTwhlfZJ59CbmuCsf1/pfgX6N5GKVNssvkn4s00qGd56/iMKHcvgboP/Oy6RHux1d4FO+0xREysGngn9XYf1oaZluFZ2Bl79nQlilzzrHsMw5CfecaJiJjTNw9a19Syx98qaO7Nf9dWdao694aw2l8EZa1iYD0e4Y62POJLuzGo9db94Ij0AwbysZECN/ZV3bO4q3wTE2sXHmzhe4Lu9VmcXNlaiG7YxskEimcqxlJKvknQGZIuPGmaGDbAAp0lfNmDEFBEqY1pEk1pq3c+6HEApamiw6W1ghzzhnliaEoGfv6O0DCDCo6fQRc3qi+O68d/gzwL+ZER3kT73rdZtaQ9vwtm/m3ITROw2WqQivUugieQHoXLBv2yFhqIt855bD4rNp2eCaN774K+RNKJL8j77KhN+BTXyvtlvdQ1nEKNnG0kjTS8n8nOmdtb/IZmu1I2/Lw0FPI9k4PMIupLfP07jyMWHIxiu66+wc2w49sjYCqPHct4W2yBPTVpFq9oLc903w2RhTbHqyUGtmo+krZecyFPdMHLvPLWfmqiWQOo8MVNKAMuyDJUQBTgKhTCtzu933vQQM4ucFQP/gIG6z/P0tZUOuiLW2MavhH6oJDUWackO/FsSleqAlYwK+9aFvWaM2yQNEXHPO0ku/7IjfsDdEtskz3Jhn1lJrLAZaHQbeRJ9WrZ3S+cveANss81zIX6f/3YH1a7mDXq2Id5Gx+mU3G7iviyf3l75u9hx6FRFgtASiUVJ/HMAk5r7JPd6NqLcELxCPtPY8YmbnKaTdBbhlCLKAdBDWhMMCPt5bwLkAmgRsGQYi0bJCQTCi/bDXn9QETDrQ3o/hYfAvDBD9ZAnLKdWeyk2vMbD0ZWhIl8mK6U9fVGtm0pPn1TfYYtLAX6F+bYmuqLKJkXrZJKrGNIP+MkjBJ11mkJkuoN9ufimK+0SKNR67jwIEnHVIF+LTAxc+G6gMQudSH1m39ZMicruBQcbXesXgN1xrMhz+tkxujJ3yH8ohoyQxUzAZ03vzbOmIAuRMOJJTeQBE/1K63PaPLO3KOEWFp5FzJ/ek3yHnwgm1MNAJ6H1u8E29mixUICM0y47huDRLXVrl1t5z52gTP4+1hKgihaoFPN/XJTr+28E3Do+XrcTVPmyEiPEAac/nzt54NSYfPD02XFzh7fUfKpEPSzfy17zHu+4t2aBOD9lN5akfTsmdXlnjQKsy4C5C3YqBHUHDyCVKMfpG237Zf3qfxWy/z5ARywwvM0tc8UdxbcIpjlwjvGYrT0OVaYt3VZ7dbe89+GjKoHaBm9NX2sC6N3OyNf23R4QNqhARTJUBMGjU+gqv4bQv+7WkzWFtaAAatIDFQX2z80Q0d9FM4xm6VvszCY3P/YmXPPP3eHeWoA8ti3Sqc8x0dEMTb8c48b1yTs8xDdOciaOuhspZAUXBZQWUlM1HcXztWArrbpcR2CiDeoM/gu+SvV7+s3d9e8wGOor+jGPG42Phc/IcrCW99Z7ivJDnCAQD/KgM3J7kFFmKy5f46RWuZRoq5D/3R7BpPbV4VyuSHMKVO/Tavts9Nn3FJBF4j0yLpScc+eiLn0rMZNyEfj2AhHMTheDEe5XOd/BHUyl1Iy+/1arsNIB9AcwCpDNOPCBgJtwucAx7iumcRjsg1it2P6GBfbaKQ7sFLhCwdxd5H4Dmswl6UCBp/r0+8rCglkw3gMJkLP/T6Z+b3gvG/eeTBu4wLGa5FD7cHL1qghsoQYe41wDl1A6k3qC6oenO8Rl9v39HxXpY3cjGwelOcFuiTlaDvdCtHnv1kkraVliF9XzIwlq2+rc1bjVa70EfIQbkMkyhijSgTx5cErjf0BhLpUvBIN2kyj6JgQk+Ufj+iDbKxHoVg8Rkp4coM+SjaUrlMwwYIx+Cs7/hBZAIxu/vYK9sWN79tGI/VfvhPMyZ0gel8CeCIn+lza0e1VTQbTWq0Z4EqvEW6kRUBfNpD+deYfHzFHWfP3Pi017wjEV4vPA30+GJ0rmKQGlZ1bGGwLklrkCEPIeibUSchFR3NJGDC7d01Emxg4VkCaNbkUFQuAAl71iqKdaK01IwDXQAUjbRlgnPbkHKrbEA+D5oA8GNK7HiP+Ii31j8O3SPlXVk/dmXGMm7bm4kVGJrGLpYMMUcMPu7MZeDBxJKQ2OZ55+6XQi7ifWWtNg3fNs8HT9XOMjIz7m2F9/U4f1odpIhn679qEzJO/6RQJ6ygLjDkMskYL5vK3B3g+jHHlUXmiBOWgdDy5dpa3hJBKf7flf2IpBjTv2782/hoPe/ewnAdgP0M89toYIaM5VAfijFITG7Wiz9DNid3Rqg/20idFrFJO/fqCzVonDx7c7HMN8wSOXhpkCZgUOlnIsIxlitvjGdtRgRWCXoja2YrlY6TN/VtQ4l2Sxfq4ps+gCAuN6dVX3r68vF0fFPJ4Ab9eq4s/JoPxFh3C5fa14adDhsp1Jbb6E/bPubdPgcD3Zk3hnVqJ+/sFVthuvZ3IiQeDGEI+eKBkdBUtTeODZxN0A2gwHd26V6vSNjKnuwMJ9UtISzYj986DHMlZgzHmlZCXD0xbmORNhTShBtL5+tUufU0ie1YWqC3K1yhrxG5kBAKZtNMSd3qjxA1Hv94HOFxXNUpamxMDZMcVPg2w0Zrrl0+qgB8hqC59IuXgXVs9u3fWbu9KLgTzc8d5z8mKg0IFij5xxsK4mJ8UG2Dmgqeu/jI/KBjJkNhvMqnLGSKbLskz4XlhP6XLCNijSCtRdQR1OfjxbKN00XMbIXbqkFLsTSwgxWlO/2PbYu5aNVOWhjKkJoTRxs6ZwomDieFK6eO4OoAHFTnqYwLRp6snd+cYTWstCAowkWFDq2nqblAEpBBXyM2nu/xG6yREoTOkVFB8KsbItZxOfGiDyNrdCCNTJUruhoOXWOHwq3uglQ10nzjrZQiMfSYdG1VZEtD5ldnXOE11BIMuDB59HYOOuorDFMSQzGyLywXQzyN7zrd4v6Jm3NfBPk+pZ4dibjeyDhfFB4i2cpxwNQQg3iqSIg2ekxsw9FANEx0XUqKu7tSmOVXDP9Yhe8qomewSAwsFDcjlQM4gSdHFT+dsnJxS/acqFovQGbCOIO4BlZsJsmgkiRUNUAThzDrLaWLJ1v0MwYwe9vfxjmqy32eYV19gPfarbaMbc7wAY099rSUIzqrOhyh1Pr3jcpbUs/JiztzYvS8ry9OFf2y7uhatNn/QiFblMYumZixnDz4DPaZC24aIvp/VTvlsbCdxzyzD5tGFziWsSFa0vto42GfJylMs0bjA1awqMmIqbK2Eb8miki/t6QfXM/pt8FfWDiy1iMB1dPJpdryvZWhfrHFg42NNmVkB95TxnKRuB023vhvx+LmfF8PBwPb1/FT4s0/8J0jSVMkCz0g8QLT+F/3NRfDdcFXqJvihdP+hEtmtg9HRK/zp1/nl5eCvi515HxxPSnLBFsvZJ994ZXo32kokOW5oMc0VBR4LXobOL/9mC7l+fWf0kSHSjjZu/5L5gbYxlzI5Gq3Gd5yirgoyPYCIKM76ZKpoeRjyxsDhHaONmJw04XdmaZAByfGz/sEDiearhRUhN1iFOLpdfwd1UJ2BwKrvdjdi3adFDtc8qz1SrRRpCljeAANgyBWx2nJS44gmZ5f2xJnViyoZsAiDtz+JIidNDjX2gkwlLULgghdKkYbNO5W4HqRflLVC41df6j0Prk7LE8f7PaiGp1b2aUUMLuEP2NiWEH9GvYveCYQJGEVJzOwqQsAxyNakHXOXStl2sONaMG2xYy9RBkiyafkDvRmgTjVnEHnzvLz/x/hh/YT03xtlhEJvIMGCw/XqFD3bwJbmwWWgOdAAz35+iPsuFnI8YZKp4lTGhWTBNMtOyRN0+IS6Iemab2wSQG/XzjtTHrTSl5t3wYawDcdXK0LjSmo9EINQZ/9OeOhTPKyJHh2MDCh5ys5FBXuXLQn4zhyGYZmB2/dV7hbl2eiO1Y06rOZjjw73RfkVWPcHoCDsNqhaZd3dutLGo0karZhk5H8Re2H78ZK2WtalBMvWvS77ZFoFpJ2Gxmpo6qBjTu7ijO2D/bCH7AH+MS95ocUEJHdhHc0LWSj5TzMMuwmneXayZQEQReveC98Xqtr7P2U5GV8q1kwNo5JQzB4ATpNitK+H9s3WnxtSM0Ctmafu0yQCC9AR7MiRr9ED36gWTnzHHwh+5ZYRjnt6Yg05r+ngg8DcvA2lqzxHoFqSsMsgTPK7Ef+A8kW03iI/2OW9k6Yjx3Y0iSQuQowMz50bxe4pbvFCR3/Re5xTj5Hm7Wlp2nbe/bHbJfcpSmvB/kLNx7FkqFXk6iW+egSgAyEwpbNdJKDsGpsqaOTYqGiZLQnFYI9sxw9VKWB4Ix6Dr+86beLU/nSOwsywptSpYgIyxrNpQa9WqbldfMKvM430qAiqwfYbKJkoqsMD/ZyVlMg4+EgraPhd3Lwa3nPv5I1KExOxR/3xd79Sof5Gz1PaWNO/11ufbQRb1YMSjybIsfHJi7FAegFV/Y0fydIwveisjnW/hmI3Fs3tFTFexzrR/DaHbm6ZZ3spKf21thHbIx0Sh+MRLwqV+TWT6W/+cyx2dFTQZVKl/wdSR1dZPwSGTVeH5McDAlfcIasbuVmx07jKQp8FEh4zirYSbKSyqu9EZHolKuqMFHQrvuazTA/jxYCm60FkgjHW8TPgdE35OcPrRskzO+rctU6CX7J2gBbwszV2L+WRk9LHQ3wv6f5HGccY1tgR/rgaONQ8D8f6yxWgn0guOlrxFWsCtlA2tcik5S4JN1Bjs4YvBeemWtuu8BEkEzhlcAjvwW+XfEEBtykl2JbPDaPA4LDNlj3Xlpk15PqpU3QtwXvVXzbdPKXl45ai3gFGK6Y0Hp5sJxgMLNC7CYS2ZLe4OesyfO/3IJvYQt2QuNd+KnU9Ik/1VdvsgogmTbAeX645/3y66Z7IX/rnugR0Ijjn+rUrb53OuxOURHG+n+TMu61RJlNEnj5Z8Eg6S80upI0GrUvOoflBnbSIwXeNYN/h2VLJwUxqZ7vnDL3HYUmIQRC9Hae592TdglS6PRc7BWpQ3Z4a/WeLGY9dXNtt4UiZRvwaJEjFnYJjjqKflnAlkEkGtix5eSNPrR5ZH9V1dt8SU0iQZAx9CsyBRkENvh75B09GDxbRuwS8980FCsrCpU2L86+To3fObY6t4ZF2uS40nvcHornSQnuLpMWqNAPArPMayYB+79WUgnhaB1JqXwzkapMrnJn8m5RWpyvxKd45qkBkzK5rRxKvEfbgk3lM8FBU/zJc0U+dfDOaJ1L2PhcLjuu2SRf4+Q/vbIF9o2YbZ0CL86+qNfrvxQgo2HBPWs4I4FExICdq9IcG9bqMAuyKdpQABGidwpwYH3vcy2rwKlH7ryBZx0bI7dsxr4mtLW5QHG0YB8KkBRW9clYP+JxgkvgM4hIgnfZ5QlDHYGgDyTzb6uwEfTHHuNsxNqq1G0BaNdNxWqDt+mXy5zsrB9PgtxJRGDvoJOeGaqDbZVoaiOK9RWxu07nyFlzA+cKLLrZl1fYOaTZ4ce2qsew89WppruMv32cYNEv8v7xy/qPyW/hp6jWiYmkCe3ZUS/yEeSbKsZgCdjAdEoySCYAsvC2jzzw7/NjaM7M+o2KBAnTrKxQnEFba8KebbdXY7zdD/pPJQObxwTz7mAX7om5KImkmGg47RVkd8EVyICSSAA43EC6GqNcDZyMZU0NIUQk2TN3juLewX/9bcRi/689KrIOov/Alj5wpa51G02QpsHwFmBgAfLzIkF4C2ejoORpkMYf81BUc//fwgF28F5kVu5b/Bx64p59ycshaKMvwvHXcbcKR/PVHefexPtY4AXvJjABRD99Xqk2aAavxfG6kgBIfoi59JJEcmIPERQ48CyP8RXiSEE6nZh1VFtBI5beXjL59C3D11aT6S+YszEbK3+fDqoL5hBzawjVmZ3tCdRmE/NJG4KS6yyujBztuoPIDykXMZpCCW3ZzmXsUFphWNkH7tBOpkXMJKBayoCNCExDw9YoEzxJMDIQDLL8dzxJc5rAnoq/qO8Ascqm4wkF3gRDNEHD2veo4sZT93Tjd6py/0gPj11sbtPpolSGbh0MbBU2LSGsZg56xOAVyaJtTiZVpPns5VmwqjOCEjQLdmIs8J3pFCWPg+KUL3mc5Yo03mjjAW6euM4R+m6uoYSmeNYyWdu2BrT3wc7jIcA4IbYy/UHdm8xLWrZl6BbKbFeR84+gegYqUXRFvJgiUGLfr6KvBKpL7UbyqLF/0peAwkpSvu8Nnp3CGP78Mbit3OQaMFMyt0pnqDI3jIyXbuEF4D70NctbAseRrv/xRGvTEXFQYVpHLcvTDETXGAP+a60nWxlLtiWTVHDK/b/Y2vy6bGpRNW6VM4qKqkzjZb4fQdvRAoJDd+CqPkswA1B4lH9syHZ4yydTcNBfTJ1cMbMmExt7h7Q8Jn+kkezNl+sF1Xqmn1DOPXStwlyMaMqJVPMZ7n/9T0UqeDa6iiQtBkXpr31Reltb0Hc85Rqji49S04/tu5UkQjckJDSbNhLSv+LDI46xwtyvi4rLB+spyVJGtUh8rBe5wgkwbTNotpcItx7D1cukK8ue7T+7xxWWPoARqJ5IVzWi5fXc8YBqgNKKceMpHLGucY8siiXkMQdfFbCtP41NKscyQyWdYS1ep9QZ7EgtS0UodBQR/Rn9al5f1qzyNHyDd6iEvRey9Sm+JGoxim1MtwddCI2fQxDqklS90TiQ91BuA/FeDclKXH++Glt1JQZHjM9g6RwrrOsHFO2Lp2dfeoAcW8/y7UMG6MzKR4hFhhQ85towieD+NmRHf8CTiVmM7UV1uMb3m3zRebIiw/n5QrmsR44k9SzzOIIvBIeY/fNDHNm7vhN1rfWWKF2UNSalo9KV8VwXO0VVhYXr7oGgYzUvmrnymtOJg64fJkQdHRbE3qUqh2cDByGJn+f+n/TEk5Ema/MXV+Wu5w+sbKotoLrXYS6zVyl1P/UyX/6Er1BJ4UxSCjY2PYriz5BU3as+eiWHn5IbiujwAVvWxqlcDodA9TBirFirog4AQ+JlExMAYOnKxumnuX1GoHSOtQEImOq+kR2/xHV+gwGb0Mh2VVrUc9yrPMk6KoAa1y56IEvsoXSJ5E/DJAxbV+BcpNwy1mnIQfydRVk39c3P6cTr3U9DX8BXANLABl948LX1ICvD6QWX8eIZ9cIVuiLLeAM+IFSWkatakukfZp5iYPB/MtVJ8HW61XMJffk4gjzBSIgECx55YGhmxBqPh/xXINHzb/5KSqWUBtaFs84K731h5Nol8Wn/MXaVQqGBz3E2jH5dYeEiv9UvkyyTQRZwPpjkU6eK6iCwP/sQiR5IZFhXZkmCb+bDRmkwRgCWChxUJvOgrWgRbDSTCv2mIvs+GkE5zsqwJ3fFYvGjGT8dFvpnmCPgWUUUWzwdX9ISZ20QrbaaNtzEvDjK5Tj9eAdrawT4BTSU4G68rHWeVgas9laLJtAFBZktshrXYmRM1iRif+3cwihhYYCUpPZLLZ1KQPpQSFfB7rbR9edeJWpkWFVEkCU5UgWntM2a27iXjriKLE0jW3QgbunRmqJeKakvRVyePJmWGiJ7A01Qbb2O97pVmPwENO//30Brf5o20evk3PHy/3mx8+wD3JZ6JTDHDfndVfTtXwvB03wlPZGEQDY9u4wgmMHDuhWbVgi7ZxztWcOnYhAI7BepQj/qw7DlVMVjpIueFwjo3s+0Yy6pGZzhzwQUFYJzl+YwNE3+VZoHoRMMHyZed08Oq7U8IsYqwooGBYT830aIXuX9jc5Hz4i9HYa3BfupcdMlDRxwkY//N8buOkItH4aVAjvbzqA/zVleINAujsyAN1qnQyuxyuWaioQeW46YVMK/dPcx5VHED043qmcu7jYnJHWjDlRqgYmn7Fu/Q7WjB/HAeW2XHtRhpbKfODQ6JpALwWKbvg9l71/Jta35/dzYhGGEyU6qscZdfeV7ZtJULMlW5EeMPs567LbsnPVTvw3F3+GAvvI8zgZ63bxteMeLhgQbBz3Itj3I+RCP3XbW4yebiioFcCzsuJPWZbT683Y5yEEphCyl6ATU4L9r4wLmTgPaS8/MCv7C6otxGDiXfF6r3vV+UyG00x0sHENV8Dje94kEFMxLpJf7lX2pqU0lRXpS+H8SnzN5qo3IYlET7s9zqowC7qrVzt2jDE3WVCpXrb2bpjXTHn/YsZx09fm6o6vxHLV9g90Ck1CtofVs/YL9UBSnwb5cCBBZBl8Mf3iCApb2znllb748etvl7C1B7v8NP5YyEGtpOwq+MCaQ5jsOYTZBiAkBrmN92/MKabaF2kMwQLbbYjkX8d3hY9f4L1TMnUarkDrZE1CYSYh5WJskVahhCfkbL5CiGh8tGiewli3cNnEZe4ipXibYhGoylk2LNrhiLcAQR5Uumxiz5crQQ2BBemVVgRei2tE/J9olkNdWT48xd5JPvgmrcn845ussgSNhhxlsGkORr03eS4ow7fjKK9179SY3xSKjSAEGIW68kH0M6sTGNiyJK0881GQpNgiWVXkfNIRAleoAA5CFC9nzfxQnajZZ+uwzg1K2SKxTt3rCAa6sqLGFuGAC5+WfM1eoo2JK8fbj6v4ahI7Sjdazaht4jKPrcRHevSrdQk25HQMiF5d1noeKwmmUSps1Vk3NrGBT+0/KmLRTT6KlJ4SgiKtJxyagzRUP1R1UEvQzcVOjGenW4HdsegshT9uHN8E2TIFsZ198kxlmsKy74sOa+VopygTWKLjFiu13wx8KGA13BD2djFDjJXjJfNYXW6LOn+S1nE4Cd2Vh9O7jDiyzO0aVc/yYrUTbRG4TZRC1Gcy0c5LhwpyQzCsOHd34/fCBatRxK6o7SOIiVA6kuZQxpXPKLnPMUH8sdv8oumYz6+fnpRqpK5su1mBEbfwtC4g6Rge1qAke6AfZRczzIIYnIosA4PlOAGwnVRxFH6+QilwCngkAIRfJcVbEm8++7ohLxOWO4a7M3OWAjy5Sg3FUBYa0MJSqRY/rqHJoSuuRMJshnvhLp4+A934OMBtFI1QHmpPU2IpJdv7bx16JtonIuonzuRu0x4eGnd0nxDV4WESGn/ha4sEwfsNNkYkltPI1agPDL6Kms5bQx0Al2U6Mtq0x6HfzN2IvSPmIc3OY3mGvd2hgg7aeTW5C4w8hPTPdOffxjekKpwgitFEv7pfd2wCge1XagGXp5MlLA041IpHVD0gofIRZFnxCFaKoxOfwxW+B25ySdq//GPP6kRopIl/V3/UQ0lk7BmJCowI2HOqERs+80X+Pg74NyjBtus0igSNNX0EMjOf6TAk2+5t9xC/KIBGkrLe+Dj89I70Mgo4gzN87f6okHHjPUMW5SrQ+tnKHNHcB3nUjQf+mcUHgKMOYVHc7FGanptpkkLbNodI8tt4elMhlGRIATzVhnUq8TPNTlyGuCiIkKZ/ktZFkxyHhCM/BxKB6ATzaWv93ls9BsiSjZ+yFX0JNBNGvE7OW3MOlfTKgW93oBC7LTfdG4aGzmKHrfRg4Jv8JfBoyVRwmwcEAHaTPuRui3hLiBP/iLK+6Nz8tgJHPGZiXHsFWBN6LA3OivDPWiAYbwVoXim46xaHK0lC/f3hsGtTappoRRmO9REz682j53QHogZjOTcXvT+xSqoFrGdkqlT5FrGzAdQiicxQSAhLsMDbmgEbemoo44N7G/6Yi7zugv6pPrk8cD1r6C2RH6/yhCA4qJPulJvoVrLBHxifDq3n9L6nLeMz733HYOcWQVU6i7bnvmfawPWkZmcethBZwUz+jgfbzAPmKNdSTugxweTnQ8r0S0Snn0eZkKK0cMkBGZDc6q3R6AqiuedqhoWgW71xvoXgyhg80Y2kek+rR83KL+qvbWz+AMWcwa2IuGFscXWXFQgOuxYdP30aQbGb1weoIZ8B+xUQXjoMow9ClOAeTmIjeeCblxo9YZSraUyipzhyqSd9luPFJysHc59UOx38L4Um1mefGh6VZzA/qhhj0jdawSGU02CG9OuIFMWG4TxCzJ9GgROR7fBNR9NPFWxYKQbR29zzvZQTZ+MxXX9z6V3tU5jUzPa7ECO7NLciIWnxKtb3YJiN0DkRNkHL4gxjvcPDHK09RUn5JKDr+cV4BD/TsFfVONnoHy9aHXiU3Jn3slFIsTtifgCUer3pGQsI6Hld5AtB+x5eW+4IRgmKQ/Rr6r/evxTmmRO5n1IyuKUenEEYTNkMTyYARUSQJM9snus5kRBbiXIGqzUkx9I6Sp0I3HLg3a5oYGCB9V7eSL4WgJmlIKR/L8xDolQJBbwZfYkOI5BnKKOfzUiHS2Dmth59FtcaWJK4LV2LKsq5eCEEQPk+kZ8oyMQyOwZHM1X3A7mGEdtlOJ32wZsSuJshBSgt0Qgnx1dB5KApxAObph0DMVHEfK3WUcVQwYyxFnfX6sw1ylNQKmW9M3GDbgUE0Ppbn/SK0588ePNoH1pfSYQOvvOVohYv1fvGm7jKdF6H0zmxcv9LTK7UhcDoMcfDjpzitlF/69DDdzT9bXmzLzyW8g2r6fubEdXOeN7jbvvNIo2GQ54IMJCMcbI1ONOgvADmG98tYWccCGI5sTGFlPns+JvY3l3CpX8A=="
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 542,
+      "candidatesTokenCount": 182,
+      "totalTokenCount": 2747,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 542
+        }
+      ],
+      "thoughtsTokenCount": 2023,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "fivMaq3lNJCExN8Pz42IsQg"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 542,
+    "candidatesTokenCount": 182,
+    "totalTokenCount": 2747,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 542
+      }
+    ],
+    "thoughtsTokenCount": 2023,
+    "serviceTier": "standard"
+  }
+}

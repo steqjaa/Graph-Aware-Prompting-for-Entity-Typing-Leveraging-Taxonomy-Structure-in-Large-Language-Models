@@ -1,0 +1,152 @@
+{
+  "example_number": 12,
+  "entity_id": "wd:Q2060373",
+  "entity_label": "Paul Ivano",
+  "description": "cinematographer (1900-1984)",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v5/all_1k/example_0012/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v5/all_1k/example_0012/metadata.json",
+  "input_hash": "7f06283aa9c1f6160c51ae06f5cb5f05401717def3a9eb0c1cb24584fd7755b3",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Katsuhiro Harada\nDescription: Japanese video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Japanese video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Paul Ivano\nDescription: cinematographer (1900-1984)\n\nTaxonomy context:\n- Direct parent classes: artist\n- Sibling classes: music artist, art educator, art forger\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q2060373",
+    "entity_label": "Paul Ivano",
+    "description": "cinematographer (1900-1984)",
+    "reference_class_id": "wd:Q222344",
+    "reference_type": "cinematographer",
+    "gold_types": [
+      {
+        "class_id": "wd:Q222344",
+        "label": "cinematographer",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q483501",
+        "label": "artist",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q2500638",
+        "label": "creator",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "artist",
+      "siblings": "music artist, art educator, art forger",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "artist",
+      "siblings": "music artist, art educator, art forger",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 12,
+    "prompt_version": "v5-full-cohort",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q222344"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q483501"
+      ],
+      "siblings": [
+        "wd:Q1294626",
+        "wd:Q15977927",
+        "wd:Q18511668"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation"
+  },
+  "status": "completed",
+  "predictions": [
+    "cinematographer",
+    "artist",
+    "creator",
+    "professional",
+    "person",
+    "entity"
+  ],
+  "timestamp_utc": "2026-09-24T20:28:59.236413+00:00",
+  "response": "{\"explanation\": \"The description identifies Paul Ivano as a cinematographer, which supports cinematographer as the most specific type. In the taxonomy, artist acts as the direct parent, defining the broader creative domain. Sibling classes under artist, such as music artist, art educator, and art forger, reflect different artistic specializations and are not supported by the evidence. Since no child classes are listed, cinematographer remains the most granular type, followed by broader valid types arranged from most specific to broadest.\", \"types\": [\"cinematographer\", \"artist\", \"creator\", \"professional\", \"person\", \"entity\"]}",
+  "explanation": "The description identifies Paul Ivano as a cinematographer, which supports cinematographer as the most specific type. In the taxonomy, artist acts as the direct parent, defining the broader creative domain. Sibling classes under artist, such as music artist, art educator, and art forger, reflect different artistic specializations and are not supported by the evidence. Since no child classes are listed, cinematographer remains the most granular type, followed by broader valid types arranged from most specific to broadest.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The description identifies Paul Ivano as a cinematographer, which supports cinematographer as the most specific type. In the taxonomy, artist acts as the direct parent, defining the broader creative domain. Sibling classes under artist, such as music artist, art educator, and art forger, reflect different artistic specializations and are not supported by the evidence. Since no child classes are listed, cinematographer remains the most granular type, followed by broader valid types arranged from most specific to broadest.\", \"types\": [\"cinematographer\", \"artist\", \"creator\", \"professional\", \"person\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 556,
+      "candidatesTokenCount": 121,
+      "totalTokenCount": 1380,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 556
+        }
+      ],
+      "thoughtsTokenCount": 703,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "C4i1ap3cL7bXxN8P4MKimAE"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 556,
+    "candidatesTokenCount": 121,
+    "totalTokenCount": 1380,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 556
+      }
+    ],
+    "thoughtsTokenCount": 703,
+    "serviceTier": "standard"
+  }
+}

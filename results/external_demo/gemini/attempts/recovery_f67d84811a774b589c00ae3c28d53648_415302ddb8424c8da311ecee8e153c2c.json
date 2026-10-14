@@ -1,0 +1,162 @@
+{
+  "example_number": 190,
+  "entity_id": "wd:Q741327",
+  "entity_label": "Eyvindr skáldaspillir",
+  "description": "Norwegian poet and author",
+  "condition": "contrastive_cot_graph",
+  "prompt_path": "prompts_v6/all_1k/example_0190/contrastive_cot_graph_prompt.txt",
+  "metadata_path": "prompts_v6/all_1k/example_0190/metadata.json",
+  "input_hash": "a4171b6610898eee7eb6c2b47c5b300fb2feb93eca86ab3de13b1ee017161d79",
+  "model": "gemini-3.8-flash",
+  "prompt": "List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.\n\nThe context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.\n\nBriefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.\n\nContrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.\n\nReturn JSON only in exactly this form:\n{\"explanation\": \"contrastive taxonomy-grounded explanation\", \"types\": [\"type 1\", \"type 2\", \"...\"]}\n\nExample:\n\nEntity: Rod Fergusson\nDescription: Canadian video game producer\n\nTaxonomy context:\n- Direct parent classes: producer\n- Sibling classes: creative producer, co-producer, line producer\n- Direct child classes: None\n\nCorrect response:\n{\"explanation\": \"The description \\\"Canadian video game producer\\\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.\", \"types\": [\"video game producer\", \"producer\", \"media professional\", \"professional\", \"worker\", \"person\", \"person or organization\", \"corporate body\", \"object\", \"entity\"]}\n\nWrong ranking:\n{\"types\": [\"producer\", \"creative producer\", \"co-producer\", \"line producer\", \"radio producer\", \"DJ producer\", \"professional\", \"worker\", \"person\", \"entity\"]}\n\nWhy the wrong ranking is wrong:\nThis ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.\n\nNow classify:\n\nEntity: Eyvindr skáldaspillir\nDescription: Norwegian poet and author\n\nTaxonomy context:\n- Direct parent classes: poet\n- Sibling classes: woman poet, waka poet, haiku poet\n- Direct child classes: None\n\nAnswer:",
+  "metadata": {
+    "entity_id": "wd:Q741327",
+    "entity_label": "Eyvindr skáldaspillir",
+    "description": "Norwegian poet and author",
+    "reference_class_id": "wd:Q947305",
+    "reference_type": "skald",
+    "gold_types": [
+      {
+        "class_id": "wd:Q947305",
+        "label": "skald",
+        "depth": 7
+      },
+      {
+        "class_id": "wd:Q49757",
+        "label": "poet",
+        "depth": 6
+      },
+      {
+        "class_id": "wd:Q2500638",
+        "label": "creator",
+        "depth": 5
+      },
+      {
+        "class_id": "wd:Q215627",
+        "label": "person",
+        "depth": 4
+      },
+      {
+        "class_id": "wd:Q106559804",
+        "label": "person or organization",
+        "depth": 3
+      },
+      {
+        "class_id": "wd:Q106668099",
+        "label": "corporate body",
+        "depth": 2
+      },
+      {
+        "class_id": "wd:Q488383",
+        "label": "object",
+        "depth": 1
+      },
+      {
+        "class_id": "wd:Q35120",
+        "label": "entity",
+        "depth": 0
+      }
+    ],
+    "graph_context": {
+      "parents": "poet",
+      "siblings": "woman poet, waka poet, haiku poet",
+      "children": "None"
+    },
+    "oracle_graph_context": {
+      "parents": "poet",
+      "siblings": "woman poet, waka poet, haiku poet",
+      "children": "None"
+    },
+    "context_method": "Oracle context around a deterministic gold class; no retrieved or shuffled conditions.",
+    "example_number": 190,
+    "prompt_version": "v6-external-demo",
+    "evaluation_status": "NOT_RUN",
+    "oracle_centres_available": [
+      "wd:Q947305"
+    ],
+    "oracle_centre_policy": "deepest graph-minimal annotated class, class ID tie-break; all gold types retained for scoring",
+    "context_ids": {
+      "parents": [
+        "wd:Q49757"
+      ],
+      "siblings": [
+        "wd:Q107230508",
+        "wd:Q11122954",
+        "wd:Q11386386"
+      ],
+      "children": []
+    },
+    "children_available": false,
+    "demonstration_omitted": false,
+    "previous_exposure_policy": "all entities retained; exploratory re-evaluation",
+    "demonstration_entity_id": "wd:Q18720219",
+    "demonstration_entity_label": "Rod Fergusson",
+    "demonstration_source": "external_example/provenance.json"
+  },
+  "predictions": [
+    "skald",
+    "poet",
+    "writer",
+    "author",
+    "artist",
+    "person",
+    "organism",
+    "entity"
+  ],
+  "status": "completed",
+  "generation_config": {
+    "temperature": 1.0,
+    "responseMimeType": "application/json"
+  },
+  "recovery_run": "f67d84811a774b589c00ae3c28d53648",
+  "timestamp_utc": "2026-10-11T23:41:05.302066+00:00",
+  "response": "{\"explanation\": \"The entity Eyvindr skáldaspillir is an Old Norse court poet, which directly supports the omitted type skald. In the taxonomy, poet is the direct parent class defining the overarching domain. Sibling classes under poet such as woman poet, waka poet, and haiku poet represent other specialized poetic traditions or demographics and are rejected because Eyvindr is an Old Norse skaldic poet rather than a Japanese poet or woman. There are no direct child classes under skald, preventing over-specification. The subsequent broader types (poet, writer, author, person, entity) follow in decreasing order of specificity.\", \"types\": [\"skald\", \"poet\", \"writer\", \"author\", \"artist\", \"person\", \"organism\", \"entity\"]}",
+  "explanation": "The entity Eyvindr skáldaspillir is an Old Norse court poet, which directly supports the omitted type skald. In the taxonomy, poet is the direct parent class defining the overarching domain. Sibling classes under poet such as woman poet, waka poet, and haiku poet represent other specialized poetic traditions or demographics and are rejected because Eyvindr is an Old Norse skaldic poet rather than a Japanese poet or woman. There are no direct child classes under skald, preventing over-specification. The subsequent broader types (poet, writer, author, person, entity) follow in decreasing order of specificity.",
+  "finish_reason": "STOP",
+  "raw_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\"explanation\": \"The entity Eyvindr skáldaspillir is an Old Norse court poet, which directly supports the omitted type skald. In the taxonomy, poet is the direct parent class defining the overarching domain. Sibling classes under poet such as woman poet, waka poet, and haiku poet represent other specialized poetic traditions or demographics and are rejected because Eyvindr is an Old Norse skaldic poet rather than a Japanese poet or woman. There are no direct child classes under skald, preventing over-specification. The subsequent broader types (poet, writer, author, person, entity) follow in decreasing order of specificity.\", \"types\": [\"skald\", \"poet\", \"writer\", \"author\", \"artist\", \"person\", \"organism\", \"entity\"]}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 553,
+      "candidatesTokenCount": 162,
+      "totalTokenCount": 2061,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 553
+        }
+      ],
+      "thoughtsTokenCount": 1346,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3.8-flash",
+    "responseId": "kR7MavWPH7S_nsEP_taHiAw"
+  },
+  "model_version": "gemini-3.8-flash",
+  "usage": {
+    "promptTokenCount": 553,
+    "candidatesTokenCount": 162,
+    "totalTokenCount": 2061,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 553
+      }
+    ],
+    "thoughtsTokenCount": 1346,
+    "serviceTier": "standard"
+  }
+}
