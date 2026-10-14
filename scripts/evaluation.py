@@ -1,4 +1,9 @@
+"""Flat set and ancestor-augmented hierarchy metrics; edges point child -> parent.
 
+This implements hierarchical F1, NOT the LCA-F1 algorithm. Ambiguous labels are
+unresolved unless an exact gold label identifies their class(es). Unresolved
+predictions remain opaque false-positive nodes in hierarchical precision.
+"""
 from functools import lru_cache
 import numpy as np
 import networkx as nx

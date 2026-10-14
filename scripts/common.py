@@ -1,4 +1,4 @@
-"""Project paths and historical condition names."""
+"""Project paths and historical condition names (no model calls)."""
 from pathlib import Path
 import sys
 ROOT = Path(__file__).resolve().parents[1]

@@ -1,5 +1,6 @@
-"""
+"""Versioned wording cleanup. Keeps demonstrations, contexts and output schemas.
 Method rationale: Wei et al. (2022), Chia et al. (2023), Shi et al. (2023).
+See docs/references.bib. New prompts have NO inherited model results.
 """
 import csv, hashlib, json, shutil
 from common import ROOT, ORIGINAL

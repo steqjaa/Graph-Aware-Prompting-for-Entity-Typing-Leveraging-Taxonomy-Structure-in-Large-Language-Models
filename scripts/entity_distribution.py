@@ -1,4 +1,4 @@
-"""Entity inventory and observed gold-taxonomy categories"""
+"""Entity inventory and observed gold-taxonomy categories; no invented domains."""
 from pathlib import Path
 from collections import Counter, defaultdict
 import json

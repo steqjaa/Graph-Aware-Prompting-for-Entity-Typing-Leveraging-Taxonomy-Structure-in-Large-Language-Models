@@ -1,4 +1,6 @@
 """Fresh 1,000 x 9 experiment with no client maxOutputTokens setting.
+Run from the thesis-cleaned directory. Standard library only.
+API reference: https://ai.google.dev/gemini-api/docs/generate-content/thinking
 """
 import argparse
 from collections import Counter

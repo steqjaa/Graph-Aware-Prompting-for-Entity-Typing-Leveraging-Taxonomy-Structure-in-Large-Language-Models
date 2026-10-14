@@ -1,0 +1,62 @@
+\chapter{Introduction}
+
+\FloatBarrier
+
+\section{Structural evidence in entity typing}
+
+Knowledge graphs provide a representation in which entities and categories can be connected through explicit relations. Their schema and identity conventions determine what those connections mean \citep{hogan2021}. A taxonomy is particularly relevant here because its subclass relations specify which categories are broader or narrower. WiKC provides a refined taxonomy and an evaluation resource derived from Wikidata \citep{peng2024}. It makes the experimental context auditable: the researcher can inspect the supplied neighbours and the annotated hierarchy associated with each entity.
+
+
+A framboid is described in the evaluation data as a “minute spheroidal grain of pyrite or an aggregate of such grains”, with further geological context. Its selected gold centre is crystal, a label absent from that description. The supplied parent chemical substance and nearby sibling classes provide a structural frame for identifying the intended category and its broader types. A typing system must decide which categories the description supports and how to order them. If it produces a nearby category instead, its answer may sound reasonable while failing to recover the intended class.
+
+
+This thesis studies that problem through graph-aware prompting. A prompt supplies local relations around an omitted centre class: its parents, its siblings, and its children. Parents indicate a broader semantic scope. Siblings expose nearby alternatives. Children illustrate distinctions that require additional evidence. The model must combine this structure with the entity description, rather than copy all neighbours into its output. The research question concerns the effect of these structural relations on predictions, not merely whether one model achieves a larger aggregate score.
+
+
+The empirical outcome is encouraging but conditional. Graph-aware prompting improves F1 in all model-by-style comparisons, including each Llama seed. However, the context is selected using the annotated answer. This gives the model privileged structural information even though the centre label itself is hidden. The experiment consequently asks how much a model gains when relevant local structure and its interpretation instructions are available.
+
+
+\FloatBarrier
+
+\section{Contributions}
+
+C1. A fixed one-shot prompt design for ranked entity typing, with three styles and parent-, sibling-, and child-context conditions.
+
+
+C2. Matched comparisons of two model systems, three Llama seeds, and a child-removal intervention at Llama seed 0.
+
+
+C3. An evaluation separating label-set recovery, maximum-depth type recovery, and ordering, with explicit failure counts and auditable prompt and response records.
+
+
+\FloatBarrier
+
+\section{Research questions and hypotheses}
+
+RQ1. Does graph-aware prompting improve entity typing when the model, entity, description, and prompting style are fixed?
+
+
+RQ2. How do parent, sibling, and child conditions contribute, and does removing children change predictions for entities with child context?
+
+
+RQ3. How do graph gains vary with maximum annotated taxonomy depth?
+
+
+RQ4. How do the evaluated Gemini and Llama systems differ in performance and response to graph context?
+
+
+RQ1 is primary and concerns the combined change in evidence and instructions. Its design consists of three paired contrasts per model and Llama seed. RQ4 is a supporting comparison of concrete systems because deployment, model size, decoding, and implementation differ. RQ2 includes a child-removal comparison restricted to the 451 eligible entities.
+
+
+H1. Sibling-only context is the most useful individual relation condition for entity F1. H2. The benefit of graph-aware prompting increases with maximum gold depth. These hypotheses are evaluated explicitly in Sections 7.4 and 7.6; they are not revised after observing the results.
+
+
+The study is exploratory. Entities used during prompt development remain in the final cohort. Each completed condition yields one accepted response per entity and seed after format recovery where needed; Llama is evaluated with three seeds. There is no sealed test set. Entity bootstrap intervals and between-seed variation quantify different sources of uncertainty.
+
+
+\FloatBarrier
+
+\section{Thesis outline}
+
+Chapter 2 defines the task and notation. Chapter 3 positions the work in the literature. Chapters 4–6 describe the data, method, and evaluation. Chapter 7 answers RQ1–RQ4, and Chapter 8 discusses the findings. Chapter 9 concludes; Chapter 10 presents limitations and future research. The appendices provide full scores, reproducibility details, and the nine complete prompts.
+

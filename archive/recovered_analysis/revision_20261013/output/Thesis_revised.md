@@ -1,0 +1,1294 @@
+Graph-Aware Prompting for Entity Typing
+
+Leveraging Taxonomy Structure in Large Language Models
+
+Bachelor’s thesis
+
+Sindi Teqja
+
+Technical University of Munich
+
+15 October 2026
+
+Revised draft · 13 October 2026
+
+
+# Abstract
+
+Entity typing assigns semantic categories to identified entities. When those categories form a taxonomy, a useful output should recover supported types at several levels and place specific categories before broader ones. This thesis evaluates graph-aware prompting using local parent, sibling and child relations from WiKC. The treatment combines a gold-selected neighbourhood with instructions explaining how to use it. Direct, chain-of-thought (CoT) and contrastive CoT prompting are compared with corresponding no-graph conditions.
+
+The study evaluates 1,000 entities under nine main conditions, using Gemini 3.8 Flash and Llama 3.1 8B Instruct at seeds 0, 42 and 123. All prompts contain one fixed demonstration drawn from outside the evaluation cohort. The new archives contain 9,000 completed Gemini responses and 8,991, 8,971 and 8,986 completed Llama main responses, respectively. A seed-0 child-removal experiment contributes 1,352 completed responses from 1,353 scheduled cases. Paired analyses use entities completed in both conditions, and failures remain visible in completion tables and sensitivity scores.
+
+Graph-aware prompting improves mean entity-level F1 in every model-run-by-style comparison, with paired gains from 0.0451 to 0.1348. The three Llama seeds permit an assessment of observed run variability on common entity subsets. Relation-only conditions, depth strata, description-label overlap and an empty-child diagnostic clarify what the main contrasts measure. The child-removal comparison examines the contribution of child-related prompt content within an otherwise shared graph-aware setup.
+
+The evaluation separates exact gold coverage, recovery of maximum-depth gold labels, depth-weighted ranking and ancestor-augmented agreement. Non-gold labels are not automatically equated with hallucinations: they may reflect unlisted ancestors, lexical differences or alternative descriptions of an entity. The findings establish the usefulness of the implemented graph-aware prompt package for this oracle-context benchmark and provide a reproducible basis for testing retrieved context and independently reviewed semantic validity.
+
+Keywords: entity typing; taxonomy; WiKC; graph-aware prompting; seed variability; evaluation
+
+
+# Contents and reading conventions
+
+1 Introduction
+
+2 Formal preliminaries
+
+3 Related work and motivation
+
+4 Dataset and taxonomy
+
+5 Methodology
+
+6 Evaluation design
+
+7 Results
+
+8 Discussion
+
+9 Conclusion
+
+10 Experimental boundaries and future research
+
+Appendix A Full condition scores
+
+Appendix B Complete prompt examples
+
+Appendix C Reproducibility and research integrity
+
+References
+
+Chapter and section numbers provide stable navigation. “Direct” is the manuscript term for conditions named standard in the experiment files. “Graph” denotes the supplied local taxonomy plus the associated graph instructions; it is not a pure intervention on evidence alone. Llama 0, Llama 42 and Llama 123 refer to the three fixed-seed runs of the same checkpoint.
+
+Scores are arithmetic means of entity-level metrics. Values are on a 0–1 scale unless stated otherwise. Numerical tables print four decimal places; supplementary CSV files retain full precision. Main effect tables use matched completed entities. Full-condition score tables use each condition’s completed cohort, so their differences need not equal the paired effects when failures differ. All empirical result values in this revision are recomputed from the four newly supplied result archives.
+
+
+# 1 Introduction
+
+
+## 1.1 Structural evidence in entity typing
+
+Knowledge graphs connect identified objects and concepts through explicit relations. Their usefulness depends on the meanings assigned to those relations and on the distinction between an identifier and its readable label (Hogan et al., 2021). Taxonomic relations provide one particularly useful form of structure: they describe which categories are broader or narrower than others. Entity typing can use that structure to connect a short description to a hierarchy of semantic categories.
+
+Consider framboid, an entity in the evaluation cohort. Its description refers to minute spheroidal grains of pyrite or aggregates of those grains in sediment. The selected gold centre is crystal, a word absent from that description. A taxonomy neighbourhood with chemical substance as a parent can provide an additional clue about the intended class and its broader context. This example separates recognition of a description’s meaning from literal copying of its target label. It also exposes an evaluation challenge: a phrase such as pyrite aggregate can be informative even when it does not match the benchmark label crystal.
+
+The experiment presents local parents, siblings and children around a selected class while omitting the centre label from the target context. Parents offer broader semantic scope. Siblings provide alternatives sharing a parent, without implying mutual exclusivity. Children represent more specific possibilities that need independent support. The model returns an ordered list of type labels, rather than choosing one label from a closed inventory.
+
+The centre is selected from gold annotations. The study therefore isolates use of relevant supplied neighbourhoods, not the ability to retrieve them autonomously. Moreover, the graph-aware templates add both structural evidence and instructions for reading it. Their measured effect is the effect of that combined prompt package. An empty-child comparison provides a partial diagnostic of the accompanying instructions and formatting.
+
+
+## 1.2 Research questions and hypotheses
+
+RQ1. How does the implemented graph-aware prompt package change ranked multi-label entity typing relative to its no-graph counterpart within each prompting style and model run?
+
+RQ2. How do parent-only, sibling-only and child-only contexts compare, and what changes when child-related content is removed from graph-aware Llama seed-0 prompts?
+
+RQ3. How does graph benefit vary across maximum annotated gold depth and across descriptions that do or do not contain the centre label?
+
+RQ4. How do Gemini and Llama differ under the same prompt conditions, and how stable are Llama’s scores and graph gains across seeds 0, 42 and 123?
+
+H1. Sibling-only context is the most useful single relation family for mean entity F1.
+
+H2. The mean F1 benefit of graph-aware prompting increases with maximum annotated gold depth.
+
+The hypotheses are evaluated against the observed contrasts rather than rewritten to match the findings. H1 is a statement about the relation-only prompt conditions; those conditions differ in both selected labels and their template details. H2 is assessed across explicit depth strata. Depth is a descriptive feature of this taxonomy and does not by itself identify task difficulty.
+
+
+## 1.3 Contributions and thesis outline
+
+C1. A formally specified, one-shot prompting framework for ranked multi-label typing with deterministic oracle neighbourhoods and nine auditable conditions.
+
+C2. A paired empirical comparison across two model systems, including three fixed Llama seeds, transparent incomplete-run reporting and a matched seed-0 child intervention.
+
+C3. An evaluation separating exact label coverage, target ranking, hierarchical agreement and non-gold predictions, supplemented by description-overlap and empty-context analyses.
+
+Chapter 2 defines the mathematical objects used throughout. Chapter 3 positions the study within entity typing, taxonomy-aware learning and LLM prompting. Chapter 4 describes the released data and audits the actual cohort. Chapter 5 presents the final pipeline, prompts, model configurations and validation, followed by the development history. Chapter 6 defines scoring and comparison rules. Chapter 7 answers RQ1–RQ4 using the new results. Chapter 8 interprets the findings, Chapter 9 concludes, and Chapter 10 develops the next experiments. The appendices contain complete scores, exact prompt examples and reproducibility information.
+
+
+# 2 Formal preliminaries
+
+The following definitions fix the notation used in Chapters 4–6. They specialize standard graph and hierarchical-classification concepts to the archived implementation (Hogan et al., 2021; Kosmopoulos et al., 2015; Plaud et al., 2024). Prompt wording and generation settings are introduced separately in Chapter 5.
+
+
+## 2.1 Graphs, relations and depth
+
+Definition 2.1 (Knowledge graph and taxonomy). A knowledge graph represents identified entities and typed relations between them. Its taxonomic component is T = (C, A, r, λ), where C is the class-node set, A ⊆ C × C contains subclass edges directed from child to parent, r is the root entity (wd:Q35120), and λ maps class identifiers to readable labels. The loaded WiKC edge graph is directed and acyclic. Labels need not uniquely identify nodes. Gold identifiers absent from the loaded edge graph remain valid benchmark identifiers but have no traversable neighbours in this implementation.
+
+Definition 2.2 (Local and transitive relations). For c ∈ C, P(c) = {p : (c,p) ∈ A} denotes parents and Ch(c) = {u : (u,c) ∈ A} children. S(c) is the union of Ch(p) over p ∈ P(c), excluding c. Anc(c) comprises classes reachable from c by at least one child-to-parent edge; Desc(c) comprises nodes from which c is reachable. The upward closure of B is U(B) = B ∪ ⋃ Anc(b), for b ∈ B. An absent graph identifier has an empty traversal set. Siblings can overlap semantically and are not assumed disjoint.
+
+Definition 2.3 (Depth). For a root-connected class c, d(c) is the length of a shortest directed path from c to r, equivalently the shortest root-to-class distance in the reversed graph. In a DAG with multiple inheritance, this may differ from the longest path length and need not increase strictly along every edge. The evaluation uses the depth values released with the gold annotations. We denote those values dₑ(c) where necessary to distinguish recorded depth from a newly recomputed graph distance.
+
+
+## 2.2 Entities, gold labels and the context centre
+
+Definition 2.4 (Entity, cohort and gold). An entity e consists of an identifier, a name and a description δ(e). The evaluation cohort is V, with |V| = 1,000. G(e) is the set of class identifiers explicitly listed in the released annotation record, with associated labels and depths. G(e) is not defined to equal U(G(e)); closure is an empirical property audited in Chapter 4. The normalized gold-label set is L(e) = {N(λ(c)) : c ∈ G(e)}, using Definition 2.8.
+
+Definition 2.5 (Minimal gold, deepest gold and centre). M(e) = {c ∈ G(e) : Desc(c) ∩ G(e) is empty} contains gold classes with no more specific annotated descendant. D(e) = max dₑ(c), over c ∈ G(e), is maximum annotated gold depth. Gmax(e) = {c ∈ G(e) : dₑ(c) = D(e)} is the deepest-gold set used by reciprocal rank. The centre c*(e) is selected from M(e) by descending annotated depth, then ascending lexicographic order of the full class-identifier string. If the implementation returns no minimal candidate, the same ordering is applied to G(e). This is string ordering, not numeric ordering of the Q-ID suffix.
+
+The centre and the ranking target are different objects: c*(e) is one class used to extract context, whereas Gmax(e) can contain several classes and defines a ranking success set. In a DAG with shortest-path depth, c*(e) need not belong to Gmax(e). A centre can be the graph-minimal gold class without being the class with greatest recorded depth. The term centre label always means λ(c*(e)); “reference type” is retained only when quoting the metadata field name.
+
+
+## 2.3 Context, output and matching
+
+Definition 2.6 (Local context). With cap k = 3, Kₖ(c) contains the first k parent, sibling and child identifiers in ascending lexicographic identifier order, separately for each relation. Siblings are formed using all direct parents before the sibling list is capped. A relation subset R selects which of these lists a condition displays. Labels are rendered with λ; the centre itself is excluded from the context. Missing graph centres yield empty lists. Context extraction is deterministic but does not rank neighbours by semantic relevance.
+
+Definition 2.7 (Ranked entity typing). Given an entity name, δ(e), a fixed demonstration and, where specified, Kₖ(c*(e)), the system returns a finite ordered sequence Y(e) = (y₁,…,yₘ) of type-label strings, intended to run from most specific to broadest supported type. No closed label list is imposed. The scoreable answer is the types list; explanation text is retained as observable output but is not treated as a verified internal reasoning trace.
+
+Definition 2.8 (Normalization and resolution). N lowercases by Unicode case folding, trims whitespace, replaces underscores with spaces, collapses repeated whitespace and strips surrounding spaces and the punctuation . , ; : ! ? double quote and apostrophe. Flat matching requires exact equality after N; there is no synonym expansion, stemming or semantic judge. For hierarchy diagnostics, an exact gold-label match resolves to the corresponding gold identifier(s). Otherwise, a label resolves only if the supplied label index maps it to exactly one identifier. Ambiguous or unknown labels remain opaque false-positive items in hierarchical precision.
+
+Definition 2.9 (Prompting condition). A condition q = (s,R,w) specifies response style s ∈ {Direct, CoT, Contrastive}, displayed relation subset R and fixed template wording w. The no-graph conditions use R = ∅. Full graph conditions use parents, siblings and children; three additional Direct conditions use one relation family each. Since w also changes between graph and no graph, their contrast estimates the implemented package rather than an evidence-only causal effect.
+
+Definition 2.10 (Validity and paired cohort). A response is completed when the archived generation and parser accept its types list and required fields. Failed or incomplete records are not substituted with partial type lists. For run m and conditions a,b, Vₘ,a,b contains the entities completed in both conditions. The primary paired effect is the mean over that set of score(m,b,e) − score(m,a,e). A separate failure-inclusive sensitivity assigns zero utility to an unsuccessful scheduled response.
+
+
+# 3 Related work and motivation
+
+
+## 3.1 Entity typing and hierarchical prediction
+
+Fine-grained entity typing extends coarse categories by distinguishing more specific semantic roles. Ling and Weld (2012) introduced an influential fine-grained setting, while Choi et al. (2018) emphasized a broad inventory spanning multiple levels of granularity. These tasks motivate predicting more than one applicable label. The present study begins with an identified entity and a short knowledge-base description, so it does not include mention-span detection.
+
+Hierarchy-aware learning provides the closest conceptual precedents. Xu and Barbosa (2018) incorporate type-hierarchy information into a supervised loss. Chen et al. (2020) use a multi-level learning-to-rank objective and a coarse-to-fine decoder that restricts candidates through predicted parent types. Onoe et al. (2021) represent types and mentions as boxes, allowing containment to express type relationships. These methods show why relations between labels matter; their structural information enters learned representations, objectives or decoding rather than the inference-time text alone.
+
+The thesis instead holds model weights fixed and renders a small local neighbourhood as natural language. This makes exact relation subsets easy to inspect and compare. It also changes the problem: a model can produce an unlisted synonym or an unsupported label, while a constrained classifier typically operates within a specified type space. The metrics must therefore distinguish inventory agreement from broader semantic plausibility.
+
+
+## 3.2 Knowledge-graph typing and taxonomy quality
+
+ConnectE combines information from existing type assertions and graph triples to infer missing entity types (Zhao et al., 2020). TET encodes entity-neighbour information using local, global and context transformer mechanisms (Hu et al., 2022). Both connect graph structure with typing, but their neighbourhoods concern graph entities and learned representations. This thesis supplies a neighbourhood around a gold-selected type class and asks a frozen language model to interpret it.
+
+Wikidata is a collaboratively maintained knowledge base rather than a perfectly curated ontology (Vrandečić and Krötzsch, 2014). WiKC refines its taxonomy using language-model judgments and graph processing, including changes to redundant or problematic classes and edges (Peng et al., 2024). That resource supplies both the graph and released evaluation labels here. Resource refinement and downstream prompting remain separate contributions: this thesis neither constructs WiKC nor independently certifies every inherited annotation.
+
+
+## 3.3 Prompting and LLM-based typing
+
+In-context demonstrations specify behaviour without parameter updates (Brown et al., 2020). CoT prompting adds worked reasoning steps (Wei et al., 2022), while contrastive CoT uses positive and negative demonstrations to distinguish desirable from undesirable reasoning (Chia et al., 2023). The present templates adapt these ideas to type lists: explanations justify specificity and broader labels, and the contrastive condition includes a wrong ranking and an explanation of its defects. One correct worked example is supplied in every condition; the contrastive variant adds a negative example for that same demonstration entity.
+
+An explanation is evidence about the returned text, not direct access to the computation that produced it. Turpin et al. (2023) show that CoT explanations can fail to reveal influences on model decisions. Accordingly, this thesis scores the label list and discusses explanation quality only through inspectable cases. Gemini’s built-in thinking further requires separating a visible explanation request from whether the model performs internal reasoning.
+
+LLM-based typing also includes candidate-retrieval approaches. Ma et al. (2026) use semantic descriptors to retrieve candidate types and reduce the effective label space, with an additional route for selecting training data under noisy supervision. Their setting motivates future retrieval experiments, while this thesis measures how an oracle neighbourhood changes open-label generation. Neither their scores nor those of supervised typing systems are directly comparable with the present cohort and matching rule.
+
+Table 3.1 Position of the present setting relative to closely related work.
+
+| Work | Where structure enters | Relation to this thesis |
+|---|---|---|
+| Xu & Barbosa (2018) | Hierarchy-aware supervised loss | Learns typing parameters; no textual local-context intervention |
+| Chen et al. (2020) | Ranking loss and hierarchical decoder | Structured output decisions; present study uses open-label generation |
+| Onoe et al. (2021) | Box representations of types and mentions | Models latent type containment |
+| Zhao et al. (2020), ConnectE | Type assertions and KG triples | Completes graph typing through learned embeddings |
+| Hu et al. (2022), TET | Transformer encoding of entity neighbours | Uses graph neighbours within a learned typing model |
+| Ma et al. (2026), DR-FET | Descriptor-based candidate retrieval | Finds candidate labels from textual evidence |
+| This thesis | Oracle class neighbourhood in frozen prompts | Compares nine conditions, three Llama seeds and a child intervention |
+
+The research gap addressed here is a matched empirical account of how local parent, sibling and child context, presented through fixed prompting styles, changes ranked open-label typing under explicit oracle centre selection. The contribution is the combination of controlled prompt comparisons and distinct measures of coverage, specificity and hierarchical agreement, rather than a claim to replace supervised typing or retrieval-based systems.
+
+
+# 4 Dataset and taxonomy
+
+
+## 4.1 Resource origin and cohort construction
+
+The repository identifies a Wikidata dump dated 22 March 2024. The study uses wikc.tsv, wiki_taxonomy_labels.tsv and wikc_eval_1k.txt from the WiKC project (Peng et al., 2024). The released 1,000-entity evaluation sample is the fixed cohort. The thesis groups annotation rows by entity, preserves all listed labels and depths, and derives prompt metadata and deterministic context. These operations create experimental inputs; they do not constitute independent manual annotation.
+
+The original WiKC evaluation construction associates instances with classes and their ancestors in the refined taxonomy. The reviewed project documentation describes an English-Wikipedia-linked instance pool and class-level sampling before the miniature sample is drawn. The exact sample used here is identified by the archived input, rather than by a claim to recreate the source sampling. The original paper’s statement-validation experiment and this thesis’s exact label-list evaluation have different scoring procedures and denominators.
+
+Class identifiers are used for traversal; labels are used for prompts and flat scoring. The label file is broader than the loaded WiKC edge graph. A unique label-to-identifier resolution therefore does not guarantee that the resolved identifier has neighbours in WiKC. The formal treatment in Definitions 2.1 and 2.8 preserves this distinction.
+
+Table 4.1 Audited dataset statistics. Counts are recomputed from the supplied inputs.
+
+| Quantity | Value |
+|---|---|
+| Taxonomy nodes |C| | 16581 |
+| Subclass edges |A| | 19622 |
+| Acyclic edge graph | True |
+| Evaluation entities |V| | 1000 |
+| Mean gold classes |G(e)| | 12.2550 |
+| Mean distinct normalized gold labels | 12.2380 |
+| Gold sets not closed under loaded-graph ancestors | 16 |
+| Entities with more than one maximum-depth gold class | 136 |
+| Centres outside maximum-depth gold set | 89 |
+| Centre label occurs in normalized description | 265 |
+
+
+## 4.2 Gold structure, centre selection and label overlap
+
+The gold set is the explicitly listed set G(e), not a closure imposed by definition. Traversing the loaded graph shows that 16 of the 1,000 gold sets omit at least one reachable ancestor. The hierarchical score may therefore credit a graph-implied ancestor that flat precision marks non-gold. This is a property of the evaluation representation, not proof that every graph-implied statement is semantically correct.
+
+136 entities have multiple deepest gold classes. For 89 entities, the context centre c*(e) of Definition 2.5 is not in Gmax(e). Keeping these objects separate prevents an inaccurate interpretation of MRR as centre recovery. The full gold set remains the scoring reference regardless of how many candidate centres exist.
+
+The normalized centre label occurs as a substring of the normalized description for 265 entities (26.5%). It is absent for the remaining 735. This reproducible lexical-overlap diagnostic uses the same normalization as flat scoring, without word-boundary, synonym or morphological expansion. Section 7.6 reports paired graph gains separately for these groups. Presence indicates an easy lexical cue; absence does not establish that the type cannot be inferred from the description.
+
+
+## 4.3 Context availability and truncation
+
+Table 4.2 Context relations before the cap of three. Empty counts include centres absent from the edge graph.
+
+| Relation | Empty | More than 3 | Mean available |
+|---|---|---|---|
+| Parents | 4 | 6 | 1.21 |
+| Siblings | 64 | 759 | 34.54 |
+| Children | 549 | 178 | 2.56 |
+
+Neighbour lists use string-sorted identifiers and the first three entries, as specified in Definition 2.6. The audit verifies that the archived main context IDs match this extraction rule for every entity. A truncated list indicates that the supplied context represents only part of the local neighbourhood. It does not indicate that the most relevant neighbours were selected.
+
+Exactly 451 centres have available children, while 549 have empty child lists. These groups define different analyses: children-only prompts retain all 1,000 entities, the empty-child diagnostic uses the 549 empty cases, and child removal uses the 451 child-present entities. Comparing averages across these cohorts without matching would mix a prompt change with a population change.
+
+
+## 4.4 Depth and heterogeneity
+
+Table 4.3 Distribution of maximum annotated gold depth D(e).
+
+| Depth | Entities | Share |
+|---|---|---|
+| 4 | 54 | 5.4% |
+| 5 | 144 | 14.4% |
+| 6 | 217 | 21.7% |
+| 7 | 248 | 24.8% |
+| 8 | 187 | 18.7% |
+| 9 | 98 | 9.8% |
+| 10 | 43 | 4.3% |
+| 11 | 9 | 0.9% |
+
+Depth 7 is the mode. Depths 6 and 7 together account for 465 entities, or 46.5% of the cohort. The grouped analysis uses depths 4–5 (198 entities), 6–7 (465) and 8 or above (337). Grouping makes the support more balanced than treating the nine depth-11 entities as an independent broad conclusion.
+
+Depth records position in a particular taxonomy, not an intrinsic scale of semantic difficulty. Long gold lists require more labels for high recall, and different branches contain different numbers of intermediate classes. A deeper category can also be named explicitly in its description. Sections 7.6 and 8 therefore interpret depth alongside lexical overlap and context availability.
+
+The cohort contains 914 distinct centre labels. Many appear for only one entity, so fine-grained per-type rankings would be unstable. The supplementary entity inventory reports every identifier, description, selected centre, depth and context count. It supports targeted inspection without treating sparse categories as well-estimated population strata.
+
+
+# 5 Methodology
+
+
+## 5.1 Final experimental pipeline
+
+Figure 5.1 summarizes the final pipeline. The released annotations determine the centre c*(e) (Definition 2.5), the taxonomy determines its capped neighbourhood (Definition 2.6), and fixed templates determine the condition (Definition 2.9). The same frozen main prompt text is evaluated by Gemini and by each Llama seed. Raw outputs, parsing status and accepted predictions are retained before scoring.
+
+![Figure 5.1 Pipeline from the released cohort to paired evaluation. Gold information enters context construction, not autonomous retrieval.](figures/pipeline.png)
+
+The main design contains 1,000 entities × nine conditions × four model runs, giving 36,000 scheduled responses. The child-removal extension contains 451 eligible entities × three styles for Llama seed 0, adding 1,353 scheduled responses. Thus 37,353 responses are scheduled in total. One response is retained per completed job, with recovery determined by output validity rather than the eventual typing score.
+
+The external demonstration is Rod Fergusson (wd:Q18720219), whose description is Canadian video game producer. Its identifier is absent from the evaluation cohort. Every prompt contains its worked example. The correct example list is the same across styles; explanation-bearing and contrastive templates add their corresponding explanatory material. This is one-shot prompting, with an additional negative ranking for the contrastive style.
+
+
+## 5.2 Context extraction algorithm
+
+Algorithm 5.1 — Deterministic oracle context extraction
+
+Input: entity record e, explicit gold classes G(e), annotated depths, taxonomy T, relation cap k = 3.
+
+1. Find graph-minimal annotated candidates M(e). If empty, use G(e).
+
+2. Sort candidates by descending annotated depth and then lexicographic full identifier; select the first as c*(e).
+
+3. Obtain all direct parents and children. Form siblings as the union of all parents’ children, excluding c*(e).
+
+4. Sort each relation set lexicographically and retain its first three identifiers. For an absent centre, use empty relation sets.
+
+5. Render the requested relation subset using labels. Do not print the target centre label in the target context.
+
+6. Add the external demonstration and the fixed style-specific instructions. Archive the exact text and metadata.
+
+This procedure separates selection from scoring. All of G(e) is retained for evaluation, including classes not used to choose the neighbourhood. The cap applies independently to each relation; it is not a total limit of three neighbours. The selected order follows identifiers rather than depth, frequency or semantic similarity.
+
+For child removal, the target child list and child-specific wording are removed from the main graph template for the eligible entities. The archived examples show that the demonstration itself still contains its own child-related material. Consequently, this intervention estimates the contribution of the implemented child-related target content and wording. It should not be described as changing only one evidence list while keeping every instruction character identical.
+
+
+## 5.3 Nine main conditions and exact textual changes
+
+Table 5.1 Conditions and response requirements. Internal names are retained for reproducibility.
+
+| Manuscript condition | Internal identifier | Response |
+|---|---|---|
+| Direct, no graph | standard | Types only |
+| Direct, graph | graph_aware_standard | Types only |
+| CoT, no graph | cot_no_graph | Explanation + types |
+| CoT, graph | cot_graph | Explanation + types |
+| Contrastive, no graph | contrastive_cot_no_graph | Explanation + types |
+| Contrastive, graph | contrastive_cot_graph | Explanation + types |
+| Parents only | standard_parent_only | Types only |
+| Siblings only | standard_siblings_only | Types only |
+| Children only | standard_children_only | Types only |
+
+Direct prompting requests a types list. CoT asks for a brief justification of the specific type and broader ordering; contrastive CoT additionally compares alternatives and includes a wrong worked ranking. The relation-only conditions use Direct output with one relation family. These are fixed implemented conditions, not an exhaustive search over all possible prompts.
+
+The full-graph Direct template adds the graph note reproduced below. It also adds taxonomy sections to the demonstration and target task. CoT graph instructions explicitly mention parents, siblings and children, while no-graph CoT instructions restrict the explanation to the entity and description. The contrastive templates similarly change both explanatory wording and the worked negative example. Appendix B reproduces all nine complete prompts for framboid, making the full differences inspectable.
+
+The context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.
+
+The no-graph Direct prompt contains no corresponding paragraph. Thus RQ1 concerns graph-aware prompting as a package. The childless children-only diagnostic is useful because the target list is empty, but it still differs from the no-graph template in the graph note, relation headings and demonstration format. It estimates a combined instruction-and-format effect under empty child evidence, rather than isolating the graph note word for word.
+
+
+## 5.4 Model systems and decoding
+
+Gemini uses the documented stable model ID gemini-3.8-flash through the Gemini Developer API generateContent endpoint. Final response timestamps range from 11 October 2026 at 23:26 UTC to 12 October at 00:51 UTC. The archived generation configuration sets temperature to 1.0 and requests application/json output. It omits an explicit random seed, thinking-level override and client maximum-output setting. Google documents a 65,536-token output limit and configurable low, medium and high thinking for this model (Google, 2026a; Google DeepMind, 2026).
+
+The absence of a thinking override means that the provider default was used; the actual internal effort is not independently fixed by this experiment. Current documentation lists medium as the default and does not provide a disabled-thinking mode for Gemini 3.8 Flash (Google, 2026b). Direct versus CoT therefore changes whether a visible task explanation is requested, not whether Gemini reasons internally. Table 5.2 reports the recorded thought-token usage for each condition.
+
+Llama uses meta-llama/Llama-3.1-8B-Instruct at checkpoint revision 0e9e39f249a16976918f6564b8830bc894c89659, as described by Grattafiori et al. (2024), with vLLM 0.31.0, PyTorch 2.13.0, Transformers 5.17.0 and CUDA 13.0 on an NVIDIA H100 80GB HBM3. These versions are recorded by the run environment; vLLM’s official release page confirms that 0.31.0 is a released version (vLLM Project, 2026). The model runs in bfloat16 with one GPU, tensor parallel size 1, maximum context length 32,768, top-p 1 and temperature 1.0.
+
+Seeds 0, 42 and 123 each identify a complete separate main invocation. A seed is held fixed across jobs and retries within its run; there is no search for a seed yielding a better score. Seed 0 also identifies the child-removal invocation. Main Llama timestamps fall on 12 October 2026 UTC; the archived seed-0 main and ablation records together span 19:29–20:21, seed 42 spans 21:31–22:40, and seed 123 spans 23:01–23:43. Batch scheduling and backend behaviour can still affect reproducibility, so these are observed fixed-seed runs rather than a guarantee of bitwise reproducibility on another machine.
+
+Temperature 1.0 preserves the common experimental sampling policy across systems. It is a design choice, not a claim that stochastic generation is optimal for typing. The three Llama runs provide a direct estimate of observed seed variability; Gemini has one accepted response per entity and condition. This asymmetry is retained in all model comparisons. Llama’s max_new_tokens = 0 setting means use the remaining context capacity, not unlimited output: the actual ceiling is the model context length minus prompt length.
+
+Table 5.2 Mean Gemini thought tokens from accepted-response usage metadata.
+
+| Condition | Recorded cases | Mean thought tokens |
+|---|---|---|
+| Direct, no graph | 1000 | 476.8 |
+| Direct, graph | 1000 | 850.0 |
+| CoT, no graph | 1000 | 591.2 |
+| CoT, graph | 1000 | 1575.3 |
+| Contrastive, no graph | 1000 | 595.3 |
+| Contrastive, graph | 1000 | 1766.9 |
+| Parents only | 1000 | 584.2 |
+| Siblings only | 1000 | 726.7 |
+| Children only | 1000 | 706.8 |
+
+
+## 5.5 Validation, retries and incomplete responses
+
+The retained result must pass the archived parser and validity checks, including a nonempty types list and, for explanation-bearing conditions, an explanation. Truncation, malformed JSON and parser failures are generation failures, not low typing scores. No response is retried because its labels agree poorly with gold. First-attempt validity and final completion are therefore reported separately.
+
+Llama permits at most two attempts per pending job per invocation. Before a failed response is overwritten by a retry, it is saved in an attempts directory. The seed and temperature remain fixed. Gemini permits one retry for a qualifying malformed or truncated output and retries selected transient HTTP/network errors subject to a four-error stopping threshold. The runner retains the first valid response and stops new work on an unresolved response. These policies are read from the archived runners; the attempt audit reconstructs the actual observed requests by deduplicating final records that also occur in the attempt archive.
+
+The fresh/external run naming denotes a newly generated prompt-and-response set using the external demonstration. It does not denote selection of the highest-scoring run. Earlier result directories in the project package are excluded from all revised empirical tables. Completion counts below refer to the new archives only.
+
+Table 5.3 Final completion and observed recovery. Extra attempts count requests beyond the first for a scheduled job.
+
+| Run / experiment | Scheduled | Completed | Failed | Extra attempts |
+|---|---|---|---|---|
+| Gemini | 9000 | 9000 | 0 | 21 |
+| Llama 0 | 9000 | 8991 | 9 | 31 |
+| Llama 42 | 9000 | 8971 | 29 | 71 |
+| Llama 123 | 9000 | 8986 | 14 | 37 |
+| Llama 0 child removal | 1353 | 1352 | 1 | 6 |
+
+Appendix A reports condition-specific completed denominators. The supplementary attempt_audit.csv preserves first validity, retry counts and final status for every job. Table 5.4 makes condition-dependent recovery visible, since different retry rates can condition accepted-response scores differently.
+
+Table 5.4 First-attempt valid responses / extra attempts for the nine main conditions (1,000 jobs per cell).
+
+| Condition | Gemini | Llama 0 | Llama 42 | Llama 123 |
+|---|---|---|---|---|
+| Direct, no graph | 1000 / 0 | 999 / 1 | 998 / 2 | 1000 / 0 |
+| Direct, graph | 999 / 1 | 999 / 1 | 998 / 2 | 996 / 4 |
+| CoT, no graph | 999 / 1 | 997 / 3 | 995 / 5 | 991 / 9 |
+| CoT, graph | 993 / 10 | 1000 / 0 | 975 / 25 | 998 / 2 |
+| Contrastive, no graph | 1000 / 0 | 995 / 5 | 986 / 14 | 985 / 15 |
+| Contrastive, graph | 994 / 6 | 983 / 17 | 986 / 14 | 994 / 6 |
+| Parents only | 1000 / 0 | 998 / 2 | 999 / 1 | 1000 / 0 |
+| Siblings only | 999 / 1 | 998 / 2 | 994 / 6 | 1000 / 0 |
+| Children only | 998 / 2 | 1000 / 0 | 998 / 2 | 999 / 1 |
+
+
+## 5.6 Development history and the discarded extraction approach
+
+The final design follows exploratory prompt development. Earlier templates tested how to request specific-to-broad lists, how to explain local relations and how to discourage copying every neighbour. Output inspection motivated concise common instructions, explicit warnings about unsupported specificity and a separation between accepted format and measured typing quality. These development observations explain the design; they are not additional experimental results.
+
+The author also explored asking a language model to derive taxonomy structure from the dataset itself. That route did not provide enough practical benefit to justify retaining it in the final pipeline. No predefined information-gain statistic, controlled extraction benchmark or independent link annotation is available for that exploration, so it is described as a development decision rather than a measured negative finding.
+
+Using the fixed WiKC graph makes neighbour extraction auditable and permits direct relation interventions. It also separates graph construction from downstream use: the same model is not being credited for both proposing its own labels and recovering them. Previously inspected entities remain in the final cohort, so the study is exploratory. The frozen prompts and explicit seed comparisons improve reproducibility without turning this cohort into an untouched test set.
+
+
+# 6 Evaluation design
+
+
+## 6.1 Flat agreement and gold coverage
+
+The normalized prediction set is P(e) = {N(y) : y ∈ Y(e)} and the normalized gold-label set L(e) is defined in Definition 2.4. Precision is |P ∩ L| / |P|, recall is |P ∩ L| / |L|, and F1 is 2|P ∩ L| / (|P| + |L|). Empty prediction lists receive zero utility in the explicit failure sensitivity, but are not treated as completed outputs. The main metric is mean entity F1: each completed entity contributes one F1 value and entities are weighted equally.
+
+Recall is also the fraction of listed gold labels covered by a response. This interpretation is narrower than the fraction of all true semantic properties recovered. Precision measures normalized label agreement; a non-gold label is a benchmark false positive, but requires further evidence before being called false in the real world. Repeated normalized labels do not increase set counts. Both raw and distinct list lengths are retained in the supplementary scores.
+
+The primary tables preserve all benchmark gold labels, including broad categories. This answers the benchmark’s multi-label recovery question. A model that returns one correct specific label can therefore have high reciprocal rank but low recall. Conversely, broad generic categories can raise coverage without locating the most specific gold label. The ranking metrics make this distinction visible.
+
+
+## 6.2 Specificity and ranking
+
+Definition 6.1 (Reciprocal rank). RR(e) is 1/j for the first output rank j whose normalized label equals a label of a class in Gmax(e), and zero if no such label occurs. MRR is the mean of RR over the relevant cohort. The ranking target is Gmax(e), not necessarily c*(e). Output order is preserved, including duplicate positions.
+
+Definition 6.2 (Depth-weighted nDCG). A normalized gold label receives relevance equal to its maximum recorded depth divided by D(e). Non-gold labels receive zero. At rank j, the gain is (2^relevance − 1) / log₂(j+1). DCG sums those gains; nDCG divides by the ideal DCG obtained by sorting the gold relevances. The cutoff is max(output length, number of distinct gold labels, 1), so omitted gold labels remain relevant to the ideal ranking. A repeated matched label receives no additional gain but retains its output position.
+
+This is a task-specific graded-relevance adaptation of DCG (Järvelin and Kekäläinen, 2002), not an objective universal scale of type utility. A root label at depth zero earns no graded gain even though it can be a flat match. The metric rewards earlier recovery of deeper recorded classes and penalizes missing or late relevant labels. Its normalization permits comparison across differently sized gold sets while leaving the interpretation dependent on the released depth annotation.
+
+
+## 6.3 Hierarchical agreement and a worked example
+
+Definition 6.3 (Ancestor-augmented F1). Resolve output labels according to Definition 2.8 and take their union with reachable ancestors. Add one opaque item for every unresolved normalized prediction. Compare this augmented prediction set with U(G(e)) using set F1. This hierarchical F1 gives credit for shared ancestry while retaining unresolved labels in the precision denominator. It follows the ancestor-augmentation perspective discussed by Kosmopoulos et al. (2015) and Plaud et al. (2024); it is not LCA-F1.
+
+For a compact illustrative hierarchy, suppose sparrow is a child of bird and bird a child of animal, with depths 2, 1 and 0. Let the explicitly listed gold set contain all three. The sequence [bird, sparrow] has precision 1, recall 2/3 and F1 0.8. Its deepest-gold label is at rank 2, giving RR = 0.5. Its DCG is (√2−1) + 1/log₂3, while the ideal DCG is 1 + (√2−1)/log₂3, yielding nDCG approximately 0.8286. Ancestor closure recovers all three labels and gives hierarchical F1 = 1.
+
+The example shows why the metrics need not agree. [sparrow] obtains RR = 1 but flat F1 = 0.5 because it lists only one of the three gold labels. Its ancestor-augmented F1 is still 1. An additional unresolved label would lower both flat precision and hierarchical precision. This toy calculation illustrates metric behaviour; it is not an experimental observation from WiKC.
+
+
+## 6.4 Paired comparisons, seeds and uncertainty
+
+For each graph/no-graph contrast, only entities completed in both conditions enter the paired primary estimate (Definition 2.10). The same rule applies to model comparisons and child removal. Paired percentile intervals use 2,000 bootstrap resamples of entity differences with a fixed analysis random generator initialized at seed 230917. Each resample draws entities with replacement and averages their within-entity differences.
+
+The intervals characterize entity-level variability conditional on the retained outputs. They are exploratory, unadjusted for multiple comparisons and do not incorporate all model sampling, prompt selection or annotation uncertainty. Dror et al. (2018) motivate matching statistical procedures to the experimental structure; here, resampling the differences preserves the pairing. Effect magnitudes and intervals are reported together rather than reduced to a significance label (Ho et al., 2019).
+
+Llama seed comparisons use the common completed cohort across all three seeds separately for each condition. The table reports the three means, their arithmetic mean and sample standard deviation (denominator 3−1). This describes variation among three observed runs, not a precise estimate over every possible seed. The 3,000 outputs of a condition are not treated as 3,000 independent entities. Gemini is compared separately with each Llama seed on that pair’s completed entities.
+
+Failures remain scheduled jobs in a sensitivity analysis assigning them zero utility. A second sensitivity uses the fact that F1 lies between zero and one: assigning failed graph cases zero and failed baseline cases one gives a lower bound, with the reverse assignment giving an upper bound. These are bounds on unknown scheduled-response performance, not imputations presented as observed model answers.
+
+
+## 6.5 Output inspection and presentation
+
+Non-gold predictions are classified by deterministic evidence into additional reachable gold ancestors, other uniquely resolved labels, ambiguous labels and labels absent from the supplied index. The second category includes unique labels whose identifiers are outside the loaded edge graph. None of these automatic categories alone establishes hallucination. Selected cases are then inspected against the description and graph context; their interpretations remain qualitative rather than an independently adjudicated error-rate estimate.
+
+Plots use common axes within a metric and label every bar with its numerical value. Figures show completed-condition means, whereas paired tables show matched effects and denominators. This distinction avoids silently treating different completion cohorts as identical. Numerical labels and aligned comparisons follow the perceptual rationale of Cleveland and McGill (1984); supplementary CSV files provide the unrounded values.
+
+
+# 7 Results
+
+
+## 7.1 Graph-aware prompting improves F1, precision and recall — RQ1
+
+![Figure 7.1 Mean entity F1 for the six primary conditions in each model run. Bars use completed-condition cohorts; paired effects and denominators are in Table 7.1.](figures/f1.png)
+
+Table 7.1 Paired graph-minus-no-graph F1 effects. Intervals use 2,000 entity bootstrap resamples.
+
+| Run | Style | Pairs | ΔF1 | 95% interval |
+|---|---|---|---|---|
+| Gemini | Direct | 1000 | +0.0625 | [+0.0539, +0.0711] |
+| Gemini | CoT | 1000 | +0.1308 | [+0.1215, +0.1400] |
+| Gemini | Contrastive | 1000 | +0.1348 | [+0.1262, +0.1436] |
+| Llama 0 | Direct | 1000 | +0.0594 | [+0.0492, +0.0701] |
+| Llama 0 | CoT | 999 | +0.0545 | [+0.0436, +0.0652] |
+| Llama 0 | Contrastive | 995 | +0.0611 | [+0.0511, +0.0709] |
+| Llama 42 | Direct | 998 | +0.0482 | [+0.0379, +0.0581] |
+| Llama 42 | CoT | 991 | +0.0471 | [+0.0364, +0.0572] |
+| Llama 42 | Contrastive | 991 | +0.0617 | [+0.0513, +0.0725] |
+| Llama 123 | Direct | 997 | +0.0451 | [+0.0355, +0.0552] |
+| Llama 123 | CoT | 995 | +0.0476 | [+0.0368, +0.0581] |
+| Llama 123 | Contrastive | 995 | +0.0696 | [+0.0600, +0.0792] |
+
+Every main paired effect is positive and every displayed interval excludes zero. Gemini’s gains are 0.0625 for Direct, 0.1308 for CoT and 0.1348 for Contrastive. Across the three Llama seeds, Direct gains range from 0.0451 to 0.0594, CoT gains from 0.0471 to 0.0545 and Contrastive gains from 0.0611 to 0.0696. This consistency is stronger evidence for the implemented graph-aware package than any single run’s condition ranking.
+
+Figure 7.1 also shows a model-dependent style interaction. Gemini’s graph CoT and Contrastive scores exceed its Direct graph score, while Direct remains the strongest of the three full-graph styles for Llama in every seed. Without graph context, Gemini’s Direct score exceeds both explanation-bearing variants. Requesting an explanation is therefore not a general improvement; the observed benefit depends on model and supplied context.
+
+A plausible explanation is that local labels and instructions help align predictions with the benchmark’s hierarchy and vocabulary. Parent information can support broader labels, while nearby alternatives can constrain a specific interpretation. These mechanisms are compatible with simultaneous precision and recall gains, but the design does not isolate structural evidence from the added instructions. Section 7.3 examines that distinction through the empty-child diagnostic.
+
+Table 7.2 Paired changes in precision and recall for the main graph contrasts.
+
+| Run | Style | Δ precision | Δ recall |
+|---|---|---|---|
+| Gemini | Direct | +0.0914 | +0.0465 |
+| Gemini | CoT | +0.1376 | +0.1219 |
+| Gemini | Contrastive | +0.1412 | +0.1265 |
+| Llama 0 | Direct | +0.0700 | +0.0494 |
+| Llama 0 | CoT | +0.0600 | +0.0563 |
+| Llama 0 | Contrastive | +0.0850 | +0.0508 |
+| Llama 42 | Direct | +0.0691 | +0.0336 |
+| Llama 42 | CoT | +0.0612 | +0.0429 |
+| Llama 42 | Contrastive | +0.0796 | +0.0577 |
+| Llama 123 | Direct | +0.0674 | +0.0294 |
+| Llama 123 | CoT | +0.0546 | +0.0475 |
+| Llama 123 | Contrastive | +0.0847 | +0.0658 |
+
+Precision and recall summarize different aspects of the same response. Increased recall means more listed gold labels are recovered; increased precision means a larger fraction of returned labels matches gold. The corresponding paired changes in Table 7.2 allow the F1 gains to be assessed without assuming that a longer list is necessarily a better one. Appendix A gives the absolute scores for every condition.
+
+
+## 7.2 Specific-type ranking and output length — RQ1 and RQ4
+
+![Figure 7.2 MRR for maximum-depth gold labels. The ranking target is Gmax(e), which can differ from the context centre.](figures/mrr.png)
+
+![Figure 7.3 Depth-weighted nDCG of complete ranked outputs. Values credit deeper gold labels earlier in the list.](figures/ndcg.png)
+
+Figures 7.2 and 7.3 show that graph-aware prompting improves more than set coverage. The main graph conditions improve MRR and nDCG in the paired comparisons. However, the absolute MRR gap between systems is larger than their F1 gap in several conditions: Gemini recovers a deepest gold label early more often, while Llama can recover broader categories without placing a deepest gold label first.
+
+For Gemini, graph CoT and graph Contrastive obtain MRR near 0.52, compared with roughly 0.23–0.24 without graph context. Llama graph MRR remains near 0.18–0.21 across styles and seeds. These outcomes support a distinction between using the neighbourhood to reconstruct broad labels and identifying the benchmark’s deepest label. Higher F1 cannot be interpreted as proof of equally strong specific-type recovery.
+
+Graph gains in nDCG are consistent with better recovery and placement of deeper gold labels throughout the sequence. The metric still depends on recorded taxonomy depth and exact matching, so its improvement does not independently certify every semantic relation in the output.
+
+![Figure 7.4 Mean number of distinct normalized predicted labels per completed response. The overall mean gold-list size is 12.238.](figures/predicted_count.png)
+
+The output-length pattern in Figure 7.4 rules out a simple account based only on producing more labels. Gemini’s Direct graph mean is 8.06 labels versus 8.39 without graph, whereas its explanation-bearing graph means increase to roughly 7.35–7.42 from 6.48–6.62. Llama often produces longer lists than Gemini, but longer lists do not yield higher exact-match F1. The graph package can improve selection even when the list becomes shorter.
+
+List length also helps interpret recall. The benchmark contains on average 12.238 distinct normalized labels per entity, so a concise correct answer may leave many ancestors unlisted. The demonstration’s broad hierarchy encourages broader outputs, but it does not eliminate missing ancestors or unsupported additions. Output length is therefore reported as a behavioural diagnostic, not a quality metric by itself.
+
+
+## 7.3 Relation-only conditions and the empty-child diagnostic — RQ2, H1
+
+Table 7.3 Completed-condition F1 for Direct relation variants. These means include empty relation lists.
+
+| Run | No graph | Parents | Siblings | Children | Full graph |
+|---|---|---|---|---|---|
+| Gemini | 0.3888 | 0.4302 | 0.3958 | 0.4160 | 0.4513 |
+| Llama 0 | 0.3391 | 0.4029 | 0.3417 | 0.3510 | 0.3986 |
+| Llama 42 | 0.3482 | 0.4076 | 0.3639 | 0.3688 | 0.3962 |
+| Llama 123 | 0.3461 | 0.3674 | 0.3476 | 0.3372 | 0.3910 |
+
+H1 is not supported. Parent-only F1 exceeds sibling-only F1 in Gemini and in each Llama seed. Parent context often provides a label already on an annotated ancestor chain, making it directly useful for exact coverage. Sibling context supplies alternatives rather than guaranteed applicable types, so the model must infer their shared category and avoid copying unsupported neighbours. This is a plausible explanation of the aggregate ordering, not a direct measure of the reasoning process.
+
+The relative ranking of full graph and parent-only prompts is less stable. Gemini benefits from the combined context more than from any single relation. For Llama, parent-only F1 exceeds full-graph Direct F1 in seeds 0 and 42, but falls below it in seed 123. This seed dependence argues against presenting full context as uniformly best for every implementation or relation subset.
+
+The 549 childless cases offer a partial control. Their target child list is empty. Inspection of the actual templates confirms that the children-only condition still supplies the graph note and child-context formatting. Its worked example also displays an empty child field, while no-graph Direct has no taxonomy section. Thus the comparison contains no substantive child-neighbour labels but does contain instruction and format differences.
+
+Table 7.4 Children-only minus no-graph Direct F1 on childless entities.
+
+| Run | Pairs | ΔF1 | 95% interval |
+|---|---|---|---|
+| Gemini | 549 | +0.0243 | [+0.0160, +0.0322] |
+| Llama 0 | 549 | +0.0133 | [+0.0011, +0.0252] |
+| Llama 42 | 548 | +0.0170 | [+0.0059, +0.0286] |
+| Llama 123 | 548 | +0.0049 | [-0.0070, +0.0168] |
+
+The empty-child effect is positive for all four runs, with intervals excluding zero for Gemini and Llama seeds 0 and 42. Seed 123 has a smaller estimate whose interval includes zero. This shows that the graph-aware template can change predictions even when no child evidence is supplied. The main graph effect should consequently be attributed to the whole prompt package. Subtracting this diagnostic from the main effect would not cleanly recover an evidence-only effect because the populations and template differences are not identical.
+
+
+## 7.4 Seed variability and model comparisons — RQ4
+
+Table 7.5 Llama F1 on entities completed in all three seeds, separately by condition. SD is across the three means.
+
+| Condition | n | Seed 0 | Seed 42 | Seed 123 | Mean | SD |
+|---|---|---|---|---|---|---|
+| Direct, no graph | 1000 | 0.3391 | 0.3482 | 0.3461 | 0.3445 | 0.0047 |
+| Direct, graph | 995 | 0.3986 | 0.3961 | 0.3909 | 0.3952 | 0.0039 |
+| CoT, no graph | 994 | 0.3217 | 0.3249 | 0.3322 | 0.3263 | 0.0053 |
+| CoT, graph | 991 | 0.3749 | 0.3715 | 0.3792 | 0.3752 | 0.0039 |
+| Contrastive, no graph | 991 | 0.3053 | 0.3116 | 0.3026 | 0.3065 | 0.0046 |
+| Contrastive, graph | 990 | 0.3662 | 0.3742 | 0.3716 | 0.3707 | 0.0041 |
+| Parents only | 997 | 0.4028 | 0.4073 | 0.3675 | 0.3926 | 0.0218 |
+| Siblings only | 993 | 0.3411 | 0.3641 | 0.3474 | 0.3509 | 0.0119 |
+| Children only | 997 | 0.3515 | 0.3692 | 0.3373 | 0.3527 | 0.0160 |
+
+The six primary conditions have across-seed F1 standard deviations of roughly 0.004–0.005 on their common completed cohorts. The single-relation conditions vary more: parent-only SD is 0.0218, child-only 0.0160 and sibling-only 0.0119. The broad direction of the graph/no-graph result is therefore more stable than the detailed ranking of relation-only templates.
+
+The means in Table 7.5 use the same entities across seeds within each condition. This matters because seed 42 has more unsuccessful responses than seeds 0 and 123. Reporting common-cohort means prevents completion differences alone from explaining the observed seed variation. It does not diagnose why the failures occurred; the archive does not establish a memory-related cause.
+
+Table 7.6 compares Gemini with each Llama seed under every main condition. Positive values favour Gemini. These are paired model-system differences, not pooled comparisons against 3,000 independent Llama entities. The systems differ in size, training, serving and internal reasoning, so the table supports an empirical deployment comparison rather than an architectural causal claim.
+
+Table 7.6 Paired Gemini-minus-Llama F1 differences; matched n is shown in parentheses.
+
+| Condition | vs seed 0 | vs seed 42 | vs seed 123 |
+|---|---|---|---|
+| Direct, no graph | +0.0497 (1000) | +0.0406 (1000) | +0.0427 (1000) |
+| Direct, graph | +0.0527 (1000) | +0.0549 (998) | +0.0600 (997) |
+| CoT, no graph | +0.0175 (999) | +0.0146 (999) | +0.0069 (996) |
+| CoT, graph | +0.0937 (1000) | +0.0986 (992) | +0.0902 (999) |
+| Contrastive, no graph | +0.0275 (999) | +0.0212 (996) | +0.0307 (996) |
+| Contrastive, graph | +0.1011 (996) | +0.0937 (995) | +0.0958 (999) |
+| Parents only | +0.0274 (998) | +0.0227 (999) | +0.0628 (1000) |
+| Siblings only | +0.0543 (999) | +0.0318 (994) | +0.0483 (1000) |
+| Children only | +0.0650 (1000) | +0.0476 (998) | +0.0791 (999) |
+
+Gemini has higher F1 in all of these paired condition comparisons. Its advantage is especially clear for the full-graph explanation-bearing conditions, where it combines stronger specific-type ranking with better label-set recovery. The comparison with three seeds makes this finding less dependent on selecting a single favourable or unfavourable Llama run.
+
+The model gap and the graph gain answer different questions. A system can score lower overall while benefiting substantially from added context. Llama’s positive graph effects across all seeds show useful responsiveness to the prompt package despite lower absolute scores. Gemini’s larger CoT and Contrastive graph gains are consistent with a stronger interaction between its explanation templates and supplied taxonomy evidence.
+
+
+## 7.5 The matched child-removal experiment — RQ2
+
+This ablation tests whether narrower examples contribute useful information beyond parents and siblings. Child classes can clarify the omitted centre by showing what falls below it, but they can also invite unsupported specificity. Restricting the experiment to the 451 entities with child context ensures that the intervention actually removes available content.
+
+The comparison uses Llama seed 0 and pairs each no-child response with its corresponding full-graph response from the main run. The target child section and child-specific instruction wording change together. One CoT no-child response and three eligible Contrastive full-graph responses are unsuccessful, producing the matched denominators below.
+
+Table 7.7 Seed-0 child effects. Direction is children included minus removed.
+
+| Style | Pairs | Removed F1 | Included F1 | ΔF1 | 95% interval |
+|---|---|---|---|---|---|
+| Direct | 451 | 0.4092 | 0.4068 | -0.0024 | [-0.0165, +0.0122] |
+| CoT | 450 | 0.3887 | 0.3780 | -0.0108 | [-0.0259, +0.0042] |
+| Contrastive | 448 | 0.3827 | 0.3693 | -0.0134 | [-0.0280, +0.0012] |
+
+The point estimates are −0.0024 for Direct, −0.0108 for CoT and −0.0134 for Contrastive. All three intervals include zero. The new results therefore do not establish a reliable F1 advantage from including children, nor do they establish a reliable harmful effect. The negative estimates are compatible with distraction or over-specific predictions, but the aggregate scores do not identify that mechanism on their own.
+
+This result is coherent with the relation-only analysis: children provide potential refinements rather than labels that necessarily apply to the entity. A model must decide whether the description supports the extra specificity. The value of child examples can consequently differ from the value of parent labels that already describe broader membership.
+
+The child-removal experiment is designed as a focused within-model analysis of how child-related prompt content affects entity typing. It evaluates Direct, CoT and Contrastive graph-aware prompts for Llama 3.1 8B Instruct at seed 0, using the 451 entities whose selected centres have child neighbours and matching completed responses within each style. This scope provides a controlled account of the child component within the Llama configuration, while the main nine-condition experiments address graph-aware prompting and model comparisons across the wider study.
+
+
+## 7.6 Depth and description-label overlap — RQ3, H2
+
+Table 7.8 Paired graph F1 gains by maximum annotated depth.
+
+| Run / style | Depth 4–5 | Depth 6–7 | Depth 8+ |
+|---|---|---|---|
+| Gemini / Direct | +0.0872 | +0.0608 | +0.0503 |
+| Gemini / CoT | +0.1362 | +0.1254 | +0.1351 |
+| Gemini / Contrastive | +0.1473 | +0.1190 | +0.1492 |
+| Llama 0 / Direct | +0.0890 | +0.0551 | +0.0481 |
+| Llama 0 / CoT | +0.0623 | +0.0567 | +0.0469 |
+| Llama 0 / Contrastive | +0.0688 | +0.0513 | +0.0701 |
+| Llama 42 / Direct | +0.0822 | +0.0313 | +0.0514 |
+| Llama 42 / CoT | +0.0801 | +0.0438 | +0.0322 |
+| Llama 42 / Contrastive | +0.0888 | +0.0525 | +0.0586 |
+| Llama 123 / Direct | +0.0670 | +0.0371 | +0.0432 |
+| Llama 123 / CoT | +0.0819 | +0.0448 | +0.0315 |
+| Llama 123 / Contrastive | +0.0861 | +0.0668 | +0.0638 |
+
+H2 is assessed through the pattern across strata, not by assuming depth is intrinsically harder. The observed gains do not form a consistent increasing sequence across all styles and runs. The results therefore do not support a general claim that graph benefit increases with depth. Different branch structures, gold-list lengths and lexical cues can all contribute to the stratum averages.
+
+The companion comparison table retains matched sample sizes and bootstrap intervals for every stratum. Since the depth groups contain different entities, their gain differences are descriptive and cannot be interpreted as the causal effect of moving an entity one level deeper in the taxonomy.
+
+Table 7.9 Paired graph F1 gains by normalized centre-label occurrence in the description.
+
+| Run / style | Label absent | Label present |
+|---|---|---|
+| Gemini / Direct | +0.0637 (n=735) | +0.0591 (n=265) |
+| Gemini / CoT | +0.1431 (n=735) | +0.0967 (n=265) |
+| Gemini / Contrastive | +0.1439 (n=735) | +0.1095 (n=265) |
+| Llama 0 / Direct | +0.0615 (n=735) | +0.0537 (n=265) |
+| Llama 0 / CoT | +0.0599 (n=734) | +0.0395 (n=265) |
+| Llama 0 / Contrastive | +0.0642 (n=732) | +0.0524 (n=263) |
+| Llama 42 / Direct | +0.0454 (n=733) | +0.0558 (n=265) |
+| Llama 42 / CoT | +0.0499 (n=731) | +0.0394 (n=260) |
+| Llama 42 / Contrastive | +0.0606 (n=727) | +0.0650 (n=264) |
+| Llama 123 / Direct | +0.0482 (n=734) | +0.0365 (n=263) |
+| Llama 123 / CoT | +0.0435 (n=732) | +0.0589 (n=263) |
+| Llama 123 / Contrastive | +0.0737 (n=732) | +0.0582 (n=263) |
+
+The cohort contains 735 descriptions without the normalized centre label and 265 with it. Table 7.9 separates lexical availability from graph-aware performance. Positive gains in the absent group show that the aggregate result is not restricted to copying a centre label already present in the description. Gains in the present group can still arise from recovering broader labels, improving order or avoiding extra labels; explicit mention of the centre does not solve the entire ranked multi-label task.
+
+This diagnostic is deliberately lexical. A paraphrase may convey the target meaning without matching its label, and an overlapping substring may occur in an irrelevant phrase. The grouping is reproducible and useful for interpretation, but it is not a semantic annotation of description sufficiency.
+
+
+## 7.7 Incomplete-run sensitivity and non-gold outputs
+
+Table 7.10 Main graph F1 effects with unsuccessful scheduled outputs assigned zero, and worst-case bounds for their unknown F1.
+
+| Run | Style | Zero-utility Δ | Worst-case interval |
+|---|---|---|---|
+| Gemini | Direct | +0.0625 | [+0.0625, +0.0625] |
+| Gemini | CoT | +0.1308 | [+0.1308, +0.1308] |
+| Gemini | Contrastive | +0.1348 | [+0.1348, +0.1348] |
+| Llama 0 | Direct | +0.0594 | [+0.0594, +0.0594] |
+| Llama 0 | CoT | +0.0548 | [+0.0538, +0.0548] |
+| Llama 0 | Contrastive | +0.0601 | [+0.0591, +0.0641] |
+| Llama 42 | Direct | +0.0473 | [+0.0473, +0.0493] |
+| Llama 42 | CoT | +0.0444 | [+0.0434, +0.0524] |
+| Llama 42 | Contrastive | +0.0617 | [+0.0577, +0.0667] |
+| Llama 123 | Direct | +0.0437 | [+0.0437, +0.0467] |
+| Llama 123 | CoT | +0.0481 | [+0.0441, +0.0491] |
+| Llama 123 | Contrastive | +0.0702 | [+0.0662, +0.0712] |
+
+The failure-inclusive analysis retains the scheduled denominator of 1,000. The lower and upper bounds assign the unknown failed scores adversarially within [0,1]. The graph benefit remains positive under these bounds in every main comparison, so the direction of the main result is not explained by silently omitting the small number of unsuccessful jobs. This does not make failure unimportant: completion reliability remains a separate operational outcome.
+
+Gold coverage is already reported as recall, and precision quantifies exact agreement among returned labels. The non-gold analysis adds a diagnostic distinction between unmatched labels that are reachable ancestors of the gold set and labels requiring semantic review. Because 16 gold sets are not ancestor-closed, some graph-supported broader predictions are flat false positives by construction.
+
+Table 7.11 Non-gold distinct-label occurrences in the six main conditions. Counts sum across completed entities, not unique vocabulary.
+
+| Run | Condition | All | Extra ancestor | Other resolved | Ambiguous | No label match |
+|---|---|---|---|---|---|---|
+| Gemini | Direct, no graph | 4441 | 1 | 2181 | 1106 | 1153 |
+| Gemini | Direct, graph | 3553 | 3 | 1930 | 880 | 740 |
+| Gemini | CoT, no graph | 3486 | 0 | 1629 | 961 | 896 |
+| Gemini | CoT, graph | 2900 | 4 | 1471 | 817 | 608 |
+| Gemini | Contrastive, no graph | 3444 | 0 | 1603 | 933 | 908 |
+| Gemini | Contrastive, graph | 2880 | 4 | 1408 | 828 | 640 |
+| Llama 0 | Direct, no graph | 6918 | 0 | 2205 | 2007 | 2706 |
+| Llama 0 | Direct, graph | 5421 | 4 | 1863 | 1509 | 2045 |
+| Llama 0 | CoT, no graph | 6495 | 0 | 2128 | 1903 | 2464 |
+| Llama 0 | CoT, graph | 5999 | 4 | 2043 | 1631 | 2321 |
+| Llama 0 | Contrastive, no graph | 6421 | 0 | 2070 | 1848 | 2503 |
+| Llama 0 | Contrastive, graph | 5369 | 4 | 1817 | 1422 | 2126 |
+| Llama 42 | Direct, no graph | 6921 | 0 | 2254 | 1952 | 2715 |
+| Llama 42 | Direct, graph | 5505 | 4 | 1767 | 1472 | 2262 |
+| Llama 42 | CoT, no graph | 6486 | 0 | 2159 | 1808 | 2519 |
+| Llama 42 | CoT, graph | 5779 | 3 | 2067 | 1572 | 2137 |
+| Llama 42 | Contrastive, no graph | 6285 | 0 | 2178 | 1745 | 2362 |
+| Llama 42 | Contrastive, graph | 5594 | 4 | 1946 | 1518 | 2126 |
+| Llama 123 | Direct, no graph | 6969 | 0 | 2374 | 2150 | 2445 |
+| Llama 123 | Direct, graph | 5455 | 3 | 1760 | 1428 | 2264 |
+| Llama 123 | CoT, no graph | 6124 | 0 | 1971 | 1855 | 2298 |
+| Llama 123 | CoT, graph | 5871 | 3 | 1976 | 1705 | 2187 |
+| Llama 123 | Contrastive, no graph | 6526 | 0 | 2166 | 1795 | 2565 |
+| Llama 123 | Contrastive, graph | 5795 | 4 | 2020 | 1662 | 2109 |
+
+“Other resolved” includes labels uniquely identifiable in the broader label index even when absent from the WiKC edge graph. “No label match” means no normalized match in that index; it does not mean the phrase is false. A complete hallucination rate would require independent judgments about the entity and each predicted assertion. Table 7.11 supplies inspectable candidates for that review without relabelling all benchmark disagreements as hallucinations.
+
+
+## 7.8 Inspectable examples: gold mismatch versus semantic error
+
+Table 7.12 uses actual outputs from the new archives. Cases are selected to illustrate different evaluation mechanisms; they are not a random audit sample. The judgments refer to support in the supplied description and taxonomy. They distinguish an interpretable non-gold phrase from an unsupported assertion without converting either into an aggregate hallucination rate.
+
+Table 7.12 Qualitative cases from the new responses. Quoted labels preserve the archived wording.
+
+| Entity / output | Observed labels | Interpretation |
+|---|---|---|
+| Framboid; Gemini CoT, no graph | pyrite aggregate; mineral aggregate; aggregate; physical object; entity | The description explicitly mentions pyrite grains and aggregates. Several labels are descriptively supported but do not match the listed crystal-centred gold chain. Only entity is an exact gold match. |
+| Framboid; Gemini CoT, graph | mineral; chemical substance; matter; physical object; entity | The graph response recovers chemical substance and matter, but still does not return the deepest gold label crystal. Coverage can improve without deepest-type recovery. |
+| Framboid; Llama 0 Direct, graph | Includes mixture, solution, chemical product and several geochemical labels | The supplied description does not establish that the entity is a solution. Chemical product is a supplied sibling, so its presence is consistent with copying a neighbour without sufficient entity evidence. |
+| Telaga Batu inscription; Gemini Direct, graph | Begins stele, inscription, stone monument, monument, statue, sculpture | The output recovers the centre stele, absent from the description, and several annotated broader labels. Inscription describes the entity but is not in this listed gold chain. |
+| Telaga Batu inscription; Llama 0 CoT, no graph | Includes person, organization, group, particle and widget | These additions are not supported by the description of an inscription. The list illustrates semantic drift rather than merely a synonym mismatch. |
+
+For framboid, exact scoring rewards alignment with the recorded crystal hierarchy, whereas a description-grounded answer can choose aggregate vocabulary. This case cautions against treating every false positive as fabricated knowledge. In contrast, person and organization in the inscription output contradict the role of the described physical inscription under an ordinary literal reading. Those are stronger candidates for semantic error than a spelling variant such as artefact versus artifact.
+
+The distinction can be made more systematic in future annotation: first check lexical equivalence; then whether a predicted class is a graph-supported unlisted ancestor; then whether the description supports an alternative categorization; finally whether independent evidence confirms or rejects the assertion. The current analysis establishes exact gold coverage and deterministic graph relations, and supplies transparent qualitative examples. It does not claim an independently validated hallucination percentage.
+
+
+# 8 Discussion
+
+
+## 8.1 A stable prompt-package effect with model-dependent styles
+
+RQ1 receives a consistent answer: the implemented graph-aware package improves the scored output across all tested styles and model runs. The failure sensitivity preserves the direction of every main effect, and the absent-centre-label group also benefits. Together, these observations show that the result is not simply an artefact of one Llama seed, selective completion or descriptions repeating the centre label.
+
+The precise mechanism remains a combination of evidence and instructions. The empty-child comparison changes predictions even when the target has no child labels, demonstrating that template wording and format have measurable influence. The appropriate scientific statement is therefore that the graph-aware prompts are useful in this design, rather than that every measured increment comes from extra graph edges.
+
+The contrast between systems is also informative. Gemini’s explanation-bearing graph templates achieve stronger F1 and ranking scores than its Direct graph condition, whereas Llama’s Direct graph condition leads its full-graph variants. This pattern is compatible with different abilities to use visible explanations and structured context. Gemini’s built-in thinking means that the Direct baseline is not a no-reasoning baseline, so the comparison cannot be reduced to reasoning versus non-reasoning models.
+
+
+## 8.2 Relation families and the meaning of specificity
+
+RQ2 separates local relation families from an undifferentiated notion of “more graph.” Parent-only prompts outperform sibling-only prompts in all runs, rejecting H1 for mean F1. Parent labels often overlap the annotated hierarchy directly; siblings instead delimit alternatives and require a further inference. The result favours useful broader membership information under exact coverage scoring, not an unrestricted claim that siblings are irrelevant.
+
+The child intervention asks a narrower question about removing one component from the graph-aware setup. Its three intervals include zero. The observed small negative means motivate examination of over-specific outputs, but do not establish a general detrimental effect. The design is scientifically useful precisely because it tests a plausible mechanism rather than assuming that every relation family must help.
+
+Formal separation of the centre and deepest-gold set is essential here. There are 89 entities whose context centre is not among the deepest recorded gold classes. Recovering the omitted centre and maximizing MRR are therefore different goals for those entities. A prompt may use its local context effectively while missing the ranking target defined by the complete annotation set. This is a reason to report several metrics, not to silently change the target after seeing results.
+
+
+## 8.3 What seed variation and depth do establish
+
+RQ4 shows that the main graph benefit survives three Llama seeds, while relation-only condition rankings are more variable. The larger parent-only and child-only standard deviations suggest sensitivity to a limited evidence family or to the stochastic output it induces. Three seeds give useful replication but cannot map the entire distribution of possible runs. A common-cohort analysis avoids presenting completion differences as pure seed effects.
+
+RQ3 gives no consistent support for H2. A deeper recorded class does not always gain more from graph context. Depth can coincide with longer gold paths, distinctive labels or a particular branch of the taxonomy. The lexical-overlap analysis contributes another view: graph improvements occur when the centre label is absent as well as when it is present. Neither grouping independently identifies why an individual answer improved.
+
+Gemini exceeds each Llama seed on paired condition F1, but that result does not attribute the gap to one property such as parameter count or model architecture. Deployment, training, internal thinking and sampling all differ. The appropriate comparison is between the evaluated systems under the recorded protocol.
+
+
+## 8.4 Gold coverage and semantic validity are complementary
+
+Exact matching provides a reproducible reference that is easy to audit. It also inherits the source label vocabulary and graph modelling choices. A generated label can be descriptively appropriate yet differ from gold, as the framboid case demonstrates. Conversely, fluent explanations and plausible-looking lists can contain unsupported assertions. Reporting only exact F1 would conceal this distinction; calling every non-gold label a hallucination would misrepresent it.
+
+Ancestor-augmented F1 addresses structural closeness, not complete semantic truth. It rewards overlap after graph traversal and therefore depends on the correctness of the graph. It must also retain unresolved labels in its denominator; otherwise generating unknown labels could appear artificially harmless. The explicit treatment of 16 non-closed gold sets explains why flat and hierarchical scores can diverge even without a change in the underlying output.
+
+The revised evidence supports three contributions: a formally specified prompting setup (C1), paired and repeated-seed comparisons with visible failures (C2), and an evaluation that separates set recovery, target ranking and semantic inspection (C3). Development history explains how these choices arose, but is not itself presented as a scientific contribution.
+
+
+# 9 Conclusion
+
+This thesis evaluated graph-aware prompting for ranked multi-label entity typing on the released 1,000-entity WiKC cohort. Nine conditions were applied to Gemini 3.8 Flash and three fixed-seed Llama 3.1 8B Instruct runs, with an additional seed-0 child-removal experiment. All numerical results in the revised analysis derive from the newly supplied response archives.
+
+For RQ1, the answer is consistent: the implemented graph-aware package improves paired F1 in every model-run-by-style comparison, with gains between 0.0451 and 0.1348. The direction remains positive under the failure sensitivity. The package combines relevant oracle context with instructions for using it, and its effect is reported at that level.
+
+For RQ2, parent-only prompts outperform sibling-only prompts in all four runs, so H1 is not supported. The seed-0 child intervention produces small negative F1 point estimates with intervals spanning zero. Its evidence does not establish a reliable benefit or harm from retaining child-related prompt content.
+
+For RQ3, gains do not increase consistently with maximum annotated depth, so H2 is not supported as a general pattern. Graph improvements occur both when the centre label is present in the description and when it is absent. Lexical cue availability and depth describe complementary aspects of the evaluated cohort.
+
+For RQ4, Gemini has higher paired F1 than each Llama seed in every main condition. Llama’s main graph gains are stable in direction across seeds, while single-relation scores exhibit greater observed variation. These findings describe the tested model systems and protocol rather than isolating architectural causes.
+
+The central conclusion is that relevant local taxonomy context, presented through the implemented graph-aware prompts, is useful for recovering and ranking benchmark type labels. Exact label agreement, specific-type recovery and semantic validity remain distinct. The formal definitions, complete prompts, failure accounting and recomputed tables provide an auditable basis for extending the experiment to retrieved context and independently reviewed outputs.
+
+
+# 10 Experimental boundaries and future research
+
+
+## 10.1 From oracle context to retrieved evidence
+
+The present design fixes relevant local context through gold-selected centres. A deployable system must select that context from the entity name and description. The next experiment should freeze prompts on a new cohort and compare no graph, oracle context and retrieved context for the same entities. Retrieval quality and downstream typing should be measured separately, including cases where the centre is wrong or unavailable.
+
+Candidate retrieval based on label semantics or entity descriptors, as in Ma et al. (2026), is one possible route. It should be evaluated without exposing gold labels during selection. Matched controls for prompt length, graph-note wording and demonstration format would help distinguish the contribution of structural evidence from instruction effects. The current empty-child diagnostic motivates such controls but does not replace them.
+
+
+## 10.2 Taxonomy quality, neighbour selection and sampling
+
+A matched comparison between WiKC and the original Wikidata taxonomy would test whether refinement improves typing under the same extraction policy. Controlled parent, sibling and child replacements could then measure robustness to specific kinds of structural noise. These are distinct experiments: comparing two resources mixes their vocabularies and structures, whereas controlled replacements target particular relations.
+
+Neighbour selection currently uses lexicographic identifiers. Varying the cap, sampling multiple neighbourhoods and selecting neighbours by description relevance would test dependence on that arbitrary but reproducible ordering. Additional repeated seeds and fixed deterministic-decoding baselines would separate observed sampling variation from changes in context selection.
+
+Gemini has one run and Llama three seeds, so future work should balance repeated sampling across systems where practical. Repeating the child ablation at the other Llama seeds would establish whether its small effects are stable. Extending that intervention to Gemini would answer a new cross-model child question; it is not implied by the current main model comparisons.
+
+
+## 10.3 Independent semantic assessment
+
+A blinded annotation study should sample both gold-matched and non-gold assertions, distinguish synonyms from incorrect types, and report reviewer agreement. A defensible annotation scheme would include valid listed type, valid unlisted type, unsupported assertion, contradicted assertion and unresolved case. Independent evidence is needed where the short description is insufficient.
+
+The discarded taxonomy-extraction idea could be revisited with separately validated proposed links. Its value should be measured through extraction correctness and downstream gains, rather than an informal impression of information gain. These extensions preserve the central benefit observed here while testing the additional steps needed when useful graph evidence must be found and verified without access to the answer.
+
+
+# Appendix A Full condition scores
+
+All values are means over completed responses in that row. n shows the completed denominator; each main condition schedules 1,000 jobs. hF1 denotes ancestor-augmented F1. Paired contrasts in Chapter 7 use their own matched cohorts.
+
+
+## Gemini
+
+Table A.1 Complete main-condition scores.
+
+| Condition | n | P | R | F1 | MRR | nDCG | hF1 |
+|---|---|---|---|---|---|---|---|
+| Direct, no graph | 1000 | 0.4714 | 0.3503 | 0.3888 | 0.2985 | 0.3188 | 0.6985 |
+| Direct, graph | 1000 | 0.5628 | 0.3968 | 0.4513 | 0.4454 | 0.4611 | 0.7963 |
+| CoT, no graph | 1000 | 0.4740 | 0.2782 | 0.3389 | 0.2346 | 0.2709 | 0.6720 |
+| CoT, graph | 1000 | 0.6116 | 0.4000 | 0.4696 | 0.5183 | 0.5028 | 0.8302 |
+| Contrastive, no graph | 1000 | 0.4708 | 0.2704 | 0.3330 | 0.2378 | 0.2686 | 0.6815 |
+| Contrastive, graph | 1000 | 0.6120 | 0.3969 | 0.4678 | 0.5238 | 0.5028 | 0.8318 |
+| Parents only | 1000 | 0.5170 | 0.3891 | 0.4302 | 0.4040 | 0.4218 | 0.7634 |
+| Siblings only | 1000 | 0.4849 | 0.3533 | 0.3958 | 0.4316 | 0.3853 | 0.7405 |
+| Children only | 1000 | 0.5106 | 0.3727 | 0.4160 | 0.3657 | 0.3573 | 0.7259 |
+
+
+## Llama 0
+
+Table A.2 Complete main-condition scores.
+
+| Condition | n | P | R | F1 | MRR | nDCG | hF1 |
+|---|---|---|---|---|---|---|---|
+| Direct, no graph | 1000 | 0.3967 | 0.3325 | 0.3391 | 0.1476 | 0.2339 | 0.5668 |
+| Direct, graph | 1000 | 0.4667 | 0.3819 | 0.3986 | 0.1878 | 0.3692 | 0.7214 |
+| CoT, no graph | 999 | 0.3658 | 0.3158 | 0.3214 | 0.1693 | 0.2297 | 0.5608 |
+| CoT, graph | 1000 | 0.4258 | 0.3720 | 0.3759 | 0.1977 | 0.3554 | 0.7081 |
+| Contrastive, no graph | 999 | 0.3540 | 0.2961 | 0.3055 | 0.1654 | 0.2161 | 0.5617 |
+| Contrastive, graph | 996 | 0.4389 | 0.3471 | 0.3668 | 0.2088 | 0.3449 | 0.7284 |
+| Parents only | 998 | 0.4752 | 0.3822 | 0.4029 | 0.1773 | 0.3707 | 0.7145 |
+| Siblings only | 999 | 0.3965 | 0.3303 | 0.3417 | 0.1733 | 0.2564 | 0.6015 |
+| Children only | 1000 | 0.4117 | 0.3415 | 0.3510 | 0.1512 | 0.2357 | 0.5807 |
+
+
+## Llama 42
+
+Table A.3 Complete main-condition scores.
+
+| Condition | n | P | R | F1 | MRR | nDCG | hF1 |
+|---|---|---|---|---|---|---|---|
+| Direct, no graph | 1000 | 0.3985 | 0.3451 | 0.3482 | 0.1447 | 0.2371 | 0.5614 |
+| Direct, graph | 998 | 0.4675 | 0.3786 | 0.3962 | 0.1895 | 0.3755 | 0.7260 |
+| CoT, no graph | 999 | 0.3687 | 0.3179 | 0.3245 | 0.1693 | 0.2271 | 0.5572 |
+| CoT, graph | 992 | 0.4297 | 0.3608 | 0.3715 | 0.2131 | 0.3585 | 0.7135 |
+| Contrastive, no graph | 996 | 0.3596 | 0.2997 | 0.3117 | 0.1698 | 0.2210 | 0.5702 |
+| Contrastive, graph | 995 | 0.4400 | 0.3578 | 0.3740 | 0.2023 | 0.3491 | 0.7241 |
+| Parents only | 999 | 0.4661 | 0.3942 | 0.4076 | 0.1849 | 0.3786 | 0.7129 |
+| Siblings only | 994 | 0.4189 | 0.3519 | 0.3639 | 0.1748 | 0.2651 | 0.6029 |
+| Children only | 998 | 0.4248 | 0.3595 | 0.3688 | 0.1560 | 0.2431 | 0.5918 |
+
+
+## Llama 123
+
+Table A.4 Complete main-condition scores.
+
+| Condition | n | P | R | F1 | MRR | nDCG | hF1 |
+|---|---|---|---|---|---|---|---|
+| Direct, no graph | 1000 | 0.3940 | 0.3406 | 0.3461 | 0.1544 | 0.2336 | 0.5558 |
+| Direct, graph | 997 | 0.4613 | 0.3696 | 0.3910 | 0.1843 | 0.3635 | 0.7222 |
+| CoT, no graph | 996 | 0.3792 | 0.3238 | 0.3322 | 0.1730 | 0.2356 | 0.5740 |
+| CoT, graph | 999 | 0.4330 | 0.3714 | 0.3794 | 0.2053 | 0.3548 | 0.7089 |
+| Contrastive, no graph | 996 | 0.3467 | 0.2918 | 0.3024 | 0.1701 | 0.2210 | 0.5702 |
+| Contrastive, graph | 999 | 0.4315 | 0.3571 | 0.3717 | 0.1948 | 0.3493 | 0.7198 |
+| Parents only | 1000 | 0.4704 | 0.3412 | 0.3674 | 0.1992 | 0.3683 | 0.7253 |
+| Siblings only | 1000 | 0.4087 | 0.3374 | 0.3476 | 0.1664 | 0.2510 | 0.5960 |
+| Children only | 999 | 0.4053 | 0.3265 | 0.3372 | 0.1627 | 0.2319 | 0.5788 |
+
+
+# Appendix B Complete prompt examples
+
+The following nine prompts are reproduced from the new Gemini archive for example 0984, framboid. The alignment audit verifies identical main prompt text across Gemini and all three Llama seeds. Line wrapping is typographic; wording and field content are preserved. Direct is the manuscript term for standard. The external worked example is identical in identity across all conditions.
+
+
+## B.1 Direct, no graph
+
+Internal condition: standard
+
+```text
+List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.
+
+Return JSON only in exactly this form:
+{"types": ["type 1", "type 2", "..."]}
+
+Example:
+
+Entity: Rod Fergusson
+Description: Canadian video game producer
+
+Answer:
+{"types": ["video game producer", "producer", "media professional", "professional", "worker", "person", "person or organization", "corporate body", "object", "entity"]}
+
+Now classify:
+
+Entity: framboid
+Description: minute spheroidal grain of pyrite or an aggregate of such grains, commonly formed at low temperatures in oxygen-poor mud sediments containing organic matter, especially in marine mud deposits
+
+Answer:
+```
+
+
+## B.2 Direct, graph
+
+Internal condition: graph_aware_standard
+
+```text
+List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.
+
+The context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.
+
+Return JSON only in exactly this form:
+{"types": ["type 1", "type 2", "..."]}
+
+Example:
+
+Entity: Rod Fergusson
+Description: Canadian video game producer
+
+Taxonomy context:
+- Direct parent classes: producer
+- Sibling classes: creative producer, co-producer, line producer
+- Direct child classes: None
+
+Answer:
+{"types": ["video game producer", "producer", "media professional", "professional", "worker", "person", "person or organization", "corporate body", "object", "entity"]}
+
+Now classify:
+
+Entity: framboid
+Description: minute spheroidal grain of pyrite or an aggregate of such grains, commonly formed at low temperatures in oxygen-poor mud sediments containing organic matter, especially in marine mud deposits
+
+Taxonomy context:
+- Direct parent classes: chemical substance
+- Sibling classes: chemical product, pesticide, aroma compound
+- Direct child classes: None
+
+Answer:
+```
+
+
+## B.3 CoT, no graph
+
+Internal condition: cot_no_graph
+
+```text
+List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.
+
+Briefly explain the most specific supported type, reject unsupported nearby alternatives, and justify the broader types and their order. Use only the entity and description; do not assume supplied taxonomy evidence.
+
+Return JSON only in exactly this form:
+{"explanation": "description-grounded explanation", "types": ["type 1", "type 2", "..."]}
+
+Example:
+
+Entity: Rod Fergusson
+Description: Canadian video game producer
+
+Correct response:
+{"explanation": "The description \"Canadian video game producer\" directly supports video game producer as the most specific type. Plausible alternatives that require details absent from the description should be rejected. The remaining returned types are broader categories that still apply, so the ranking moves from specific to broad.", "types": ["video game producer", "producer", "media professional", "professional", "worker", "person", "person or organization", "corporate body", "object", "entity"]}
+
+Now classify:
+
+Entity: framboid
+Description: minute spheroidal grain of pyrite or an aggregate of such grains, commonly formed at low temperatures in oxygen-poor mud sediments containing organic matter, especially in marine mud deposits
+
+Answer:
+```
+
+
+## B.4 CoT, graph
+
+Internal condition: cot_graph
+
+```text
+List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.
+
+The context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.
+
+Briefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.
+
+Return JSON only in exactly this form:
+{"explanation": "taxonomy-grounded explanation", "types": ["type 1", "type 2", "..."]}
+
+Example:
+
+Entity: Rod Fergusson
+Description: Canadian video game producer
+
+Taxonomy context:
+- Direct parent classes: producer
+- Sibling classes: creative producer, co-producer, line producer
+- Direct child classes: None
+
+Correct response:
+{"explanation": "The description \"Canadian video game producer\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.", "types": ["video game producer", "producer", "media professional", "professional", "worker", "person", "person or organization", "corporate body", "object", "entity"]}
+
+Now classify:
+
+Entity: framboid
+Description: minute spheroidal grain of pyrite or an aggregate of such grains, commonly formed at low temperatures in oxygen-poor mud sediments containing organic matter, especially in marine mud deposits
+
+Taxonomy context:
+- Direct parent classes: chemical substance
+- Sibling classes: chemical product, pesticide, aroma compound
+- Direct child classes: None
+
+Answer:
+```
+
+
+## B.5 Contrastive, no graph
+
+Internal condition: contrastive_cot_no_graph
+
+```text
+List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.
+
+Briefly explain the most specific supported type, reject unsupported nearby alternatives, and justify the broader types and their order. Use only the entity and description; do not assume supplied taxonomy evidence.
+
+Contrast the best-supported type with plausible incorrect alternatives. Explain why unsupported, overly narrow, or incompatible alternatives are rejected.
+
+Return JSON only in exactly this form:
+{"explanation": "contrastive description-grounded explanation", "types": ["type 1", "type 2", "..."]}
+
+Example:
+
+Entity: Rod Fergusson
+Description: Canadian video game producer
+
+Correct response:
+{"explanation": "The description \"Canadian video game producer\" directly supports video game producer as the most specific type. Plausible alternatives that require details absent from the description should be rejected. The remaining returned types are broader categories that still apply, so the ranking moves from specific to broad.", "types": ["video game producer", "producer", "media professional", "professional", "worker", "person", "person or organization", "corporate body", "object", "entity"]}
+
+Wrong ranking:
+{"types": ["producer", "creative producer", "co-producer", "line producer", "radio producer", "DJ producer", "professional", "worker", "person", "entity"]}
+
+Why the wrong ranking is wrong:
+This ranking is wrong because it promotes unsupported alternatives, includes overly specific labels without evidence from the description, and fails to place the description-supported type first.
+
+Now classify:
+
+Entity: framboid
+Description: minute spheroidal grain of pyrite or an aggregate of such grains, commonly formed at low temperatures in oxygen-poor mud sediments containing organic matter, especially in marine mud deposits
+
+Answer:
+```
+
+
+## B.6 Contrastive, graph
+
+Internal condition: contrastive_cot_graph
+
+```text
+List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.
+
+The context surrounds an omitted target type; it is evidence, not answer options. Parents are broader, children narrower, and siblings share a parent. Infer the type using the description and these relations. Copy a neighbour only if valid for this entity. Siblings need not be disjoint; predict a child only when the description independently supports it.
+
+Briefly use parents to explain scope, compare sibling alternatives, and check children for unsupported specificity. Justify the final specific-to-broad order using the description and taxonomy evidence.
+
+Contrast the inferred type with sibling and child alternatives. Reject an alternative only when the evidence warrants it.
+
+Return JSON only in exactly this form:
+{"explanation": "contrastive taxonomy-grounded explanation", "types": ["type 1", "type 2", "..."]}
+
+Example:
+
+Entity: Rod Fergusson
+Description: Canadian video game producer
+
+Taxonomy context:
+- Direct parent classes: producer
+- Sibling classes: creative producer, co-producer, line producer
+- Direct child classes: None
+
+Correct response:
+{"explanation": "The description \"Canadian video game producer\" supports video game producer as the most specific type. In the taxonomy, its direct parent is producer, which constrains the broader semantic category. The sibling classes are nearby alternatives, but classes such as creative producer, co-producer, line producer are not as well supported by the description. The listed child context is None; a child should be selected only if the description independently supports that narrower meaning. The remaining returned types are broader valid classes ranked in decreasing specificity.", "types": ["video game producer", "producer", "media professional", "professional", "worker", "person", "person or organization", "corporate body", "object", "entity"]}
+
+Wrong ranking:
+{"types": ["producer", "creative producer", "co-producer", "line producer", "radio producer", "DJ producer", "professional", "worker", "person", "entity"]}
+
+Why the wrong ranking is wrong:
+This ranking is wrong because it treats taxonomy neighbours as answer options, promotes classes that the entity description does not support, and omits the more specific description-supported target type.
+
+Now classify:
+
+Entity: framboid
+Description: minute spheroidal grain of pyrite or an aggregate of such grains, commonly formed at low temperatures in oxygen-poor mud sediments containing organic matter, especially in marine mud deposits
+
+Taxonomy context:
+- Direct parent classes: chemical substance
+- Sibling classes: chemical product, pesticide, aroma compound
+- Direct child classes: None
+
+Answer:
+```
+
+
+## B.7 Parents only
+
+Internal condition: standard_parent_only
+
+```text
+List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.
+
+The taxonomy context contains only direct parent classes of an omitted target type. Parent classes are broader than the omitted target and can constrain its semantic scope. They are structural clues, not answer options. Do not copy a parent into the answer unless it is independently a valid type for the entity.
+
+Return JSON only in exactly this form:
+{"types": ["type 1", "type 2", "..."]}
+
+Example:
+
+Entity: Rod Fergusson
+Description: Canadian video game producer
+
+Taxonomy context:
+- Direct parent classes: producer
+
+Answer:
+{"types": ["video game producer", "producer", "media professional", "professional", "worker", "person", "person or organization", "corporate body", "object", "entity"]}
+
+Now classify:
+
+Entity: framboid
+Description: minute spheroidal grain of pyrite or an aggregate of such grains, commonly formed at low temperatures in oxygen-poor mud sediments containing organic matter, especially in marine mud deposits
+
+Taxonomy context:
+- Direct parent classes: chemical substance
+
+Answer:
+```
+
+
+## B.8 Siblings only
+
+Internal condition: standard_siblings_only
+
+```text
+List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.
+
+The taxonomy context contains only sibling classes of an omitted target type. Siblings share a direct parent with the omitted target and are nearby alternatives, but they are not necessarily logically disjoint. They are structural clues, not answer options. Do not copy a sibling into the answer unless it is independently a valid type for the entity.
+
+Return JSON only in exactly this form:
+{"types": ["type 1", "type 2", "..."]}
+
+Example:
+
+Entity: Rod Fergusson
+Description: Canadian video game producer
+
+Taxonomy context:
+- Sibling classes: creative producer, co-producer, line producer
+
+Answer:
+{"types": ["video game producer", "producer", "media professional", "professional", "worker", "person", "person or organization", "corporate body", "object", "entity"]}
+
+Now classify:
+
+Entity: framboid
+Description: minute spheroidal grain of pyrite or an aggregate of such grains, commonly formed at low temperatures in oxygen-poor mud sediments containing organic matter, especially in marine mud deposits
+
+Taxonomy context:
+- Sibling classes: chemical product, pesticide, aroma compound
+
+Answer:
+```
+
+
+## B.9 Children only
+
+Internal condition: standard_children_only
+
+```text
+List valid entity-type labels, most specific first, then broader valid types. Use concise labels, not entity names or descriptions. Include only evidence-supported types; do not repeat labels or pad the list.
+
+The taxonomy context contains only direct child classes of an omitted target type. Child classes are narrower than the omitted target and can help indicate its specificity boundary. They are structural clues, not answer options. Do not predict a child merely because it is listed; use a narrower child only when the entity description independently supports it.
+
+Return JSON only in exactly this form:
+{"types": ["type 1", "type 2", "..."]}
+
+Example:
+
+Entity: Rod Fergusson
+Description: Canadian video game producer
+
+Taxonomy context:
+- Direct child classes: None
+
+Answer:
+{"types": ["video game producer", "producer", "media professional", "professional", "worker", "person", "person or organization", "corporate body", "object", "entity"]}
+
+Now classify:
+
+Entity: framboid
+Description: minute spheroidal grain of pyrite or an aggregate of such grains, commonly formed at low temperatures in oxygen-poor mud sediments containing organic matter, especially in marine mud deposits
+
+Taxonomy context:
+- Direct child classes: None
+
+Answer:
+```
+
+
+# Appendix C Reproducibility and research integrity
+
+
+## C.1 Input identity and scope of the revised analysis
+
+The new analysis uses gemini.zip, llama_seed_0_results.zip, llama_seed_42_results.zip and llama_seed_123_results.zip as its sole inference-result sources. The project archive supplies taxonomy files and scoring/generation code; historical response roots are not pooled into the revised metrics. input_manifest.json records SHA-256 hashes of the four result archives. The original reviewed PDF and its comments remain the record of requested revisions.
+
+The alignment audit checks entity identifiers, gold metadata and main prompt text across model runs. It finds no main-prompt or gold-list mismatch across the three Llama seeds and Gemini. All 37,353 scheduled response records identify Rod Fergusson as the external demonstration and set demonstration_omitted to false. Completion and validity are audited independently of metric outcomes.
+
+The source code implementing the recomputation, the exact nine prompt examples, condition summaries, paired comparisons, seed summaries, entity inventory, non-gold label occurrences, attempt audit and failure sensitivity accompany this draft. Unrounded numerical values are retained. SHA-256 input fingerprints identify the actual archived result sets rather than only a directory name.
+
+
+## C.2 Reproduction procedure and retained provenance
+
+1. Place the four result archives in upload/ with their recorded filenames. Extract the relevant taxonomy data and original scorer from the project archive into project_source/thesis/archive/original/.
+
+2. Run analysis/recompute.py to load the new responses, verify context extraction, calculate entity-level scores and derive paired comparisons. Required libraries are NumPy, pandas and NetworkX.
+
+3. Run analysis/audit_extra.py to verify prompt alignment, deduplicate attempt records, calculate first-attempt validity and produce failure-sensitivity bounds.
+
+4. Run analysis/build_revision.py to regenerate the manuscript tables, figures and PDF. Rendering uses Matplotlib and ReportLab with DejaVu fonts; analysis/finalize_pdf.py adds the page-numbered contents and navigation bookmarks using PyMuPDF.
+
+5. Inspect the rendered pages and retain the input archives, scripts, numerical tables and manuscript together. A new inference run should use a separate result root and preserve unsuccessful attempts.
+
+The re-analysis makes no new model API calls. It evaluates retained responses and their recorded prompts. Supplementary cache files are temporary conveniences and are excluded from the deliverable package; the raw result archives remain the primary evidence. Failure counts are not hidden by labelling every scheduled response completed, and partially generated lists are not silently converted into successful answers.
+
+The precision of a printed decimal is not a claim that model behaviour is known to four decimal places. Four-place labels permit exact comparison of rounded table entries; uncertainty and reproducibility depend on the paired cohorts, seeds, input data and protocol. The analysis retains these distinctions throughout.
+
+
+## C.3 Attribution, assistance and author review
+
+The dataset and taxonomy are attributed to the WiKC authors; the original knowledge base is attributed to Wikidata. Prompting methods and evaluation concepts are cited at their points of use. The author’s exploratory development account is explicitly distinguished from completed controlled experiments. Qualitative error interpretations are not represented as independent human annotation.
+
+Generative AI assisted this revision through manuscript drafting and restructuring, literature lookup, analysis-code preparation, numerical recomputation, figure generation and document formatting. The evaluated Gemini and Llama outputs are experimental data and are distinguished from AI assistance used to prepare the manuscript. Responsibility for checking the analysis, citations, interpretations and final submission remains with the thesis author.
+
+This appendix is a transparent methods-and-assistance disclosure, not a signed declaration of independent work or a certification that institutional requirements have been satisfied. Any institutionally prescribed declaration must use the approved wording and be reviewed and signed by the author. Primary records should be retained in accordance with the applicable research-integrity requirements. The manuscript does not assert that an independent semantic audit has been completed.
+
+
+# References
+
+Brown, T. B., et al. (2020). Language models are few-shot learners. NeurIPS 33, 1877–1901. https://arxiv.org/abs/2005.14165
+
+Chen, T., Chen, Y., and Van Durme, B. (2020). Hierarchical entity typing via multi-level learning to rank. ACL, 8465–8475. https://doi.org/10.18653/v1/2020.acl-main.749
+
+Chia, Y. K., Chen, G., Luu, A. T., Poria, S., and Bing, L. (2023). Contrastive chain-of-thought prompting. arXiv:2311.09277. https://arxiv.org/abs/2311.09277
+
+Choi, E., Levy, O., Choi, Y., and Zettlemoyer, L. (2018). Ultra-fine entity typing. ACL, 87–96. https://doi.org/10.18653/v1/P18-1009
+
+Cleveland, W. S., and McGill, R. (1984). Graphical perception: Theory, experimentation, and application to the development of graphical methods. JASA 79(387), 531–554. https://doi.org/10.1080/01621459.1984.10478080
+
+Dror, R., Baumer, G., Shlomov, S., and Reichart, R. (2018). The hitchhiker’s guide to testing statistical significance in natural language processing. ACL, 1383–1392. https://doi.org/10.18653/v1/P18-1128
+
+Google (2026a). Gemini 3.8 Flash: Gemini API model documentation. Accessed 13 October 2026. https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash
+
+Google (2026b). Gemini thinking. Gemini API documentation. Accessed 13 October 2026. https://ai.google.dev/gemini-api/docs/thinking
+
+Google DeepMind (2026). Gemini 3.8 Flash model card. Published 2 September 2026. https://deepmind.google/models/model-cards/gemini-3-8-flash/
+
+Grattafiori, A., et al. (2024). The Llama 3 herd of models. arXiv:2407.21783. https://arxiv.org/abs/2407.21783
+
+Ho, J., Tumkaya, T., Aryal, S., Choi, H., and Claridge-Chang, A. (2019). Moving beyond P values: Data analysis with estimation graphics. Nature Methods 16, 565–566. https://doi.org/10.1038/s41592-019-0470-3
+
+Hogan, A., et al. (2021). Knowledge graphs. ACM Computing Surveys 54(4), Article 71. https://doi.org/10.1145/3447772
+
+Hu, Z., Gutierrez-Basulto, V., Xiang, Z., Li, R., and Pan, J. (2022). Transformer-based entity typing in knowledge graphs. EMNLP, 5988–6001. https://doi.org/10.18653/v1/2022.emnlp-main.402
+
+Järvelin, K., and Kekäläinen, J. (2002). Cumulated gain-based evaluation of IR techniques. ACM TOIS 20(4), 422–446. https://doi.org/10.1145/582415.582418
+
+Kosmopoulos, A., Partalas, I., Gaussier, E., Paliouras, G., and Androutsopoulos, I. (2015). Evaluation measures for hierarchical classification: A unified view and novel approaches. Data Mining and Knowledge Discovery 29, 820–865. https://doi.org/10.1007/s10618-014-0382-x
+
+Ling, X., and Weld, D. S. (2012). Fine-grained entity recognition. AAAI 26(1), 94–100. https://ojs.aaai.org/index.php/AAAI/article/view/8122
+
+Ma, Y., Dai, H., Zhang, X., and Li, P. (2026). Leveraging label semantics and entity description generation for LLM-based fine-grained entity typing. Findings of ACL, 31655–31667. https://doi.org/10.18653/v1/2026.findings-acl.1584
+
+Onoe, Y., Boratko, M., McCallum, A., and Durrett, G. (2021). Modeling fine-grained entity types with box embeddings. ACL-IJCNLP, 2051–2064. https://doi.org/10.18653/v1/2021.acl-long.160
+
+Peng, Y., Bonald, T., and Alam, M. (2024). Refining Wikidata taxonomy using large language models. CIKM. https://doi.org/10.1145/3627673.3679156
+
+Peng, Y., Bonald, T., and Alam, M. (2024, software and data). WiKC: A cleaned version of Wikidata taxonomy. https://github.com/peng-yiwen/WiKC
+
+Plaud, R., Labeau, M., Saillenfest, A., and Bonald, T. (2024). Revisiting hierarchical text classification: Inference and metrics. CoNLL. https://doi.org/10.18653/v1/2024.conll-1.18
+
+Turpin, M., Michael, J., Perez, E., and Bowman, S. R. (2023). Language models don’t always say what they think: Unfaithful explanations in chain-of-thought prompting. NeurIPS. https://arxiv.org/abs/2305.04388
+
+vLLM Project (2026). Release v0.31.0. https://github.com/vllm-project/vllm/releases/tag/v0.31.0
+
+Vrandečić, D., and Krötzsch, M. (2014). Wikidata: A free collaborative knowledgebase. Communications of the ACM 57(10), 78–85. https://doi.org/10.1145/2629489
+
+Wei, J., et al. (2022). Chain-of-thought prompting elicits reasoning in large language models. NeurIPS 35, 24824–24837. https://arxiv.org/abs/2201.11903
+
+Xu, P., and Barbosa, D. (2018). Neural fine-grained entity type classification with hierarchy-aware loss. NAACL-HLT, 16–25. https://doi.org/10.18653/v1/N18-1002
+
+Zhao, Y., Zhang, A., Xie, R., Liu, K., and Wang, X. (2020). Connecting embeddings for knowledge graph entity typing. ACL, 6419–6428. https://doi.org/10.18653/v1/2020.acl-main.572

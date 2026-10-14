@@ -1,3 +1,7 @@
+"""Full exploratory 1k run: nine conditions; no retrieval or shuffled prompts.
+Retains previously exposed entities. Oracle centre tie-breaking is explicit.
+Method references: docs/references.md [1,5,6]; this full-cohort policy is new.
+"""
 import argparse,csv,json,random
 from common import ROOT,ORIGINAL
 import generate_ranked_prompts as base

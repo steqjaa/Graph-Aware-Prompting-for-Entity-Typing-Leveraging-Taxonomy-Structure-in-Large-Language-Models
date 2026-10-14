@@ -1,3 +1,7 @@
+"""Audit a larger untouched pool and optionally generate matched oracle ablations.
+Gold is used for cohort stratification and oracle context, NEVER a deployable retrieval claim.
+See docs/experimental_protocol.md for estimands and literature support.
+"""
 import argparse,csv,json,random,hashlib
 from common import ROOT, ORIGINAL, CONDITIONS
 import generate_ranked_prompts as base

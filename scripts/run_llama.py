@@ -1,3 +1,4 @@
+"""Standalone resumable CoMa/H100 runner; verification needs only Python stdlib."""
 import argparse
 import csv
 from datetime import datetime, timezone

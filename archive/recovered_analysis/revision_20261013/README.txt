@@ -1,0 +1,1 @@
+See output/Revision_notes.md and Appendix C of the revised PDF. Preserve the original four result ZIPs and thesis.zip for full reproduction. The editable manuscript is output/Thesis_revised.md. The build script regenerates its tables and prose; edit analysis/build_revision.py for a reproducible manuscript change.

@@ -1,0 +1,78 @@
+\chapter{Related work and motivation}
+
+\FloatBarrier
+
+\section{Structured evidence for language models}
+
+The integration of language models and knowledge graphs includes several distinct directions. \citet{pan2024} organize work on using graphs to support language models, using language models to support graph construction, and combining the two in broader systems.
+
+
+StructGPT uses interfaces to access structured data and an iterative reading-and-reasoning procedure \citep{jiang2023}. Think-on-Graph explores graph-guided reasoning with language models \citep{sun2024}. These systems motivate the use of relations as evidence, but their graph access and reasoning tasks differ from the fixed neighbourhoods used here. The present experiment does not perform autonomous multi-step traversal. It linearizes a small, preselected neighbourhood into a prompt and asks for an ordered label list.
+
+
+This simpler design isolates a useful question. A sophisticated retrieval system can fail because it finds the wrong nodes, because it presents them poorly, or because the model misinterprets them. Oracle neighbourhoods remove much of the retrieval problem and make the interpretation stage visible. If correctly selected local relations did not improve typing, investing in retrieval would have a weaker empirical rationale. Because they do improve it, the next research step is to test how much of that benefit survives imperfect selection.
+
+
+Relevant evidence is not necessarily harmless evidence. \citet{shi2023} demonstrated distraction from irrelevant information in arithmetic reasoning. \citet{liu2024} showed that the position of useful information in long contexts can affect performance. These results motivate concise neighbourhoods and careful context controls. They do not prove that the exact same failure mechanism operates in entity typing. The current study observes the effects of selected prompts; it does not independently manipulate context position or inject controlled noise in its final experiment.
+
+
+The literature consequently supports both the structural hypothesis and the need for restraint. Explicit relations may anchor a semantic decision, but their selection, length, and interpretation remain empirical questions. The completed study addresses these questions through matched graph comparisons and relation ablations. It leaves dynamic traversal, retrieval precision, positional effects, and noisy graph robustness to subsequent work.
+
+
+\FloatBarrier
+
+\section{Taxonomy refinement and entity typing research}
+
+WiKC is a refined Wikidata taxonomy constructed through a combination of graph operations and language-model judgments. \citet{peng2024} address redundant classes, problematic subclass links, and structural complexity. Their released resource provides both the graph and an entity-typing evaluation setting. This makes it suitable for examining whether already constructed local structure helps a different language model produce type labels.
+
+
+Taxonomy enrichment asks a different question: how can additional valid classes or links be proposed and integrated? Ghamlouch and Alam’s (2025) Taxoria work uses an existing taxonomy as a seed and validates proposed additions. \citet{shen2025} combine sibling and parent generation in taxonomy-guided instruction tuning for expansion tasks. These approaches show that parent and sibling relations can support operations on a taxonomy, but they do not imply that sibling-only prompts will maximize entity-typing F1. The current results provide a separate downstream test.
+
+
+Recent fine-grained typing research also emphasizes label semantics and candidate selection. \citet{ma2026} use entity and type descriptors in a retrieval-augmented framework that reduces the effective candidate space. This is relevant to the next stage of the project because a deployable graph-aware system must find suitable neighbourhoods from the entity description. The present oracle design supplies that neighbourhood directly and does not impose an explicit closed candidate list.
+
+
+The distinction between fixed gold labels and semantic judgments matters when comparing evaluation approaches. WiKC’s original extrinsic evaluation examines type statements using a judge model. This thesis scores generated lists against the released annotations with a deterministic matching rule. Its numerical scores cannot therefore be compared directly with the original paper’s statement-validation accuracy. They answer different questions using different denominators and decision procedures.
+
+
+The gap addressed here is a matched analysis of how local parent, sibling, and child evidence interacts with three prompting styles for ranked multi-label typing on the same WiKC cohort across two model systems.
+
+
+\FloatBarrier
+
+\section{Closely related typing approaches}
+
+Wikidata provides the collaborative knowledge-base setting from which WiKC is derived \citep{vrandecic2014}. Hierarchy-aware mention typing predates current LLM prompting: \citet{xu2018} use hierarchy-aware loss to address noisy, overly specific labels; \citet{chen2020} combine multi-level ranking with coarse-to-fine decoding; \citet{onoe2021} use box embeddings to represent dependencies among fine-grained types. These approaches place structure in learned representations or supervised prediction, whereas the present study supplies a small neighbourhood as inference-time text.
+
+
+For knowledge-graph entity typing, ConnectE connects entity and type embeddings using graph information \citep{zhao2020}, while TET encodes entity neighbours with a transformer \citep{hu2022}. These neighbours are evidence about an entity within a graph, rather than an oracle neighbourhood around its annotated type. OntoType uses ontology-guided prompting and natural-language inference for annotation-free fine-grained typing \citep{komarlu2024}. CASENT evaluates zero-and few-shot transfer and comparisons with large language models, showing why task-specific typing remains a relevant baseline \citep{feng2023}. These settings are related but their scores are not directly comparable with the present full-hierarchy exact-label evaluation.
+
+
+LLM-based zero-and few-shot typing requires distinguishing demonstrations from supervised training. \citet{feng2023} evaluate ChatGPT with zero, eight, sixteen, and thirty-two demonstrations on ultra-fine typing: demonstrations improve coverage, but the open label inventory remains difficult. Their zero-shot tests on five smaller domain inventories instead provide all candidate labels. This shows why label-space constraints and demonstration count must be specified. Here the model receives one demonstration, generates an open label list, and is evaluated against a complete annotated hierarchy. \citet{ma2026} address a different constraint through descriptor-based candidate retrieval and LLM classification, with training-data filtering and fine-tuning. Their approach motivates a retrieved-context extension, whereas this thesis measures oracle-selected local relations without task-specific fine-tuning. Table~\ref{table:3.1} summarizes these distinctions.
+
+
+\begingroup
+\begin{table}[!htbp]
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\fontsize{8.5}{10.5}\selectfont
+\renewcommand{\thetable}{3.1}
+\caption{Positioning against closely related work.}\label{table:3.1}
+\begin{tabular}{>{\raggedright\arraybackslash}p{\dimexpr 0.254902\linewidth-2\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr 0.361656\linewidth-2\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr 0.383442\linewidth-2\tabcolsep\relax}}
+\toprule
+\textbf{Work} & \textbf{Role of structure} & \textbf{Difference from this study} \\
+\midrule
+Xu \& Barbosa (2018) & Hierarchy-aware training loss & Supervised mention typing \\
+Chen et al. (2020) & Sibling ranking and hierarchical decoding & Learned, constrained prediction \\
+Onoe et al. (2021) & Type dependencies in box embeddings & Learned type representations \\
+ConnectE (Zhao et al., 2020) & Entity/type graph embeddings & Graph-entity typing with learned embeddings \\
+TET (Hu et al., 2022) & Transformer over entity neighbours & Graph-entity rather than class-centre context \\
+OntoType (Komarlu et al., 2024) & Ontology-guided prompting and NLI & Coarse-to-fine candidate refinement \\
+CASENT (Feng et al., 2023) & Calibrated type generation; zero/few-shot transfer & Trained seq2seq typing and LLM comparisons \\
+DR-FET (Ma et al., 2026) & Descriptor-based candidate retrieval & Candidate-constrained LLM typing and fine-tuning \\
+This thesis & Local class relations in one-shot prompts & Matched style/relation contrasts and ranked gold-chain recovery \\
+\bottomrule
+\end{tabular}
+\end{table}
+\endgroup
+

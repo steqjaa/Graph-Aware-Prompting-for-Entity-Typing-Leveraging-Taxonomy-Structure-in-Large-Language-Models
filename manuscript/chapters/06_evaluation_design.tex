@@ -1,0 +1,130 @@
+\chapter{Evaluation design}
+
+\FloatBarrier
+
+\section{Precision, recall, and entity F1}
+
+Set metrics follow Definition 2.10 and the normalization in Definition 2.8. For each entity, \ensuremath{\hat{P}} contains unique normalized predicted labels and \ensuremath{\hat{G}} contains unique normalized gold labels. True positives are their intersection. Precision measures predicted-label agreement, recall measures gold recovery, and F1 balances both. The same full gold set is used in every condition.
+
+
+Precision = |\ensuremath{\hat{P}} \ensuremath{\cap} \ensuremath{\hat{G}}| / |\ensuremath{\hat{P}}|; recall = |\ensuremath{\hat{P}} \ensuremath{\cap} \ensuremath{\hat{G}}| / |\ensuremath{\hat{G}}|;\par F1(e) = 2|\ensuremath{\hat{P}} \ensuremath{\cap} \ensuremath{\hat{G}}| / (|\ensuremath{\hat{P}}| + |\ensuremath{\hat{G}}|); macro F1 = mean\textsubscript{e} F1(e).
+
+
+Normalization applies the historical scorer’s lowercasing, whitespace and underscore handling, and surrounding-punctuation cleanup. It does not introduce semantic aliases. Duplicate predictions count once in the set metrics. Empty predictions would receive zero, although accepted-response scoring requires a nonempty types list. The macro-F1 reported in the thesis is the arithmetic mean of entity F1 scores, giving each entity equal weight.
+
+
+Multi-label entity typing literature uses several aggregation conventions \citep{choi2018}. To avoid ambiguity, the project also exports micro scores obtained from pooled counts and a separate loose macro-F1 formed by taking the harmonic mean of mean precision and mean recall. These values are not interchangeable with the mean of entity F1. The figures and principal comparisons consistently use the latter.
+
+
+This choice prevents entities with very long annotation chains from automatically dominating the headline score. It also makes the paired contrast intuitive: each entity contributes its own graph-induced score change. However, exact-label matching penalizes synonyms and descriptions that are not in the source inventory. A label can be plausible in ordinary language yet be counted as a false positive. The thesis therefore describes the metric as benchmark agreement rather than an exhaustive semantic correctness judgment.
+
+
+Precision and recall are shown separately because an F1 increase can arise in different ways. A model may become more selective, recover additional ancestors, or do both. Output length is retained as a diagnostic rather than rewarded by itself. A graph prompt that merely adds many types would be expected to improve some coverage while risking lower precision. The actual results improve both metrics in all primary contrasts, which makes a simple list-expansion explanation insufficient.
+
+
+Strict accuracy is also available in the archive. It requires the predicted set to equal the entire gold set. This is demanding for long hierarchies and open-vocabulary output, so it is a supporting diagnostic rather than the only success criterion. The main evaluation preserves a distinction between partial but useful recovery and complete reconstruction.
+
+
+\FloatBarrier
+
+\section{Ranking and maximum-depth gold-label recovery}
+
+Ranking follows Definition 2.11. MRR evaluates the first occurrence of any label in Gmax(e), not necessarily the context centre c*(e) from Definition 2.5. The distinction matters because shortest-path depth and graph-minimality can disagree. A first matching rank j receives reciprocal rank 1/j; a miss receives zero.
+
+
+Normalized discounted cumulative gain provides graded credit for the whole ordered list. Following the gain-and-discount framework of \citet{jarvelin2002}, the project assigns each gold label a relevance equal to its annotated depth divided by the maximum gold depth. Unmatched labels receive zero. The exponential gain is 2 raised to that relevance minus one, and the rank discount is the base-2 logarithm of rank plus one. The ideal list sorts all gold relevance values in descending order.
+
+
+The full-list implementation sets its evaluation length to the larger of prediction length, gold-label count, and one. Missing positions are padded with zero relevance. A repeated matched label earns relevance only on its first credited occurrence, preventing repeated labels from inflating gain. The root at depth zero receives zero relevance when a deeper class exists. These choices are project-specific adaptations of a general ranking metric, not a canonical entity-typing standard imposed by the cited paper.
+
+
+MRR asks whether the maximum-depth gold label is early. nDCG asks whether the list places deeper gold labels ahead of weaker or unmatched labels. Recall asks how many gold labels occur anywhere. A condition can therefore improve nDCG substantially while changing MRR only slightly, as observed in Llama. That pattern is consistent with better ordering or recovery of intermediate gold classes without equally large improvement in the maximum-depth gold label.
+
+
+The analysis also reports maximum-depth hit rate, which ignores the rank of a recovered maximum-depth gold label, and bins recovery into first rank, second rank, later rank, or miss. These diagnostics explain where MRR differences arise. They do not introduce alternative gold answers. The same normalization and annotated hierarchy are used throughout, so the ranking results remain tied to the benchmark vocabulary and its depth convention.
+
+
+\FloatBarrier
+
+\section{Hierarchy diagnostics and interpretable errors}
+
+Flat matching treats every wrong label alike, even though a nearby ancestor and an unrelated class have different structural relationships to gold. Hierarchical evaluation research emphasizes that these relationships and the choice of augmentation affect the score (Kosmopoulos et al., 2015; Plaud et al., 2024). The project therefore adds ancestor-augmented hierarchical F1, error direction, graph distance, and hierarchy consistency.
+
+
+For hierarchical F1, each mapped class is expanded to include itself and all reachable ancestors, including roots. Precision, recall, and F1 are then computed over these expanded sets. All parents in the acyclic graph are considered. A label matching an annotated gold label resolves to its annotated class identifiers. Otherwise, only a unique normalized class-label mapping resolves. Unmapped or ambiguous predictions remain opaque false-positive items; they are not silently removed from the denominator.
+
+
+This metric gives credit for related structure but has limitations. Common ancestors can make scores high even when specific labels are wrong. It also uses gold information to disambiguate exact gold-label matches. Its values must be interpreted alongside flat F1 and maximum-depth gold-label recovery. The implementation is ancestor-closure hierarchical F1, not the separate lowest-common-ancestor F1 algorithm discussed by \citet{kosmopoulos2015}.
+
+
+For each mapped incorrect prediction, error distance is the minimum undirected shortest-path distance to any annotated gold class. Unmapped, ambiguous, disconnected, or absent nodes have no finite distance and are reported separately. Because the gold set contains broad ancestors, the nearest gold node can be broad; a short distance does not prove that the prediction is near the most specific answer. Pooling errors and averaging within-entity distances also produce different estimands, so their denominators are retained in the output tables.
+
+
+Directional categories use an explicit precedence: exact gold, broader, narrower, sibling, then other taxonomy relationships. This resolves overlaps in a graph where a prediction may relate differently to several gold branches. Hierarchy consistency asks whether every ancestor of a resolved predicted node already appears in the unaugmented output. It is undefined for entities without resolved graph nodes, and eligible counts are reported.
+
+
+Consistency is not correctness. A model can be internally closed over the wrong branch, while a concise correct answer can omit broad ancestors and score poorly on consistency. The diagnostics are therefore used to characterize behaviour and identify cases for inspection. They complement the five primary requested metrics rather than replace them with a single structural score.
+
+
+\FloatBarrier
+
+\section{Worked metric example}
+
+Consider a small illustrative taxonomy with cat \ensuremath{\to} mammal \ensuremath{\to} animal \ensuremath{\to} entity and dog \ensuremath{\to} mammal. Let the listed gold labels be \{cat, mammal, animal, entity\}, with depths 3, 2, 1, 0. Suppose the ranked prediction is [mammal, dog, cat]. This example illustrates the metrics rather than reporting an experimental result.
+
+
+\begingroup
+\begin{table}[!htbp]
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\fontsize{8.5}{10.5}\selectfont
+\renewcommand{\thetable}{6.1}
+\caption{Scores for the worked example.}\label{table:6.1}
+\begin{tabular}{>{\raggedright\arraybackslash}p{\dimexpr 0.224401\linewidth-2\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr 0.623094\linewidth-2\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr 0.152505\linewidth-2\tabcolsep\relax}}
+\toprule
+\textbf{Metric} & \textbf{Calculation} & \textbf{Value} \\
+\midrule
+Precision & 2 matching labels / 3 predictions & 0.6667 \\
+Recall & 2 matching labels / 4 gold labels & 0.5000 \\
+Entity F1 & 2 \ensuremath{\times} 2 / (3 + 4) & 0.5714 \\
+Reciprocal rank & cat first occurs at rank 3 & 0.3333 \\
+DCG & (2\textasciicircum{}(2/3) \ensuremath{-} 1) + 1/log\textsubscript{2}(4) & 1.0874 \\
+IDCG & 1 + (2\textasciicircum{}(2/3) \ensuremath{-} 1)/log\textsubscript{2}(3) + (2\textasciicircum{}(1/3) \ensuremath{-} 1)/log\textsubscript{2}(4) & 1.5006 \\
+nDCG & DCG / IDCG & 0.7247 \\
+Hierarchical F1 & Expanded prediction has 5 nodes; gold has 4; overlap is 4 & 0.8889 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\endgroup
+
+
+Table~\ref{table:6.1} illustrates the metric calculations. The ranking penalty reflects the delayed cat label; the set metrics also penalize dog and missing ancestors. Ancestor augmentation recovers mammal, animal, and entity, so hierarchical F1 is higher. That higher score does not make dog a correct flat prediction.
+
+
+\FloatBarrier
+
+\section{Paired uncertainty and visual presentation}
+
+The primary comparison aligns two outputs for the same entity, within the same model and prompting style. Each entity contributes a difference, such as graph F1 minus no-graph F1. The reported effect is the mean of those paired differences. This avoids a comparison of unrelated groups and retains the dependence induced by shared descriptions and annotations. Statistical testing guidance in NLP stresses matching the procedure to the experimental unit and metric \citep{dror2018}.
+
+
+Confidence intervals use 2,000 paired bootstrap resamples of entities with seed 230917. The 2.5th and 97.5th percentiles form the displayed 95\% interval. The same approach supports the child intervention and model score differences and differences between model-specific graph gains. Resampling entity differences retains the pairing. It does not resample individual generated labels as if they were independent observations.
+
+
+Each primary contrast uses entities with completed responses in both conditions. Child comparisons similarly intersect the eligible cohort with both completed outputs. For between-seed condition comparisons, all three Llama seeds use the same completed entities. Gemini-versus-seed comparisons align entities within each condition. Pairwise denominators are printed; this prevents unmatched cohort means from being interpreted as paired effects.
+
+
+Between-seed means and sample standard deviations use the three condition means on the common cohort, with standard-deviation divisor 3 \ensuremath{-} 1. They describe observed variation across three seeds, not a precise population estimate. A completion-inclusive sensitivity analysis assigns failed responses zero and uses all 1,000 planned entities; this is explicitly separated from accepted-response scoring.
+
+
+The intervals are exploratory and uncorrected for multiple comparisons. They describe variation over entities in this cohort under the accepted outputs. They do not cover API drift, choice of demonstrations, repeated inference seeds, prompt selection, or all uncertainty in benchmark annotations. An interval excluding zero is consequently evidence of a consistent cohort effect under this protocol, not a universal performance guarantee. Helped, tied, and harmed counts accompany the means; ties use an absolute difference threshold of 10\textsuperscript{-12}.
+
+
+Figures and tables centre on matched graph-versus-no-graph contrasts within each prompting style. Every plotted bar has a numerical value rounded to four decimals. Tables give the corresponding paired effects, intervals, sample sizes, and output lengths. Condition means, paired differences, and seed variation are identified separately.
+
+
+\citet{cleveland1984} motivate accurate comparisons through position and length on common scales. \citet{ho2019} motivate showing effect magnitudes and uncertainty instead of reducing interpretation to a significance label. The thesis applies these principles with restrained colours, explicit legends, readable labels, and numerical tables. Dense distributions are shown as labelled cells rather than stacks whose internal segments are difficult to compare.
+
+
+Entity distribution tables provide context for interpretation, while the main performance plots remain centred on structural evidence. This organization follows the research question: whether graph context helps, how the effect differs by prompting style, and what the ablations reveal. The model comparison follows these primary findings so that it does not displace the thesis’s focal contribution.
+

@@ -1,0 +1,53 @@
+\chapter{Preliminary concepts}
+
+\FloatBarrier
+
+\section{Taxonomy and local relations}
+
+The definitions below fix the notation used in Chapters 4–6. Graph terminology follows the distinctions between identifiers, labels, and relations discussed by \citet{hogan2021}. Hierarchy closure follows the evaluation framework discussed by \citet{kosmopoulos2015} and \citet{plaud2024}.
+
+
+{\small \textbf{Definition 2.1 (Taxonomy).} A taxonomy is T = (C, E, r, \ensuremath{\lambda}), where C is a finite set of class identifiers, E \ensuremath{\subseteq} C \ensuremath{\times} C is an acyclic subclass relation, r is the root, and \ensuremath{\lambda} maps class identifiers to readable labels. An edge (c, p) points from child c to immediate parent p. The root is entity (wd:Q35120). Labels need not uniquely identify classes. A knowledge graph more generally represents entities and relations; T is its class-hierarchy component.\par}
+
+
+{\small \textbf{Definition 2.2 (Relations and closure).} For c \ensuremath{\in} C, Par(c) = \{p : (c,p) \ensuremath{\in} E\}, Ch(c) = \{x : (x,c) \ensuremath{\in} E\}, and Sib(c) = (\ensuremath{\cup}\textsubscript{p\ensuremath{\in}Par(c)} Ch(p)) \ensuremath{-} \{c\}. Anc(c) contains nodes reachable from c by a nonempty upward path; Desc(c) contains nodes with a nonempty path to c. For a class set A, U(A) = A \ensuremath{\cup} \ensuremath{\cup}\textsubscript{c\ensuremath{\in}A} Anc(c) is its upward closure, including roots. A is ancestor-closed exactly when U(A) = A. Siblings share a parent and need not be disjoint.\par}
+
+
+{\small \textbf{Definition 2.3 (Depth).} The depth d(c) is the shortest-path length from c to r following child-to-parent edges, equivalently from r to c in the reversed graph. In a multiple-inheritance DAG it may differ from the longest path length. The evaluation uses the released annotated depths. A label recorded in the annotations but absent from the edge graph retains its supplied depth and has no traversable neighbours in this implementation.\par}
+
+
+\FloatBarrier
+
+\section{Entities, gold annotations, and centre selection}
+
+{\small \textbf{Definition 2.4 (Entity and gold sets).} An entity e = (id(e), n(e), \ensuremath{\delta}(e)) has an identifier, name, and description. The evaluation set is D, with |D| = 1,000. G(e) is the set of class identifiers listed for e in the released evaluation file, with their labels and annotated depths; it is not replaced by U(G(e)) for flat scoring. The graph-minimal gold set is G\textsubscript{min}(e) = \{c \ensuremath{\in} G(e) : Desc(c) \ensuremath{\cap} G(e) = \{\}\}. Define d\textsubscript{max}(e) = max\textsubscript{c\ensuremath{\in}G(e)} d(c) and G\textsubscript{max}(e) = \{c \ensuremath{\in} G(e) : d(c) = d\textsubscript{max}(e)\}. Graph minimality and maximum shortest-path depth are distinct properties.\par}
+
+
+{\small \textbf{Definition 2.5 (Centre).} The centre c*(e) is the member of G\textsubscript{min}(e) with greatest annotated depth, breaking ties by ascending lexicographic order of the class-identifier strings (for example, the full wd:Q… string), not numerical Q-ID order. If that candidate set is empty, the implementation applies the same ordering to G(e). The centre label is \ensuremath{\lambda}(c*(e)). Context uses this one centre; MRR evaluates the set G\textsubscript{max}(e). These objects need not coincide in a DAG.\par}
+
+
+\FloatBarrier
+
+\section{Context and ranked entity typing}
+
+{\small \textbf{Definition 2.6 (Local context).} For relation R \ensuremath{\in} \{Par, Sib, Ch\}, L\textsubscript{R,k}(c) is the first k identifiers in R(c) sorted lexicographically, with k = 3. For a chosen relation set A, the local context K\textsubscript{A,k}(c) consists of these labelled relation lists. The centre itself is excluded from the lists; unavailable lists are empty. A centre absent from the edge graph receives empty lists. Context is oracle-selected when c = c*(e) is computed from gold annotations.\par}
+
+
+{\small \textbf{Definition 2.7 (Ranked entity typing).} Given n(e), \ensuremath{\delta}(e), a prompting condition, and optionally K\textsubscript{A,3}(c*(e)), the model returns an ordered finite list P(e) = (p\textsubscript{1}, …, p\textsubscript{m}) of type-label strings, intended to run from specific supported types to broader valid types. Explanation-bearing conditions also return text, but this text is not itself scored as a type. Gold classes determine evaluation and oracle selection; the complete gold list is not presented as the test entity’s answer.\par}
+
+
+{\small \textbf{Definition 2.8 (Normalization, matching, and resolution).} N(s) case-folds a string, replaces underscores with spaces, collapses whitespace, and strips surrounding whitespace and the punctuation . , ; : ! ? and quotation marks. A prediction matches a gold label exactly when their normalized strings are equal; no semantic aliases are added. Let L(q) be the identifiers whose supplied labels normalize to q. Resolution maps an exact gold-label match to all matching annotated class identifiers; otherwise it maps q only when |L(q)| = 1. An unresolved prediction remains an opaque false-positive item in hierarchical precision.\par}
+
+
+{\small \textbf{Definition 2.9 (Prompting condition).} A condition is (s,A), with style s \ensuremath{\in} \{standard, CoT, contrastive\} and relation set A \ensuremath{\subseteq} \{Par,Sib,Ch\}. The main design uses A = \{\} and A = \{Par,Sib,Ch\} for each style, plus the three singleton relation sets for standard prompting. Each condition contains its own frozen instructions and one external demonstration. Thus graph-versus-no-graph compares a package of evidence and interpretation instructions, not evidence alone.\par}
+
+
+\FloatBarrier
+
+\section{Evaluation quantities}
+
+{\small \textbf{Definition 2.10 (Set recovery).} Let \ensuremath{\hat{P}}(e) be the set of unique normalized predictions and \ensuremath{\hat{G}}(e) = \{N(\ensuremath{\lambda}(c)) : c \ensuremath{\in} G(e)\}. Precision is |\ensuremath{\hat{P}} \ensuremath{\cap} \ensuremath{\hat{G}}| / |\ensuremath{\hat{P}}|, recall is |\ensuremath{\hat{P}} \ensuremath{\cap} \ensuremath{\hat{G}}| / |\ensuremath{\hat{G}}|, and entity F1 is 2|\ensuremath{\hat{P}} \ensuremath{\cap} \ensuremath{\hat{G}}| / (|\ensuremath{\hat{P}}| + |\ensuremath{\hat{G}}|), with zero for an empty predicted set. Reported macro F1 is the arithmetic mean of entity F1. Hierarchical F1 applies the same set formula after resolving labels and expanding both sides with U, retaining unresolved predictions as separate items.\par}
+
+
+{\small \textbf{Definition 2.11 (Ranking).} Reciprocal rank is 1/j for the first rank j matching any label in G\textsubscript{max}(e), and zero if none matches. MRR averages this value. For nDCG, a gold label has relevance equal to its largest annotated depth divided by d\textsubscript{max}(e); unmatched labels and repeated credited labels have relevance zero. DCG = \ensuremath{\Sigma}\textsubscript{j=1…K} (2\textsuperscript{rel\textsubscript{j}} \ensuremath{-} 1)/log\textsubscript{2}(j+1), and nDCG = DCG/IDCG, where IDCG sorts all gold relevances decreasingly and K is the larger of prediction length, unique gold-label count, and one. If all gold depths are zero, gold relevance is one. This is the project’s depth-weighted application of Järvelin and Kekäläinen’s (2002) framework.\par}
+

@@ -1,3 +1,4 @@
+"""Write an exact table/report from scored results; no inference or invented outcomes."""
 import argparse
 import json
 from pathlib import Path

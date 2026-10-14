@@ -1,3 +1,4 @@
+"""Score available final experiments; comparisons require every planned Llama result."""
 import argparse
 import json
 from pathlib import Path

@@ -1,3 +1,4 @@
+"""Build a readable PDF from the editable revision, bibliography and pilot figures."""
 import re,json,html
 from pathlib import Path
 from reportlab.platypus import SimpleDocTemplate,Paragraph,Spacer,PageBreak,Table,TableStyle,Image,KeepTogether

@@ -1,3 +1,4 @@
+"""Verified bibliographic metadata; checked against primary sources 2026-09-23."""
 import json
 from common import ROOT
 # id, key, type, title, authors in BibTeX order, year, venue, url, doi

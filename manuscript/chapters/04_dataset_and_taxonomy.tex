@@ -1,0 +1,135 @@
+\chapter{Dataset and taxonomy}
+
+\FloatBarrier
+
+\section{Origin of the resource}
+
+The data originate from the WiKC project of Peng, Bonald, and Alam (2024). The public repository identifies a Wikidata dump dated 22 March 2024 and provides the refined taxonomy, labels, and evaluation resources. The present thesis uses the released miniature evaluation file, wikc\_\allowbreak{}eval\_\allowbreak{}1k.txt, rather than collecting a new set of entities or manually creating an alternative taxonomy.
+
+
+The original authors refine taxonomic links and merge redundant or equivalent classes using language-model semantic judgments together with graph processing. The released graph used by the project contains 16,581 class nodes and 19,622 directed links, consistent with the approximate 17,000 classes and 20,000 links described in the paper. The implementation checks that the loaded taxonomy is acyclic. Class identifiers and labels are stored separately, allowing traversal to use identifiers while prompts use readable labels.
+
+
+The repository’s evaluation notebook explains the sample construction. It restricts eligible instances to those associated with English Wikipedia, maps source classes into WiKC or to surviving nearby ancestors, and reduces redundant type assignments. It constructs an instance pool with class-level sampling controls, then draws a 1,000-instance miniature sample. The exported file includes entity identifiers, labels, descriptions, class identifiers, and ancestor depths. These records are the basis of the current gold annotations (Peng et al., 2024; Peng et al., 2024, repository notebook).
+
+
+One discrepancy requires explicit documentation. The paper describes a limit of 1,000 instances per class in its larger extrinsic evaluation. The inspected public notebook contains a comment with that value but executable code sampling 100 instances when a class exceeds 100. The thesis does not silently reconcile these statements or claim to have rerun the original sampling. It uses the released 1,000-entity file as the fixed experimental input. The archived file is authoritative for the present cohort, while the notebook provides the best available account of its construction.
+
+
+The thesis author’s data construction occurs after this release. It groups repeated rows by entity, preserves all annotated classes and depths, selects a deterministic centre for context extraction, and generates nine prompt conditions per entity. These are derived experimental inputs, not new independent type judgments. Maintaining that distinction attributes the original dataset correctly and prevents the evaluation from implying a stronger annotation provenance than it has.
+
+
+\FloatBarrier
+
+\section{Cohort construction and annotated hierarchy}
+
+The evaluation file contains several rows for an entity because it records multiple classes along the hierarchy. The project groups these rows into one entity record. Each record includes a stable entity identifier, a name, a description, and a list of gold classes with labels and depths. All 1,000 entities are retained in the final main comparison. The scorer uses the complete annotated list even when context extraction chooses only one centre.
+
+
+Context selection uses the centre c*(e) in Definition 2.5: first retain graph-minimal gold classes, then prefer greatest annotated depth and break ties by the class-identifier string. The output remains scored against the complete G(e) from Definition 2.4, rather than only against the centre. The maximum-depth gold set is Gmax(e).
+
+
+In this cohort, 136 entities have more than one maximum-depth gold class, and the selected centre is outside Gmax(e) for 89 entities. The supplied gold set is not ancestor-closed for 16 entities. Flat metrics therefore use the listed annotations, while hierarchical F1 uses their full reachable ancestor closure (Definitions 2.2 and 2.10).
+
+
+Table~\ref{table:4.1} summarizes the dataset and the availability of centre neighbourhoods. There are 11 entities with graph-absent gold IDs: their supplied labels and depths remain available for flat scoring, but those identifiers have no traversable graph neighbours.
+
+
+\begingroup
+\begin{table}[!htbp]
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\fontsize{8.5}{10.5}\selectfont
+\renewcommand{\thetable}{4.1}
+\caption{Dataset and centre-neighbourhood statistics. Truncated means more than three available neighbours before capping.}\label{table:4.1}
+\begin{tabular}{>{\raggedright\arraybackslash}p{\dimexpr 0.729847\linewidth-2\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr 0.270153\linewidth-2\tabcolsep\relax}}
+\toprule
+\textbf{Quantity} & \textbf{Value} \\
+\midrule
+Classes in edge graph |C| & 16,581 \\
+Subclass edges |E| & 19,622 \\
+Evaluation entities & 1000 \\
+Mean number of listed gold classes & 12.255 \\
+Parents: empty / truncated & 4 / 6 \\
+Siblings: empty / truncated & 64 / 759 \\
+Children: empty / truncated & 549 / 178 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\endgroup
+
+
+Framboid illustrates the record structure without naming its centre label in the description. The selected centre is crystal (depth 5), followed in the listed gold set by chemical substance (4), matter (3), physical substance (2), substance (1), and entity (0). The prompt supplies chemical substance as parent and chemical product, pesticide, and aroma compound as siblings; it has no child list.
+
+
+The normalized centre label occurs as a substring of the normalized description for 265 of 1,000 entities; it is absent for 735. This is a literal overlap check using Definition 2.8, not a semantic synonym test. Section 7.1 reports paired graph gains separately for these two groups.
+
+
+There are two important consequences. First, a long gold list increases the amount a model must recover for high recall. Returning only the specific occupation can be informative to a user while scoring poorly on full hierarchy coverage. Second, the provided ancestors reflect WiKC’s modelling choices. Labels such as corporate body in a person’s ancestor chain can appear surprising. The thesis preserves these annotations and evaluates agreement with them; it does not silently replace them with a different ontology.
+
+
+The released sample is also heterogeneous. The metadata contain 914 distinct centre-label labels, of which 837 occur for only one entity. This supports broad coverage but leaves little evidence for stable per-niche performance estimates. Entity categories and depth distributions are therefore descriptive. They explain what was evaluated and where support is sparse, without claiming that the sample represents all Wikidata entities or every application domain.
+
+
+\FloatBarrier
+
+\section{Entity categories and specific niches}
+
+Broad categories are derived from annotated gold classes at depth 4. An entity can contribute to several categories, so percentages are not mutually exclusive shares of a partition. Table~\ref{table:4.2} reports the most frequent categories in the actual inventory. These assignments describe the benchmark’s annotations, not a separate manual audit of the entities.
+
+
+Table~\ref{table:4.2} gives the five most frequent broad categories; these descriptive memberships can overlap.
+
+
+\begingroup
+\begin{table}[!htbp]
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\fontsize{8.5}{10.5}\selectfont
+\renewcommand{\thetable}{4.2}
+\caption{Five most frequent broad categories; shares use 1,000 entities.}\label{table:4.2}
+\begin{tabular}{>{\raggedright\arraybackslash}p{\dimexpr 0.564270\linewidth-2\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr 0.217865\linewidth-2\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr 0.217865\linewidth-2\tabcolsep\relax}}
+\toprule
+\textbf{Depth 4 category} & \textbf{Entities} & \textbf{Share} \\
+\midrule
+person & 249 & 24.9\% \\
+organization & 184 & 18.4\% \\
+architectural structure & 158 & 15.8\% \\
+geographic region & 132 & 13.2\% \\
+process & 76 & 7.6\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+\endgroup
+
+
+The distribution contains substantial coverage of people, organizations, built structures, and geographic regions. It also includes processes, occurrences, creative works, software, and specialist objects. Overlap is expected in a graph with multiple inheritance: a building may also be an architectural structure, while an entity with several roles can traverse different branches.
+
+
+Specific niches are much sparser than broad categories. Nine centre labels occur three times each: Pacific typhoon season, archaeological site, character designer, financial regulatory agency, kayaker, lepidopterist, literary theorist, museum of modern art, and professional wrestler. Their examples range from Pacific storm seasons to individual specialists and cultural institutions. Most other centre labels appear once or twice. A model-by-niche plot would therefore be dominated by tiny denominators and individual outcomes.
+
+
+The full entity inventory and centre-label distribution are retained as machine-readable tables in the evaluation archive. The manuscript presents representative rows rather than printing 1,000 records. This choice keeps the distribution readable and preserves access to the exact underlying entities. It also avoids interpreting a small number of cases as evidence of broad domain superiority.
+
+
+\FloatBarrier
+
+\section{Depth and child availability}
+
+Depths 6 and 7 are the most frequent, together accounting for 46.5\% of entities. The mode is 7. Maximum gold depth, dmax(e), follows Definition 2.4 and determines the depth strata used in RQ3.
+
+
+The maximum-depth strata 4–5, 6–7, and 8+ contain 198, 465, and 337 entities, respectively; Section 7.6 reports their paired results.
+
+
+Depth indicates a position in the source taxonomy, not a universal semantic difficulty scale. A deep class may be directly named in a description, while a shallow class may require resolving ambiguous roles. Different branches may also use different numbers of intermediate categories. The depth analysis is therefore a stratified description of observed graph gains, not proof that an extra edge necessarily makes classification harder.
+
+
+Child availability is defined by the deterministic centre used in the prompt. Of the 1,000 centres, 451 have at least one available child and 549 do not. The latter still receive parents or siblings where available, but cannot receive substantive child evidence. This explains why an all-entity children-only average and a child-removal experiment estimate different effects.
+
+
+The relation-only conditions retain the full 1,000-entity cohort, including empty neighbourhoods. They measure the implemented prompt family as a whole. The controlled child intervention instead uses only the 451 eligible entities, retains the same parents, siblings, prompting style, and entity descriptions, and removes the child section and child-specific instructions. The corresponding with-children results are taken from those exact entities in the main run. Comparing the 1,000-entity graph mean with the 451-entity no-child mean would confound treatment and composition, so that comparison is not used.
+
+
+These definitions are recorded before scoring. They support reproducible alignment and make the denominators visible. When a graph effect differs between strata, possible explanations include context availability, branch vocabulary, annotation length, and description specificity. The present data cannot isolate all those factors. The discussion accordingly uses depth and availability to qualify the central result rather than turn them into an unsupported causal account.
+

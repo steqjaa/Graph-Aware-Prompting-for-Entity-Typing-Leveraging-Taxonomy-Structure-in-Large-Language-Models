@@ -36,7 +36,7 @@ class PlotIntegrationTests(unittest.TestCase):
             result = subprocess.run(cmd,capture_output=True,text=True)
             self.assertEqual(result.returncode,0,result.stdout+result.stderr)
             figures = primary/'analysis/story_figures'
-            self.assertEqual(len(list(figures.glob('*.png'))),15)
+            self.assertEqual(len(list(figures.glob('*.png'))),17)
             model = pd.read_csv(figures/'10_model_paired_effects.csv')
             matched = pd.read_csv(figures/'12_matched_children.csv')
             self.assertTrue((model.mean_delta == 0).all())
