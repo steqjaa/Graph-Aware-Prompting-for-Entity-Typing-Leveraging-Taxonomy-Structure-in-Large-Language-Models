@@ -56,7 +56,7 @@ python scripts/prepare_final_prompts.py --output rebuilt-prompts
 python -m unittest discover -s tests -v
 ```
 
-The prompt builder reconstructs the v5-to-v6 migration and compares all generated prompts, metadata and manifests byte-for-byte with the used experiment. It refuses to overwrite an existing output directory. It is newly reconstructed code, not a recovered original terminal script.
+The prompt builder reconstructs the v5-to-v6 migration and compares all generated prompts, metadata and manifests byte-for-byte with the used experiment. It refuses to overwrite an existing output directory.
 
 ## Inference and result packaging
 
